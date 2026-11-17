@@ -1,0 +1,77 @@
+# refmeta crosswalk: galaxy_api_tool_data <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_api_tool_data
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'GET /api/tool_data/{table} on a Galaxy server: one data table''s column names and all its rows (merged
+  from every .loc file). One native record per row.'
+records: {mode: each}
+notes: One record per data table row. The table name decides what kind of file the path is; the 'value' (unique_build_id)
+  is the row's key, and the same value in two tables can point to different FASTA files.
+constants: {}
+derive: []
+rules:
+- native: name
+  core: copies[0].kind
+  direction: to_core
+  transform:
+    map:
+      values: {all_fasta: fasta, fasta_indexes: fasta, bwa_mem_indexes: bwa_index, bowtie2_indexes: bowtie2_index,
+        rnastar_index2x_versioned: star_index, twobit: 2bit, __dbkeys__: len}
+  lossy: Tables not in the list pass their own name through as the kind.
+  example: {native: all_fasta, core: fasta, file: examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json}
+- native: name
+  core: deployments[system=galaxy].table
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: all_fasta, core: all_fasta, file: examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json}
+- native: fields[].value
+  core: deployments[system=galaxy].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38female, core: hg38female, file: examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json}
+- native: fields[].dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json}
+- native: fields[].name
+  core: deployments[system=galaxy].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Human (Homo sapiens) (b38): hg38 Canonical Female', core: 'Human (Homo sapiens) (b38): hg38
+      Canonical Female', file: examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json}
+- native: fields[].path
+  core: copies[0].location
+  direction: both
+  transform: null
+  lossy: The public API shows only the file name, not the full path.
+  example: {native: hg38female.fa, core: hg38female.fa, file: examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json}
+- native: fields[].path
+  core: deployments[system=galaxy].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38female.fa, core: hg38female.fa, file: examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json}
+- native: fields[].len_path
+  core: copies[kind=len].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len, core: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len,
+    file: examples/usegalaxy_org_api_tool_data___dbkeys__.excerpt.json}
+- native: fields[].version
+  core: copies[0].toolVersion
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 2.7.4a, core: 2.7.4a, file: examples/usegalaxy_org_api_tool_data_rnastar_index2x_versioned.excerpt.json}
+unmapped:
+- {native: model_class, reason: Python class of the table; server internals.}
+- {native: columns, reason: Column order of the table; implied by the rule paths.}
+- {native: 'fields[].with_gene_model', reason: Whether a STAR index was built with a GTF; no core field.}

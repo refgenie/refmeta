@@ -1,0 +1,140 @@
+# refmeta crosswalk: ensembl_web_genome <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_web_genome
+source: ensembl
+core: '0.1'
+subject: assembly
+description: 'New Ensembl metadata API genome objects: /api/metadata/genome/{genome_id}/details, /explain (a subset
+  of details), /api/search/genomes?query= (records = matches[]), and /api/metadata/genomeid?assembly_accession_id=
+  (uses genome_uuid). Nested objects are flattened with ''.''.'
+records: {mode: each}
+notes: The genome UUID covers assembly plus annotation, so it is a deployment key, not an assembly id.
+constants: {}
+derive: []
+rules:
+- native: assembly.accession_id
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {other: unspecified}
+  lossy: null
+  example:
+    native: GCA_000001405.29
+    core: {namespace: insdc.gca, value: GCA_000001405.29}
+    file: examples/web_details_GCA_000001405.29.json
+- native: assembly.name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38.p14, core: GRCh38.p14, file: examples/web_details_GCA_000001405.29.json}
+- native: assembly.url
+  core: assembly.accessions[0].url
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://identifiers.org/insdc.gca/GCA_000001405.29', core: 'https://identifiers.org/insdc.gca/GCA_000001405.29',
+    file: examples/web_details_GCA_000001405.29.json}
+- native: assembly_level
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/web_details_GCA_000001405.29.json}
+- native: assembly_date
+  core: assembly.releaseDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 2013-12, core: 2013-12, file: examples/web_details_GCA_000001405.29.json}
+- native: assembly_provider.name
+  core: assembly.submitter
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium, core: Genome Reference Consortium, file: examples/web_details_GCA_000001405.29.json}
+- native: scientific_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/web_details_GCA_000001405.29.json}
+- native: common_name
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human, core: Human, file: examples/web_details_GCA_000001405.29.json}
+- native: taxonomy_id
+  core: assembly.taxon.id
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example: {native: '9606', core: 9606, file: examples/web_details_GCA_000001405.29.json}
+- native: species_taxonomy_id
+  core: assembly.taxon.speciesId
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example: {native: '9606', core: 9606, file: examples/web_details_GCA_000001405.29.json}
+- native: type.value
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: S288C, core: S288C, file: examples/web_details_GCA_000146045.2.json}
+- native: contig_n50
+  core: assembly.vitalStats.N50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 54806562, core: 54806562, file: examples/web_search_GCA_000001405.29.json}
+- native: genome_id
+  core: deployments[system=ensembl,table=genome].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 59871324-7803-4234-856e-2a2bd96d7b3c, core: 59871324-7803-4234-856e-2a2bd96d7b3c, file: examples/web_details_GCA_000001405.29.json}
+- native: genome_uuid
+  core: deployments[system=ensembl,table=genome].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 59871324-7803-4234-856e-2a2bd96d7b3c, core: 59871324-7803-4234-856e-2a2bd96d7b3c, file: examples/web_genomeid_GCA_000001405.29.json}
+- native: release.name
+  core: deployments[system=ensembl,table=genome].scope
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 2026-07, core: 2026-07, file: examples/web_details_GCA_000001405.29.json}
+- native: ftp_url
+  core: deployments[system=ensembl,table=genome].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'http://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/29/ensembl/2026_04/', core: 'http://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/29/ensembl/2026_04/',
+    file: examples/web_search_GCA_000001405.29.json}
+unmapped:
+- {native: genome_tag, reason: Readable genome alias; equals the accession for the anchors.}
+- {native: type, reason: Site field with no core home.}
+- {native: is_reference, reason: Whether the site treats it as its species' reference.}
+- {native: is_suppressed, reason: Site flag.}
+- {native: suppression_details, reason: Site field with no core home.}
+- {native: release.type, reason: Site release type.}
+- {native: assembly_provider.url, reason: Provider web page.}
+- {native: annotation_provider.name, reason: Gene annotation; out of scope.}
+- {native: annotation_provider.url, reason: Gene annotation; out of scope.}
+- {native: annotation_method, reason: Gene annotation; out of scope.}
+- {native: annotation_version, reason: Gene annotation; out of scope.}
+- {native: annotation_date, reason: Gene annotation; out of scope.}
+- {native: number_of_genomes_in_group, reason: Site statistic.}
+- {native: type.kind, reason: 'Kind of type.value (strain, breed ...); core keeps the value only.'}
+- {native: coding_genes_count, reason: Gene annotation; out of scope.}
+- {native: has_variation, reason: Data availability flag.}
+- {native: has_regulation, reason: Data availability flag.}
+- {native: annotation_provider, reason: Gene annotation; out of scope.}
+- {native: organism_id, reason: Organism UUID in the site database.}
+- {native: rank, reason: Search rank.}
+- {native: release_version, reason: Metadata release version.}

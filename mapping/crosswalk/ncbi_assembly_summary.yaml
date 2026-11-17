@@ -1,0 +1,192 @@
+# refmeta crosswalk: ncbi_assembly_summary <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ncbi_assembly_summary
+source: ncbi
+core: '0.1'
+subject: assembly
+description: FTP assembly_summary_refseq.txt / assembly_summary_genbank.txt (current assemblies) and their _historical
+  twins (replaced and suppressed). One tab-separated row per assembly version, 38 columns.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: assembly_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.29
+    core: {namespace: insdc.gca, value: GCA_000001405.29}
+    file: examples/ftp_assembly_summary_genbank.anchors.txt
+- native: bioproject
+  core: assembly.bioproject
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: PRJNA31257, core: PRJNA31257, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- {native: biosample, core: assembly.biosample, direction: both, transform: null, missing: na, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: refseq_category
+  core: assembly.refseqCategory
+  direction: both
+  transform: null
+  missing: na
+  lossy: null
+  example: {native: reference genome, core: reference genome, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: taxid
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: species_taxid
+  core: assembly.taxon.speciesId
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: organism_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Includes the strain for strain-level taxa.
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: infraspecific_name
+  core: assembly.taxon.strain
+  direction: both
+  transform:
+    regex: {pattern: =(.*)$, template: 'strain={}'}
+  missing: na
+  lossy: Keeps the value after '='; on write the tag is always 'strain'.
+  example: {native: strain=S288C, core: S288C, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- {native: isolate, core: assembly.taxon.strain, direction: both, transform: null, missing: na, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: version_status
+  core: assembly.status
+  direction: both
+  transform:
+    map:
+      values: {latest: current}
+  lossy: null
+  example: {native: latest, core: current, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: assembly_level
+  core: assembly.level
+  direction: both
+  transform:
+    map:
+      values: {Chromosome: chromosome, Complete Genome: complete genome, Scaffold: scaffold, Contig: contig}
+  lossy: null
+  example: {native: Chromosome, core: chromosome, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: release_type
+  core: assembly.releaseType
+  direction: both
+  transform:
+    map:
+      values: {Major: major, Minor: minor, Patch: patch}
+  lossy: null
+  example: {native: Patch, core: patch, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: genome_rep
+  core: assembly.representation
+  direction: both
+  transform:
+    map:
+      values: {Full: full, Partial: partial}
+  lossy: null
+  example: {native: Full, core: full, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: seq_rel_date
+  core: assembly.releaseDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2022-02-03', core: '2022-02-03', file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: asm_name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38.p14, core: GRCh38.p14, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: asm_submitter
+  core: assembly.submitter
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium, core: Genome Reference Consortium, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: gbrs_paired_asm
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession:
+      namespaces: [insdc.gca, insdc.gcf]
+      index: 1
+  missing: na
+  lossy: null
+  example:
+    native: GCF_000001405.40
+    core: {namespace: insdc.gcf, value: GCF_000001405.40}
+    file: examples/ftp_assembly_summary_genbank.anchors.txt
+  note: 'The other member of the GenBank/RefSeq pair: the second GCA_/GCF_ item of assembly.accessions (index 1).'
+- native: ftp_path
+  core: copies[kind=directory].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.29_GRCh38.p14/', core: 'https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.29_GRCh38.p14/',
+    file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: assembly_type
+  core: assembly.type
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: haploid-with-alt-loci, core: haploid-with-alt-loci, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: genome_size
+  core: assembly.vitalStats.totalBasePairs
+  direction: both
+  transform: null
+  lossy: Primary assembly only, so it can differ from other sources' totals.
+  example: {native: 3099734149, core: 3099734149, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: genome_size_ungapped
+  core: assembly.vitalStats.ungappedLength
+  direction: both
+  transform: null
+  lossy: Primary assembly only.
+  example: {native: 2948611470, core: 2948611470, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: gc_percent
+  core: assembly.vitalStats.gcContent
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 41.0, core: 41.0, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: replicon_count
+  core: assembly.vitalStats.numberChromosomes
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 24, core: 24, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: scaffold_count
+  core: assembly.vitalStats.numberScaffolds
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 473, core: 473, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+- native: contig_count
+  core: assembly.vitalStats.numberContigs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 999, core: 999, file: examples/ftp_assembly_summary_genbank.anchors.txt}
+unmapped:
+- {native: wgs_master, reason: WGS master record; no core field.}
+- {native: paired_asm_comp, reason: identical/different comparison of the pair; no core relation between assemblies.}
+- {native: excluded_from_refseq, reason: RefSeq exclusion reasons.}
+- {native: relation_to_type_material, reason: Type material.}
+- {native: asm_not_live_date, reason: When the version stopped being latest; core keeps status only.}
+- {native: group, reason: Taxonomic group label.}
+- {native: annotation_provider, reason: Annotation; out of scope.}
+- {native: annotation_name, reason: Annotation; out of scope.}
+- {native: annotation_date, reason: Annotation; out of scope.}
+- {native: total_gene_count, reason: Annotation; out of scope.}
+- {native: protein_coding_gene_count, reason: Annotation; out of scope.}
+- {native: non_coding_gene_count, reason: Annotation; out of scope.}
+- {native: pubmed_id, reason: PubMed ids; core scholarlyArticle holds one DOI.}

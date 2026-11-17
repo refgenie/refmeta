@@ -1,0 +1,180 @@
+{
+ "downloadTime": "2026:11:17T16:01:29Z",
+ "downloadTimeStamp": 1794931289,
+ "genome": "hg38",
+ "rsyncHost": "rsync://hgdownload.soe.ucsc.edu",
+ "urlList": [
+  {
+   "sizeBytes": 14126,
+   "dateTime": "2023/02/23T18:25:33",
+   "url": "goldenPath/hg38/bigZips/README.txt"
+  },
+  {
+   "sizeBytes": 1614116167,
+   "dateTime": "2019/10/14T13:54:51",
+   "url": "goldenPath/hg38/bigZips/est.fa.gz"
+  },
+  {
+   "sizeBytes": 44,
+   "dateTime": "2019/10/14T13:54:55",
+   "url": "goldenPath/hg38/bigZips/est.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 835393456,
+   "dateTime": "2015/04/30T16:16:38",
+   "url": "goldenPath/hg38/bigZips/hg38.2bit"
+  },
+  {
+   "sizeBytes": 862162,
+   "dateTime": "2014/01/15T20:55:05",
+   "url": "goldenPath/hg38/bigZips/hg38.agp.gz"
+  },
+  {
+   "sizeBytes": 11672,
+   "dateTime": "2013/12/24T21:06:29",
+   "url": "goldenPath/hg38/bigZips/hg38.chrom.sizes"
+  },
+  {
+   "sizeBytes": 248465,
+   "dateTime": "2024/04/08T20:13:09",
+   "url": "goldenPath/hg38/bigZips/hg38.chromAlias.bb"
+  },
+  {
+   "sizeBytes": 27287,
+   "dateTime": "2021/10/06T13:44:20",
+   "url": "goldenPath/hg38/bigZips/hg38.chromAlias.txt"
+  },
+  {
+   "sizeBytes": 983726049,
+   "dateTime": "2014/01/23T17:18:00",
+   "url": "goldenPath/hg38/bigZips/hg38.chromFa.tar.gz"
+  },
+  {
+   "sizeBytes": 510918613,
+   "dateTime": "2014/01/23T17:10:29",
+   "url": "goldenPath/hg38/bigZips/hg38.chromFaMasked.tar.gz"
+  },
+  {
+   "sizeBytes": 2540610608,
+   "dateTime": "2014/01/08T23:43:56",
+   "url": "goldenPath/hg38/bigZips/hg38.fa.align.gz"
+  },
+  {
+   "sizeBytes": 983659424,
+   "dateTime": "2014/01/15T21:14:12",
+   "url": "goldenPath/hg38/bigZips/hg38.fa.gz"
+  },
+  {
+   "sizeBytes": 510854439,
+   "dateTime": "2014/01/15T21:24:20",
+   "url": "goldenPath/hg38/bigZips/hg38.fa.masked.gz"
+  },
+  {
+   "sizeBytes": 180512905,
+   "dateTime": "2014/01/15T20:56:13",
+   "url": "goldenPath/hg38/bigZips/hg38.fa.out.gz"
+  },
+  {
+   "sizeBytes": 1737853837,
+   "dateTime": "2013/12/24T21:28:01",
+   "url": "goldenPath/hg38/bigZips/hg38.gc5Base.bw"
+  },
+  {
+   "sizeBytes": 619235481,
+   "dateTime": "2019/01/17T14:50:02",
+   "url": "goldenPath/hg38/bigZips/hg38.gc5Base.wib"
+  },
+  {
+   "sizeBytes": 11686372,
+   "dateTime": "2019/01/17T14:50:02",
+   "url": "goldenPath/hg38/bigZips/hg38.gc5Base.wig.gz"
+  },
+  {
+   "sizeBytes": 1642892516,
+   "dateTime": "2013/12/24T21:14:57",
+   "url": "goldenPath/hg38/bigZips/hg38.gc5Base.wigVarStep.gz"
+  },
+  {
+   "sizeBytes": 8293247,
+   "dateTime": "2014/01/15T20:56:17",
+   "url": "goldenPath/hg38/bigZips/hg38.trf.bed.gz"
+  },
+  {
+   "sizeBytes": 720,
+   "dateTime": "2023/02/23T14:28:10",
+   "url": "goldenPath/hg38/bigZips/md5sum.txt"
+  },
+  {
+   "sizeBytes": 388357481,
+   "dateTime": "2019/10/14T13:37:10",
+   "url": "goldenPath/hg38/bigZips/mrna.fa.gz"
+  },
+  {
+   "sizeBytes": 45,
+   "dateTime": "2019/10/14T13:37:11",
+   "url": "goldenPath/hg38/bigZips/mrna.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 84276266,
+   "dateTime": "2019/10/14T13:55:28",
+   "url": "goldenPath/hg38/bigZips/refMrna.fa.gz"
+  },
+  {
+   "sizeBytes": 48,
+   "dateTime": "2019/10/14T13:55:28",
+   "url": "goldenPath/hg38/bigZips/refMrna.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 10826712,
+   "dateTime": "2019/10/14T14:46:05",
+   "url": "goldenPath/hg38/bigZips/upstream1000.fa.gz"
+  },
+  {
+   "sizeBytes": 53,
+   "dateTime": "2019/10/14T14:46:05",
+   "url": "goldenPath/hg38/bigZips/upstream1000.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 20535335,
+   "dateTime": "2019/10/14T14:46:25",
+   "url": "goldenPath/hg38/bigZips/upstream2000.fa.gz"
+  },
+  {
+   "sizeBytes": 53,
+   "dateTime": "2019/10/14T14:46:26",
+   "url": "goldenPath/hg38/bigZips/upstream2000.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 52880323,
+   "dateTime": "2019/10/14T14:47:12",
+   "url": "goldenPath/hg38/bigZips/upstream5000.fa.gz"
+  },
+  {
+   "sizeBytes": 53,
+   "dateTime": "2019/10/14T14:47:13",
+   "url": "goldenPath/hg38/bigZips/upstream5000.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 6894190900,
+   "dateTime": "2019/10/14T13:46:56",
+   "url": "goldenPath/hg38/bigZips/xenoMrna.fa.gz"
+  },
+  {
+   "sizeBytes": 49,
+   "dateTime": "2019/10/14T13:47:13",
+   "url": "goldenPath/hg38/bigZips/xenoMrna.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 262502199,
+   "dateTime": "2019/10/14T13:55:16",
+   "url": "goldenPath/hg38/bigZips/xenoRefMrna.fa.gz"
+  },
+  {
+   "sizeBytes": 52,
+   "dateTime": "2019/10/14T13:55:17",
+   "url": "goldenPath/hg38/bigZips/xenoRefMrna.fa.gz.md5"
+  }
+ ],
+ "totalBytes": 29892911261616,
+ "itemsReturned": 34
+}

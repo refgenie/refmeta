@@ -1,0 +1,110 @@
+# refmeta crosswalk: galaxy_idc_request <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_idc_request
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'IDC request file data-managers/<data_table>/<version>.yaml (current pipeline): one data manager run
+  that builds one data table entry. Validated by schemas/request.schema.json.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: data_tables
+  core: deployments[system=galaxy].table
+  direction: both
+  transform: null
+  lossy: A request can write several tables (all_fasta and __dbkeys__); only the first is kept as the table, the
+    rest go to conflicts.
+  example:
+    native: &id001 [all_fasta]
+    core: *id001
+    file: examples/idc_request_all_fasta_hg38canon.yaml
+- native: params.sequence_id
+  core: deployments[system=galaxy].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38canon, core: hg38canon, file: examples/idc_request_all_fasta_hg38canon.yaml}
+- native: params.sequence_name
+  core: deployments[system=galaxy].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Human (Homo sapiens) (b38): hg38 Canonical', core: 'Human (Homo sapiens) (b38): hg38 Canonical',
+    file: examples/idc_request_all_fasta_hg38canon.yaml}
+- native: params.dbkey_source.dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/idc_request_all_fasta_hg38canon.yaml}
+- native: params.dbkey_source.dbkey_name
+  core: deployments[system=galaxy,table=__dbkeys__].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens (GRCh38.p14), core: Homo sapiens (GRCh38.p14), file: examples/constructed/idc_request_all_fasta_GCF_000001405.40.from_docs.yaml}
+- native: params.reference_source.requested_dbkey
+  core: collection.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/idc_request_all_fasta_hg38canon.yaml}
+- native: params.reference_source.requested_identifier
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCF_000001405.40
+    core: {namespace: insdc.gcf, value: GCF_000001405.40}
+    file: examples/constructed/idc_request_all_fasta_GCF_000001405.40.from_docs.yaml
+- native: params.sorting.sequence_identifiers
+  core: sequences
+  direction: both
+  transform:
+    rekey:
+      keys: {identifier: name}
+  lossy: These are the sequence names of the resulting FASTA, in order, only when sort_selector is custom and handle_not_listed_selector
+    is discard.
+  example:
+    native:
+    - {identifier: chr1}
+    - {identifier: chr2}
+    - {identifier: chr3}
+    core:
+    - {name: chr1}
+    - {name: chr2}
+    - {name: chr3}
+    file: examples/idc_request_all_fasta_hg38canon.yaml
+    truncated: true
+- native: sha256
+  core: copies
+  direction: both
+  transform:
+    entries: {key: location, value: checksums.sha256}
+  lossy: null
+  example:
+    native: {hg38canon.fa: 87b0ea46eefe6158fcdb7343980c5c9ea31f681c99a9c96bf2f6cbc64b86b335}
+    core:
+    - location: hg38canon.fa
+      checksums: {sha256: 87b0ea46eefe6158fcdb7343980c5c9ea31f681c99a9c96bf2f6cbc64b86b335}
+    file: examples/idc_request_all_fasta_hg38canon.yaml
+- native: description
+  core: collection.description
+  direction: both
+  transform: null
+  lossy: For index requests it describes the index, not the sequences.
+  example: {native: 'Human hg38 (UCSC), canonical chromosomes chr1-22, X, Y, M only', core: 'Human hg38 (UCSC),
+      canonical chromosomes chr1-22, X, Y, M only', file: examples/idc_request_all_fasta_hg38canon.yaml}
+unmapped:
+- {native: tool_id, reason: Tool Shed id of the data manager to run.}
+- {native: params.dbkey_source.dbkey_source_selector, reason: Tool form choice (existing or new dbkey).}
+- {native: params.reference_source.reference_source_selector, reason: 'Tool form choice (ucsc, ncbi, url).'}
+- {native: params.sorting.sort_selector, reason: Tool form choice for sequence order.}
+- {native: params.sorting.handle_not_listed_selector, reason: Tool form choice.}
+- {native: doi, reason: DOI of the data source; no example has one.}
+- {native: depends_on.all_fasta, reason: The all_fasta entry an index is built from. Core has no 'built from' link
+    between copies yet (open question).}

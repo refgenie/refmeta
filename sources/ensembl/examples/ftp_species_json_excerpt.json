@@ -1,0 +1,221 @@
+{
+  "last_updated": "2026-11-02T09:20:16.065847",
+  "species": {
+    "Homo_sapiens": {
+      "taxid": 9606,
+      "species_taxonomy_id": 9606,
+      "scientific_name": "Homo sapiens",
+      "common_name": "Human",
+      "strain": "HG03540",
+      "strain_type": "isolate",
+      "biosample_id": "SAMN17861670",
+      "assemblies": {
+        "GCA_000001405.29": {
+          "name": "GRCh38.p14",
+          "level": "chromosome",
+          "genebuild_providers": {
+            "ensembl": {
+              "2023_03": {
+                "release": "2023_03",
+                "paths": {
+                  "homologies": {
+                    "files": {
+                      "homology_data": {
+                        "homology.tsv.gz": "GCA/000/001/405/29/ensembl/2023_03/homology/2024_09_18/homology.tsv.gz"
+                      }
+                    }
+                  },
+                  "genebuild": {
+                    "files": {
+                      "annotations": {
+                        "cdna.fa.bgz": "GCA/000/001/405/29/ensembl/2023_03/geneset/cdna.fa.bgz",
+                        "genes.embl.gz": "GCA/000/001/405/29/ensembl/2023_03/geneset/genes.embl.gz",
+                        "genes.gff3.bgz": "GCA/000/001/405/29/ensembl/2023_03/geneset/genes.gff3.bgz",
+                        "genes.gff3.gz": "GCA/000/001/405/29/ensembl/2023_03/geneset/genes.gff3.gz",
+                        "genes.gtf.bgz": "GCA/000/001/405/29/ensembl/2023_03/geneset/genes.gtf.bgz",
+                        "genes.gtf.gz": "GCA/000/001/405/29/ensembl/2023_03/geneset/genes.gtf.gz",
+                        "pep.fa.bgz": "GCA/000/001/405/29/ensembl/2023_03/geneset/pep.fa.bgz",
+                        "xref.tsv.gz": "GCA/000/001/405/29/ensembl/2023_03/geneset/xref.tsv.gz"
+                      }
+                    }
+                  },
+                  "short_variants": {
+                    "files": {
+                      "variation_data": {
+                        "variation.vcf.gz": "GCA/000/001/405/29/ensembl/2023_03/variation/2024_10_28/variation.vcf.gz"
+                      }
+                    }
+                  }
+                }
+              },
+              "2024_11": {
+                "release": "2024_11",
+                "paths": {
+                  "homologies": {
+                    "files": {
+                      "homology_data": {
+                        "homology.tsv.gz": "GCA/000/001/405/29/ensembl/2024_11/homology/2025_04_28/homology.tsv.gz"
+                      }
+                    }
+                  },
+                  "genebuild": {
+                    "files": {
+                      "annotations": {
+                        "cdna.fa.bgz": "GCA/000/001/405/29/ensembl/2024_11/geneset/cdna.fa.bgz",
+                        "genes.embl.gz": "GCA/000/001/405/29/ensembl/2024_11/geneset/genes.embl.gz",
+                        "genes.gff3.bgz": "GCA/000/001/405/29/ensembl/2024_11/geneset/genes.gff3.bgz",
+                        "genes.gff3.gz": "GCA/000/001/405/29/ensembl/2024_11/geneset/genes.gff3.gz",
+                        "genes.gtf.bgz": "GCA/000/001/405/29/ensembl/2024_11/geneset/genes.gtf.bgz",
+                        "genes.gtf.gz": "GCA/000/001/405/29/ensembl/2024_11/geneset/genes.gtf.gz",
+                        "pep.fa.bgz": "GCA/000/001/405/29/ensembl/2024_11/geneset/pep.fa.bgz",
+                        "xref.tsv.gz": "GCA/000/001/405/29/ensembl/2024_11/geneset/xref.tsv.gz"
+                      }
+                    }
+                  },
+                  "short_variants": {
+                    "files": {
+                      "variation_data": {
+                        "variation.vcf.gz": "GCA/000/001/405/29/ensembl/2024_11/variation/2025_12_15/variation.vcf.gz"
+                      }
+                    }
+                  }
+                }
+              },
+              "2025_12": {
+                "release": "2025_12",
+                "paths": {
+                  "homologies": {
+                    "files": {
+                      "homology_data": {
+                        "homology.tsv.gz": "GCA/000/001/405/29/ensembl/2025_12/homology/2026_04_09/homology.tsv.gz"
+                      }
+                    }
+                  },
+                  "genebuild": {
+                    "files": {
+                      "annotations": {
+                        "cdna.fa.bgz": "GCA/000/001/405/29/ensembl/2025_12/geneset/cdna.fa.bgz",
+                        "genes.embl.gz": "GCA/000/001/405/29/ensembl/2025_12/geneset/genes.embl.gz",
+                        "genes.gff3.bgz": "GCA/000/001/405/29/ensembl/2025_12/geneset/genes.gff3.bgz",
+                        "genes.gff3.gz": "GCA/000/001/405/29/ensembl/2025_12/geneset/genes.gff3.gz",
+                        "genes.gtf.bgz": "GCA/000/001/405/29/ensembl/2025_12/geneset/genes.gtf.bgz",
+                        "genes.gtf.gz": "GCA/000/001/405/29/ensembl/2025_12/geneset/genes.gtf.gz",
+                        "pep.fa.bgz": "GCA/000/001/405/29/ensembl/2025_12/geneset/pep.fa.bgz",
+                        "xref.tsv.gz": "GCA/000/001/405/29/ensembl/2025_12/geneset/xref.tsv.gz"
+                      }
+                    }
+                  },
+                  "short_variants": {
+                    "files": {
+                      "variation_data": {
+                        "variation.vcf.gz": "GCA/000/001/405/29/ensembl/2025_12/variation/2026_04_09/variation.vcf.gz"
+                      }
+                    }
+                  }
+                }
+              },
+              "2026_04": {
+                "release": "2026_04",
+                "paths": {
+                  "homologies": {
+                    "files": {
+                      "homology_data": {
+                        "homology.tsv.gz": "GCA/000/001/405/29/ensembl/2026_04/homology/2026_07_13/homology.tsv.gz"
+                      }
+                    }
+                  },
+                  "genebuild": {
+                    "files": {
+                      "annotations": {
+                        "cdna.fa.bgz": "GCA/000/001/405/29/ensembl/2026_04/geneset/cdna.fa.bgz",
+                        "genes.embl.gz": "GCA/000/001/405/29/ensembl/2026_04/geneset/genes.embl.gz",
+                        "genes.gff3.bgz": "GCA/000/001/405/29/ensembl/2026_04/geneset/genes.gff3.bgz",
+                        "genes.gff3.gz": "GCA/000/001/405/29/ensembl/2026_04/geneset/genes.gff3.gz",
+                        "genes.gtf.bgz": "GCA/000/001/405/29/ensembl/2026_04/geneset/genes.gtf.bgz",
+                        "genes.gtf.gz": "GCA/000/001/405/29/ensembl/2026_04/geneset/genes.gtf.gz",
+                        "pep.fa.bgz": "GCA/000/001/405/29/ensembl/2026_04/geneset/pep.fa.bgz",
+                        "xref.tsv.gz": "GCA/000/001/405/29/ensembl/2026_04/geneset/xref.tsv.gz"
+                      }
+                    }
+                  },
+                  "short_variants": {
+                    "files": {
+                      "variation_data": {
+                        "variation.vcf.gz": "GCA/000/001/405/29/ensembl/2026_04/variation/2026_07_13/variation.vcf.gz"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "assembly": {
+            "files": {
+              "genome_sequences": {
+                "chromosomes.tsv.gz": "GCA/000/001/405/29/ensembl/2026_04/genome/chromosomes.tsv.gz",
+                "hardmasked.fa.bgz": "GCA/000/001/405/29/ensembl/2026_04/genome/hardmasked.fa.bgz",
+                "softmasked.fa.bgz": "GCA/000/001/405/29/ensembl/2026_04/genome/softmasked.fa.bgz",
+                "unmasked.fa.bgz": "GCA/000/001/405/29/ensembl/2026_04/genome/unmasked.fa.bgz"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Saccharomyces_cerevisiae_S288C": {
+      "taxid": 559292,
+      "species_taxonomy_id": 4932,
+      "scientific_name": "Saccharomyces cerevisiae S288C",
+      "common_name": "Baker's yeast",
+      "strain": "S288C",
+      "strain_type": "strain",
+      "biosample_id": "SAMEA3184125",
+      "assemblies": {
+        "GCA_000146045.2": {
+          "name": "R64-1-1",
+          "level": "chromosome",
+          "genebuild_providers": {
+            "community": {
+              "2018_10": {
+                "release": "2018_10",
+                "paths": {
+                  "genebuild": {
+                    "files": {
+                      "annotations": {
+                        "cdna.fa.bgz": "GCA/000/146/045/2/community/2018_10/geneset/cdna.fa.bgz",
+                        "genes.embl.gz": "GCA/000/146/045/2/community/2018_10/geneset/genes.embl.gz",
+                        "genes.gff3.bgz": "GCA/000/146/045/2/community/2018_10/geneset/genes.gff3.bgz",
+                        "genes.gff3.gz": "GCA/000/146/045/2/community/2018_10/geneset/genes.gff3.gz",
+                        "genes.gtf.bgz": "GCA/000/146/045/2/community/2018_10/geneset/genes.gtf.bgz",
+                        "genes.gtf.gz": "GCA/000/146/045/2/community/2018_10/geneset/genes.gtf.gz",
+                        "pep.fa.bgz": "GCA/000/146/045/2/community/2018_10/geneset/pep.fa.bgz",
+                        "xref.tsv.gz": "GCA/000/146/045/2/community/2018_10/geneset/xref.tsv.gz"
+                      }
+                    }
+                  },
+                  "short_variants": {
+                    "files": {
+                      "variation_data": {
+                        "variation.vcf.gz": "GCA/000/146/045/2/community/2018_10/variation/2026_08_25/variation.vcf.gz"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "assembly": {
+            "files": {
+              "genome_sequences": {
+                "chromosomes.tsv.gz": "GCA/000/146/045/2/community/2018_10/genome/chromosomes.tsv.gz",
+                "hardmasked.fa.bgz": "GCA/000/146/045/2/community/2018_10/genome/hardmasked.fa.bgz",
+                "softmasked.fa.bgz": "GCA/000/146/045/2/community/2018_10/genome/softmasked.fa.bgz",
+                "unmasked.fa.bgz": "GCA/000/146/045/2/community/2018_10/genome/unmasked.fa.bgz"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

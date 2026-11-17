@@ -1,0 +1,43 @@
+# refmeta crosswalk: galaxy_idc_genomes <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_idc_genomes
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'IDC genomes.yml (older pipeline): genomes to fetch and the indexers to run. cvmfs_current_managed/cvmfs_managed_genomes.yml
+  uses the same entries inside a list of {genomes: [...]} blocks.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: sacCer3, core: sacCer3, file: examples/idc_genomes_sacCer3.excerpt.yml}
+- native: description
+  core: deployments[system=galaxy,table=all_fasta].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Yeast (Saccharomyces cerevisiae): sacCer3', core: 'Yeast (Saccharomyces cerevisiae): sacCer3',
+    file: examples/idc_cvmfs_managed_genomes_hg38_sacCer3.excerpt.yml}
+- native: id
+  core: deployments[system=galaxy,table=all_fasta].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: sacCer3, core: sacCer3, file: examples/idc_genomes_sacCer3.excerpt.yml}
+- {native: checksum, core: 'copies[kind=fasta].checksums.sha256', direction: both, transform: null, lossy: 'SHA-256
+    of the original download, which may be an archive rather than the FASTA Galaxy serves.', example: null, note: No
+    example file sets this field.}
+- {native: doi, core: assembly.scholarlyArticle, direction: both, transform: null, lossy: 'Any DOI for the data,
+    not necessarily the assembly''s article.', example: null, note: No example file sets this field.}
+unmapped:
+- {native: source, reason: 'Where to fetch the FASTA: ''ucsc'', an NCBI accession or a URL; mixed kinds, so no single
+    core field.'}
+- {native: version, reason: Free-text version information.}
+- {native: blob, reason: Free text.}
+- {native: indexers, reason: 'Data managers to run: a build plan.'}
+- {native: skiplist, reason: 'Data managers to skip: a build plan.'}

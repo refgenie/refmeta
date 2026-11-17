@@ -1,0 +1,581 @@
+{
+  "source": "ga4gh",
+  "title": "GA4GH reference sequence standards: refget seqcol, refget sequences, VRS SequenceReference, SeqRepo aliases, and SAM/VCF reference headers",
+  "maintainer": "GA4GH Large Scale Genomics work stream (refget, VRS via Genomic Knowledge Standards); biocommons (SeqRepo); samtools/hts-specs team (SAM, VCF)",
+  "retrieved": "2026-11-17",
+  "formats": [
+    {
+      "id": "ga4gh_seqcol_level2",
+      "description": "Refget sequence collection, canonical level 2 representation: one JSON object of collated arrays (names, lengths, sequences) plus recommended ancillary attributes. Served by GET /collection/<digest>?level=2.",
+      "media_type": "application/json",
+      "extensions": [".json"],
+      "spec_files": [
+        "spec/refget/seqcol_spec_v1.0.0.md",
+        "spec/refget/seqcol_minimal_v1.0.0.json",
+        "spec/refget/seqcol_extended_v1.0.0.json",
+        "spec/refget/seqcol_refs_v1.0.0.json",
+        "spec/refget/schemas_README.md",
+        "spec/refget/api.refgenie.org_seqcol_service-info.json"
+      ],
+      "example_files": [
+        "examples/seqcol_level2_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json",
+        "examples/seqcol_level2_R64-1-1_ia9g4Myony-xxLsSc7eQOC_NdClGgPGu.json"
+      ],
+      "record_key": "level 0 seqcol digest of the inherent attributes (names, sequences). It is not stored in the object; it is the <digest> in the URL. refmeta.formats.ga4gh.level0_digest() recomputes it.",
+      "adapter": true
+    },
+    {
+      "id": "ga4gh_seqcol_level1",
+      "description": "Refget sequence collection, level 1 representation: one JSON object mapping each attribute name to the digest of its level 2 array. Served by GET /collection/<digest>?level=1.",
+      "media_type": "application/json",
+      "extensions": [".json"],
+      "spec_files": [
+        "spec/refget/seqcol_spec_v1.0.0.md",
+        "spec/refget/seqcol_extended_v1.0.0.json",
+        "spec/refget/api.refgenie.org_seqcol_service-info.json"
+      ],
+      "example_files": [
+        "examples/seqcol_level1_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json",
+        "examples/seqcol_level1_R64-1-1_ia9g4Myony-xxLsSc7eQOC_NdClGgPGu.json"
+      ],
+      "record_key": "level 0 seqcol digest = sha512t24u of the canonical JSON {names, sequences} built from these level 1 values (refmeta.formats.ga4gh.level0_digest()).",
+      "adapter": true
+    },
+    {
+      "id": "ga4gh_refget_metadata",
+      "description": "Refget sequences v2 metadata response for one sequence: GET /sequence/<id>/metadata. Digests, length, and aliases tagged with a naming authority.",
+      "media_type": "application/vnd.ga4gh.refget.v2.0.0+json",
+      "extensions": [".json"],
+      "spec_files": [
+        "spec/refget/sequences_spec_v2.0.0.md",
+        "spec/refget/refget-sequences-openapi.yaml"
+      ],
+      "example_files": [
+        "examples/refget_metadata_ENA_insdc_CM000663.2.json",
+        "examples/refget_metadata_ENA_md5_6aef897c3d6ff0c78aff06ac189178dd.json",
+        "examples/refget_metadata_ENA_insdc_BK006935.2.json",
+        "examples/refget_metadata_ENA_md5_6681ac2f62509cfc220d78751b8dc524.json",
+        "examples/refget_metadata_spec_example_chr1.json"
+      ],
+      "record_key": "metadata.md5 or metadata.ga4gh (sequence content digests). metadata.id only echoes whatever identifier the client asked for.",
+      "adapter": true
+    },
+    {
+      "id": "ga4gh_seqrepo_metadata",
+      "description": "biocommons SeqRepo REST metadata for one sequence: GET /seqrepo/1/metadata/<namespace:alias>. Lists every namespaced alias SeqRepo knows for the sequence.",
+      "media_type": "application/json",
+      "extensions": [".json"],
+      "spec_files": [
+        "spec/seqrepo/seqrepo-rest-service_openapi.json",
+        "spec/seqrepo/README.md",
+        "spec/seqrepo/design.rst",
+        "spec/seqrepo/seqaliasdb_migration_0001-initial.py.txt",
+        "spec/seqrepo/translate.py.txt"
+      ],
+      "example_files": [
+        "examples/seqrepo_metadata_refseq_NC_000001.11.json",
+        "examples/seqrepo_metadata_refseq_NC_012920.1.json"
+      ],
+      "record_key": "the sha512t24u:<digest> (or ga4gh:SQ.<digest>) entry inside aliases, which is SeqRepo's internal seq_id; the record has no top-level identifier.",
+      "adapter": true
+    },
+    {
+      "id": "ga4gh_vrs_sequence_reference",
+      "description": "GA4GH VRS 2.x SequenceReference: the object VRS uses to point at a reference sequence by refget accession. Appears inside SequenceLocation.sequenceReference of every VRS Allele. The adapter collects every SequenceReference found anywhere in a JSON or YAML document.",
+      "media_type": "application/json",
+      "extensions": [".json", ".yaml", ".yml"],
+      "spec_files": [
+        "spec/vrs/SequenceReference.json",
+        "spec/vrs/SequenceReference.rst",
+        "spec/vrs/SequenceLocation.json"
+      ],
+      "example_files": [
+        "examples/vrs_normalizer_response_NC_000001.11_g.11796321G_A.json",
+        "examples/vrs_SequenceReference_spec_example_GRCh38_chr7.yaml",
+        "examples/constructed/vrs_SequenceReference_R64-1-1_chrI_constructed.json"
+      ],
+      "record_key": "refgetAccession",
+      "adapter": true
+    },
+    {
+      "id": "ga4gh_sam_header_sq",
+      "description": "SAM header @SQ lines (reference sequence dictionary), as found in SAM/BAM/CRAM headers and Picard/GATK .dict files. One record per @SQ line; order of lines is meaningful.",
+      "media_type": "text/plain",
+      "extensions": [".dict", ".sam"],
+      "spec_files": [
+        "spec/hts-specs/SAMv1_header_SQ_excerpt.tex"
+      ],
+      "example_files": [
+        "examples/sam_dict_broad_hg38_Homo_sapiens_assembly38.dict",
+        "examples/sam_dict_1kg_GRCh38_full_analysis_set_plus_decoy_hla.excerpt.dict",
+        "examples/sam_dict_igenomes_R64-1-1_genome.dict",
+        "examples/sam_header_spec_example_SAMv1_section1.sam",
+        "examples/sam_header_spec_example_SAMv1_AN_footnote.sam",
+        "examples/constructed/sam_header_AH_DS_constructed.sam"
+      ],
+      "record_key": "SN (unique only within one header); M5 identifies the sequence content globally",
+      "adapter": true
+    },
+    {
+      "id": "ga4gh_vcf_header_contig",
+      "description": "VCF header ##contig=<...> lines. One record per contig; order of lines is meaningful (BCF encodes CHROM as an index into this list).",
+      "media_type": "text/plain",
+      "extensions": [".vcf"],
+      "spec_files": [
+        "spec/hts-specs/VCFv4.5_reference_contig_excerpt.tex"
+      ],
+      "example_files": [
+        "examples/vcf_header_giab_HG002_GRCh38_v4.2.1.vcf",
+        "examples/vcf_header_1kGP_high_coverage_chr22.vcf",
+        "examples/vcf_header_1kg_phase3_GRCh38_chr22.vcf",
+        "examples/vcf_header_gnomad_v4.1_genomes_chr21.vcf",
+        "examples/vcf_header_broad_hg38_1000G_omni2.5.vcf",
+        "examples/vcf_header_eva_release9_R64_GCA_000146045.2.vcf",
+        "examples/vcf_header_spec_example_VCFv4.5.vcf"
+      ],
+      "record_key": "ID (unique only within one VCF header)",
+      "adapter": true
+    },
+    {
+      "id": "ga4gh_vcf_header_reference",
+      "description": "VCF header file-level lines that name the reference: ##fileformat, ##reference (free text, or structured as EVA writes it) and ##assembly. One record per VCF file.",
+      "media_type": "text/plain",
+      "extensions": [".vcf"],
+      "spec_files": [
+        "spec/hts-specs/VCFv4.5_reference_contig_excerpt.tex",
+        "spec/hts-specs/VCFv4.3_sv_example_excerpt.tex"
+      ],
+      "example_files": [
+        "examples/vcf_header_giab_HG002_GRCh38_v4.2.1.vcf",
+        "examples/vcf_header_1kGP_high_coverage_chr22.vcf",
+        "examples/vcf_header_1kg_phase3_GRCh38_chr22.vcf",
+        "examples/vcf_header_gnomad_v4.1_genomes_chr21.vcf",
+        "examples/vcf_header_broad_hg38_1000G_omni2.5.vcf",
+        "examples/vcf_header_dbsnp_GCF_000001405.40.vcf",
+        "examples/vcf_header_clinvar_GRCh38.vcf",
+        "examples/vcf_header_ensembl116_homo_sapiens_chr21.vcf",
+        "examples/vcf_header_eva_release9_R64_GCA_000146045.2.vcf",
+        "examples/vcf_header_ensemblfungi_saccharomyces_cerevisiae.vcf",
+        "examples/vcf_header_spec_example_VCFv4.5.vcf",
+        "examples/vcf_header_spec_example_VCFv4.3_sv.vcf"
+      ],
+      "record_key": "none; one record per file (reference.accession, when present, names the assembly globally)",
+      "adapter": true
+    }
+  ],
+  "fields": [
+    {
+      "format": "ga4gh_seqcol_level2", "path": "names", "type": "array",
+      "description": "Human-readable labels of each sequence (chromosome names).",
+      "example": ["I", "II", "III", "IV", "IX", "Mito", "V", "VI", "VII", "VIII", "X", "XI", "XII", "XIII", "XIV", "XV", "XVI"],
+      "level": "sequence", "cardinality": "many", "required": true, "unique": "namespace",
+      "notes": "Qualifiers: collated, inherent (contributes to the collection digest). Element i names sequence i. A name identifies one sequence only within this collection; the spec does not state that names must be distinct. The array as a whole is the collection's naming style: renaming (Mito vs MT, chr1 vs 1) gives a different collection digest."
+    },
+    {
+      "format": "ga4gh_seqcol_level2", "path": "lengths", "type": "array",
+      "description": "Number of elements (nucleotides or amino acids) in each sequence.",
+      "example": [230218, 813184, 316620, 1531933, 439888, 85779, 576874, 270161, 1090940, 562643, 745751, 666816, 1078177, 924431, 784333, 1091291, 948066],
+      "level": "sequence", "cardinality": "many", "required": true, "unique": "none",
+      "notes": "Qualifiers: collated, not inherent (does not affect the digest, because sequences already fix the lengths). Integers."
+    },
+    {
+      "format": "ga4gh_seqcol_level2", "path": "sequences", "type": "array",
+      "description": "Refget sequences v2 identifiers (ga4gh digest, 'SQ.' + sha512t24u) for each sequence.",
+      "example": ["SQ.lZyxiD_ByprhOUzrR1o1bq0ezO_1gkrn", "SQ.vw8jTiV5SAPDH4TEIZhNGylzNsQM4NC9", "SQ.A_i2Id0FjBI-tQyU4ZaCEdxRzQheDevn"],
+      "level": "sequence", "cardinality": "many", "required": true, "unique": "global",
+      "notes": "Qualifiers: collated, inherent. First 3 of 17 elements shown (yeast R64-1-1). Each element identifies one sequence globally and is the same value as refget metadata.ga4gh and VRS refgetAccession. Values carry the 'SQ.' prefix but not the 'ga4gh:' CURIE prefix."
+    },
+    {
+      "format": "ga4gh_seqcol_level2", "path": "name_length_pairs", "type": "array",
+      "description": "Array of {name, length} objects built from names and lengths, in collection order: the ordered coordinate system ('chrom sizes').",
+      "example": [{"length": 248956422, "name": "chr1"}, {"length": 242193529, "name": "chr2"}, {"length": 198295559, "name": "chr3"}],
+      "level": "sequence", "cardinality": "many", "required": false, "unique": "namespace",
+      "notes": "RECOMMENDED ancillary attribute (spec section 5.1). Qualifiers: collated, not inherent, not transient. First 3 of 195 elements shown (hg38). Absent from the yeast record, which was served by refgenie's /v4 API with only the 3 core arrays."
+    },
+    {
+      "format": "ga4gh_seqcol_level2", "path": "sorted_name_length_pairs", "type": "array",
+      "description": "Order-invariant coordinate system. Per the spec text: the sorted list of digests of each canonical {name, length} object.",
+      "example": null,
+      "level": "collection", "cardinality": "many", "required": false, "unique": "none",
+      "notes": "RECOMMENDED, transient: servers keep only its level 1 digest, so it never appears in a level 2 response (absent from both examples). The spec text (section 5.2) defines items as digests and collated=false, but seqcol_extended_v1.0.0.json describes items as {name, length} objects with collated=true; the two disagree."
+    },
+    {
+      "format": "ga4gh_seqcol_level2", "path": "sorted_sequences", "type": "array",
+      "description": "The sequences array sorted lexicographically: order-invariant set of sequence digests.",
+      "example": ["SQ.-A1QmD_MatoqxvgVxBLZTONHz9-c7nQo", "SQ.0AKJ3MrG77ecu-amzGhOoIkdw0Tx-YHu", "SQ.0iKlIQk2oZLoeOG9P1riRU6hvL5Ux8TV"],
+      "level": "collection", "cardinality": "many", "required": false, "unique": "none",
+      "notes": "OPTIONAL ancillary attribute (spec section 5.3). Not collated, not inherent. First 3 of 195 elements shown (hg38)."
+    },
+    {
+      "format": "ga4gh_seqcol_level2", "path": "accessions", "type": "array",
+      "description": "Unique external accessions for the sequences (custom attribute of the refgenie deployment, not part of the GA4GH spec).",
+      "example": null,
+      "level": "sequence", "cardinality": "many", "required": false, "unique": "unknown",
+      "notes": "Declared as a collated attribute only in the schema served by api.refgenie.org/seqcol/service-info. No collection on that server carries it (GET /list/attributes/accessions returned total 0 on 2026-11-17), so there is no real value."
+    },
+    {
+      "format": "ga4gh_seqcol_level1", "path": "names", "type": "string",
+      "description": "Digest of the canonical names array.",
+      "example": "vuArU-PGosMktWU-OsQr0VOTR0C0oLT2",
+      "level": "collection", "cardinality": "one", "required": true, "unique": "none",
+      "notes": "sha512t24u of the RFC-8785 canonical JSON of the level 2 array (no 'SQ.' prefix). Identifies a naming array, not a collection: two collections with the same names but different sequences share it."
+    },
+    {
+      "format": "ga4gh_seqcol_level1", "path": "lengths", "type": "string",
+      "description": "Digest of the canonical lengths array.",
+      "example": "fSZ-qxtOfqLVR06z5XD2tuVNVl1oKbKk",
+      "level": "collection", "cardinality": "one", "required": true, "unique": "none",
+      "notes": "Not inherent; does not feed the level 0 digest."
+    },
+    {
+      "format": "ga4gh_seqcol_level1", "path": "sequences", "type": "string",
+      "description": "Digest of the canonical sequences array.",
+      "example": "RnA6LWXvIP0qTlauMdh9_SB-niey1SgY",
+      "level": "collection", "cardinality": "one", "required": true, "unique": "none",
+      "notes": "Inherent. Shared by collections with the same sequences in the same order but different names (e.g. Ensembl R64-1-1 'Mito' vs iGenomes 'MT')."
+    },
+    {
+      "format": "ga4gh_seqcol_level1", "path": "name_length_pairs", "type": "string",
+      "description": "Digest of the ordered name_length_pairs array (ordered coordinate system).",
+      "example": "FQ7F8KvmjkfNxF3SYJi8UyDgqZzR-hk5",
+      "level": "collection", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Same value for any two collections with identical ordered names and lengths, whatever the sequence content."
+    },
+    {
+      "format": "ga4gh_seqcol_level1", "path": "sorted_name_length_pairs", "type": "string",
+      "description": "Digest of the order-invariant coordinate system.",
+      "example": "5B_JV0rZ_u5TzXqntPnpSG62S4pUsb4L",
+      "level": "collection", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Transient: only this digest is stored. Intended for matching genome-browser coordinate systems regardless of order. Recomputed by level1_digests() exactly as served for both anchors."
+    },
+    {
+      "format": "ga4gh_seqcol_level1", "path": "sorted_sequences", "type": "string",
+      "description": "Digest of the sorted sequences array (order-invariant sequence content).",
+      "example": "diyPQYCRG37hE2IHuGGWOb3SNHIuB8IT",
+      "level": "collection", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Same value for collections holding the same set of sequences in any order with any names."
+    },
+    {
+      "format": "ga4gh_refget_metadata", "path": "metadata.id", "type": "string",
+      "description": "The query identifier, normally the service's default checksum (OpenAPI); ENA echoes whatever was asked, including 'insdc:' CURIEs.",
+      "example": "insdc:CM000663.2",
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "global",
+      "notes": "Required in refget-sequences-openapi.yaml but missing from the v2 README response table and its example. ENA returns the md5 when queried by md5 and 'insdc:<acc>' when queried by accession."
+    },
+    {
+      "format": "ga4gh_refget_metadata", "path": "metadata.md5", "type": "string",
+      "description": "MD5 checksum of the sequence (uppercased, non-letters removed), 32 lowercase hex characters.",
+      "example": "6aef897c3d6ff0c78aff06ac189178dd",
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "global",
+      "notes": "Same value as SAM @SQ M5 and VCF ##contig md5 for normal nucleotide sequences, but the normalization rules differ slightly: refget keeps only A-Z; SAM keeps every printable character 33-126 (e.g. '*' padding)."
+    },
+    {
+      "format": "ga4gh_refget_metadata", "path": "metadata.trunc512", "type": "string",
+      "description": "Deprecated TRUNC512 checksum (hex of the first 24 bytes of SHA-512).",
+      "example": null,
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "global",
+      "notes": "Deprecated in v2; ENA sends the key with value null. Not in the v2 README table, only in the OpenAPI file. Convertible to and from the ga4gh digest."
+    },
+    {
+      "format": "ga4gh_refget_metadata", "path": "metadata.ga4gh", "type": "string",
+      "description": "ga4gh sequence identifier: 'SQ.' + base64url of the first 24 bytes of SHA-512 of the normalized sequence; null if the server does not support it.",
+      "example": "SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "global",
+      "notes": "Example from the spec example file (refget_metadata_spec_example_chr1.json); ENA returns null because it supports md5 only. The OpenAPI example writes it with a CURIE prefix ('ga4gh:SQ.aKF4...') while the README example has none ('SQ.Ya6R...')."
+    },
+    {
+      "format": "ga4gh_refget_metadata", "path": "metadata.length", "type": "integer",
+      "description": "Length of the sequence.",
+      "example": 248956422,
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "ga4gh_refget_metadata", "path": "metadata.aliases[].alias", "type": "array",
+      "description": "Known aliases of the sequence (one list, aligned with metadata.aliases[].naming_authority). Native form: metadata.aliases is a list of {alias, naming_authority} objects.",
+      "example": ["CM000663.2"],
+      "level": "sequence", "cardinality": "many", "required": true, "unique": "namespace",
+      "notes": "Required whenever an alias object is present. An alias is unique only within its naming authority ('1' vs 'chr1'). ENA lists only the INSDC accession, and only when queried by that accession; querying the same sequence by md5 returns an empty list. The spec example also lists the UCSC name 'chr1'."
+    },
+    {
+      "format": "ga4gh_refget_metadata", "path": "metadata.aliases[].naming_authority", "type": "array",
+      "description": "Authority that issued each alias (aligned with metadata.aliases[].alias).",
+      "example": ["INSDC"],
+      "level": "sequence", "cardinality": "many", "required": true, "unique": "none",
+      "notes": "Spec Appendix 1 recommends identifiers.org-style lowercase strings: insdc, ucsc, ensembl, md5, refseq, trunc512, ga4gh, vmc. ENA sends uppercase 'INSDC'. Compare case-insensitively."
+    },
+    {
+      "format": "ga4gh_seqrepo_metadata", "path": "added", "type": "date",
+      "description": "Timestamp when the sequence was added to this SeqRepo instance (ISO 8601).",
+      "example": "2016-08-27T21:17:00Z",
+      "level": "deployment", "cardinality": "one", "required": true, "unique": "none",
+      "notes": "Describes the SeqRepo database, not the sequence or assembly."
+    },
+    {
+      "format": "ga4gh_seqrepo_metadata", "path": "aliases", "type": "array",
+      "description": "Every alias SeqRepo knows for the sequence, each written 'namespace:alias'.",
+      "example": ["MD5:6aef897c3d6ff0c78aff06ac189178dd", "NCBI:NC_000001.11", "refseq:NC_000001.11", "SEGUID:FCUd6VJ6uikS/VWLbhGdVmj2rOA", "SHA1:14251de9527aba2912fd558b6e119d5668f6ace0", "VMC:GS_Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO", "sha512t24u:Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO", "ga4gh:SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO"],
+      "level": "sequence", "cardinality": "many", "required": true, "unique": "namespace",
+      "notes": "Last 8 of 34 aliases shown (chr1). Split on the first ':'. Namespaces seen: assembly names used as namespaces (GRCh38, GRCh38.p1..p12, GRCh37.p2..p13) whose alias is a sequence name, often twice ('1' and 'chr1'); accession namespaces (NCBI and its API alias refseq; Ensembl and ensembl); digest namespaces (MD5, SHA1, SEGUID, VMC with 'GS_' prefix, and API aliases sha512t24u and ga4gh with 'SQ.' prefix). The API adds lowercase translations of DB namespaces (translate.py), so one fact can appear 2-3 times. The DB keeps (namespace, alias) unique among current aliases."
+    },
+    {
+      "format": "ga4gh_seqrepo_metadata", "path": "alphabet", "type": "string",
+      "description": "Sorted set of distinct residue characters present in the sequence.",
+      "example": "ACGMNRT",
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "none",
+      "notes": "Observed meaning (from values like 'ACGMNRT' for chr1 and 'ACGNT' for chrM); the OpenAPI file gives no description. Not the same as VRS residueAlphabet ('na'/'aa')."
+    },
+    {
+      "format": "ga4gh_seqrepo_metadata", "path": "length", "type": "integer",
+      "description": "Length of the sequence.",
+      "example": 248956422,
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "id", "type": "string",
+      "description": "Logical identifier of the entity in its system of record (e.g. a UUID); unique within that system only.",
+      "example": null,
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "namespace",
+      "notes": "Inherited from gkm-core Entity. Not present in any example. Not part of the digest."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "type", "type": "string",
+      "description": "Must be 'SequenceReference'.",
+      "example": "SequenceReference",
+      "level": "other", "cardinality": "one", "required": true, "unique": "none",
+      "notes": "Object type tag; inherent (with refgetAccession) in the VRS digest."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "name", "type": "string",
+      "description": "A primary name for the entity.",
+      "example": "I",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Example from the hand-written yeast record (examples/constructed/). Real service output (variation-normalizer) leaves it out. Free text; VRS does not say which naming authority it follows."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "description", "type": "string",
+      "description": "Free-text description of the entity.",
+      "example": null,
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Not present in any example."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "aliases", "type": "array",
+      "description": "Alternative name(s) for the entity (unordered list of strings).",
+      "example": ["chrI", "BK006935.2"],
+      "level": "sequence", "cardinality": "many", "required": false, "unique": "none",
+      "notes": "Example from the hand-written yeast record. Plain strings with no namespace, unlike refget naming_authority or SeqRepo 'ns:alias'."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "extensions", "type": "array",
+      "description": "List of gkm-core Extension objects for extra information.",
+      "example": null,
+      "level": "other", "cardinality": "many", "required": false, "unique": "none",
+      "notes": "Not present in any example. Kept as the raw list of objects."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "refgetAccession", "type": "string",
+      "description": "GA4GH refget identifier for the referenced sequence (sha512t24u digest, 'SQ.' prefix), pattern ^SQ.[0-9A-Za-z_\\-]{32}$.",
+      "example": "SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO",
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "global",
+      "notes": "Same value as seqcol sequences[i] and refget metadata.ga4gh. No 'ga4gh:' prefix (VRS 1.x SequenceLocation.sequence_id used 'ga4gh:SQ....')."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "residueAlphabet", "type": "string",
+      "description": "Character set of the sequence: 'na' (nucleic acid) or 'aa' (amino acid).",
+      "example": "na",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Example from the hand-written yeast record."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "sequence", "type": "string",
+      "description": "Literal sequence string of the referenced sequence.",
+      "example": null,
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Not present in any example; impractical for chromosomes."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "moleculeType", "type": "string",
+      "description": "Molecule type as defined by RefSeq: genomic, RNA, mRNA or protein.",
+      "example": "genomic",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Example from the hand-written yeast record."
+    },
+    {
+      "format": "ga4gh_vrs_sequence_reference", "path": "circular", "type": "boolean",
+      "description": "Whether the molecule is circular (true) or linear (false).",
+      "example": false,
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Example from the hand-written yeast record. Same meaning as SAM @SQ TP (circular/linear)."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "SN", "type": "string",
+      "description": "Reference sequence name, used in RNAME/RNEXT of alignment records.",
+      "example": "chr1",
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "namespace",
+      "notes": "SN and every AN name must be distinct across all @SQ lines of one header. Allowed characters follow the SAM rname rule; names such as 'HLA-A*01:01:01:01' (Broad hg38) are legal."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "LN", "type": "integer",
+      "description": "Reference sequence length, range 1..2^31-1.",
+      "example": 248956422,
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "AH", "type": "string",
+      "description": "Marks an alternate locus; value is the primary-assembly locus it replaces ('chr:start-end', 'chr', or '*' if unknown).",
+      "example": "*",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "No real or spec example found; the example comes from the hand-written file examples/constructed/sam_header_AH_DS_constructed.sam. Must not be set on primary-assembly sequences. Encodes the sequence's role (alt vs primary)."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "AN", "type": "string",
+      "description": "Comma-separated alternative names tools may accept for this sequence.",
+      "example": "chrMT,M,chrM",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "namespace",
+      "notes": "Spec example (footnote: '@SQ SN:MT AN:chrMT,M,chrM LN:16569 TP:circular'). Kept as the native comma-separated string; split on ',' to get the list. The alternative names carry no naming authority."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "AS", "type": "string",
+      "description": "Genome assembly identifier.",
+      "example": "GRCh38",
+      "level": "assembly", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Free text with no controlled vocabulary: 1000 Genomes writes 'GRCh38', Broad writes '38', iGenomes omits it. Repeated on every @SQ line although it describes the whole assembly."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "DS", "type": "string",
+      "description": "Description of the sequence; UTF-8 allowed.",
+      "example": "GRCh38 alternate locus scaffold (hand-written description)",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "No real example found; value is hand-written in examples/constructed/sam_header_AH_DS_constructed.sam."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "M5", "type": "string",
+      "description": "MD5 of the sequence: characters outside 33-126 removed, uppercased, 32 lowercase hex characters.",
+      "example": "6aef897c3d6ff0c78aff06ac189178dd",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "global",
+      "notes": "Same as refget md5 and VCF ##contig md5 for ordinary sequences. Used by CRAM to fetch the reference from a refget server."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "SP", "type": "string",
+      "description": "Species.",
+      "example": "Homo sapiens",
+      "level": "assembly", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Free text: Broad 'Homo sapiens', 1000 Genomes 'Human'. No taxon ID field exists."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "TP", "type": "string",
+      "description": "Molecule topology: 'linear' (default) or 'circular'.",
+      "example": "circular",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Spec example (SAMv1 footnote). Often omitted, which means linear; none of the real .dict files set it, even for chrM."
+    },
+    {
+      "format": "ga4gh_sam_header_sq", "path": "UR", "type": "uri",
+      "description": "URI of the sequence; ftp:/http: URL, or a file-system path if no protocol.",
+      "example": "ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa",
+      "level": "copy", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Points to the FASTA file the dictionary was made from, so it names a copy. Often a private path that cannot be resolved elsewhere (Broad '/seq/references/...', iGenomes 'file:/illumina/scratch/...')."
+    },
+    {
+      "format": "ga4gh_vcf_header_contig", "path": "ID", "type": "string",
+      "description": "Contig name as used in the CHROM column.",
+      "example": "chr1",
+      "level": "sequence", "cardinality": "one", "required": true, "unique": "namespace",
+      "notes": "Same character rules as SAM SN. Unique within one header only. 1000 Genomes phase 3 GRCh38 writes bare '##contig=<ID=22>' with no other attributes."
+    },
+    {
+      "format": "ga4gh_vcf_header_contig", "path": "length", "type": "integer",
+      "description": "Length of the sequence (reserved key).",
+      "example": 248956422,
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "EVA's yeast release VCF omits length entirely."
+    },
+    {
+      "format": "ga4gh_vcf_header_contig", "path": "assembly", "type": "string",
+      "description": "Assembly the contig belongs to (appears in the spec examples, not in the reserved-key list).",
+      "example": "human_GRCh38_no_alt_analysis_set.fasta",
+      "level": "assembly", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Free text with no fixed meaning: GIAB puts a FASTA file name, gnomAD 'gnomAD_GRCh38', Broad hg38 resource VCFs '20' (meaningless), the spec example 'B36'. Not the same thing as the file-level ##assembly line."
+    },
+    {
+      "format": "ga4gh_vcf_header_contig", "path": "md5", "type": "string",
+      "description": "MD5 of the sequence as defined for SAM @SQ M5 (reserved key).",
+      "example": "f126cdf8a6e0c7f379d618ff66beb2da",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "global",
+      "notes": "Spec example only (VCFv4.5 example, NCBI36 chr20); none of the real headers collected carries it."
+    },
+    {
+      "format": "ga4gh_vcf_header_contig", "path": "URL", "type": "uri",
+      "description": "Where the sequence can be found (reserved key).",
+      "example": "ftp://somewhere.example/assembly.fa",
+      "level": "copy", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Value from the spec's ##contig section text (spec/hts-specs/VCFv4.5_reference_contig_excerpt.tex); no example file uses it. Upper case key, unlike length and md5."
+    },
+    {
+      "format": "ga4gh_vcf_header_contig", "path": "species", "type": "string",
+      "description": "Species (appears in the spec example, not reserved).",
+      "example": "Homo sapiens",
+      "level": "assembly", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Spec example only; quoted in the file because it contains a space."
+    },
+    {
+      "format": "ga4gh_vcf_header_contig", "path": "taxonomy", "type": "string",
+      "description": "Taxonomy (appears in the spec example, not reserved).",
+      "example": "x",
+      "level": "assembly", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Spec example only, and its value there is the placeholder 'x'. The spec does not say whether it should hold a taxon ID or a name."
+    },
+    {
+      "format": "ga4gh_vcf_header_contig", "path": "accession", "type": "string",
+      "description": "INSDC accession of the contig (EVA extension, not in the spec).",
+      "example": "BK006935.2",
+      "level": "sequence", "cardinality": "one", "required": false, "unique": "global",
+      "notes": "Written quoted by EVA ('accession=\"BK006935.2\"'). For yeast the mitochondrion appears as ID 'KP263414.1', not 'Mito' or 'MT'."
+    },
+    {
+      "format": "ga4gh_vcf_header_reference", "path": "fileformat", "type": "string",
+      "description": "VCF version line ('##fileformat=VCFv4.x'); required first line.",
+      "example": "VCFv4.2",
+      "level": "other", "cardinality": "one", "required": true, "unique": "none",
+      "notes": "File format version, kept so a written header is valid."
+    },
+    {
+      "format": "ga4gh_vcf_header_reference", "path": "reference", "type": "string",
+      "description": "Unstructured ##reference line naming the reference used.",
+      "example": "ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa",
+      "level": "copy", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Not formally defined beyond examples. The spec examples use a FASTA path ('file:///seq/references/1000GenomesPilot-NCBI36.fasta') or a bare name ('1000GenomesPilot-NCBI36'). Real files mix levels: FASTA URL (1000 Genomes, copy level), Ensembl FASTA directory URL, assembly name 'GRCh38' (ClinVar) or 'GRCh38.p14' (dbSNP, assembly level). Classify per value."
+    },
+    {
+      "format": "ga4gh_vcf_header_reference", "path": "reference.ID", "type": "string",
+      "description": "ID of a structured ##reference=<ID=...> line (EVA style).",
+      "example": "R64",
+      "level": "assembly", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "EVA writes the assembly name here."
+    },
+    {
+      "format": "ga4gh_vcf_header_reference", "path": "reference.accession", "type": "string",
+      "description": "Assembly accession in a structured ##reference line (EVA style).",
+      "example": "GCA_000146045.2",
+      "level": "assembly", "cardinality": "one", "required": false, "unique": "global",
+      "notes": "Not in the VCF spec; EVA extension."
+    },
+    {
+      "format": "ga4gh_vcf_header_reference", "path": "reference.URL", "type": "uri",
+      "description": "URL in a structured ##reference line (EVA style).",
+      "example": "https://www.ebi.ac.uk/ena/browser/view/GCA_000146045.2",
+      "level": "assembly", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "EVA points to the ENA assembly page, not to a FASTA file."
+    },
+    {
+      "format": "ga4gh_vcf_header_reference", "path": "assembly", "type": "uri",
+      "description": "##assembly line: URL of a FASTA of breakpoint assemblies for structural variants (BKPTID).",
+      "example": "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/sv/breakpoint_assemblies.fasta",
+      "level": "other", "cardinality": "one", "required": false, "unique": "none",
+      "notes": "Spec example only (VCFv4.3 SV example). Despite the name it does NOT name the genome assembly; do not map it to an assembly name or accession."
+    }
+  ]
+}

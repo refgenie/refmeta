@@ -1,0 +1,108 @@
+# refmeta crosswalk: galaxy_idc_refget_yaml <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_idc_refget_yaml
+source: galaxy
+core: '0.1'
+subject: collection
+description: 'IDC PR #88 yaml/all_fasta.yml: the same digests for every processed FASTA in one file, keyed by unique_build_id,
+  with a peek at the first sequence instead of the full level 2 arrays.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: unique_build_id
+  core: collection.aliases[namespace=galaxy.build_id].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38canon, core: hg38canon, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_0
+  core: collection.digest
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: nDnCavW_mjqY22G9AfLUaY0diIFApk_O, core: nDnCavW_mjqY22G9AfLUaY0diIFApk_O, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_1.names
+  core: collection.level1.names
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: QwbBGcx3jlPGQbh9YyMAklU4TqjMIN_g, core: QwbBGcx3jlPGQbh9YyMAklU4TqjMIN_g, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_1.lengths
+  core: collection.level1.lengths
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: iUV7eKYYzNONUVjb4iinQ0NCyx6_nP_Y, core: iUV7eKYYzNONUVjb4iinQ0NCyx6_nP_Y, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_1.sequences
+  core: collection.level1.sequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: T4sofxM5XgnGbXDVz2F6vfsw9tebmzd9, core: T4sofxM5XgnGbXDVz2F6vfsw9tebmzd9, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_1.name_length_pairs
+  core: collection.level1.name_length_pairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 15886uBC-UhFTgRAxgW2fcQFck2lZdt2, core: 15886uBC-UhFTgRAxgW2fcQFck2lZdt2, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_1.sorted_name_length_pairs
+  core: collection.level1.sorted_name_length_pairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9rs5ZWHsSaT_D7nJOSChpFR3Q2ZHRDI6, core: 9rs5ZWHsSaT_D7nJOSChpFR3Q2ZHRDI6, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_1.sorted_sequences
+  core: collection.level1.sorted_sequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: IPR_3KMc1Z0UMDczv96ckuYOG_TIiRcZ, core: IPR_3KMc1Z0UMDczv96ckuYOG_TIiRcZ, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_2_peek.sequence_count
+  core: collection.nSequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 25, core: 25, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_2_peek.first_name
+  core: sequences[0].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_2_peek.first_length
+  core: sequences[0].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: level_2_peek.first_sequence
+  core: sequences[0].digest
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SQ.2YnepKM7OkBoOrKmvHbGqguVfF9amCST, core: SQ.2YnepKM7OkBoOrKmvHbGqguVfF9amCST, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: aliases.galaxy_unique_build_id
+  core: collection.aliases[namespace=galaxy.build_id].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38canon, core: hg38canon, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: aliases.galaxy_dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+- native: aliases.galaxy_name
+  core: collection.labels[namespace=galaxy.name].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Human (Homo sapiens) (b38): hg38 Canonical', core: 'Human (Homo sapiens) (b38): hg38 Canonical',
+    file: examples/constructed/idc_pr88_yaml_all_fasta.yml}
+unmapped:
+- {native: aliases.galaxy_loc_file, reason: 'The .loc file the row came from, with ''/'' written as ''!''; server
+    configuration.'}
+- {native: aliases.galaxy_tool_data_table_conf, reason: 'The tool_data_table_conf.xml, with ''/'' written as ''!'';
+    server configuration.'}

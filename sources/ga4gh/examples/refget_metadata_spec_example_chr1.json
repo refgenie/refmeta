@@ -1,0 +1,17 @@
+{
+  "metadata" : {
+    "md5" : "6aef897c3d6ff0c78aff06ac189178dd",
+    "ga4gh": "SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO",
+    "length": 248956422,
+    "aliases" : [
+      {
+        "alias": "CM000663.2",
+        "naming_authority" : "insdc"
+      },
+      {
+        "alias": "chr1",
+        "naming_authority" : "ucsc"
+      }
+    ]
+  }
+}

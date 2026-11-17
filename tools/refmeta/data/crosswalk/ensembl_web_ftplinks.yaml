@@ -1,0 +1,26 @@
+# refmeta crosswalk: ensembl_web_ftplinks <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_web_ftplinks
+source: ensembl
+core: '0.1'
+subject: copy
+description: New Ensembl metadata API /api/metadata/genome/{genome_id}/ftplinks; one record per dataset directory
+  on ftp.ebi.ac.uk/pub/ensemblorganisms.
+records:
+  mode: group
+  group_by: []
+  rows: {target: copies, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: url
+  core: copies[].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/29/ensembl/2026_04/genome', core: 'https://ftp.ebi.ac.uk/pub/ensemblorganisms/GCA/000/001/405/29/ensembl/2026_04/genome',
+    file: examples/web_ftplinks_GCA_000001405.29.json}
+  note: A directory, not a file.
+unmapped:
+- {native: dataset, per: row, reason: 'Dataset type of the directory (assembly, genebuild, homologies, short_variants);
+    not a file kind.'}

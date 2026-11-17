@@ -1,0 +1,31 @@
+# refmeta crosswalk: ensembl_chromosomes_tsv <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_chromosomes_tsv
+source: ensembl
+core: '0.1'
+subject: collection
+description: 'ensemblorganisms FTP <assembly path>/<provider>/<genebuild date>/genome/chromosomes.tsv.gz: two columns,
+  sequence name and length, no header, sorted by length (longest first). Column names here are chosen; the file
+  has none.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: Only the karyotype sequences, sorted longest first, so it is not the FASTA's collection and counts are not
+  derived.
+constants: {collection.namingAuthority: ensembl}
+derive: []
+rules:
+- native: name
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/ftp_chromosomes_GCA_000001405.29.tsv}
+- native: length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/ftp_chromosomes_GCA_000001405.29.tsv}
+unmapped: []

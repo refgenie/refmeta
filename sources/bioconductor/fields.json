@@ -1,0 +1,2261 @@
+{
+  "source": "bioconductor",
+  "title": "Bioconductor genome metadata (Seqinfo, GenomeInfoDb, BSgenome/BSgenomeForge, AnnotationHub)",
+  "maintainer": "Bioconductor core team (Seqinfo, GenomeInfoDb, BSgenome, BSgenomeForge: Hervé Pagès; AnnotationHub/AnnotationHubData: Bioconductor Package Maintainer <maintainer@bioconductor.org>)",
+  "retrieved": "2026-11-17",
+  "formats": [
+    {
+      "id": "bioconductor_seqinfo",
+      "description": "Seqinfo object (Seqinfo package, formerly GenomeInfoDb) written as a table: the columns of as.data.frame(<Seqinfo>). One record per sequence. Seqinfo is an in-memory R object with no official file format; the adapter also reads the text that show(<Seqinfo>) prints.",
+      "media_type": "text/tab-separated-values",
+      "extensions": [
+        ".tsv",
+        ".txt",
+        ".csv"
+      ],
+      "spec_files": [
+        "spec/Seqinfo/Seqinfo-class.Rd",
+        "spec/Seqinfo/seqinfo.Rd",
+        "spec/Seqinfo/Seqinfo-class_R_excerpt.txt",
+        "spec/Seqinfo/NEWS_excerpt.txt",
+        "spec/Seqinfo/DESCRIPTION",
+        "spec/GenomeInfoDb/NEWS_excerpt.txt"
+      ],
+      "example_files": [
+        "examples/constructed/seqinfo_hg38.tsv",
+        "examples/constructed/seqinfo_sacCer3.tsv"
+      ],
+      "record_key": "seqnames (unique within one Seqinfo); the whole table is one sequence collection",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_chrominfo_ucsc",
+      "description": "GenomeInfoDb getChromInfoFromUCSC() result as cached in GenomeInfoDb/inst/chrominfo_db/UCSC/<genome>.tab (written by saveChromInfoFromUCSC()). One record per sequence of a UCSC genome.",
+      "media_type": "text/tab-separated-values",
+      "extensions": [
+        ".tab"
+      ],
+      "spec_files": [
+        "spec/GenomeInfoDb/getChromInfoFromUCSC.Rd",
+        "spec/GenomeInfoDb/chrominfo_db_UCSC_README.TXT",
+        "spec/GenomeInfoDb/UCSC_genomes_README.TXT"
+      ],
+      "example_files": [
+        "examples/chrominfo_ucsc_hg38.tab",
+        "examples/chrominfo_ucsc_sacCer3.tab"
+      ],
+      "record_key": "chrom (file name gives the UCSC genome)",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_chrominfo_ncbi",
+      "description": "GenomeInfoDb getChromInfoFromNCBI() result as cached in GenomeInfoDb/inst/chrominfo_db/NCBI/<accession>.tab (written by saveChromInfoFromNCBI()). A reformatted NCBI assembly report plus a circular flag. One record per sequence.",
+      "media_type": "text/tab-separated-values",
+      "extensions": [
+        ".tab"
+      ],
+      "spec_files": [
+        "spec/GenomeInfoDb/getChromInfoFromNCBI.Rd",
+        "spec/GenomeInfoDb/chrominfo_db_NCBI_README.TXT",
+        "spec/GenomeInfoDb/getChromInfoFromNCBI_R_excerpt.txt"
+      ],
+      "example_files": [
+        "examples/chrominfo_ncbi_GCF_000001405.40.tab",
+        "examples/chrominfo_ncbi_GCA_000146045.2.tab"
+      ],
+      "record_key": "SequenceName, or GenBankAccn / RefSeqAccn (file name gives the assembly accession)",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_seqlevels_style",
+      "description": "GenomeInfoDb naming-style table used by seqlevelsStyle() and mapSeqlevels() (GenomeInfoDb/inst/extdata/dataFiles/<Genus_species>.txt). One record per chromosome, giving its name in each naming style plus circular/autosome/sex flags. Only main chromosomes are listed, no scaffolds.",
+      "media_type": "text/tab-separated-values",
+      "extensions": [
+        ".txt"
+      ],
+      "spec_files": [
+        "spec/GenomeInfoDb/seqlevelsStyle.Rd",
+        "spec/GenomeInfoDb/dataFiles_README.txt"
+      ],
+      "example_files": [
+        "examples/seqlevels_style_Homo_sapiens.txt",
+        "examples/seqlevels_style_Saccharomyces_cerevisiae.txt"
+      ],
+      "record_key": "any style column (e.g. NCBI); file name gives the organism",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_genome_mapping_tbl",
+      "description": "GenomeInfoDb genomeMappingTbl.csv (inst/extdata/dataFiles/), used by mapGenomeBuilds() and genomeBuilds() to map Ensembl assembly names to UCSC genome builds. One record per Ensembl assembly name. The example is an excerpt (header plus all human and yeast rows).",
+      "media_type": "text/csv",
+      "extensions": [
+        ".csv"
+      ],
+      "spec_files": [
+        "spec/GenomeInfoDb/mapGenomeBuilds.Rd"
+      ],
+      "example_files": [
+        "examples/genome_mapping_tbl_human_yeast.csv"
+      ],
+      "record_key": "organism + ensemblID",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_registered_ncbi",
+      "description": "GenomeInfoDb registration file for NCBI assemblies (inst/registered/NCBI_assemblies/<Genus_species>.R): an R script that assigns ORGANISM and ASSEMBLIES (a list with one list per assembly). Read by registered_NCBI_assemblies() and getChromInfoFromNCBI(). One record per assembly; ORGANISM is copied onto every record.",
+      "media_type": "text/x-r-source",
+      "extensions": [
+        ".R"
+      ],
+      "spec_files": [
+        "spec/GenomeInfoDb/getChromInfoFromNCBI.Rd",
+        "spec/GenomeInfoDb/getChromInfoFromNCBI_R_excerpt.txt"
+      ],
+      "example_files": [
+        "examples/registered_ncbi_Homo_sapiens.R",
+        "examples/registered_ncbi_Saccharomyces_cerevisiae.R"
+      ],
+      "record_key": "assembly_accession",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_registered_ucsc",
+      "description": "GenomeInfoDb registration file for a UCSC genome (inst/registered/UCSC_genomes/<genome>.R): an R script assigning GENOME, ORGANISM, ASSEMBLED_MOLECULES, CIRC_SEQS and optionally FETCH_ORDERED_CHROM_SIZES, NCBI_LINKER and ENSEMBL_LINKER. Read by registered_UCSC_genomes() and getChromInfoFromUCSC(). One record per file; NCBI_LINKER components are flattened to NCBI_LINKER.<name>.",
+      "media_type": "text/x-r-source",
+      "extensions": [
+        ".R"
+      ],
+      "spec_files": [
+        "spec/GenomeInfoDb/UCSC_genomes_README.TXT",
+        "spec/GenomeInfoDb/getChromInfoFromUCSC.Rd"
+      ],
+      "example_files": [
+        "examples/registered_ucsc_hg38.R",
+        "examples/registered_ucsc_sacCer3.R"
+      ],
+      "record_key": "GENOME",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_bsgenome_seed",
+      "description": "BSgenomeForge seed file: a DCF (Debian Control File) holding everything forgeBSgenomeDataPkg() needs to build a BSgenome data package. Bioconductor keeps its seeds in BSgenomeForge/inst/extdata/seeds/. Two classes share the format: BSgenomeDataPkgSeed (bare sequences) and MaskedBSgenomeDataPkgSeed (masked packages, with RefPkgname and *files_* fields).",
+      "media_type": "text/plain",
+      "extensions": [
+        "-seed",
+        ".dcf"
+      ],
+      "spec_files": [
+        "spec/BSgenomeForge/AdvancedBSgenomeForge_seed_fields_excerpt.Rnw.txt",
+        "spec/BSgenomeForge/AdvancedBSgenomeForge_masked_seed_fields_excerpt.Rnw.txt",
+        "spec/BSgenomeForge/BSgenomeDataPkgSeed_class_R_excerpt.txt",
+        "spec/BSgenomeForge/DESCRIPTION"
+      ],
+      "example_files": [
+        "examples/bsgenome_seed_BSgenome.Hsapiens.UCSC.hg38-seed",
+        "examples/bsgenome_seed_BSgenome.Scerevisiae.UCSC.sacCer3-seed",
+        "examples/bsgenome_seed_BSgenome.Hsapiens.NCBI.GRCh38-seed",
+        "examples/bsgenome_seed_BSgenome.Hsapiens.UCSC.hg38.masked-seed"
+      ],
+      "record_key": "Package",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_bsgenome_description",
+      "description": "DESCRIPTION file (DCF) of a built BSgenome data package, as shipped in the source tarball on bioconductor.org. Holds the standard R package fields plus the seed's genome fields (organism, common_name or species, genome or provider_version, provider, release_date, source_url).",
+      "media_type": "text/plain",
+      "extensions": [
+        "DESCRIPTION",
+        ".dcf"
+      ],
+      "spec_files": [
+        "spec/BSgenomeForge/AdvancedBSgenomeForge_seed_fields_excerpt.Rnw.txt",
+        "spec/BSgenomeForge/BSgenome-class.Rd"
+      ],
+      "example_files": [
+        "examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5",
+        "examples/bsgenome_DESCRIPTION_BSgenome.Scerevisiae.UCSC.sacCer3_1.4.0"
+      ],
+      "record_key": "Package + Version",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_annotationhub_record",
+      "description": "One AnnotationHub resource as returned by https://annotationhub.bioconductor.org/ahid/<AH id> (pretty-printed JSON from AnnotationHubServer3.0 formatId()). The same data lives in the hub's annotationhub.sqlite3 and is what mcols(<AnnotationHub>) shows in R. Array members (rdatapaths, input_sources) are flattened to 'array[].field' keys whose values are lists, one item per array member.",
+      "media_type": "application/json",
+      "extensions": [
+        ".json"
+      ],
+      "spec_files": [
+        "spec/AnnotationHub/AnnotationHubServer3.0_app_formatId_excerpt.rb.txt",
+        "spec/AnnotationHub/AnnotationHubServer3.0_schema_sequel.rb.txt",
+        "spec/AnnotationHub/annotationhub_sqlite3_schema.sql",
+        "spec/AnnotationHub/AnnotationHub_mcols_sql-utils_R_excerpt.txt",
+        "spec/AnnotationHub/AnnotationHubMetadata-class.Rd"
+      ],
+      "example_files": [
+        "examples/annotationhub_AH13963.json",
+        "examples/annotationhub_AH106283.json",
+        "examples/annotationhub_AH14104.json",
+        "examples/annotationhub_AH106802.json",
+        "examples/annotationhub_AH49186.json"
+      ],
+      "record_key": "ah_id",
+      "adapter": true
+    },
+    {
+      "id": "bioconductor_annotationhub_metadata_csv",
+      "description": "AnnotationHub contributor metadata file: a CSV in inst/extdata/ of a hub package, one row per hub resource, read by AnnotationHubData::makeAnnotationHubMetadata() and loaded into the hub database.",
+      "media_type": "text/csv",
+      "extensions": [
+        ".csv"
+      ],
+      "spec_files": [
+        "spec/AnnotationHub/makeAnnotationHubMetadata.Rd"
+      ],
+      "example_files": [
+        "examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv",
+        "examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata.csv",
+        "examples/annotationhub_metadata_EpiTxDb.Sc.sacCer3_metadata-snoRNAdb.csv",
+        "examples/annotationhub_metadata_EpiTxDb.Sc.sacCer3_metadata.csv"
+      ],
+      "record_key": "RDataPath (Title is also expected to be distinctive)",
+      "adapter": true
+    }
+  ],
+  "fields": [
+    {
+      "format": "bioconductor_seqinfo",
+      "path": "seqnames",
+      "type": "string",
+      "description": "Sequence name (a 'seqlevel'). Unique within one Seqinfo object.",
+      "example": "chr1",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "namespace",
+      "notes": "Naming style follows whatever the object came from (UCSC chr1, NCBI 1, Ensembl 1). seqlevelsStyle<- renames all of them at once using GenomeInfoDb tables."
+    },
+    {
+      "format": "bioconductor_seqinfo",
+      "path": "seqlengths",
+      "type": "integer",
+      "description": "Sequence length in bases. NA when unknown.",
+      "example": 248956422,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Stored as R integer, so lengths above 2^31-1 cannot be held."
+    },
+    {
+      "format": "bioconductor_seqinfo",
+      "path": "isCircular",
+      "type": "boolean",
+      "description": "Whether the sequence is circular (e.g. chrM). NA when unknown.",
+      "example": true,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "In as.data.frame() the column is isCircular; the slot is is_circular; as(<data.frame>, 'Seqinfo') accepts either name."
+    },
+    {
+      "format": "bioconductor_seqinfo",
+      "path": "genome",
+      "type": "string",
+      "description": "Label of the genome the sequence belongs to. NA when unknown.",
+      "example": "hg38",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Stored per sequence, not per object. Values are UCSC genome names (hg38, sacCer3) or NCBI assembly names (GRCh38.p14); they are free text. After seqlevelsStyle(bsg) <- 'NCBI' on BSgenome.Hsapiens.UCSC.hg38, two sequences get genome 'GRCh38.p13' and the rest 'GRCh38.p14' (see the hg38 seed PkgExamples)."
+    },
+    {
+      "format": "bioconductor_chrominfo_ucsc",
+      "path": "chrom",
+      "type": "string",
+      "description": "UCSC sequence name.",
+      "example": "chr1",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "namespace",
+      "notes": "Rows are in GenomeInfoDb's canonical order: assembled molecules first (order of ASSEMBLED_MOLECULES), then alt/random/fix scaffolds, chrUn, then patches (hg38 ordering rule is in registered_ucsc_hg38.R)."
+    },
+    {
+      "format": "bioconductor_chrominfo_ucsc",
+      "path": "size",
+      "type": "integer",
+      "description": "Sequence length from the UCSC chromInfo table.",
+      "example": 248956422,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_chrominfo_ucsc",
+      "path": "assembled",
+      "type": "boolean",
+      "description": "TRUE if the sequence is listed in ASSEMBLED_MOLECULES of the genome's registration file (chromosomes and chrM), FALSE for scaffolds and patches.",
+      "example": true,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "A coarse sequence role. getChromInfoFromUCSC(assembled.molecules.only=TRUE) keeps only TRUE rows."
+    },
+    {
+      "format": "bioconductor_chrominfo_ucsc",
+      "path": "circular",
+      "type": "boolean",
+      "description": "TRUE if the sequence is in CIRC_SEQS of the registration file.",
+      "example": true,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "SequenceName",
+      "type": "string",
+      "description": "NCBI 'Sequence-Name' from the assembly report (e.g. 1, MT, HSCHR1_CTG1_UNLOCALIZED).",
+      "example": "1",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "namespace",
+      "notes": "This is the NCBI naming style used by seqlevelsStyle 'NCBI'. Unique within the assembly."
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "SequenceRole",
+      "type": "string",
+      "description": "NCBI Sequence-Role: assembled-molecule, unlocalized-scaffold, unplaced-scaffold, alt-scaffold, fix-patch, novel-patch.",
+      "example": "assembled-molecule",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Same vocabulary as NCBI assembly reports."
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "AssignedMolecule",
+      "type": "string",
+      "description": "Chromosome the sequence is assigned to; NA for unplaced scaffolds.",
+      "example": "1",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "GenBankAccn",
+      "type": "string",
+      "description": "GenBank accession.version of the sequence. NA if none.",
+      "example": "CM000663.2",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "Yeast MT has NA here even though the registration file comment cites GenBank KP263414.1."
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "Relationship",
+      "type": "string",
+      "description": "'=' if the GenBank and RefSeq sequences are identical, '<>' if they differ or one is missing.",
+      "example": "=",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Copied from the NCBI assembly report column Relationship."
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "RefSeqAccn",
+      "type": "string",
+      "description": "RefSeq accession.version of the sequence. NA if none.",
+      "example": "NC_000001.11",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "AssemblyUnit",
+      "type": "string",
+      "description": "NCBI assembly unit the sequence belongs to (Primary Assembly, non-nuclear, ALT_REF_LOCI_n, PATCHES).",
+      "example": "Primary Assembly",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "getChromInfoFromNCBI(assembly.units=...) filters on this."
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "SequenceLength",
+      "type": "integer",
+      "description": "Sequence length in bases.",
+      "example": 248956422,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "UCSCStyleName",
+      "type": "string",
+      "description": "UCSC-style name given by NCBI in the assembly report (UCSC-style-name column).",
+      "example": "chr1",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "A name alias. NCBI's UCSC names do not always match the UCSC genome (hg38 has 2 extra fix patches, see registered_ucsc_hg38.R)."
+    },
+    {
+      "format": "bioconductor_chrominfo_ncbi",
+      "path": "circular",
+      "type": "boolean",
+      "description": "TRUE if the sequence is in circ_seqs of the registered NCBI assembly.",
+      "example": true,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Not from NCBI; added by GenomeInfoDb."
+    },
+    {
+      "format": "bioconductor_seqlevels_style",
+      "path": "circular",
+      "type": "boolean",
+      "description": "T if the chromosome is circular.",
+      "example": true,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Written as T/F in the file."
+    },
+    {
+      "format": "bioconductor_seqlevels_style",
+      "path": "auto",
+      "type": "boolean",
+      "description": "T if the chromosome is an autosome.",
+      "example": true,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_seqlevels_style",
+      "path": "sex",
+      "type": "boolean",
+      "description": "T if the chromosome is a sex chromosome.",
+      "example": true,
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Yeast 2micron plasmid row has sex=T, which looks like an error in the source file."
+    },
+    {
+      "format": "bioconductor_seqlevels_style",
+      "path": "NCBI",
+      "type": "string",
+      "description": "Chromosome name in the NCBI style.",
+      "example": "1",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": true,
+      "unique": "namespace",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_seqlevels_style",
+      "path": "UCSC",
+      "type": "string",
+      "description": "Chromosome name in the UCSC style.",
+      "example": "chrI",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Yeast table includes 2micron (sacCer2 only); sacCer3 has no 2micron."
+    },
+    {
+      "format": "bioconductor_seqlevels_style",
+      "path": "dbSNP",
+      "type": "string",
+      "description": "Chromosome name in the dbSNP style (ch1 ... chMT). Only in some organism files (human).",
+      "example": "chMT",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_seqlevels_style",
+      "path": "Ensembl",
+      "type": "string",
+      "description": "Chromosome name in the Ensembl style.",
+      "example": "Mito",
+      "level": "sequence",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Yeast mitochondrion is 'Mito' at Ensembl but 'MT' at NCBI. NA where Ensembl has no such sequence."
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "commonName",
+      "type": "string",
+      "description": "Lower-case common name of the organism.",
+      "example": "human",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "organism",
+      "type": "string",
+      "description": "Lower-case scientific name.",
+      "example": "homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Lower case here, capitalised elsewhere in GenomeInfoDb."
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "ensemblID",
+      "type": "string",
+      "description": "Assembly name as Ensembl labels it (GRCh38.p13, R64-1-1).",
+      "example": "GRCh38.p13",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "namespace",
+      "notes": "Ensembl assembly names, not accessions. Several rows look wrong in the source (NCBI36 mapped to hg19; GRCh37.p13 mapped to hg38)."
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "origEnsemblVersion",
+      "type": "integer",
+      "description": "First Ensembl release that carried this assembly name.",
+      "example": 98,
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Ensembl release number."
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "origEnsemblDate",
+      "type": "string",
+      "description": "Date of origEnsemblVersion, written like 'Sept.2019'.",
+      "example": "Sept.2019",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Not ISO dates."
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "ensemblVersion",
+      "type": "integer",
+      "description": "Latest Ensembl release recorded for this assembly name.",
+      "example": 105,
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "ensemblDate",
+      "type": "string",
+      "description": "Date of ensemblVersion.",
+      "example": "Dec.2021",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "ucscID",
+      "type": "string",
+      "description": "Matching UCSC genome build (hg38, sacCer3). NA if none.",
+      "example": "hg38",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Many Ensembl names map to one UCSC build."
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "ucscDate",
+      "type": "string",
+      "description": "UCSC release date of ucscID, like 'Dec.2013'.",
+      "example": "Dec.2013",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_genome_mapping_tbl",
+      "path": "releaseName",
+      "type": "string",
+      "description": "UCSC release name, e.g. 'Genome Reference Consortium GRCh38', 'SGD June 2011 sequence'.",
+      "example": "Genome Reference Consortium GRCh38",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_registered_ncbi",
+      "path": "ORGANISM",
+      "type": "string",
+      "description": "Scientific name; one per file, copied onto each record by the adapter.",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Must match the file name with spaces for underscores (checked by the loader). No taxon ID is stored here; GenomeInfoDb gets taxonomy from GenomeInfoDbData (loadTaxonomyDb())."
+    },
+    {
+      "format": "bioconductor_registered_ncbi",
+      "path": "assembly",
+      "type": "string",
+      "description": "NCBI assembly name (GRCh38.p14, R64).",
+      "example": "GRCh38.p14",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "namespace",
+      "notes": "Yeast R64 is called R64-1-1 at Ensembl and UCSC (comment in the file)."
+    },
+    {
+      "format": "bioconductor_registered_ncbi",
+      "path": "assembly_level",
+      "type": "string",
+      "description": "NCBI assembly level (Chromosome, Complete Genome).",
+      "example": "Chromosome",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Optional; absent for yeast."
+    },
+    {
+      "format": "bioconductor_registered_ncbi",
+      "path": "date",
+      "type": "date",
+      "description": "Assembly release date, written YYYY/MM/DD.",
+      "example": "2022/02/03",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Slashes, not ISO dashes."
+    },
+    {
+      "format": "bioconductor_registered_ncbi",
+      "path": "extra_info",
+      "type": "object",
+      "description": "Named character vector of extra tags, e.g. c(strain='S288C').",
+      "example": {
+        "strain": "S288C"
+      },
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "registered_NCBI_assemblies() shows it as 'strain:S288C' (tag:value, '|' between tags)."
+    },
+    {
+      "format": "bioconductor_registered_ncbi",
+      "path": "assembly_accession",
+      "type": "string",
+      "description": "GenBank (GCA_) or RefSeq (GCF_) assembly accession.",
+      "example": "GCF_000001405.40",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "GenomeInfoDb registers one of the pair: GCF for human, GCA for yeast R64 (to match Ensembl)."
+    },
+    {
+      "format": "bioconductor_registered_ncbi",
+      "path": "circ_seqs",
+      "type": "array",
+      "description": "NCBI sequence names of the circular sequences (character(0) if none).",
+      "example": [
+        "MT"
+      ],
+      "level": "collection",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Names are NCBI Sequence-Name values, not accessions."
+    },
+    {
+      "format": "bioconductor_registered_ncbi",
+      "path": "NCBI2Ensembl_special_mappings",
+      "type": "object",
+      "description": "Named vector mapping NCBI sequence names to Ensembl names where they differ (MT -> Mito).",
+      "example": {
+        "MT": "Mito"
+      },
+      "level": "sequence",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "A per-sequence alias exception list."
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "GENOME",
+      "type": "string",
+      "description": "UCSC genome name (hg38, sacCer3); must match the file name.",
+      "example": "hg38",
+      "level": "collection",
+      "cardinality": "one",
+      "required": true,
+      "unique": "namespace",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "ORGANISM",
+      "type": "string",
+      "description": "Scientific name.",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "ASSEMBLED_MOLECULES",
+      "type": "array",
+      "description": "UCSC names of the assembled molecules (chromosomes, chrM), in canonical order.",
+      "example": [
+        "chrI",
+        "chrII",
+        "chrIII",
+        "chrIV",
+        "chrV",
+        "chrVI",
+        "chrVII",
+        "chrVIII",
+        "chrIX",
+        "chrX",
+        "chrXI",
+        "chrXII",
+        "chrXIII",
+        "chrXIV",
+        "chrXV",
+        "chrXVI",
+        "chrM"
+      ],
+      "level": "collection",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Written in R as e.g. paste0('chr', c(1:22, 'X', 'Y', 'M')); the adapter expands it."
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "CIRC_SEQS",
+      "type": "array",
+      "description": "Subset of ASSEMBLED_MOLECULES that are circular.",
+      "example": [
+        "chrM"
+      ],
+      "level": "collection",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "FETCH_ORDERED_CHROM_SIZES",
+      "type": "string",
+      "description": "R function that downloads chromInfo from UCSC and returns it in canonical order.",
+      "example": "function(goldenPath.url=getOption(\"UCSC.goldenPath.url\")) ...",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "The adapter keeps the function's R source text verbatim and never runs it. Helper functions it calls (lower-case, dot-prefixed, e.g. .order_seqlevels) are dropped, so a written file is not runnable R. Example shows only the first line of the function source."
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "NCBI_LINKER.assembly_accession",
+      "type": "string",
+      "description": "NCBI assembly accession the UCSC genome is based on.",
+      "example": "GCF_000001405.40",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "hg38 -> GCF_000001405.40 (GRCh38.p14) since UCSC rebased hg38 on p14 in Jan 2023; sacCer3 -> GCA_000146045.2."
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "NCBI_LINKER.special_mappings",
+      "type": "object",
+      "description": "Named vector of UCSC -> NCBI sequence names that cannot be matched automatically (chrM -> MT).",
+      "example": {
+        "chrM": "MT"
+      },
+      "level": "sequence",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "NCBI_LINKER.unmapped_seqs",
+      "type": "object",
+      "description": "Named list (by sequence role) of UCSC sequences with no NCBI counterpart.",
+      "example": {
+        "fix-patch": [
+          "chr11_KQ759759v1_fix",
+          "chr22_KQ759762v1_fix"
+        ]
+      },
+      "level": "collection",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "hg38: chr11_KQ759759v1_fix and chr22_KQ759762v1_fix are GRCh38.p13 patches kept by UCSC, so hg38 has 711 sequences vs 709 in GRCh38.p14."
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "NCBI_LINKER.AssemblyUnits",
+      "type": "array",
+      "description": "NCBI assembly units to restrict the mapping to.",
+      "example": [
+        "C57BL/6J",
+        "non-nuclear"
+      ],
+      "level": "collection",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Not used by the anchor genomes; example from UCSC_genomes/mm9.R (not in examples/)."
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "NCBI_LINKER.drop_unmapped",
+      "type": "boolean",
+      "description": "If TRUE, UCSC sequences with no NCBI counterpart are dropped when mapping.",
+      "example": true,
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Documented in UCSC_genomes/README.TXT; only appears in a commented-out block of hg38.R; no active registration file sets it."
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "NCBI_LINKER",
+      "type": "string",
+      "description": "Raw R source of NCBI_LINKER when the adapter cannot evaluate it.",
+      "example": "list(\n    assembly_accession=\"GCF_000002195.1\",\n    special_mappings=setNames(paste0(...",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Only for old genomes whose linker uses helper variables or setNames() (apiMel2, galGal3, hg15-hg18). Example is the start of apiMel2.R's value (not in examples/)."
+    },
+    {
+      "format": "bioconductor_registered_ucsc",
+      "path": "ENSEMBL_LINKER",
+      "type": "string",
+      "description": "Name of the UCSC table used to add Ensembl sequence names: 'ucscToEnsembl' or 'chromAlias'.",
+      "example": "ucscToEnsembl",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Points to the alias source used by getChromInfoFromUCSC(add.ensembl.col=TRUE)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "Package",
+      "type": "string",
+      "description": "Name of the BSgenome data package: BSgenome.<Abbrev organism>.<provider>.<genome>[.masked].",
+      "example": "BSgenome.Hsapiens.UCSC.hg38",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Package names are unique in Bioconductor. The 4 dot-separated parts encode organism, provider and genome."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "Title",
+      "type": "string",
+      "description": "Package title.",
+      "example": "Full genomic sequences for Homo sapiens (UCSC genome hg38)",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "Description",
+      "type": "string",
+      "description": "Package description; free text that often names the assembly (e.g. 'based on assembly GRCh38.p14 since 2023/01/31').",
+      "example": "Full genomic sequences for Homo sapiens as provided by UCSC (genome hg38, based on assembly GRCh38.p14 since 2023/01/31). The sequences are stored in DNAString objects.",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Only place in the hg38 package that names the NCBI assembly version."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "Version",
+      "type": "string",
+      "description": "Package version.",
+      "example": "1.4.5",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "The seed version can be ahead of the released tarball (sacCer3 seed 1.4.2, released tarball 1.4.0)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "Author",
+      "type": "string",
+      "description": "Package author.",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Defaults to 'The Bioconductor Dev Team' (class prototype). Documented field; no seed in BSgenomeForge/inst/extdata/seeds sets it (example is null)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "Maintainer",
+      "type": "string",
+      "description": "Package maintainer.",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Defaults to 'Bioconductor Package Maintainer <maintainer@bioconductor.org>'. Documented field; no seed in BSgenomeForge/inst/extdata/seeds sets it (example is null)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "Suggests",
+      "type": "string",
+      "description": "Packages used in PkgExamples.",
+      "example": "txdbmaker",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not set in the anchor seeds; example from BSgenomeForge/inst/extdata/seeds/BSgenome.Btaurus.UCSC.bosTau8-seed (not in examples/)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "License",
+      "type": "string",
+      "description": "Package license.",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Defaults to Artistic-2.0. Documented field; no seed in BSgenomeForge/inst/extdata/seeds sets it (example is null)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "organism",
+      "type": "string",
+      "description": "Scientific name, 'Genus species'.",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Stored in the BSgenome object; organism(bsg)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "common_name",
+      "type": "string",
+      "description": "Common name (Human, Yeast).",
+      "example": "Human",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Older packages call this field 'species' in their DESCRIPTION (sacCer3 1.4.0)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "genome",
+      "type": "string",
+      "description": "Genome name, e.g. UCSC 'hg38' or NCBI assembly name 'GRCh38.p12'. Becomes genome() of every sequence in the Seqinfo.",
+      "example": "hg38",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Newer field replacing provider_version (deprecated). hg38 seed uses genome; sacCer3 and NCBI.GRCh38 seeds still use provider_version."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "provider",
+      "type": "string",
+      "description": "Who provided the sequence files (UCSC, NCBI, Ensembl, ...).",
+      "example": "UCSC",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Part 3 of the package name."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "provider_version",
+      "type": "string",
+      "description": "Deprecated name for genome (e.g. 'sacCer3', 'GRCh38').",
+      "example": "sacCer3",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "For NCBI-provided packages this is the assembly name without patch (GRCh38), even though the sequences come from GCA_000001405.15."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "release_date",
+      "type": "string",
+      "description": "When the assembly/genome was released. Free text.",
+      "example": "2023/01/31",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Formats vary: '2023/01/31', 'April 2011', '2013-12-17'."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "release_name",
+      "type": "string",
+      "description": "Deprecated release name (e.g. 'SGD April 2011 sequence', 'Genome Reference Consortium Human Build 38').",
+      "example": "SGD April 2011 sequence",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "source_url",
+      "type": "uri",
+      "description": "Permanent URL of the source sequence files.",
+      "example": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/p14/",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "A directory URL, not a file URL."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "organism_biocview",
+      "type": "string",
+      "description": "biocViews term for the organism (organism with underscores).",
+      "example": "Homo_sapiens",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Not stored in the BSgenome object; appears in the DESCRIPTION as part of biocViews."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "BSgenomeObjname",
+      "type": "string",
+      "description": "Short object name (part 2 of the package name), e.g. Hsapiens.",
+      "example": "Hsapiens",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "seqnames",
+      "type": "string",
+      "description": "R expression (as text) giving the sequence names, needed only when sequences come as one file per sequence.",
+      "example": "paste(\"chr\", c(\"I\", \"II\", \"III\", \"IV\", \"V\", \"VI\", \"VII\", \"VIII\", \"IX\", \"X\", \"XI\", \"XII\", \"XIII\", \"XIV\", \"XV\", \"XVI\", \"M\"), sep=\"\")",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Kept as raw R text, not evaluated. Lists the whole sequence collection for NCBI.GRCh38 (455 names)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "circ_seqs",
+      "type": "string",
+      "description": "R expression (as text) giving the circular sequence names.",
+      "example": "\"chrM\"",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not needed when the genome is registered in GenomeInfoDb (hg38 seed omits it)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "mseqnames",
+      "type": "string",
+      "description": "R expression (as text) giving multiple-sequence names (e.g. 'random', 'chrUn').",
+      "example": "c(\"random\", \"chrUn\")",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not set in the anchor seeds; example from BSgenomeForge/inst/extdata/seeds/BSgenome.Rnorvegicus.UCSC.rn5-seed (not in examples/)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "PkgDetails",
+      "type": "string",
+      "description": "Free text for the Details section of the package man page.",
+      "example": "The genome of Escherichia coli is made of a single circular DNA sequence.",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not set in the anchor seeds; example from BSgenomeForge/inst/extdata/seeds/BSgenome.Ecoli.NCBI.20080805-seed (not in examples/)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "SrcDataFiles",
+      "type": "string",
+      "description": "Free text saying which source files were used and when they were downloaded.",
+      "example": "hg38.p14.2bit, downloaded from https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/p14/ on Feb 1st, 2023",
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Contains the exact file name (hg38.p14.2bit) and download date; no checksum."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "PkgExamples",
+      "type": "string",
+      "description": "R code added to the Examples section of the package man page.",
+      "example": "bsg[[\"1\"]]",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Multi-line; '.' lines are blank lines."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "seqs_srcdir",
+      "type": "string",
+      "description": "Absolute local path of the source sequence files on the machine that forged the package.",
+      "example": "/home/hpages/BSgenomeForge/srcdata/BSgenome.Hsapiens.UCSC.hg38/seqs",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Local build path; not meaningful elsewhere."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "seqfile_name",
+      "type": "string",
+      "description": "Name of the single 2bit source file.",
+      "example": "hg38.p14.2bit",
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "seqfiles_prefix",
+      "type": "string",
+      "description": "Prefix added to sequence names to get per-sequence FASTA file names.",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Documented field; no seed in BSgenomeForge/inst/extdata/seeds sets it (example is null)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "seqfiles_suffix",
+      "type": "string",
+      "description": "Suffix added to sequence names to get per-sequence FASTA file names (default .fa).",
+      "example": ".fas",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not set in the anchor seeds; example from BSgenomeForge/inst/extdata/seeds/BSgenome.Athaliana.TAIR.04232008-seed (not in examples/)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "ondisk_seq_format",
+      "type": "string",
+      "description": "How sequences are stored in the package: 2bit (default), rda, rds, fa.rz or fa.",
+      "example": "rda",
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "citation_file",
+      "type": "string",
+      "description": "R expression (as text) giving the path of a CITATION file.",
+      "example": "system.file(\"extdata\", \"seeds\", \"BSgenome.Creinhardtii.JGI.v5.6-tools\", \"CITATION\", package=\"BSgenomeForge\")",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not set in the anchor seeds; example from BSgenomeForge/inst/extdata/seeds/BSgenome.Creinhardtii.JGI.v5.6-seed (not in examples/)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "RefPkgname",
+      "type": "string",
+      "description": "Masked seeds only: name of the bare BSgenome package the masks go on.",
+      "example": "BSgenome.Hsapiens.UCSC.hg38",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "nmask_per_seq",
+      "type": "integer",
+      "description": "Masked seeds only: number of masks per sequence.",
+      "example": "4",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "The adapter keeps the DCF text '4' as a string."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "masks_srcdir",
+      "type": "string",
+      "description": "Masked seeds only: absolute local path of the mask source files.",
+      "example": "/home/hpages/BSgenomeForge/srcdata/BSgenome.Hsapiens.UCSC.hg38/masks",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "AGAPSfiles_type",
+      "type": "string",
+      "description": "Masked seeds only: type of the assembly-gap files (gap or agp).",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Documented field; no seed in BSgenomeForge/inst/extdata/seeds sets it (example is null)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "AGAPSfiles_name",
+      "type": "string",
+      "description": "Masked seeds only: assembly-gap source file name.",
+      "example": "gap.txt.gz",
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "AGAPSfiles_prefix",
+      "type": "string",
+      "description": "Masked seeds only: prefix for per-sequence gap files.",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Documented field; no seed in BSgenomeForge/inst/extdata/seeds sets it (example is null)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "AGAPSfiles_suffix",
+      "type": "string",
+      "description": "Masked seeds only: suffix for per-sequence gap files.",
+      "example": "_gap.txt.gz",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not set in the anchor seeds; example from BSgenomeForge/inst/extdata/seeds/BSgenome.Tguttata.UCSC.taeGut1.masked-seed (not in examples/)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "RMfiles_name",
+      "type": "string",
+      "description": "Masked seeds only: RepeatMasker source file name.",
+      "example": "hg38.p14.fa.out.gz",
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "RMfiles_prefix",
+      "type": "string",
+      "description": "Masked seeds only: prefix for per-sequence RepeatMasker files.",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Documented field; no seed in BSgenomeForge/inst/extdata/seeds sets it (example is null)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "RMfiles_suffix",
+      "type": "string",
+      "description": "Masked seeds only: suffix for per-sequence RepeatMasker files.",
+      "example": ".out",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not set in the anchor seeds; example from BSgenomeForge/inst/extdata/seeds/BSgenome.Amellifera.UCSC.apiMel2.masked-seed (not in examples/)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "TRFfiles_name",
+      "type": "string",
+      "description": "Masked seeds only: Tandem Repeats Finder source file name.",
+      "example": "hg38.p14.trf.bed.gz",
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "TRFfiles_prefix",
+      "type": "string",
+      "description": "Masked seeds only: prefix for per-sequence TRF files.",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Documented field; no seed in BSgenomeForge/inst/extdata/seeds sets it (example is null)."
+    },
+    {
+      "format": "bioconductor_bsgenome_seed",
+      "path": "TRFfiles_suffix",
+      "type": "string",
+      "description": "Masked seeds only: suffix for per-sequence TRF files.",
+      "example": ".bed",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not set in the anchor seeds; example from BSgenomeForge/inst/extdata/seeds/BSgenome.Gaculeatus.UCSC.gasAcu1.masked-seed (not in examples/)."
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Package",
+      "type": "string",
+      "description": "Package name (BSgenome.<Abbrev>.<provider>.<genome>).",
+      "example": "BSgenome.Hsapiens.UCSC.hg38",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "The R object exported by the package has this same name."
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Title",
+      "type": "string",
+      "description": "Package title.",
+      "example": "Full genomic sequences for Homo sapiens (UCSC genome hg38)",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "May wrap onto a continuation line; the adapter joins lines with a newline like R's read.dcf()."
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Description",
+      "type": "string",
+      "description": "Package description (free text, may name the NCBI assembly).",
+      "example": "Full genomic sequences for Homo sapiens as provided by UCSC (genome hg38, based on assembly GRCh38.p14 since 2023/01/31). The sequences are stored in DNAString objects.",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Version",
+      "type": "string",
+      "description": "Package version.",
+      "example": "1.4.5",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Author",
+      "type": "string",
+      "description": "Package author.",
+      "example": "The Bioconductor Dev Team",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Maintainer",
+      "type": "string",
+      "description": "Package maintainer.",
+      "example": "Bioconductor Package Maintainer <maintainer@bioconductor.org>",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Depends",
+      "type": "string",
+      "description": "R package dependencies.",
+      "example": "R (>= 4.2.0), GenomeInfoDb (>= 1.34.9), BSgenome (>= 1.66.2)",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "hg38 1.4.5 depends on GenomeInfoDb; with Bioc >= 3.22 Seqinfo lives in its own package."
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Imports",
+      "type": "string",
+      "description": "Imported packages.",
+      "example": "BSgenome",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Suggests",
+      "type": "string",
+      "description": "Suggested packages (may be empty).",
+      "example": "",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "License",
+      "type": "string",
+      "description": "License of the package.",
+      "example": "Artistic-2.0",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "organism",
+      "type": "string",
+      "description": "Scientific name.",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "common_name",
+      "type": "string",
+      "description": "Common name (newer packages).",
+      "example": "Human",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Same meaning as 'species' in older packages."
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "species",
+      "type": "string",
+      "description": "Common name in older packages (e.g. 'Yeast'); despite the name it is not a species name.",
+      "example": "Yeast",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Renamed to common_name in newer BSgenomeForge."
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "genome",
+      "type": "string",
+      "description": "Genome name (newer packages), e.g. hg38.",
+      "example": "hg38",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "provider",
+      "type": "string",
+      "description": "Provider of the sequences (UCSC, NCBI, ...).",
+      "example": "UCSC",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "provider_version",
+      "type": "string",
+      "description": "Genome name in older packages (e.g. sacCer3).",
+      "example": "sacCer3",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "release_date",
+      "type": "string",
+      "description": "Release date, free text.",
+      "example": "2023/01/31",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "'2023/01/31' for hg38 is the date UCSC rebased hg38 on GRCh38.p14, not the GRCh38 release date."
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "release_name",
+      "type": "string",
+      "description": "Release name (older packages).",
+      "example": "SGD April 2011 sequence",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "source_url",
+      "type": "uri",
+      "description": "URL of the source sequence directory.",
+      "example": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/p14/",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "In hg38 1.4.5 the value starts on a continuation line."
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "biocViews",
+      "type": "string",
+      "description": "Comma-separated biocViews terms; includes the organism term (Homo_sapiens).",
+      "example": "AnnotationData, Genetics, BSgenome, Homo_sapiens",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "NeedsCompilation",
+      "type": "string",
+      "description": "Whether the package has compiled code ('no').",
+      "example": "no",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_bsgenome_description",
+      "path": "Packaged",
+      "type": "string",
+      "description": "When and by whom the tarball was built.",
+      "example": "2023-02-03 02:50:18 UTC; hpages",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added by R CMD build."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "id",
+      "type": "integer",
+      "description": "Internal numeric row id in the hub database.",
+      "example": 106283,
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Same number as in ah_id."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "ah_id",
+      "type": "string",
+      "description": "AnnotationHub identifier (AH + number), used as ah[['AH106283']].",
+      "example": "AH106283",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Never reused; removed resources keep their id."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "title",
+      "type": "string",
+      "description": "Resource title, usually the file name.",
+      "example": "Homo_sapiens.GRCh38.dna.primary_assembly.2bit",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'title'. Not unique: the same title recurs for each Ensembl release."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "dataprovider",
+      "type": "string",
+      "description": "Who supplied the original data (UCSC, Ensembl, NCBI...).",
+      "example": "Ensembl",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'dataprovider'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "species",
+      "type": "string",
+      "description": "Species name.",
+      "example": "homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'species'. Case varies: 'homo sapiens' (recent Ensembl recipes) vs 'Homo sapiens'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "taxonomyid",
+      "type": "integer",
+      "description": "NCBI taxonomy id.",
+      "example": 559292,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'taxonomyid'. Yeast uses 4932 (species) for UCSC sacCer3 but 559292 (strain S288C) for Ensembl R64-1-1."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "genome",
+      "type": "string",
+      "description": "Genome label: UCSC genome name or Ensembl/NCBI assembly name.",
+      "example": "GRCh38.p13",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'genome'. Free text mixing levels: 'hg38' (UCSC build) vs 'GRCh38' vs 'GRCh38.p13' (all human GRCh38)."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "description",
+      "type": "string",
+      "description": "Free-text description.",
+      "example": "TwoBit DNA sequence for homo sapiens",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'description'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "coordinate_1_based",
+      "type": "boolean",
+      "description": "Whether coordinates in the resource are 1-based.",
+      "example": true,
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'coordinate_1_based'. Meaningless for sequence files; UCSC 2bit records say false, Ensembl 2bit records say true."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "maintainer",
+      "type": "string",
+      "description": "Maintainer name and email.",
+      "example": "Bioconductor Maintainer <maintainer@bioconductor.org>",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'maintainer'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "rdatadateadded",
+      "type": "date",
+      "description": "Date the resource was added to the hub (YYYY-MM-DD).",
+      "example": "2022-04-25",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'rdatadateadded'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "rdatadateremoved",
+      "type": "date",
+      "description": "Date the resource was removed from the hub, or null.",
+      "example": "2019-02-07",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not in mcols. The record's status (Public, Defunct, ...) lives in resources.status_id but the JSON endpoint drops it."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "preparerclass",
+      "type": "string",
+      "description": "AnnotationHubData preparer class, or the contributing package name.",
+      "example": "EnsemblTwoBitPreparer",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'preparerclass'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "location_prefix",
+      "type": "uri",
+      "description": "Base URL; location_prefix + rdatapath = download URL.",
+      "example": "https://mghp.osn.xsede.org/bir190004-bucket01/AnnotationHub/",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Not in mcols. The Bioconductor-hosted copy lives on the OSN bucket; UCSC 2bit records point straight at hgdownload."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "recipe",
+      "type": "string",
+      "description": "AnnotationHubData recipe function that built the resource, or null.",
+      "example": "AnnotationHubData:::ensemblFastaToTwoBitFile",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not in mcols."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "recipe_package",
+      "type": "string",
+      "description": "Package holding the recipe, or null.",
+      "example": "AnnotationHubData",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not in mcols."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "rdatapaths[].rdatapath",
+      "type": "array",
+      "description": "Path(s) of the hub file(s) relative to location_prefix.",
+      "example": [
+        "ensembl/release-81/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.rz",
+        "ensembl/release-81/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.rz.fai"
+      ],
+      "level": "copy",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'rdatapath'. An FaFile resource has 2 paths (.fa.rz and .fa.rz.fai)."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "rdatapaths[].rdataclass",
+      "type": "array",
+      "description": "R class the file loads as (TwoBitFile, FaFile, GRanges...).",
+      "example": [
+        "TwoBitFile"
+      ],
+      "level": "copy",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'rdataclass'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "rdatapaths[].dispatchclass",
+      "type": "array",
+      "description": "AnnotationHub dispatch class that decides how the file is loaded.",
+      "example": [
+        "TwoBitFile"
+      ],
+      "level": "deployment",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Not in mcols."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "input_sources[].sourcesize",
+      "type": "array",
+      "description": "Size in bytes of the upstream source file (as a string), or null.",
+      "example": [
+        "1035015944"
+      ],
+      "level": "copy",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Set for about 29% of input sources in the hub database."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "input_sources[].sourceurl",
+      "type": "array",
+      "description": "URL of the upstream source file the hub file was made from.",
+      "example": [
+        "ftp://ftp.ensembl.org/pub/release-107/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz"
+      ],
+      "level": "copy",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'sourceurl'. For Ensembl 2bit records this is the .fa.gz on the Ensembl FTP."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "input_sources[].sourceversion",
+      "type": "array",
+      "description": "Version string of the source (Ensembl 'release-107', or a UCSC file timestamp).",
+      "example": [
+        "release-107"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Not in mcols."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "input_sources[].sourcemd5",
+      "type": "array",
+      "description": "MD5 of the upstream source file, or null.",
+      "example": [
+        null
+      ],
+      "level": "copy",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Null in all anchor records; only 1 of 153,056 input sources in the 2026-11-13 hub database has a value."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "input_sources[].sourcelastmodifieddate",
+      "type": "array",
+      "description": "Last-modified date of the source file, or null.",
+      "example": [
+        "2015-07-03"
+      ],
+      "level": "copy",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "input_sources[].sourcetype",
+      "type": "array",
+      "description": "Format of the source data (FASTA, TwoBit, GTF...).",
+      "example": [
+        "FASTA"
+      ],
+      "level": "copy",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'sourcetype'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "tags",
+      "type": "array",
+      "description": "Search tags.",
+      "example": [
+        "TwoBit",
+        "ensembl",
+        "sequence",
+        "2bit",
+        "FASTA"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Shown by mcols(<AnnotationHub>) as 'tags'."
+    },
+    {
+      "format": "bioconductor_annotationhub_record",
+      "path": "biocversions",
+      "type": "array",
+      "description": "Bioconductor versions the resource is listed for.",
+      "example": [
+        "3.1",
+        "3.2",
+        "3.3",
+        "3.4"
+      ],
+      "level": "deployment",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Not in mcols."
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "Title",
+      "type": "string",
+      "description": "Resource name (file name or longer description).",
+      "example": "Sequences of snoRNA targets of Homo sapiens hg38",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Becomes resources.title."
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "Description",
+      "type": "string",
+      "description": "Brief description.",
+      "example": "Fasta file for snoRNA targets based on genomic sequences for Homo sapiens hg38.",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "BiocVersion",
+      "type": "string",
+      "description": "First Bioconductor version the resource is offered for.",
+      "example": "3.11",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "Genome",
+      "type": "string",
+      "description": "Genome label (free text, can be NA).",
+      "example": "hg38",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Same mix of UCSC names and assembly names as the hub's genome field."
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "SourceType",
+      "type": "string",
+      "description": "Format of the original data (FASTA, BED, BAM...); must be in getValidSourceTypes().",
+      "example": "FASTA",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "SourceUrl",
+      "type": "uri",
+      "description": "Location(s) of the original data.",
+      "example": "https://www.ncbi.nlm.nih.gov/gene",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Docs say comma-separated for several URLs; EpiTxDb uses ';'."
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "SourceVersion",
+      "type": "string",
+      "description": "Version of the original data.",
+      "example": "2020-08-31 18:51:21",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Free text; EpiTxDb writes an unquoted timestamp."
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "Species",
+      "type": "string",
+      "description": "Species (validated against GenomeInfoDbData; can be NA).",
+      "example": "Saccharomyces cerevisiae S288C",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "May include a strain ('Saccharomyces cerevisiae S288C')."
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "TaxonomyId",
+      "type": "integer",
+      "description": "NCBI taxonomy id (can be NA).",
+      "example": 559292,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "Coordinate_1_based",
+      "type": "boolean",
+      "description": "TRUE if data are 1-based (can be NA).",
+      "example": true,
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "DataProvider",
+      "type": "string",
+      "description": "Institution that supplied the original data.",
+      "example": "NCBI",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "Maintainer",
+      "type": "string",
+      "description": "Maintainer 'Name <email>'.",
+      "example": "Felix G.M. Ernst <felix.gm.ernst@outlook.com>",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "RDataClass",
+      "type": "string",
+      "description": "R class of the loaded object.",
+      "example": "FaFile",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "DispatchClass",
+      "type": "string",
+      "description": "How AnnotationHub loads the file (see AnnotationHub::DispatchClassList()).",
+      "example": "FaFile",
+      "level": "deployment",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "Location_Prefix",
+      "type": "uri",
+      "description": "Base URL when data are not in Bioconductor's bucket; omitted otherwise.",
+      "example": null,
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not present in the EpiTxDb files (example is null)."
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "RDataPath",
+      "type": "string",
+      "description": "Path of the resource file relative to Location_Prefix; several strongly linked files are joined with ':'.",
+      "example": "EpiTxDb.Hs.hg38/snoRNA.targets.hg38.fa",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "namespace",
+      "notes": "Starts with the package name for Bioconductor-hosted data."
+    },
+    {
+      "format": "bioconductor_annotationhub_metadata_csv",
+      "path": "Tags",
+      "type": "string",
+      "description": "Search tags joined with ':'.",
+      "example": "EpiTxDb:hg38:Modification:Epitranscriptomics",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    }
+  ]
+}

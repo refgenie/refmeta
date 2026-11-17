@@ -1,0 +1,5 @@
+##fileformat=VCFv4.2
+##fileDate=20241205
+##source=dbSNP
+##reference=GRCh38.p14
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO

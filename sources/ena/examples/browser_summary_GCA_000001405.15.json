@@ -1,0 +1,202 @@
+{
+  "summaries" : [ {
+    "accession" : "GCA_000001405",
+    "title" : "Genome Reference Consortium Human Build 38",
+    "description" : "The human reference assembly defines a standard upon which other whole genome studies are based. Providing the best representation of the human genome is essential for facilitating continued progress in understanding and improving human health. <p>The Human Genome Project (HGP) was an international research collaboration coordinated by the U.S. Department of Energy (DOE) and National Institutes of Health (NIH) whose goals were to determine the sequence of the human chromosomes and identify and map all human genes. The project began in 1988 when Congress funded both the NIH and the DOE and was completed in April of 2003. The HGP used a clone-oriented approach to produce map data, clone reagents, and the assembled human genome sequence. The International Human Genome Sequencing Consortium published the first draft of the human genome, with the sequence 90% complete, in the journal Nature in February 2001. The full sequence was completed in April 2003. The HGP resulted in significant technology, tool, and resource development that continues to have a significant impact on medicine and other life sciences. </p> <p>The Genome Reference Consortium (GRC) was formed in 2008 to maintain the reference assembly for the human genome. The goals of this group are to correct regions that are misrepresented, to close remaining gaps, and to produce alternative assemblies of structurally variant loci. The consortium does experimental work to address gaps or sub-optimal sequence regions and has developed the infrastructure to review and curate assembly joins. The GRC consists of: The Wellcome Trust Sanger Institute, The Genome Center at Washington University, The European Bioinformatics Institute and The National Center for Biotechnology Information. The public can see regions under review and report genome problems at the GRC website, <a href=\"http://genomereference.org\" alt=\"link to GRC home page\">http://genomereference.org</a>. </p> <p>The human genome assembly submitted by the GRC is available in GenBank under accession ranges GL000001-GL000258 (the scaffolds), and CM000663-CM000686 (the chromosomes).<br/><p><b>Comment</b><br/>The DNA sequence is composed of genomic sequence, primarily finished clones that were sequenced as part of the Human Genome Project. PCR products and WGS shotgun sequence have been added where necessary to fill gaps or correct errors. All such additions are manually curated by GRC staff. For more information see: http://genomereference.org",
+    "name" : "GRCh38",
+    "version" : 15,
+    "dataType" : "ASSEMBLY",
+    "status" : 4,
+    "statusDescription" : "public",
+    "chromosomes" : [ {
+      "accession" : [ "CM000663.2", "KI270706.1-KI270714.1" ],
+      "name" : "1",
+      "type" : "Chromosome",
+      "count" : 10
+    }, {
+      "accession" : [ "CM000664.2", "KI270715.1", "KI270716.1" ],
+      "name" : "2",
+      "type" : "Chromosome",
+      "count" : 3
+    }, {
+      "accession" : [ "CM000665.2", "GL000221.1" ],
+      "name" : "3",
+      "type" : "Chromosome",
+      "count" : 2
+    }, {
+      "accession" : [ "CM000666.2", "GL000008.2" ],
+      "name" : "4",
+      "type" : "Chromosome",
+      "count" : 2
+    }, {
+      "accession" : [ "CM000667.2", "GL000208.1" ],
+      "name" : "5",
+      "type" : "Chromosome",
+      "count" : 2
+    }, {
+      "accession" : [ "CM000668.2" ],
+      "name" : "6",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000669.2" ],
+      "name" : "7",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000670.2" ],
+      "name" : "8",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000671.2", "KI270717.1-KI270720.1" ],
+      "name" : "9",
+      "type" : "Chromosome",
+      "count" : 5
+    }, {
+      "accession" : [ "CM000672.2" ],
+      "name" : "10",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000673.2", "KI270721.1" ],
+      "name" : "11",
+      "type" : "Chromosome",
+      "count" : 2
+    }, {
+      "accession" : [ "CM000674.2" ],
+      "name" : "12",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000675.2" ],
+      "name" : "13",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000676.2", "GL000009.2", "GL000194.1", "GL000225.1", "KI270722.1-KI270726.1" ],
+      "name" : "14",
+      "type" : "Chromosome",
+      "count" : 9
+    }, {
+      "accession" : [ "CM000677.2", "KI270727.1" ],
+      "name" : "15",
+      "type" : "Chromosome",
+      "count" : 2
+    }, {
+      "accession" : [ "CM000678.2", "KI270728.1" ],
+      "name" : "16",
+      "type" : "Chromosome",
+      "count" : 2
+    }, {
+      "accession" : [ "CM000679.2", "GL000205.2", "KI270729.1", "KI270730.1" ],
+      "name" : "17",
+      "type" : "Chromosome",
+      "count" : 4
+    }, {
+      "accession" : [ "CM000680.2" ],
+      "name" : "18",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000681.2" ],
+      "name" : "19",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000682.2" ],
+      "name" : "20",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000683.2" ],
+      "name" : "21",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000684.2", "KI270731.1-KI270739.1" ],
+      "name" : "22",
+      "type" : "Chromosome",
+      "count" : 10
+    }, {
+      "accession" : [ "J01415.2" ],
+      "name" : "MT",
+      "type" : "Mitochondrion",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000685.2" ],
+      "name" : "X",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "CM000686.2", "KI270740.1" ],
+      "name" : "Y",
+      "type" : "Chromosome",
+      "count" : 2
+    } ],
+    "assemblyLevel" : "chromosome",
+    "attributes" : [ {
+      "tag" : "total-length",
+      "value" : "3209286105"
+    }, {
+      "tag" : "ungapped-length",
+      "value" : "3049316098"
+    }, {
+      "tag" : "n50",
+      "value" : "67794873"
+    }, {
+      "tag" : "spanned-gaps",
+      "value" : "650"
+    }, {
+      "tag" : "unspanned-gaps",
+      "value" : "349"
+    }, {
+      "tag" : "scaffold-count",
+      "value" : "735"
+    }, {
+      "tag" : "count-contig",
+      "value" : "1385"
+    }, {
+      "tag" : "contig-n50",
+      "value" : "56413054"
+    }, {
+      "tag" : "contig-L50",
+      "value" : "19"
+    }, {
+      "tag" : "contig-n75",
+      "value" : "25450876"
+    }, {
+      "tag" : "contig-n90",
+      "value" : "7084842"
+    }, {
+      "tag" : "scaf-L50",
+      "value" : "16"
+    }, {
+      "tag" : "scaf-n75",
+      "value" : "33282659"
+    }, {
+      "tag" : "scaf-n90",
+      "value" : "12943127"
+    }, {
+      "tag" : "replicon-count",
+      "value" : "25"
+    }, {
+      "tag" : "count-non-chromosome-replicon",
+      "value" : "1"
+    }, {
+      "tag" : "count-alt-loci-units",
+      "value" : "35"
+    }, {
+      "tag" : "count-regions",
+      "value" : "207"
+    }, {
+      "tag" : "count-patches",
+      "value" : "0"
+    }, {
+      "tag" : "ENA-LAST-UPDATED",
+      "value" : "2019-02-28"
+    } ],
+    "newAccession" : "GCA_000001405.29"
+  } ],
+  "total" : "1"
+}

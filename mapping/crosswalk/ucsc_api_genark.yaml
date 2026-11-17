@@ -1,0 +1,60 @@
+# refmeta crosswalk: ucsc_api_genark <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_api_genark
+source: ucsc
+core: '0.1'
+subject: assembly
+description: 'REST API /list/genarkGenomes: one record per GenArk assembly hub (hgcentral.genark row).'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: gcAccession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCF_000146045.2
+    core: {namespace: insdc.gcf, value: GCF_000146045.2}
+    file: examples/api_list_genarkGenomes_GCF_000146045.2.json
+- native: gcAccession
+  core: deployments[system=ucsc,table=genark].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2, core: GCF_000146045.2, file: examples/api_list_genarkGenomes_GCF_000146045.2.json}
+- native: hubUrl
+  core: deployments[system=ucsc,table=genark].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF/000/146/045/GCF_000146045.2/hub.txt, core: GCF/000/146/045/GCF_000146045.2/hub.txt, file: examples/api_list_genarkGenomes_GCF_000146045.2.json}
+- native: asmName
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: R64, core: R64, file: examples/api_list_genarkGenomes_GCF_000146045.2.json}
+- native: scientificName
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Often includes the strain or isolate.
+  example: {native: Saccharomyces cerevisiae S288C, core: Saccharomyces cerevisiae S288C, file: examples/api_list_genarkGenomes_GCF_000146045.2.json}
+- native: commonName
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: Adds strain and year (baker's yeast S288C (2014)).
+  example: {native: baker's yeast S288C (2014), core: baker's yeast S288C (2014), file: examples/api_list_genarkGenomes_GCF_000146045.2.json}
+- native: taxId
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 559292, core: 559292, file: examples/api_list_genarkGenomes_GCF_000146045.2.json}
+unmapped:
+- {native: priority, reason: Search ranking.}
+- {native: clade, reason: GenArk clade group; unreliable values.}

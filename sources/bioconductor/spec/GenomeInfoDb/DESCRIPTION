@@ -1,0 +1,50 @@
+Package: GenomeInfoDb
+Title: Utilities for manipulating chromosome names, including modifying them to follow a particular naming style
+Description: Contains data and functions that
+	define and allow translation between different chromosome
+	sequence naming conventions (e.g., "chr1" versus "1"),
+	including a function that attempts to place sequence names in
+	their natural, rather than lexicographic, order.
+biocViews: Genetics, DataRepresentation, Annotation, GenomeAnnotation
+URL: https://bioconductor.org/packages/GenomeInfoDb
+Video: http://youtu.be/wdEjCYSXa7w
+BugReports: https://github.com/Bioconductor/GenomeInfoDb/issues
+Version: 1.49.3
+License: Artistic-2.0
+Encoding: UTF-8
+Authors@R: c(
+	person("Sonali", "Arora", role="aut"),
+	person("Martin", "Morgan", role="aut"),
+	person("Marc", "Carlson", role="aut"),
+	person("Hervé", "Pagès", role=c("aut", "cre"),
+		email="hpages.on.github@gmail.com"),
+	person("Prisca Chidimma", "Maduka", role="ctb"),
+	person("Atuhurira Kirabo", "Kakopo", role="ctb"),
+	person("Haleema", "Khan", role="ctb",
+		comment="vignette translation from Sweave to Rmarkdown / HTML"),
+	person("Emmanuel Chigozie", "Elendu", role="ctb"))
+Depends: R (>= 4.0.0), methods, BiocGenerics (>= 0.59.3),
+	S4Vectors (>= 0.47.6), IRanges (>= 2.41.1), Seqinfo (>= 0.99.2)
+Imports: stats, utils, UCSC.utils
+Suggests: GenomeInfoDbData, R.utils, data.table, GenomicRanges, Rsamtools,
+	GenomicAlignments, BSgenome, GenomicFeatures,
+	TxDb.Dmelanogaster.UCSC.dm3.ensGene,
+	BSgenome.Scerevisiae.UCSC.sacCer2,
+	BSgenome.Celegans.UCSC.ce2,
+	BSgenome.Hsapiens.NCBI.GRCh38,
+	RUnit, BiocStyle, knitr
+VignetteBuilder: knitr
+Collate: utils.R
+	fetch_table_dump_from_Ensembl_FTP.R
+	list_ftp_dir.R
+	NCBI-utils.R
+	UCSC-utils.R
+	Ensembl-utils.R
+	getChromInfoFromNCBI.R
+	getChromInfoFromUCSC.R
+	getChromInfoFromEnsembl.R
+	loadTaxonomyDb.R
+	mapGenomeBuilds.R
+	seqlevelsStyle.R
+	seqlevels-wrappers.R
+	zzz.R

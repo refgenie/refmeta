@@ -1,0 +1,28 @@
+# refmeta crosswalk: ucsc_chrom_sizes <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_chrom_sizes
+source: ucsc
+core: '0.1'
+subject: collection
+description: 'chrom.sizes: two-column tab-separated file of sequence name and length, no header; one record per
+  sequence.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: [counts]
+rules:
+- native: chrom
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/bigZips_hg38.chrom.sizes}
+- native: size
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/bigZips_hg38.chrom.sizes}
+unmapped: []

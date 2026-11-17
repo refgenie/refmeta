@@ -1,0 +1,54 @@
+# refmeta crosswalk: ga4gh_seqcol_level2 <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ga4gh_seqcol_level2
+source: ga4gh
+core: '0.1'
+subject: collection
+description: 'Refget sequence collection, canonical level 2 representation: one JSON object of collated arrays (names,
+  lengths, sequences) plus recommended ancillary attributes. Served by GET /collection/<digest>?level=2.'
+records: {mode: each}
+notes: The served object does not hold its own digest; the seqcol_digests derivation computes collection.digest
+  and collection.level1 from names, lengths and sequences.
+constants: {}
+derive: [seqcol_digests, counts]
+rules:
+- native: names
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [chr1, chr2, chr3]
+    core: [chr1, chr2, chr3]
+    file: examples/seqcol_level2_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json
+    truncated: true
+- native: lengths
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [248956422, 242193529, 198295559]
+    core: [248956422, 242193529, 198295559]
+    file: examples/seqcol_level2_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json
+    truncated: true
+- native: sequences
+  core: sequences[].digest
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO, SQ.pnAqCRBrTsUoBghSD1yp_jXWSmlbdh4g, SQ.Zu7h9AggXxhTaGVsy7h_EZSChSZGcmgX]
+    core: [SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO, SQ.pnAqCRBrTsUoBghSD1yp_jXWSmlbdh4g, SQ.Zu7h9AggXxhTaGVsy7h_EZSChSZGcmgX]
+    file: examples/seqcol_level2_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json
+    truncated: true
+- {native: accessions, core: 'sequences[].aliases[namespace=accession].value', direction: both, transform: null,
+  lossy: 'refgenie custom attribute; the accession authority (insdc or refseq) is not stated, so the namespace is
+    the generic ''accession''.', example: null, note: No example file sets this field.}
+- {native: name_length_pairs, compute: seqcol_name_length_pairs, direction: from_core, transform: null, lossy: null,
+  example: null, note: Rebuilt on write; never read.}
+- {native: sorted_name_length_pairs, compute: seqcol_sorted_name_length_pairs, direction: from_core, transform: null,
+  lossy: null, example: null, note: Rebuilt on write; never read.}
+- {native: sorted_sequences, compute: seqcol_sorted_sequences, direction: from_core, transform: null, lossy: null,
+  example: null, note: Rebuilt on write; never read.}
+unmapped: []

@@ -1,0 +1,103 @@
+# refmeta crosswalk: refgenie_genome_config <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: refgenie_genome_config
+source: refgenie
+core: '0.1'
+subject: deployment
+description: Legacy refgenie 0.x genome configuration file (genome_config.yaml, config_version 0.4), read by refgenconf
+  and by Galaxy's 'refgenie' tool data table type. Also accepts the bare 'genomes' block that refgenieserver 0.x
+  serves at /_private_api/genomes/dict. The adapter gives one record per genome/asset/tag; map keys (genome digest,
+  asset name, tag name) appear as {genome}, {asset}, {tag} placeholders in the paths.
+records: {mode: each}
+notes: Legacy refgenie 0.x. One native record per genome/asset/tag. The genome key is a 48-hex legacy digest that
+  cannot be converted to a seqcol digest without the FASTA.
+constants: {'copies[0].kind': refgenie_asset}
+derive: []
+rules:
+- native: genomes.{genome}
+  core: collection.aliases[namespace=refgenie.legacy_digest].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 2230c535660fb4774114bfa966a62f823fdb6d21acf138d4, core: 2230c535660fb4774114bfa966a62f823fdb6d21acf138d4,
+    file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml}
+- {native: 'genomes.{genome}.genome_digest', core: 'collection.aliases[namespace=refgenie.legacy_digest].value',
+  direction: both, transform: null, lossy: null, example: null, note: Config 0.3 and earlier kept the digest here
+    and keyed genomes by name.}
+- native: genome_folder
+  core: deployments[system=refgenie].scope
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /project/shefflab//deploy/rg.databio.org_full/genomes, core: /project/shefflab//deploy/rg.databio.org_full/genomes,
+    file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml}
+- native: genomes.{genome}.aliases
+  core: collection.aliases[namespace=refgenie].value
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id001 [hg38]
+    core: *id001
+    file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml
+- native: genomes.{genome}.genome_description
+  core: collection.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: The GCA_000001405.15 GRCh38_no_alt_analysis_set from NCBI, core: The GCA_000001405.15 GRCh38_no_alt_analysis_set
+      from NCBI, file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml}
+- native: genomes.{genome}.assets.{asset}
+  core: deployments[system=refgenie].table
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: fasta, core: fasta, file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml}
+- native: genomes.{genome}.assets.{asset}.tags.{tag}
+  core: deployments[system=refgenie].key
+  direction: both
+  transform: null
+  lossy: Only the tag; the full refgenie key is <genome>/<asset>:<tag>.
+  example: {native: default, core: default, file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml}
+- native: genomes.{genome}.assets.{asset}.tags.{tag}.asset_path
+  core: copies[0].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: fasta, core: fasta, file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml}
+- native: genomes.{genome}.assets.{asset}.tags.{tag}.asset_path
+  core: deployments[system=refgenie].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: fasta, core: fasta, file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml}
+- native: genomes.{genome}.assets.{asset}.tags.{tag}.asset_digest
+  core: copies[0].checksums.refgenie_asset
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 59fed5ec3c3a95bc5709b24b8f2cf7bf, core: 59fed5ec3c3a95bc5709b24b8f2cf7bf, file: examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml}
+unmapped:
+- {native: config_version, reason: Config file format version.}
+- {native: genome_servers, reason: Servers this install pulls from; client setting.}
+- {native: genome_server, reason: Pre-0.4 single server setting.}
+- {native: remotes, reason: Server setting for archive URL prefixes.}
+- {native: genome_archive_folder, reason: Server setting.}
+- {native: genome_archive_config, reason: Server setting.}
+- {native: remote_url_base, reason: Server setting.}
+- {native: 'genomes.{genome}.assets.{asset}.asset_description', reason: 'Describes the asset type, not this genome.'}
+- {native: 'genomes.{genome}.assets.{asset}.default_tag', reason: Client default; not a fact about the files.}
+- {native: 'genomes.{genome}.assets.{asset}.tags.{tag}.seek_keys', reason: 'File names inside the asset folder;
+    they would need one copy each, relative to the asset folder.'}
+- {native: 'genomes.{genome}.assets.{asset}.tags.{tag}.asset_parents', reason: Asset build graph (which asset was
+    built from which); core has no 'built from' link yet.}
+- {native: 'genomes.{genome}.assets.{asset}.tags.{tag}.asset_children', reason: Asset build graph; core has no 'built
+    from' link yet.}
+- {native: 'genomes.{genome}.assets.{asset}.tags.{tag}.archive_digest', reason: 'Checksum of the server''s .tgz
+    archive, a different file whose location is not in the record.'}
+- {native: 'genomes.{genome}.assets.{asset}.tags.{tag}.legacy_archive_digest', reason: Older archive checksum.}
+- {native: 'genomes.{genome}.assets.{asset}.tags.{tag}.asset_size', reason: Human-readable rounded size (2.9GB);
+    not convertible to bytes exactly.}
+- {native: 'genomes.{genome}.assets.{asset}.tags.{tag}.archive_size', reason: Human-readable rounded size of the
+    archive.}
+- {native: 'genomes.{genome}.assets.{asset}.tags.{tag}.tag_description', reason: Free text about the tag.}

@@ -1,0 +1,2 @@
+source,organism,version,genome_assembly,fasta,gtf,sha256
+GENCODE,Homo sapiens,49,GRCh38,ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_49/gencode.v49.transcripts.fa.gz,ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_49/gencode.v49.annotation.gtf.gz,99192cefd94acce0438815c34a505be6d5238ecb1604a76e29dbbd9608cd49ca

@@ -1,0 +1,26 @@
+@HD	VN:1.4	SO:unsorted
+@SQ	SN:chr1	LN:248956422	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:6aef897c3d6ff0c78aff06ac189178dd	SP:Human
+@SQ	SN:chr2	LN:242193529	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:f98db672eb0993dcfdabafe2a882905c	SP:Human
+@SQ	SN:chr3	LN:198295559	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:76635a41ea913a405ded820447d067b0	SP:Human
+@SQ	SN:chr4	LN:190214555	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:3210fecf1eb92d5489da4346b3fddc6e	SP:Human
+@SQ	SN:chr5	LN:181538259	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:a811b3dc9fe66af729dc0dddf7fa4f13	SP:Human
+@SQ	SN:chr6	LN:170805979	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:5691468a67c7e7a7b5f2a3a683792c29	SP:Human
+@SQ	SN:chr7	LN:159345973	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:cc044cc2256a1141212660fb07b6171e	SP:Human
+@SQ	SN:chr8	LN:145138636	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:c67955b5f7815a9a1edfaa15893d3616	SP:Human
+@SQ	SN:chr9	LN:138394717	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:6c198acf68b5af7b9d676dfdd531b5de	SP:Human
+@SQ	SN:chr10	LN:133797422	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:c0eeee7acfdaf31b770a509bdaa6e51a	SP:Human
+@SQ	SN:chr11	LN:135086622	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:1511375dc2dd1b633af8cf439ae90cec	SP:Human
+@SQ	SN:chr12	LN:133275309	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:96e414eace405d8c27a6d35ba19df56f	SP:Human
+@SQ	SN:chr13	LN:114364328	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:a5437debe2ef9c9ef8f3ea2874ae1d82	SP:Human
+@SQ	SN:chr14	LN:107043718	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:e0f0eecc3bcab6178c62b6211565c807	SP:Human
+@SQ	SN:chr15	LN:101991189	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:f036bd11158407596ca6bf3581454706	SP:Human
+@SQ	SN:chr16	LN:90338345	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:db2d37c8b7d019caaf2dd64ba3a6f33a	SP:Human
+@SQ	SN:chr17	LN:83257441	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:f9a0fb01553adb183568e3eb9d8626db	SP:Human
+@SQ	SN:chr18	LN:80373285	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:11eeaa801f6b0e2e36a1138616b8ee9a	SP:Human
+@SQ	SN:chr19	LN:58617616	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:85f9f4fc152c58cb7913c06d6b98573a	SP:Human
+@SQ	SN:chr20	LN:64444167	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:b18e6c531b0bd70e949a7fc20859cb01	SP:Human
+@SQ	SN:chr21	LN:46709983	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:974dc7aec0b755b19f031418fdedf293	SP:Human
+@SQ	SN:chr22	LN:50818468	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:ac37ec46683600f808cdd41eac1d55cd	SP:Human
+@SQ	SN:chrX	LN:156040895	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:2b3a55ff7f58eb308420c8a9b11cac50	SP:Human
+@SQ	SN:chrY	LN:57227415	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:ce3e31103314a704255f3cd90369ecce	SP:Human
+@SQ	SN:chrM	LN:16569	UR:ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa	AS:GRCh38	M5:c68f52674c9fb33aef52dcf399755519	SP:Human

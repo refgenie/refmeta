@@ -1,0 +1,120 @@
+{
+ "downloadTime": "2026:11:17T16:01:37Z",
+ "downloadTimeStamp": 1794931297,
+ "genome": "sacCer3",
+ "rsyncHost": "rsync://hgdownload.soe.ucsc.edu",
+ "urlList": [
+  {
+   "sizeBytes": 4190,
+   "dateTime": "2020/09/29T13:00:27",
+   "url": "goldenPath/sacCer3/bigZips/README.txt"
+  },
+  {
+   "sizeBytes": 660,
+   "dateTime": "2011/09/02T14:19:55",
+   "url": "goldenPath/sacCer3/bigZips/chromAgp.tar.gz"
+  },
+  {
+   "sizeBytes": 3820388,
+   "dateTime": "2011/09/02T14:19:59",
+   "url": "goldenPath/sacCer3/bigZips/chromFa.tar.gz"
+  },
+  {
+   "sizeBytes": 3820643,
+   "dateTime": "2011/09/02T14:20:02",
+   "url": "goldenPath/sacCer3/bigZips/chromFaMasked.tar.gz"
+  },
+  {
+   "sizeBytes": 20321,
+   "dateTime": "2011/09/02T14:20:03",
+   "url": "goldenPath/sacCer3/bigZips/chromTrf.tar.gz"
+  },
+  {
+   "sizeBytes": 6487129,
+   "dateTime": "2019/10/16T15:13:18",
+   "url": "goldenPath/sacCer3/bigZips/est.fa.gz"
+  },
+  {
+   "sizeBytes": 44,
+   "dateTime": "2019/10/16T15:13:18",
+   "url": "goldenPath/sacCer3/bigZips/est.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 426,
+   "dateTime": "2019/01/17T15:58:51",
+   "url": "goldenPath/sacCer3/bigZips/md5sum.txt"
+  },
+  {
+   "sizeBytes": 113974,
+   "dateTime": "2019/10/16T15:09:02",
+   "url": "goldenPath/sacCer3/bigZips/mrna.fa.gz"
+  },
+  {
+   "sizeBytes": 45,
+   "dateTime": "2019/10/16T15:09:02",
+   "url": "goldenPath/sacCer3/bigZips/mrna.fa.gz.md5"
+  },
+  {
+   "sizeBytes": 3039745,
+   "dateTime": "2011/08/24T11:55:42",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.2bit"
+  },
+  {
+   "sizeBytes": 1562,
+   "dateTime": "2011/10/05T16:10:17",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.beta.tables"
+  },
+  {
+   "sizeBytes": 229,
+   "dateTime": "2011/08/24T11:55:42",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.chrom.sizes"
+  },
+  {
+   "sizeBytes": 39654,
+   "dateTime": "2022/09/08T14:16:14",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.chromAlias.bb"
+  },
+  {
+   "sizeBytes": 588,
+   "dateTime": "2022/09/08T14:16:14",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.chromAlias.txt"
+  },
+  {
+   "sizeBytes": 3820548,
+   "dateTime": "2020/01/23T02:26:20",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.fa.gz"
+  },
+  {
+   "sizeBytes": 2431414,
+   "dateTime": "2019/01/17T14:52:00",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.gc5Base.wib"
+  },
+  {
+   "sizeBytes": 41211,
+   "dateTime": "2019/01/17T14:52:00",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.gc5Base.wig.gz"
+  },
+  {
+   "sizeBytes": 6329595,
+   "dateTime": "2011/08/24T12:01:40",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.gc5Base.wigVarStep.gz"
+  },
+  {
+   "sizeBytes": 3009,
+   "dateTime": "2011/10/05T16:10:17",
+   "url": "goldenPath/sacCer3/bigZips/sacCer3.tables"
+  },
+  {
+   "sizeBytes": 346924138,
+   "dateTime": "2019/10/16T15:13:42",
+   "url": "goldenPath/sacCer3/bigZips/xenoRefMrna.fa.gz"
+  },
+  {
+   "sizeBytes": 52,
+   "dateTime": "2019/10/16T15:13:43",
+   "url": "goldenPath/sacCer3/bigZips/xenoRefMrna.fa.gz.md5"
+  }
+ ],
+ "totalBytes": 1213278197,
+ "itemsReturned": 22
+}

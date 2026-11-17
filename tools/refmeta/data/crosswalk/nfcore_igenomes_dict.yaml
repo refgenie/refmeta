@@ -1,0 +1,56 @@
+# refmeta crosswalk: nfcore_igenomes_dict <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: nfcore_igenomes_dict
+source: nfcore
+core: '0.1'
+subject: collection
+description: 'Sequence dictionary served with each iGenomes FASTA (genome.dict; Homo_sapiens_assembly38.dict for
+  GATK builds): SAM header @HD and @SQ lines (SAM spec, hts-specs). One record per @SQ line; @HD values are repeated
+  on each record under ''@HD/<tag>'' keys.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: [counts]
+rules:
+- native: SN
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/igenomes_dict_Homo_sapiens_NCBI_GRCh38.dict}
+- native: LN
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/igenomes_dict_Homo_sapiens_NCBI_GRCh38.dict}
+- native: M5
+  core: sequences[].md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 6aef897c3d6ff0c78aff06ac189178dd, core: 6aef897c3d6ff0c78aff06ac189178dd, file: examples/igenomes_dict_Homo_sapiens_NCBI_GRCh38.dict}
+- native: UR
+  core: copies[kind=fasta].location
+  direction: both
+  transform: null
+  lossy: Records where the dict was built (often another machine), not where the FASTA is now.
+  example: {native: 'file:C:\Genomes\Homo_sapiens\NCBI\GRCh38\Sequence\WholeGenomeFasta\genome.fa', core: 'file:C:\Genomes\Homo_sapiens\NCBI\GRCh38\Sequence\WholeGenomeFasta\genome.fa',
+    file: examples/igenomes_dict_Homo_sapiens_NCBI_GRCh38.dict}
+- native: AS
+  core: assembly.labels[namespace=sam.as].value
+  direction: both
+  transform: null
+  lossy: Free text ('38' in the GATK dict).
+  example: {native: '38', core: '38', file: examples/igenomes_dict_Homo_sapiens_GATK_GRCh38_Homo_sapiens_assembly38.dict}
+- native: SP
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/igenomes_dict_Homo_sapiens_GATK_GRCh38_Homo_sapiens_assembly38.dict}
+unmapped:
+- {native: '@HD/VN', per: record, reason: SAM format version.}
+- {native: '@HD/SO', per: record, reason: Sort order; always unsorted.}

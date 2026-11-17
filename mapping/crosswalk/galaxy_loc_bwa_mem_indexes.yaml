@@ -1,0 +1,47 @@
+# refmeta crosswalk: galaxy_loc_bwa_mem_indexes <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_loc_bwa_mem_indexes
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'Galaxy bwa_mem_index.loc: BWA (0.6+/MEM) index prefix per row (data table bwa_mem_indexes). TAB-separated,
+  ''#'' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path.'
+records: {mode: each}
+notes: The row does not say which FASTA the index was built from (bwa_mem hg38 is hg38full, all_fasta hg38 is hg38.fa).
+constants: {}
+derive: []
+rules:
+- native: value
+  core: deployments[system=galaxy,table=bwa_mem_indexes].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38female, core: hg38female, file: examples/cvmfs_bwa_mem_index.loc}
+- native: dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/cvmfs_bwa_mem_index.loc}
+- native: name
+  core: deployments[system=galaxy,table=bwa_mem_indexes].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Human (Homo sapiens) (b38): hg38 Canonical Female', core: 'Human (Homo sapiens) (b38): hg38
+      Canonical Female', file: examples/cvmfs_bwa_mem_index.loc}
+- native: path
+  core: copies[kind=bwa_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bwa_index_v0.7.10-r789/hg38female.fa, core: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bwa_index_v0.7.10-r789/hg38female.fa,
+    file: examples/cvmfs_bwa_mem_index.loc}
+- native: path
+  core: deployments[system=galaxy,table=bwa_mem_indexes].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bwa_index_v0.7.10-r789/hg38female.fa, core: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bwa_index_v0.7.10-r789/hg38female.fa,
+    file: examples/cvmfs_bwa_mem_index.loc}
+unmapped: []

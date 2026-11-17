@@ -1,0 +1,87 @@
+# refmeta crosswalk: ucsc_genomes_txt <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_genomes_txt
+source: ucsc
+core: '0.1'
+subject: collection
+description: Hub 'genome' stanzas, from genomes.txt or from a useOneFile hub.txt; one record per genome. This is
+  where an assembly hub declares its sequence, sizes, alias files and naming authority.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: genome
+  core: collection.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2, core: GCF_000146045.2, file: examples/genark_GCF_000146045.2_hub.txt}
+- native: genome
+  core: deployments[system=ucsc,table=hub_genome].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2, core: GCF_000146045.2, file: examples/genark_GCF_000146045.2_hub.txt}
+- native: description
+  core: collection.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: baker's yeast S288C (2014), core: baker's yeast S288C (2014), file: examples/genark_GCF_000146045.2_hub.txt}
+- native: twoBitPath
+  core: copies[kind=2bit].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2.2bit, core: GCF_000146045.2.2bit, file: examples/genark_GCF_000146045.2_hub.txt}
+- native: twoBitBptUrl
+  core: copies[kind=2bit_bpt].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2.2bit.bpt, core: GCF_000146045.2.2bit.bpt, file: examples/genark_GCF_000146045.2_hub.txt}
+- native: chromSizes
+  core: copies[kind=chrom_sizes].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2.chrom.sizes.txt, core: GCF_000146045.2.chrom.sizes.txt, file: examples/genark_GCF_000146045.2_hub.txt}
+- native: chromAlias
+  core: copies[kind=chrom_alias].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000001405.39.chromAlias.txt, core: GCF_000001405.39.chromAlias.txt, file: examples/constructed/docs_genome_stanzas.txt}
+- native: chromAliasBb
+  core: copies[kind=chrom_alias_bb].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2.chromAlias.bb, core: GCF_000146045.2.chromAlias.bb, file: examples/genark_GCF_000146045.2_hub.txt}
+- native: scientificName
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: GenArk includes the strain (Saccharomyces cerevisiae S288C).
+  example: {native: Saccharomyces cerevisiae S288C, core: Saccharomyces cerevisiae S288C, file: examples/genark_GCF_000146045.2_hub.txt}
+- native: taxId
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 559292, core: 559292, file: examples/genark_GCF_000146045.2_hub.txt}
+unmapped:
+- {native: trackDb, reason: Track definitions file.}
+- {native: groups, reason: Track groups file.}
+- {native: chromAuthority, reason: 'Which names the browser displays. In GenArk the 2bit uses RefSeq names and chromAuthority
+    ucsc only changes the display, so it is not the collection''s naming authority.'}
+- {native: organism, reason: 'GenArk writes ''<asmName> <date>'' (R64 Dec. 2014) here, not an organism.'}
+- {native: defaultPos, reason: Browser start position.}
+- {native: orderKey, reason: Menu order.}
+- {native: htmlPath, reason: Description page.}
+- {native: blat, reason: BLAT server.}
+- {native: transBlat, reason: Translated BLAT server.}
+- {native: isPcr, reason: In-silico PCR server.}
+- {native: codonTable, reason: Genetic code per sequence; no core field.}
+- {native: liftOver.*, reason: 'Per-target liftOver chain files (key pattern liftOver.<target>); relations between
+    assemblies by alignment, not seqcol relations.'}

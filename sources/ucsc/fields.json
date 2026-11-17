@@ -1,0 +1,1440 @@
+{
+ "source": "ucsc",
+ "title": "UCSC Genome Browser (REST API, download files, track/assembly hubs, GenArk)",
+ "maintainer": "UCSC Genome Browser Group, Genomics Institute, University of California Santa Cruz",
+ "retrieved": "2026-11-17",
+ "formats": [
+  {
+   "id": "ucsc_dbdb",
+   "description": "REST API /list/ucscGenomes: one record per UCSC database genome. Each record is a row of the hgcentral.dbDb table.",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/ucsc_rest_api_help.md",
+    "spec/kent/dbDb.as",
+    "spec/kent/dbDb.sql"
+   ],
+   "example_files": [
+    "examples/api_list_ucscGenomes_hg38_sacCer3.json"
+   ],
+   "record_key": "name",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_api_chromosomes",
+   "description": "REST API /list/chromosomes: sequence names and lengths of one UCSC database or hub genome; one record per sequence.",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/ucsc_rest_api_help.md",
+    "spec/kent/chromInfo.as",
+    "spec/kent/chromInfo.sql",
+    "spec/hg38_database_chromInfo.sql"
+   ],
+   "example_files": [
+    "examples/api_list_chromosomes_hg38.json",
+    "examples/api_list_chromosomes_sacCer3.json",
+    "examples/api_list_chromosomes_GCF_000146045.2.json",
+    "examples/api_list_chromosomes_sacCer3_track_gold.json"
+   ],
+   "record_key": "genome + chrom (plus hubUrl for hub genomes)",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_chrom_sizes",
+   "description": "chrom.sizes: two-column tab-separated file of sequence name and length, no header; one record per sequence.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".chrom.sizes",
+    ".chrom.sizes.txt"
+   ],
+   "spec_files": [
+    "spec/hg38_bigZips_README.txt",
+    "spec/sacCer3_bigZips_README.txt",
+    "spec/assemblyHubHelp.md"
+   ],
+   "example_files": [
+    "examples/bigZips_hg38.chrom.sizes",
+    "examples/bigZips_latest_hg38.chrom.sizes",
+    "examples/bigZips_sacCer3.chrom.sizes",
+    "examples/genark_GCF_000146045.2.chrom.sizes.txt"
+   ],
+   "record_key": "chrom",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_chromalias_txt",
+   "description": "chromAlias.txt: one row per sequence; the '#' header names the naming authority of each column. First column is the name the genome itself uses. An older unlabeled variant ('# sequenceName<TAB>alias names') is read into sequenceName + alias names.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".chromAlias.txt"
+   ],
+   "spec_files": [
+    "spec/assemblyHubHelp.md",
+    "spec/genomewiki_Chrom_Alias.md",
+    "spec/hg38_bigZips_README.txt",
+    "spec/sacCer3_bigZips_README.txt"
+   ],
+   "example_files": [
+    "examples/bigZips_latest_hg38.chromAlias.txt",
+    "examples/bigZips_hg38.chromAlias.txt",
+    "examples/bigZips_sacCer3.chromAlias.txt",
+    "examples/genark_GCF_000146045.2.chromAlias.txt"
+   ],
+   "record_key": "first column (ucsc in UCSC database files, refseq in GenArk files, sequenceName in the legacy file)",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_chromalias_table",
+   "description": "chromAlias database table (goldenPath/<db>/database/chromAlias.txt.gz): one row per alias, giving the UCSC sequence name and which authorities use that alias.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".txt",
+    ".txt.gz"
+   ],
+   "spec_files": [
+    "spec/kent/chromAlias.as",
+    "spec/kent/chromAlias.sql",
+    "spec/hg38_database_chromAlias.sql",
+    "spec/hg38_bigZips_README.txt"
+   ],
+   "example_files": [
+    "examples/database_hg38_chromAlias.txt",
+    "examples/database_sacCer3_chromAlias.txt"
+   ],
+   "record_key": "alias (primary key within one database)",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_hub_txt",
+   "description": "Track/assembly hub hub.txt: the 'hub' stanza (hub id, labels, contact, pointer to genomes.txt). Track stanzas are not read.",
+   "media_type": "text/plain",
+   "extensions": [
+    ".txt"
+   ],
+   "spec_files": [
+    "spec/trackDbHub_hub_and_genome_settings.md",
+    "spec/assemblyHubHelp.md",
+    "spec/hgTrackHubHelp.md",
+    "spec/genomewiki_Assembly_Hubs.md",
+    "spec/hubBasics.md",
+    "spec/samples/plantAraTha1_hub.txt",
+    "spec/samples/groupsExample_hub.txt",
+    "spec/samples/singleFileHubExample.txt",
+    "spec/samples/genArkTrackHub_hub.txt"
+   ],
+   "example_files": [
+    "examples/genark_GCF_000146045.2_hub.txt",
+    "spec/samples/plantAraTha1_hub.txt",
+    "spec/samples/groupsExample_hub.txt",
+    "spec/samples/singleFileHubExample.txt"
+   ],
+   "record_key": "hub (but the hub.txt URL is the real identity)",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_genomes_txt",
+   "description": "Hub 'genome' stanzas, from genomes.txt or from a useOneFile hub.txt; one record per genome. This is where an assembly hub declares its sequence, sizes, alias files and naming authority.",
+   "media_type": "text/plain",
+   "extensions": [
+    ".txt"
+   ],
+   "spec_files": [
+    "spec/trackDbHub_hub_and_genome_settings.md",
+    "spec/assemblyHubHelp.md",
+    "spec/hgTrackHubHelp.md",
+    "spec/genomewiki_Assembly_Hubs.md",
+    "spec/hubBasics.md",
+    "spec/samples/plantAraTha1_genomes.txt",
+    "spec/samples/groupsExample_genomes.txt"
+   ],
+   "example_files": [
+    "examples/genark_GCF_000146045.2_hub.txt",
+    "spec/samples/plantAraTha1_genomes.txt",
+    "spec/samples/groupsExample_genomes.txt",
+    "examples/constructed/docs_genome_stanzas.txt"
+   ],
+   "record_key": "genome (unique within one hub)",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_api_genark",
+   "description": "REST API /list/genarkGenomes: one record per GenArk assembly hub (hgcentral.genark row).",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/ucsc_rest_api_help.md",
+    "spec/kent/genark.as",
+    "spec/kent/genark.sql",
+    "spec/genark_hubs_index.md"
+   ],
+   "example_files": [
+    "examples/api_list_genarkGenomes_GCF_000146045.2.json",
+    "examples/api_list_genarkGenomes_first5.json"
+   ],
+   "record_key": "gcAccession",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_api_findgenome",
+   "description": "REST API /findGenome: genome search; one record per match (hgcentral.assemblyList row), keyed by UCSC database name or accession.",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/ucsc_rest_api_help.md",
+    "spec/kent/assemblyList.as"
+   ],
+   "example_files": [
+    "examples/api_findGenome_q_hg38.json",
+    "examples/api_findGenome_q_sacCer3.json",
+    "examples/api_findGenome_q_GCF_000146045.2.json",
+    "examples/api_findGenome_q_GCF_000001405.40.json"
+   ],
+   "record_key": "name",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_api_hubgenomes",
+   "description": "REST API /list/hubGenomes: the genome stanzas of one hub as the browser parsed them (relative paths made absolute); one record per genome.",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/ucsc_rest_api_help.md"
+   ],
+   "example_files": [
+    "examples/api_list_hubGenomes_GCF_000146045.2.json"
+   ],
+   "record_key": "hubUrl + genome",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_api_files",
+   "description": "REST API /list/files: downloadable files of one UCSC or GenArk genome; one record per file (path, size, time).",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/ucsc_rest_api_help.md"
+   ],
+   "example_files": [
+    "examples/api_list_files_hg38_bigZips_excerpt.json",
+    "examples/api_list_files_sacCer3_bigZips_excerpt.json",
+    "examples/api_list_files_GCF_000146045.2.json"
+   ],
+   "record_key": "url",
+   "adapter": true
+  },
+  {
+   "id": "ucsc_md5sum",
+   "description": "md5sum.txt in download directories (GNU md5sum output); one record per file checksum.",
+   "media_type": "text/plain",
+   "extensions": [
+    ".txt"
+   ],
+   "spec_files": [
+    "spec/hg38_bigZips_README.txt",
+    "spec/sacCer3_bigZips_README.txt"
+   ],
+   "example_files": [
+    "examples/bigZips_hg38_md5sum.txt",
+    "examples/bigZips_sacCer3_md5sum.txt",
+    "examples/genark_GCF_000146045.2_md5sum.txt"
+   ],
+   "record_key": "file",
+   "adapter": true
+  }
+ ],
+ "fields": [
+  {
+   "format": "ucsc_dbdb",
+   "path": "name",
+   "type": "string",
+   "description": "UCSC database name, e.g. hg38 (dbDb.name). In the API it is the object key under 'ucscGenomes'; the adapter stores it as 'name'.",
+   "example": "hg38",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Unique within UCSC. Widely reused as a genome label (Galaxy dbkey, IGV, many pipelines). UCSC database names label UCSC's build, not one fixed sequence set: hg38 had 455 sequences at release (bigZips/initial) and 711 after patch 14 (bigZips/latest, chromInfo)."
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "description",
+   "type": "string",
+   "description": "Short release description: '<Mon.> <YYYY> (<assembly name>/<db name>)'.",
+   "example": "Dec. 2013 (GRCh38/hg38)",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Free text. The assembly name in parentheses is the source's name at the time: 'SacCer_Apr2011' for sacCer3, not NCBI's 'R64'."
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "nibPath",
+   "type": "string",
+   "description": "Server directory that holds the sequence files for this database.",
+   "example": "/gbdb/hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Internal UCSC path (/gbdb/<db>), not a download URL. Name is historical (.nib sequence format)."
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "organism",
+   "type": "string",
+   "description": "Common name of the organism, first letter capitalized.",
+   "example": "Human",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "defaultPos",
+   "type": "string",
+   "description": "Default browser position, chrom:start-end.",
+   "example": "chr7:155799529-155812871",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Uses UCSC sequence names. Display setting only."
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "active",
+   "type": "integer",
+   "description": "1 if the database is in active use.",
+   "example": 1,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "orderKey",
+   "type": "integer",
+   "description": "Sort order in UCSC genome menus.",
+   "example": 50,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "genome",
+   "type": "string",
+   "description": "Genome group in UCSC menus that several builds of one organism share, e.g. 'Human'.",
+   "example": "Human",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Not the API 'genome' parameter (which is a database name like hg38). Usually equals organism."
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "scientificName",
+   "type": "string",
+   "description": "Genus and species.",
+   "example": "Homo sapiens",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Species only ('Saccharomyces cerevisiae'); GenArk records add the strain ('Saccharomyces cerevisiae S288C')."
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "htmlPath",
+   "type": "string",
+   "description": "Server path of the assembly description page.",
+   "example": "/gbdb/hg38/html/description.html",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "hgNearOk",
+   "type": "integer",
+   "description": "1 if the Gene Sorter (hgNear) is available for this database.",
+   "example": 1,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "hgPbOk",
+   "type": "integer",
+   "description": "1 if the Proteome Browser (pbTracks) is available for this database.",
+   "example": 0,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "sourceName",
+   "type": "string",
+   "description": "Source build/release/version of the assembly (free text).",
+   "example": "GRCh38 Genome Reference Consortium Human Reference 38 (GCA_000001405.15)",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "For hg38 and sacCer3 it ends with the GenBank assembly accession in parentheses (GCA_000001405.15, GCA_000146045.2); extract with GC[AF]_[0-9]{9}\\.[0-9]+. Not guaranteed for older databases. hg38 keeps the original GRCh38 accession (.15) although it now also carries p14 patch sequences."
+  },
+  {
+   "format": "ucsc_dbdb",
+   "path": "taxId",
+   "type": "integer",
+   "description": "NCBI Taxonomy ID.",
+   "example": 9606,
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "sacCer3 uses the strain taxon 559292 (S288C), not the species taxon 4932."
+  },
+  {
+   "format": "ucsc_api_chromosomes",
+   "path": "genome",
+   "type": "string",
+   "description": "Genome the list is for: a UCSC database name (hg38) or a hub/GenArk genome name (GCF_000146045.2). Copied onto every record from the response envelope.",
+   "example": "hg38",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "UCSC database names label UCSC's build, not one fixed sequence set: hg38 had 455 sequences at release (bigZips/initial) and 711 after patch 14 (bigZips/latest, chromInfo)."
+  },
+  {
+   "format": "ucsc_api_chromosomes",
+   "path": "hubUrl",
+   "type": "uri",
+   "description": "Hub that holds the genome; present only for hub genomes.",
+   "example": "/gbdb/genark/GCF/000/146/045/GCF_000146045.2/hub.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "global",
+   "notes": "For GenArk the API answers with the server-internal path /gbdb/genark/<GCx/nnn/nnn/nnn/acc>/hub.txt; the public URL is https://hgdownload.soe.ucsc.edu/hubs/<same tail>."
+  },
+  {
+   "format": "ucsc_api_chromosomes",
+   "path": "track",
+   "type": "string",
+   "description": "Present only when the request named a track; the list is then the sequences found in that track's data.",
+   "example": "gold",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Track name in the browser (gold = assembly AGP/gold track)."
+  },
+  {
+   "format": "ucsc_api_chromosomes",
+   "path": "chrom",
+   "type": "string",
+   "description": "Sequence name as this genome uses it (a key of the 'chromosomes' object; named after chromInfo.chrom).",
+   "example": "chr1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "UCSC databases use UCSC-style names (chr1, chr10_GL383545v1_alt, chrUn_KI270322v1, chrM). GenArk genomes use the accession names stored in the 2bit (NC_001133.9) even though the browser displays chromAuthority names (chrI)."
+  },
+  {
+   "format": "ucsc_api_chromosomes",
+   "path": "size",
+   "type": "integer",
+   "description": "Sequence length in bases (chromInfo.size).",
+   "example": 248956422,
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "hg38 lists 711 sequences here (chromInfo, includes patches up to p14) while bigZips/hg38.chrom.sizes lists 455."
+  },
+  {
+   "format": "ucsc_chrom_sizes",
+   "path": "chrom",
+   "type": "string",
+   "description": "Column 1: sequence name. No header in the file; the adapter names it 'chrom' to match chromInfo.",
+   "example": "chr1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Same naming as the genome's own names (UCSC chr names for UCSC databases, RefSeq accessions for GenArk). Rows are sorted by length, longest first."
+  },
+  {
+   "format": "ucsc_chrom_sizes",
+   "path": "size",
+   "type": "integer",
+   "description": "Column 2: sequence length in bases.",
+   "example": 248956422,
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "bigZips/hg38.chrom.sizes (2013, 455 rows) and bigZips/latest/hg38.chrom.sizes (p14, 711 rows) are different collections under the same name hg38."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "ucsc",
+   "type": "string",
+   "description": "UCSC-style sequence name (chr1, chrI, chrUn_KI270322v1).",
+   "example": "chr1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "namespace",
+   "notes": "In UCSC database files this is the first column, the genome's own name. In GenArk files it is a display alias chosen by chromAuthority; the genome's own name is the first column (refseq there)."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "assembly",
+   "type": "string",
+   "description": "Sequence name from NCBI's assembly_report.txt 'Sequence-Name' column (1, MT, HSCHR10_1_CTG1, I).",
+   "example": "1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "namespace",
+   "notes": "Not unique across assemblies; alt/patch names like HSCHR10_1_CTG1 are GRC names."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "genbank",
+   "type": "string",
+   "description": "INSDC (GenBank) sequence accession.version (CM000663.2, BK006935.2).",
+   "example": "CM000663.2",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "global",
+   "notes": "Empty for the yeast mitochondrion in the GenArk file, while sacCer3's file gives AJ011856.1 for chrM. The two yeast files also disagree on chrM in other columns, so they are not the same mapping."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "refseq",
+   "type": "string",
+   "description": "RefSeq sequence accession.version (NC_000001.11, NC_001133.9).",
+   "example": "NC_000001.11",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "global",
+   "notes": "First column (the genome's own name) in GenArk files."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "ensembl",
+   "type": "string",
+   "description": "Ensembl sequence name (1, MT; 'Mito' for yeast chrM in sacCer3).",
+   "example": "1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "namespace",
+   "notes": "For GRCh38 Ensembl uses the GenBank accession (KI270322.1) for unplaced/unlocalized sequences and has no name for alt/fix patches (empty cell)."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "ncbi",
+   "type": "string",
+   "description": "Name from the chr2acc file in NCBI's assembly_structure/ directory (per UCSC docs).",
+   "example": "I",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "namespace",
+   "notes": "In the GenArk yeast file it equals the assembly column (I, ..., MT)."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "VEuPathDB",
+   "type": "string",
+   "description": "Name used by VEuPathDB for the sequence.",
+   "example": "BK006935",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "namespace",
+   "notes": "Only seen in the GenArk yeast file, where it is the GenBank accession without version (BK006935); for MT it is KP263414, not the AJ011856.1 used by sacCer3. Meaning inferred from values; not described in the docs saved here."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "sequenceName",
+   "type": "string",
+   "description": "Legacy unlabeled file (bigZips/hg38.chromAlias.txt, 2021): first column, the UCSC sequence name.",
+   "example": "chr1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "namespace",
+   "notes": "Only in the legacy variant, whose header is '# sequenceName<TAB>alias names<TAB>UCSC database: hg38'."
+  },
+  {
+   "format": "ucsc_chromalias_txt",
+   "path": "alias names",
+   "type": "array",
+   "description": "Legacy unlabeled file: every other name of the sequence, as a list.",
+   "example": [
+    "1",
+    "CM000663.2",
+    "NC_000001.11"
+   ],
+   "level": "sequence",
+   "cardinality": "many",
+   "required": false,
+   "unique": "none",
+   "notes": "The authority of each alias is not given, and cells are sorted rather than placed by authority (chrX: CM000685.2, NC_000023.11, X). Use bigZips/latest/hg38.chromAlias.txt or the database table to know which name is which."
+  },
+  {
+   "format": "ucsc_chromalias_table",
+   "path": "alias",
+   "type": "string",
+   "description": "An external name for the sequence.",
+   "example": "1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Primary key of the table within one database: one alias maps to one UCSC chrom. The UCSC name itself is not listed as an alias."
+  },
+  {
+   "format": "ucsc_chromalias_table",
+   "path": "chrom",
+   "type": "string",
+   "description": "UCSC sequence name the alias refers to.",
+   "example": "chr1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_chromalias_table",
+   "path": "source",
+   "type": "string",
+   "description": "Comma-separated naming authorities that use this alias (refseq, genbank, ensembl, assembly).",
+   "example": "assembly,ensembl",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "One row can stand for several authorities: '1' is 'assembly,ensembl'; 'KI270322.1' is 'ensembl,genbank'. Split on commas to get per-authority names."
+  },
+  {
+   "format": "ucsc_hub_txt",
+   "path": "hub",
+   "type": "string",
+   "description": "Short hub identifier used by the browser; the spec says no spaces.",
+   "example": "GCF_000146045.2 genome assembly",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Not guaranteed unique; the hub.txt URL is the hub's real identity. GenArk writes 'GCF_000146045.2 genome assembly' (with spaces) and the UCSC sample 'Test GenArk track hub' too, despite the spec."
+  },
+  {
+   "format": "ucsc_hub_txt",
+   "path": "shortLabel",
+   "type": "string",
+   "description": "Short label for the hub (under ~20 characters recommended).",
+   "example": "baker's yeast S288C (2014)",
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Display label. GenArk puts common name + year here ('baker's yeast S288C (2014)')."
+  },
+  {
+   "format": "ucsc_hub_txt",
+   "path": "longLabel",
+   "type": "string",
+   "description": "Longer description of the hub (under ~70 characters recommended).",
+   "example": "baker's yeast S288C (2014)/Saccharomyces cerevisiae S288C/GCF_000146045.2_R64 genome assembly",
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Display label. GenArk packs common name, scientific name and '<accession>_<asmName>' here, separated by '/'."
+  },
+  {
+   "format": "ucsc_hub_txt",
+   "path": "useOneFile",
+   "type": "string",
+   "description": "'on' when hub, genome and track stanzas are all in this one file.",
+   "example": "on",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "With useOneFile on, the genome stanza follows in the same file and genomesFile is not used."
+  },
+  {
+   "format": "ucsc_hub_txt",
+   "path": "email",
+   "type": "string",
+   "description": "Contact email for the hub (contact info).",
+   "example": "genome-www@soe.ucsc.edu",
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_hub_txt",
+   "path": "descriptionUrl",
+   "type": "uri",
+   "description": "Relative path or URL of a page describing the hub.",
+   "example": "html/GCF_000146045.2_R64.description.html",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Relative paths resolve against the hub.txt URL."
+  },
+  {
+   "format": "ucsc_hub_txt",
+   "path": "genomesFile",
+   "type": "uri",
+   "description": "Relative path or URL of genomes.txt. Required unless useOneFile is on.",
+   "example": "genomes.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Example value comes from a UCSC sample hub (spec/samples); GenArk hubs use useOneFile instead."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "genome",
+   "type": "string",
+   "description": "Genome name: a UCSC database name (hg38) for hubs on native genomes, a GenArk accession (GCF_000146045.2), or any name for a custom assembly.",
+   "example": "GCF_000146045.2",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "When it is a GCA_/GCF_ accession it also names the NCBI assembly. Hub genomes get a 'hub_<id>_' prefix inside the browser (stripped in the API). UCSC database names label UCSC's build, not one fixed sequence set: hg38 had 455 sequences at release (bigZips/initial) and 711 after patch 14 (bigZips/latest, chromInfo)."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "trackDb",
+   "type": "uri",
+   "description": "Relative path or URL of the trackDb.txt for this genome. Not used with useOneFile.",
+   "example": "araTha1/trackDb.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "groups",
+   "type": "uri",
+   "description": "Relative path or URL of groups.txt (track groupings).",
+   "example": "groups.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "description",
+   "type": "string",
+   "description": "Assembly description shown in menus and title pages (free text).",
+   "example": "baker's yeast S288C (2014)",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "GenArk: common name + year ('baker's yeast S288C (2014)'). UCSC sample: 'Feb. 2011 Thale cress'."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "twoBitPath",
+   "type": "uri",
+   "description": "Relative path or URL of the .2bit sequence file. Required for assembly hubs.",
+   "example": "GCF_000146045.2.2bit",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "global",
+   "notes": "Relative paths resolve against the hub.txt URL; the resolved URL identifies one copy. Sequence names inside the 2bit are the genome's own names (RefSeq accessions for GenArk)."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "twoBitBptUrl",
+   "type": "uri",
+   "description": "Relative path or URL of the .2bit.bpt name index, which speeds lookup of sequences in a large 2bit.",
+   "example": "GCF_000146045.2.2bit.bpt",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Documented only in the assemblyHubHelp examples; read by kent trackHub.c."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "chromSizes",
+   "type": "uri",
+   "description": "Relative path or URL of the chrom.sizes file for this genome.",
+   "example": "GCF_000146045.2.chrom.sizes.txt",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "chromAlias",
+   "type": "uri",
+   "description": "Relative path or URL of a chromAlias.txt file (name translation table).",
+   "example": "GCF_000001405.39.chromAlias.txt",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Points to collection-level alias data. Example value is from the UCSC documentation stanza (examples/constructed), because the real GenArk hub uses chromAliasBb."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "chromAliasBb",
+   "type": "uri",
+   "description": "Relative path or URL of the chromAlias data as bigBed (.bb); used instead of chromAlias for speed.",
+   "example": "GCF_000146045.2.chromAlias.bb",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Binary; the GenArk hub also publishes the same data as <acc>.chromAlias.txt beside it."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "chromAuthority",
+   "type": "string",
+   "description": "Which chromAlias column's names the browser displays by default (e.g. ucsc).",
+   "example": "ucsc",
+   "level": "collection",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Display naming only. The genome's own names (2bit, chrom.sizes, API /list/chromosomes) stay the first chromAlias column, e.g. NC_001133.9 shown as chrI."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "organism",
+   "type": "string",
+   "description": "Docs: common name of the organism, shown with description in menus.",
+   "example": "R64 Dec. 2014",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "GenArk does not follow this: it writes '<asmName> <Mon. YYYY>' ('R64 Dec. 2014'). Do not map blindly to organism."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "defaultPos",
+   "type": "string",
+   "description": "Initial browser position, chrom:start-end.",
+   "example": "NC_001136.10:510644-520644",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Uses the genome's own sequence names (NC_001136.10:... in GenArk)."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "orderKey",
+   "type": "integer",
+   "description": "Ordering of assemblies in the menu.",
+   "example": 4700,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "scientificName",
+   "type": "string",
+   "description": "Scientific name of the organism.",
+   "example": "Saccharomyces cerevisiae S288C",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "GenArk includes strain ('Saccharomyces cerevisiae S288C')."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "htmlPath",
+   "type": "uri",
+   "description": "Relative path or URL of the assembly description HTML page.",
+   "example": "html/GCF_000146045.2_R64.description.html",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "taxId",
+   "type": "integer",
+   "description": "NCBI Taxonomy ID.",
+   "example": 559292,
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Not in the trackDbHub settings list; documented in assemblyHubHelp examples and set by GenArk."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "blat",
+   "type": "string",
+   "description": "BLAT server: '<host> <port>' and, for dynamic servers, 'dynamic <path>'.",
+   "example": "dynablat-01.soe.ucsc.edu 4040 dynamic GCF/000/146/045/GCF_000146045.2",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "transBlat",
+   "type": "string",
+   "description": "Translated BLAT server: '<host> <port>' (plus 'dynamic <path>').",
+   "example": "dynablat-01.soe.ucsc.edu 4040 dynamic GCF/000/146/045/GCF_000146045.2",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "isPcr",
+   "type": "string",
+   "description": "In-Silico PCR server: '<host> <port>' (plus 'dynamic <path>').",
+   "example": "dynablat-01.soe.ucsc.edu 4040 dynamic GCF/000/146/045/GCF_000146045.2",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "codonTable",
+   "type": "string",
+   "description": "Genetic code per sequence: 'default=<id> <sequenceName>=<id> ...' with NCBI translation table numbers.",
+   "example": "default=1 NC_017929.1=13",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Uses the genome's own sequence names, not chromAuthority names. Example value is from the UCSC documentation stanza (examples/constructed)."
+  },
+  {
+   "format": "ucsc_genomes_txt",
+   "path": "liftOver.*",
+   "type": "uri",
+   "description": "Key pattern 'liftOver.<target genome>': relative path of a liftOver chain file from this genome to the target (e.g. liftOver.GCF_000002945.1).",
+   "example": "liftOver/GCF_000146045.2ToGCF_000002945.1.over.chain.gz",
+   "level": "other",
+   "cardinality": "many",
+   "required": false,
+   "unique": "none",
+   "notes": "Cross-assembly coordinate mapping. Seen in GenArk hubs; not described on the hub settings pages saved here, so the meaning is inferred from the key and value. Path contains '*': match keys by prefix."
+  },
+  {
+   "format": "ucsc_api_genark",
+   "path": "gcAccession",
+   "type": "string",
+   "description": "GenBank (GCA_) or RefSeq (GCF_) assembly accession.version; the object key under 'genarkGenomes'.",
+   "example": "GCF_000146045.2",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_genark",
+   "path": "hubUrl",
+   "type": "uri",
+   "description": "Path of the hub.txt, relative to hubUrlPrefix (/gbdb/genark) or to https://hgdownload.soe.ucsc.edu/hubs/.",
+   "example": "GCF/000/146/045/GCF_000146045.2/hub.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_genark",
+   "path": "asmName",
+   "type": "string",
+   "description": "NCBI assembly name (R64; GRCh38.p13 in the docs).",
+   "example": "R64",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_genark",
+   "path": "scientificName",
+   "type": "string",
+   "description": "Scientific name, often with strain or isolate.",
+   "example": "Saccharomyces cerevisiae S288C",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_genark",
+   "path": "commonName",
+   "type": "string",
+   "description": "Common name plus distinguishing detail such as strain and year ('baker's yeast S288C (2014)').",
+   "example": "baker's yeast S288C (2014)",
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Display label built by UCSC; not a controlled vocabulary."
+  },
+  {
+   "format": "ucsc_api_genark",
+   "path": "taxId",
+   "type": "integer",
+   "description": "NCBI Taxonomy ID.",
+   "example": 559292,
+   "level": "assembly",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_genark",
+   "path": "priority",
+   "type": "integer",
+   "description": "Search priority used to order hgGateway results.",
+   "example": 3538,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_genark",
+   "path": "clade",
+   "type": "string",
+   "description": "GenArk clade group (fungi, primates, ...).",
+   "example": "fungi",
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Grouping for browsing. Unreliable: in api_list_genarkGenomes_first5.json some values are fragments of other text ('8224 2008 genbank)', '25') or wrong (horse: 'invertebrate')."
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "name",
+   "type": "string",
+   "description": "UCSC database name (hg38) or GenArk/NCBI accession (GCF_000146045.2); the object key of each match (assemblyList.name).",
+   "example": "hg38",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "A query for GCF_000001405.40 returns hg38, so this is UCSC's accession-to-database lookup. UCSC database names label UCSC's build, not one fixed sequence set: hg38 had 455 sequences at release (bigZips/initial) and 711 after patch 14 (bigZips/latest, chromInfo)."
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "priority",
+   "type": "integer",
+   "description": "Assigned search priority used to order results (hg38 has 1).",
+   "example": 1,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "commonName",
+   "type": "string",
+   "description": "Common name.",
+   "example": "Human",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "scientificName",
+   "type": "string",
+   "description": "Scientific name.",
+   "example": "Homo sapiens",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "taxId",
+   "type": "integer",
+   "description": "NCBI Taxonomy ID (0 when unknown).",
+   "example": 9606,
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "clade",
+   "type": "string",
+   "description": "Approximate clade (primates, fungi, ...).",
+   "example": "primates",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "description",
+   "type": "string",
+   "description": "Free search text: source name, taxId, dbDb description, and related accessions and assembly names.",
+   "example": "GRCh38 Genome Reference Consortium Human Reference 38 (GCA_000001405.15) 9606 Dec. 2013 (GRCh38/hg38) GCA_000001405.28 GCA_000001405.28_GRCh38.p13 GCA_000001405.29 GCA_000001405.29_GRCh38.p14 GCF_000001405.40 GCF_000001405.40_GRCh38.p14 GRCh38.p14",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "For hg38 it lists GCA_000001405.28/.29, GCF_000001405.40 and GRCh38.p13/.p14 tokens: the only machine-readable place UCSC links hg38 to the patch-release accessions. Tokenize on spaces and match GC[AF]_ patterns."
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "browserExists",
+   "type": "boolean",
+   "description": "true if the genome can be viewed at UCSC now, false if it can only be requested.",
+   "example": true,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "hubUrl",
+   "type": "uri",
+   "description": "GenArk hub path (relative), or null for native UCSC databases.",
+   "example": "GCF/000/146/045/GCF_000146045.2/hub.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "year",
+   "type": "integer",
+   "description": "Year of assembly construction (0 when unknown).",
+   "example": 2013,
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "hg38: 2013, sacCer3: 2011 (UCSC build year), GCF_000146045.2: 2014 (NCBI release), so the same assembly can show different years."
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "refSeqCategory",
+   "type": "string",
+   "description": "NCBI RefSeq category: reference, representative or na; null when not set.",
+   "example": "reference",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "null for hg38 in these examples."
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "versionStatus",
+   "type": "string",
+   "description": "NCBI version status: latest, replaced or suppressed.",
+   "example": "replaced",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "hg38 shows 'replaced' because it is tied to GCA_000001405.15, which later patch releases replaced."
+  },
+  {
+   "format": "ucsc_api_findgenome",
+   "path": "assemblyLevel",
+   "type": "string",
+   "description": "NCBI assembly level: complete, chromosome, scaffold or contig.",
+   "example": "chromosome",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "hubUrl",
+   "type": "uri",
+   "description": "URL of the hub.txt that was read (response envelope, copied to each record).",
+   "example": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/146/045/GCF_000146045.2/hub.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "genome",
+   "type": "string",
+   "description": "Genome name in the hub (object key under 'genomes').",
+   "example": "GCF_000146045.2",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "organism",
+   "type": "string",
+   "description": "The stanza's organism setting.",
+   "example": "R64 Dec. 2014",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "GenArk: '<asmName> <Mon. YYYY>', not an organism name."
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "description",
+   "type": "string",
+   "description": "The stanza's description setting.",
+   "example": "baker's yeast S288C (2014)",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "trackDbFile",
+   "type": "uri",
+   "description": "Absolute URL of the file holding the track stanzas (the hub.txt itself for useOneFile hubs).",
+   "example": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/146/045/GCF_000146045.2/hub.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "twoBitPath",
+   "type": "uri",
+   "description": "Absolute URL of the .2bit file (relative path resolved by the API).",
+   "example": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/146/045/GCF_000146045.2/GCF_000146045.2.2bit",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "groups",
+   "type": "uri",
+   "description": "Absolute URL of groups.txt.",
+   "example": "https://hgdownload.soe.ucsc.edu/hubs/GCF/000/146/045/GCF_000146045.2/groups.txt",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "defaultPos",
+   "type": "string",
+   "description": "Default browser position.",
+   "example": "NC_001136.10:510644-520644",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_hubgenomes",
+   "path": "orderKey",
+   "type": "integer",
+   "description": "Menu order (0 when not set).",
+   "example": 0,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "The API reports only these settings; taxId, scientificName, chromAlias etc. are not returned. Read the hub.txt for those."
+  },
+  {
+   "format": "ucsc_api_files",
+   "path": "genome",
+   "type": "string",
+   "description": "Genome whose files are listed (response envelope, copied to each record).",
+   "example": "hg38",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_files",
+   "path": "rsyncHost",
+   "type": "uri",
+   "description": "rsync host of the download server (rsync://hgdownload.soe.ucsc.edu); envelope, copied to each record.",
+   "example": "rsync://hgdownload.soe.ucsc.edu",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_files",
+   "path": "url",
+   "type": "string",
+   "description": "File path relative to the download server root (goldenPath/... or hubs/...).",
+   "example": "goldenPath/hg38/bigZips/hg38.fa.gz",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": "Prefix with https://hgdownload.soe.ucsc.edu/ or with rsyncHost + '/' to get a full URL. No checksum here; join with md5sum.txt in the same directory."
+  },
+  {
+   "format": "ucsc_api_files",
+   "path": "sizeBytes",
+   "type": "integer",
+   "description": "File size in bytes.",
+   "example": 983659424,
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "ucsc_api_files",
+   "path": "dateTime",
+   "type": "date",
+   "description": "File modification time.",
+   "example": "2014/01/15T21:14:12",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Odd format 'YYYY/MM/DDThh:mm:ss' (slashes, no time zone). The envelope downloadTime uses 'YYYY:MM:DDThh:mm:ssZ' (colons in the date)."
+  },
+  {
+   "format": "ucsc_md5sum",
+   "path": "md5",
+   "type": "string",
+   "description": "MD5 of the file's bytes (of the compressed file for .gz).",
+   "example": "1c9dcaddfa41027f17cd8f7a82c7293b",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": "Identifies file content, so identical copies share it. Not a sequence digest: it changes with compression, line width and masking."
+  },
+  {
+   "format": "ucsc_md5sum",
+   "path": "file",
+   "type": "string",
+   "description": "File name as written by md5sum.",
+   "example": "hg38.fa.gz",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "bigZips files give bare names relative to the directory; GenArk gives absolute internal paths (/mirrordata/hubs/...); swap '/mirrordata/' for 'https://hgdownload.soe.ucsc.edu/' to get a URL."
+  }
+ ]
+}

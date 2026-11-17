@@ -1,0 +1,47 @@
+# refmeta crosswalk: ga4gh_vcf_header_reference <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ga4gh_vcf_header_reference
+source: ga4gh
+core: '0.1'
+subject: copy
+description: 'VCF header file-level lines that name the reference: ##fileformat, ##reference (free text, or structured
+  as EVA writes it) and ##assembly. One record per VCF file.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: reference
+  core: copies[kind=fasta].location
+  direction: both
+  transform: null
+  lossy: 'Free text: usually a path or URL, sometimes an assembly name (GRCh38, GRCh38.p14). Those still land in
+    location.'
+  example: {native: 'ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa',
+    core: 'ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/technical/reference/GRCh38_reference_genome/GRCh38_full_analysis_set_plus_decoy_hla.fa',
+    file: examples/vcf_header_1kg_phase3_GRCh38_chr22.vcf}
+- native: reference.ID
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: R64, core: R64, file: examples/vcf_header_eva_release9_R64_GCA_000146045.2.vcf}
+- native: reference.accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {other: unspecified}
+  lossy: null
+  example:
+    native: GCA_000146045.2
+    core: {namespace: insdc.gca, value: GCA_000146045.2}
+    file: examples/vcf_header_eva_release9_R64_GCA_000146045.2.vcf
+- native: reference.URL
+  core: assembly.accessions[0].url
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://www.ebi.ac.uk/ena/browser/view/GCA_000146045.2', core: 'https://www.ebi.ac.uk/ena/browser/view/GCA_000146045.2',
+    file: examples/vcf_header_eva_release9_R64_GCA_000146045.2.vcf}
+unmapped:
+- {native: fileformat, reason: 'VCF version of the file, not a fact about the genome.'}
+- {native: assembly, reason: 'URL of a FASTA of structural-variant breakpoint assemblies, not the genome assembly.'}

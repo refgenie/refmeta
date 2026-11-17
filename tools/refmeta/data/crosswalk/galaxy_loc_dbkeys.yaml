@@ -1,0 +1,45 @@
+# refmeta crosswalk: galaxy_loc_dbkeys <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_loc_dbkeys
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'Galaxy dbkeys.loc (data table __dbkeys__): one dbkey per row with its .len file. TAB-separated, ''#''
+  comments, no header; column names come from tool_data_table_conf.xml: value, name, len_path.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: value
+  core: deployments[system=galaxy,table=__dbkeys__].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/cvmfs_dbkeys.loc}
+- native: value
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/cvmfs_dbkeys.loc}
+- native: name
+  core: deployments[system=galaxy,table=__dbkeys__].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human Dec. 2013 (GRCh38/hg38) (hg38), core: Human Dec. 2013 (GRCh38/hg38) (hg38), file: examples/cvmfs_dbkeys.loc}
+- native: len_path
+  core: copies[kind=len].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len, core: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len,
+    file: examples/cvmfs_dbkeys.loc}
+- native: len_path
+  core: deployments[system=galaxy,table=__dbkeys__].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len, core: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len,
+    file: examples/cvmfs_dbkeys.loc}
+unmapped: []

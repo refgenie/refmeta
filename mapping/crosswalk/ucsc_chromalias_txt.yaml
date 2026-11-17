@@ -1,0 +1,83 @@
+# refmeta crosswalk: ucsc_chromalias_txt <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_chromalias_txt
+source: ucsc
+core: '0.1'
+subject: collection
+description: 'chromAlias.txt: one row per sequence; the ''#'' header names the naming authority of each column.
+  First column is the name the genome itself uses. An older unlabeled variant (''# sequenceName<TAB>alias names'')
+  is read into sequenceName + alias names.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: 'A name map: one row per sequence, one column per naming authority. The first column is the genome''s own
+  name (ucsc in UCSC databases, refseq in GenArk), but the adapter does not mark it, so only the legacy file''s
+  sequenceName fills sequences[].name.'
+constants: {}
+derive: []
+rules:
+- native: ucsc
+  core: sequences[].aliases[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/bigZips_latest_hg38.chromAlias.txt}
+- native: assembly
+  core: sequences[].aliases[namespace=assembly].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/bigZips_latest_hg38.chromAlias.txt}
+- native: genbank
+  core: sequences[].aliases[namespace=insdc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: CM000663.2, core: CM000663.2, file: examples/bigZips_latest_hg38.chromAlias.txt}
+- native: refseq
+  core: sequences[].aliases[namespace=refseq].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: NC_000001.11, core: NC_000001.11, file: examples/bigZips_latest_hg38.chromAlias.txt}
+- native: ensembl
+  core: sequences[].aliases[namespace=ensembl].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/bigZips_latest_hg38.chromAlias.txt}
+- native: ncbi
+  core: sequences[].aliases[namespace=ncbi].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: I, core: I, file: examples/genark_GCF_000146045.2.chromAlias.txt}
+- native: VEuPathDB
+  core: sequences[].aliases[namespace=veupathdb].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: BK006935, core: BK006935, file: examples/genark_GCF_000146045.2.chromAlias.txt}
+- native: sequenceName
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/bigZips_hg38.chromAlias.txt}
+- native: sequenceName
+  core: sequences[].aliases[namespace=ucsc].value
+  direction: to_core
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/bigZips_hg38.chromAlias.txt}
+- native: alias names
+  core: sequences[].aliases[namespace=unspecified].value
+  direction: both
+  transform: null
+  lossy: The legacy file has no column labels, so the authority of each alias is unknown.
+  example:
+    native: &id001 ['1', CM000663.2, NC_000001.11]
+    core: *id001
+    file: examples/bigZips_hg38.chromAlias.txt
+unmapped: []

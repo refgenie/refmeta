@@ -1,0 +1,89 @@
+# refmeta crosswalk: refgenie_store_sources <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: refgenie_store_sources
+source: refgenie
+core: '0.1'
+subject: collection
+description: RefgetStore build table (refgenie-registry stores/<store>/sources.csv), validated by stores/sources_schema.json.
+  One row per FASTA (or space-separated FASTAs concatenated) to load into a store; each row becomes one sequence
+  collection. Columns beyond the schema's are allowed and differ by store.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: fasta
+  core: copies[kind=fasta].location
+  direction: both
+  transform: null
+  lossy: May hold several space-separated URLs that are concatenated into one collection; kept as one string.
+  example: {native: hg38.fa.gz, core: hg38.fa.gz, file: examples/store_sources_legacy_hg38.csv}
+- native: name
+  core: collection.aliases[namespace=refgenie].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/store_sources_legacy_hg38.csv}
+- native: organism
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Sometimes includes the strain (Saccharomyces cerevisiae strain S288C).
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/store_sources_legacy_hg38.csv}
+- native: source
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: refgenie, core: refgenie, file: examples/store_sources_legacy_hg38.csv}
+- native: version
+  core: collection.providerVersion
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '49', core: '49', file: examples/store_sources_salmon_txomes_GRCh38.csv}
+- native: genome_assembly
+  core: assembly.labels[namespace=refgenie.genome_assembly].value
+  direction: both
+  transform: null
+  lossy: Mixes assembly names (GRCh38), UCSC names (hg38) and iGenomes labels; kept as a label.
+  example: {native: hg38, core: hg38, file: examples/store_sources_legacy_hg38.csv}
+- native: accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: A claim checked against NCBI by build_aliases, not a verified fact.
+  example:
+    native: GCA_000001405.15
+    core: {namespace: insdc.gca, value: GCA_000001405.15}
+    file: examples/store_sources_legacy_hg38.csv
+- native: synonyms
+  core: collection.labels[namespace=refgenie.synonym].value
+  direction: both
+  transform:
+    split: {sep: ;}
+  lossy: null
+  example:
+    native: Homo_sapiens/NCBI/GRCh38
+    core: [Homo_sapiens/NCBI/GRCh38]
+    file: examples/store_sources_igenomes_anchors.csv
+- native: gtf
+  core: copies[kind=gtf].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_49/gencode.v49.annotation.gtf.gz',
+    core: 'ftp://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_49/gencode.v49.annotation.gtf.gz', file: examples/store_sources_salmon_txomes_GRCh38.csv}
+- native: assembly_report
+  core: copies[kind=assembly_report].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.26_GRCh38/GCF_000001405.26_GRCh38_assembly_report.txt',
+    core: 'https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.26_GRCh38/GCF_000001405.26_GRCh38_assembly_report.txt',
+    file: examples/store_sources_vrs_GRCh38.csv}
+unmapped:
+- {native: group, reason: Folder-like label for organizing a store.}
+- {native: pep_sample_name, reason: Sample name in the PEP the row came from (some stores only).}
+- {native: sha256, reason: 'A legacy Salmon index hash, not a FASTA checksum.'}
+- {native: population, reason: Population of the HPRC sample (pangenome store only); no core field.}

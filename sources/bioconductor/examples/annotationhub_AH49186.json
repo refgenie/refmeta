@@ -1,0 +1,51 @@
+{
+  "id": 49186,
+  "ah_id": "AH49186",
+  "title": "Homo_sapiens.GRCh38.dna.toplevel.fa",
+  "dataprovider": "Ensembl",
+  "species": "Homo sapiens",
+  "taxonomyid": 9606,
+  "genome": "GRCh38",
+  "description": "FASTA DNA sequence for Homo sapiens",
+  "coordinate_1_based": true,
+  "maintainer": "Martin Morgan <mtmorgan@fredhutch.org>",
+  "rdatadateadded": "2015-08-13",
+  "rdatadateremoved": "2019-02-07",
+  "preparerclass": "EnsemblFastaImportPreparer",
+  "location_prefix": "https://mghp.osn.xsede.org/bir190004-bucket01/AnnotationHub/",
+  "recipe": "AnnotationHubData:::ensemblFastaToFaFile",
+  "recipe_package": "AnnotationHubData",
+  "rdatapaths": [
+    {
+      "rdatapath": "ensembl/release-81/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.rz",
+      "rdataclass": "FaFile",
+      "dispatchclass": "FaFile"
+    },
+    {
+      "rdatapath": "ensembl/release-81/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.rz.fai",
+      "rdataclass": "FaFile",
+      "dispatchclass": "FaFile"
+    }
+  ],
+  "input_sources": [
+    {
+      "sourcesize": "1035015944",
+      "sourceurl": "ftp://ftp.ensembl.org/pub/release-81/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.toplevel.fa.gz",
+      "sourceversion": "release-81",
+      "sourcemd5": null,
+      "sourcelastmodifieddate": "2015-07-03",
+      "sourcetype": "FASTA"
+    }
+  ],
+  "tags": [
+    "FASTA",
+    "ensembl",
+    "sequence"
+  ],
+  "biocversions": [
+    "3.1",
+    "3.2",
+    "3.3",
+    "3.4"
+  ]
+}

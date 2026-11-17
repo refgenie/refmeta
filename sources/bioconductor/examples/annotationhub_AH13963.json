@@ -1,0 +1,46 @@
+{
+  "id": 13963,
+  "ah_id": "AH13963",
+  "title": "hg38.2bit",
+  "dataprovider": "UCSC",
+  "species": "Homo sapiens",
+  "taxonomyid": 9606,
+  "genome": "hg38",
+  "description": "UCSC 2 bit file for hg38 ",
+  "coordinate_1_based": false,
+  "maintainer": "Bioconductor Maintainer <maintainer@bioconductor.org>",
+  "rdatadateadded": "2014-12-15",
+  "rdatadateremoved": null,
+  "preparerclass": "UCSC2BitPreparer",
+  "location_prefix": "http://hgdownload.cse.ucsc.edu/",
+  "recipe": null,
+  "recipe_package": null,
+  "rdatapaths": [
+    {
+      "rdatapath": "goldenPath/hg38/bigZips/hg38.2bit",
+      "rdataclass": "TwoBitFile",
+      "dispatchclass": "TwoBitFile"
+    }
+  ],
+  "input_sources": [
+    {
+      "sourcesize": null,
+      "sourceurl": "http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/hg38.2bit",
+      "sourceversion": "2014-01-09_22:14:50",
+      "sourcemd5": null,
+      "sourcelastmodifieddate": null,
+      "sourcetype": "TwoBit"
+    }
+  ],
+  "tags": [
+    "2bit",
+    "UCSC",
+    "genome"
+  ],
+  "biocversions": [
+    "3.1",
+    "3.2",
+    "3.3",
+    "3.4"
+  ]
+}

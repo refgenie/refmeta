@@ -1,0 +1,113 @@
+# Excerpt (lines 134-243: GenomePublic, Genome, AliasPublic, Alias, Species, SpeciesName) of refgenie/db/tables.py
+# repo refgenie/refgenie @ 7d0ee7fa69f9ddfd739b4f8875dda8b4b78e125d, copied 2026-11-17. Saved as data; not executed.
+
+class GenomePublic(SQLModel):
+    """
+    A reference genome model.
+    """
+
+    digest: str = Field(default=None, primary_key=True, max_length=32, min_length=32)
+    description: str | None
+    #: Scientific (species) name, e.g. "Homo sapiens".
+    species_name: str | None = Field(default=None, index=True)
+    #: Other names of the genome itself, from FHR ``genomeSynonym`` (e.g.
+    #: "GRCh38"). Species names are in the species list, not here.
+    synonyms: list[str] | None = Field(default=None, sa_column=Column(JSON))
+    #: NCBI taxonomy id, e.g. 9606. Indexed so genomes can be grouped by taxon.
+    taxon_id: int | None = Field(default=None, index=True)
+    #: Assembly provider (NCBI / UCSC / Ensembl / 1000G). Indexed: a top facet.
+    assembly_source: str | None = Field(default=None, index=True)
+    #: Assembly accession (GCA_/GCF_...). Indexed so it is directly searchable.
+    assembly_accession: str | None = Field(default=None, index=True)
+    #: Assembly level (chromosome / scaffold / contig). A cheap second facet.
+    assembly_level: str | None = None
+    remote_url: str | None = Field(default=None)
+
+
+class Genome(GenomePublic, _Timestamps, table=True):
+    """
+    A reference genome model.
+    """
+
+    #: The :class:`Store` that owns this genome's sequences; the federated
+    #: router uses it to dispatch reads. Internal, so not on GenomePublic.
+    store_name: str | None = Field(default=None, foreign_key="store.name", index=True)
+    store: Optional["Store"] = Relationship(
+        back_populates="genomes", sa_relationship_kwargs=SA_RELATIONSHIP_KWARGS_BASE
+    )
+    aliases: list["Alias"] = Relationship(
+        back_populates="genome", sa_relationship_kwargs=SA_RELATIONSHIP_KWARGS_ORPHAN
+    )
+    asset_groups: list["AssetGroup"] = Relationship(
+        back_populates="genome", sa_relationship_kwargs=SA_RELATIONSHIP_KWARGS_ORPHAN
+    )
+
+    def __str__(self):
+        parts = [self.digest]
+        if self.species_name:
+            parts.append(self.species_name)
+        if self.description:
+            parts.append(self.description)
+        return f"{parts[0]} ({', '.join(parts[1:])})" if len(parts) > 1 else parts[0]
+
+
+class AliasPublic(SQLModel):
+    """
+    A reference genome alias model.
+    """
+
+    name: str = Field(primary_key=True)
+    genome_digest: str = Field(default=None, foreign_key="genome.digest")
+
+
+class Alias(AliasPublic, _Timestamps, table=True):
+    """
+    A reference genome alias model.
+    """
+
+    #: Denormalized from ``genome.store_name`` so ``store::alias`` lookups and
+    #: collisions need no store reads. Internal, so not on AliasPublic.
+    store_name: str | None = Field(default=None, foreign_key="store.name", index=True)
+    genome: Optional["Genome"] = Relationship(
+        back_populates="aliases", sa_relationship_kwargs=SA_RELATIONSHIP_KWARGS_BASE
+    )
+
+    def __str__(self):
+        return self.name
+
+
+class Species(SQLModel, table=True):
+    """A species, keyed by NCBI taxon id, as the stores' ``species.json`` files give it.
+
+    Written per taxon (``SpeciesManager.replace``): by ``store sync`` from the
+    merge of every enabled store's file, and by a pull from the server's copy.
+    No foreign key to or from ``genome``: a genome's taxon may have no species row.
+    """
+
+    #: NCBI taxon id; no autoincrement (a lone int PK is SERIAL on Postgres).
+    taxon_id: int = Field(primary_key=True, sa_column_kwargs={"autoincrement": False})
+    scientific_name: str
+    common_name: str | None = None
+    #: Every name of the species, these two included, one row each.
+    names: list["SpeciesName"] = Relationship(
+        sa_relationship_kwargs=SA_RELATIONSHIP_KWARGS_ORPHAN | {"order_by": "SpeciesName.name"}
+    )
+
+    @property
+    def synonyms(self) -> list[str]:
+        """The names other than the scientific and common name."""
+        return [
+            n.name for n in self.names if n.name not in (self.scientific_name, self.common_name)
+        ]
+
+
+class SpeciesName(SQLModel, table=True):
+    """One name of a species: its scientific name, its common name or another name.
+
+    Species name search matches these rows, one plain-text name each.
+    """
+
+    taxon_id: int = Field(foreign_key="species.taxon_id", primary_key=True)
+    name: str = Field(primary_key=True, index=True)
+
+

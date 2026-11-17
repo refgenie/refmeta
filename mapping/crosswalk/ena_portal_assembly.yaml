@@ -1,0 +1,332 @@
+# refmeta crosswalk: ena_portal_assembly <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ena_portal_assembly
+source: ena
+core: '0.1'
+subject: assembly
+description: ENA Portal API search result=assembly, fields=all, as TSV (format=tsv) or JSON (format=json). One row
+  per assembly version.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: assembly_set_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.15
+    core: {namespace: insdc.gca, value: GCA_000001405.15}
+    file: examples/portal_assembly_GCA_000001405.15.json
+- native: version
+  core: assembly.version
+  direction: both
+  transform:
+    cast: {to: string, from: integer}
+  lossy: null
+  example: {native: 15, core: '15', file: examples/portal_assembly_GCA_000001405.15.json}
+- native: assembly_name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/portal_assembly_GCA_000001405.15.json}
+- native: assembly_title
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium Human Build 38, core: Genome Reference Consortium Human Build 38,
+    file: examples/portal_assembly_GCA_000001405.15.json}
+- native: description
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium Human Build 38, core: Genome Reference Consortium Human Build 38,
+    file: examples/portal_assembly_GCA_000001405.15.json}
+- native: description_comment
+  core: assembly.documentation
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'The DNA sequence is composed of genomic sequence, primarily finished clones that were sequenced
+      as part of the Human Genome Project. PCR products and WGS sho...', core: 'The DNA sequence is composed of
+      genomic sequence, primarily finished clones that were sequenced as part of the Human Genome Project. PCR products
+      and WGS sho...', file: examples/portal_assembly_GCA_000001405.15.json, truncated: true}
+- native: sample_accession
+  core: assembly.biosample
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SAMEA5569141, core: SAMEA5569141, file: examples/other/portal_assembly_GCA_902167145.1.tsv}
+- native: program
+  core: assembly.assemblySoftware[0].name
+  direction: both
+  transform: null
+  lossy: Name and version in one string.
+  example: {native: Canu 1.8, core: Canu 1.8, file: examples/other/portal_assembly_GCA_902167145.1.tsv}
+- native: common_name
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: maize, core: maize, file: examples/other/portal_assembly_GCA_902167145.1.tsv}
+- native: last_updated
+  core: provenance[0].recordDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2019-02-28', core: '2019-02-28', file: examples/portal_assembly_GCA_000001405.15.json}
+- native: genome_representation
+  core: assembly.representation
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: full, core: full, file: examples/portal_assembly_GCA_000001405.15.json}
+- native: center_name
+  core: assembly.submitter
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium, core: Genome Reference Consortium, file: examples/portal_assembly_GCA_000001405.15.json}
+- native: assembly_level
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/portal_assembly_GCA_000001405.15.json}
+- native: first_created
+  core: assembly.releaseDate
+  direction: both
+  transform: null
+  lossy: ENA's first-created date, a few days after NCBI's release date.
+  example: {native: '2013-12-21', core: '2013-12-21', file: examples/portal_assembly_GCA_000001405.15.json}
+- native: strain
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: S288C, core: S288C, file: examples/portal_assembly_GCA_000146045.2.json}
+- native: cultivar
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: B73, core: B73, file: examples/other/portal_assembly_GCA_902167145.1.tsv}
+- native: scientific_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/portal_assembly_GCA_000001405.15.json}
+- native: tax_id
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/portal_assembly_GCA_000001405.15.json}
+- native: study_accession
+  core: assembly.bioproject
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: PRJNA31257, core: PRJNA31257, file: examples/portal_assembly_GCA_000001405.15.json}
+- native: platform
+  core: assembly.instrument
+  direction: both
+  transform:
+    split: {sep: ', '}
+  lossy: null
+  example:
+    native: PacBio SEQUEL
+    core: [PacBio SEQUEL]
+    file: examples/other/portal_assembly_GCA_902167145.1.tsv
+- native: coverage
+  core: assembly.vitalStats.coverage
+  direction: both
+  transform: null
+  missing: 0
+  lossy: null
+  example: {native: 83, core: 83, file: examples/other/portal_assembly_GCA_902167145.1.tsv}
+- native: base_count
+  core: assembly.vitalStats.totalBasePairs
+  direction: both
+  transform: null
+  lossy: Counts every sequence including alt loci.
+  example: {native: 3209286105, core: 3209286105, file: examples/portal_assembly_GCA_000001405.15.json}
+unmapped:
+- {native: accession, reason: The unversioned chain (GCA_000001405); assembly_set_accession is the versioned id.}
+- {native: experimental_factor, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: sequence_accession, reason: Partial list of sequence accessions (67 of 455 for GRCh38).}
+- {native: environment_biome, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: dev_stage, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: binning_software, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: location_start, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: marine_region, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: assembly_software, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: serotype, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: environment_feature, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: germline, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: sample_collection, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: culture_collection, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: broad_scale_environmental_context, reason: Sample or environment field from the portal's fields=all;
+    sample metadata is out of scope.}
+- {native: submission_tool, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: status, reason: public.}
+- {native: completeness_score, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: lon, reason: Sample or environment field from the portal's fields=all; sample metadata is out of scope.}
+- {native: collected_by, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: isolate, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: tax_lineage, reason: Lineage taxids.}
+- {native: host_sex, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: variety, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: temperature, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: ecotype, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: sample_alias, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: sampling_campaign, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: mating_type, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: tissue_lib, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: collection_date_start, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: environmental_sample, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: sub_species, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: sex, reason: Sample or environment field from the portal's fields=all; sample metadata is out of scope.}
+- {native: checklist, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: contamination_score, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: specimen_voucher, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: depth, reason: Sample or environment field from the portal's fields=all; sample metadata is out of scope.}
+- {native: assembly_accession, reason: The unversioned chain again.}
+- {native: tax_division, reason: 'Taxonomic division (HUM, FUN).'}
+- {native: assembly_type, reason: '''clone or isolate''; a different vocabulary.'}
+- {native: taxonomic_identity_marker, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: host_growth_conditions, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: study_name, reason: Study metadata.}
+- {native: collection_date, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: country, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: ncbi_reporting_standard, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: host_gravidity, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: wgs_set, reason: WGS contig set.}
+- {native: run_accession, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: identified_by, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: cell_line, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: sampling_site, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: host, reason: Sample or environment field from the portal's fields=all; sample metadata is out of scope.}
+- {native: tag, reason: Sample or environment field from the portal's fields=all; sample metadata is out of scope.}
+- {native: lat, reason: Sample or environment field from the portal's fields=all; sample metadata is out of scope.}
+- {native: study_title, reason: Study metadata.}
+- {native: bio_material, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: host_body_site, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: local_environmental_context, reason: Sample or environment field from the portal's fields=all; sample
+    metadata is out of scope.}
+- {native: assembly_quality, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: collection_date_end, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: sample_capture_status, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: sample_title, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: host_status, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: host_genotype, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: host_phenotype, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: environmental_medium, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: target_gene, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: submitted_host_sex, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: surveillance_target, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: altitude, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: host_scientific_name, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: secondary_sample_accession, reason: Sample or environment field from the portal's fields=all; sample
+    metadata is out of scope.}
+- {native: environment_material, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: host_tax_id, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: sampling_platform, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: sample_material, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: taxonomic_classification, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: location_end, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: protocol_label, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}
+- {native: cell_type, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: elevation, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: salinity, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: sequencing_method, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: disease, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: study_description, reason: Study metadata.}
+- {native: sub_strain, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: ph, reason: Sample or environment field from the portal's fields=all; sample metadata is out of scope.}
+- {native: serovar, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: investigation_type, reason: Sample or environment field from the portal's fields=all; sample metadata
+    is out of scope.}
+- {native: location, reason: Sample or environment field from the portal's fields=all; sample metadata is out of
+    scope.}
+- {native: category, reason: Taxonomic category.}
+- {native: tissue_type, reason: Sample or environment field from the portal's fields=all; sample metadata is out
+    of scope.}
+- {native: age, reason: Sample or environment field from the portal's fields=all; sample metadata is out of scope.}
+- {native: isolation_source, reason: Sample or environment field from the portal's fields=all; sample metadata is
+    out of scope.}

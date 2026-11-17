@@ -1,0 +1,45 @@
+{
+  "id": 106802,
+  "ah_id": "AH106802",
+  "title": "Saccharomyces_cerevisiae.R64-1-1.dna_sm.toplevel.2bit",
+  "dataprovider": "Ensembl",
+  "species": "saccharomyces cerevisiae",
+  "taxonomyid": 559292,
+  "genome": "R64-1-1",
+  "description": "TwoBit DNA sequence for saccharomyces cerevisiae",
+  "coordinate_1_based": true,
+  "maintainer": "Bioconductor Maintainer <maintainer@bioconductor.org>",
+  "rdatadateadded": "2022-04-25",
+  "rdatadateremoved": null,
+  "preparerclass": "EnsemblTwoBitPreparer",
+  "location_prefix": "https://mghp.osn.xsede.org/bir190004-bucket01/AnnotationHub/",
+  "recipe": "AnnotationHubData:::ensemblFastaToTwoBitFile",
+  "recipe_package": "AnnotationHubData",
+  "rdatapaths": [
+    {
+      "rdatapath": "ensembl/release-107/fasta/saccharomyces_cerevisiae/dna/Saccharomyces_cerevisiae.R64-1-1.dna_sm.toplevel.2bit",
+      "rdataclass": "TwoBitFile",
+      "dispatchclass": "TwoBitFile"
+    }
+  ],
+  "input_sources": [
+    {
+      "sourcesize": null,
+      "sourceurl": "ftp://ftp.ensembl.org/pub/release-107/fasta/saccharomyces_cerevisiae/dna/Saccharomyces_cerevisiae.R64-1-1.dna_sm.toplevel.fa.gz",
+      "sourceversion": "release-107",
+      "sourcemd5": null,
+      "sourcelastmodifieddate": null,
+      "sourcetype": "FASTA"
+    }
+  ],
+  "tags": [
+    "TwoBit",
+    "ensembl",
+    "sequence",
+    "2bit",
+    "FASTA"
+  ],
+  "biocversions": [
+    "3.15"
+  ]
+}

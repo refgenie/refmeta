@@ -1,0 +1,41 @@
+# refmeta crosswalk: ucsc_chromalias_table <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_chromalias_table
+source: ucsc
+core: '0.1'
+subject: collection
+description: 'chromAlias database table (goldenPath/<db>/database/chromAlias.txt.gz): one row per alias, giving
+  the UCSC sequence name and which authorities use that alias.'
+records:
+  mode: group
+  group_by: []
+  rows:
+    target: sequences
+    key: chrom
+    explode: {field: source, sep: ','}
+notes: One row per alias. Rows are gathered per UCSC sequence name (key chrom). A row whose source lists several
+  authorities ('assembly,ensembl') is exploded into one alias per authority, and merged back on write.
+constants: {}
+derive: []
+rules:
+- native: chrom
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/database_hg38_chromAlias.txt}
+- native: alias
+  core: sequences[].aliases[+].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/database_hg38_chromAlias.txt}
+- native: source
+  core: sequences[].aliases[+].namespace
+  direction: both
+  transform:
+    map:
+      values: {genbank: insdc}
+  lossy: null
+  example: {native: genbank, core: insdc, file: examples/database_hg38_chromAlias.txt}
+unmapped: []

@@ -1,0 +1,50 @@
+# refmeta crosswalk: bioconductor_genome_mapping_tbl <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_genome_mapping_tbl
+source: bioconductor
+core: '0.1'
+subject: assembly
+description: GenomeInfoDb genomeMappingTbl.csv (inst/extdata/dataFiles/), used by mapGenomeBuilds() and genomeBuilds()
+  to map Ensembl assembly names to UCSC genome builds. One record per Ensembl assembly name. The example is an excerpt
+  (header plus all human and yeast rows).
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: ensemblID
+  core: assembly.labels[namespace=ensembl].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: NCBI36, core: NCBI36, file: examples/genome_mapping_tbl_human_yeast.csv}
+- native: ucscID
+  core: assembly.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  missing: NA
+  lossy: Some rows look wrong (NCBI36 maps to hg19, GRCh37.p13 to hg38).
+  example: {native: hg19, core: hg19, file: examples/genome_mapping_tbl_human_yeast.csv}
+- native: organism
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Lower case (homo sapiens).
+  example: {native: homo sapiens, core: homo sapiens, file: examples/genome_mapping_tbl_human_yeast.csv}
+- native: commonName
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: human, core: human, file: examples/genome_mapping_tbl_human_yeast.csv}
+- native: releaseName
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium GRCh37, core: Genome Reference Consortium GRCh37, file: examples/genome_mapping_tbl_human_yeast.csv}
+unmapped:
+- {native: origEnsemblVersion, reason: First Ensembl release with this name; release history.}
+- {native: origEnsemblDate, reason: 'Release history, written like Sept.2019.'}
+- {native: ensemblVersion, reason: Release history.}
+- {native: ensemblDate, reason: Release history.}
+- {native: ucscDate, reason: UCSC release date written like Dec.2013.}

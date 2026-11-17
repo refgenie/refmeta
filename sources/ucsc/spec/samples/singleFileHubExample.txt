@@ -1,0 +1,25 @@
+hub myExampleHub
+shortLabel Example Hub
+longLabel Example hub for the 'useOneFile on' setting
+useOneFile on
+email genome-www@soe.ucsc.edu
+
+genome hg19
+
+track vcfExample
+shortLabel VCF example
+longLabel VCF: 1000 Genomes phase 1 interim SNVs
+visibility pack
+type vcfTabix
+maxWindowToDraw 200000
+bigDataUrl http://genome.ucsc.edu/goldenPath/help/examples/vcfExample.vcf.gz
+
+track bamExample
+shortLabel BAM example
+longLabel Bam: 1000 Genomes read alignments (individual NA12878)
+visibility squish
+type bam
+pairSearchRange 10000
+bamColorMode grey
+maxWindowToDraw 200000
+bigDataUrl http://genome.ucsc.edu/goldenPath/help/examples/bamExample.bam

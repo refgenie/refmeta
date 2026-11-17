@@ -1,0 +1,5 @@
+##fileformat=VCFv4.1
+##fileDate=20260329
+##source=ensembl;version=116;url=https://fungi.ensembl.org/saccharomyces_cerevisiae
+##reference=https://ftp.ensembl.org/pub/release-116/fasta/saccharomyces_cerevisiae/dna/
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO

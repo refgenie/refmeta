@@ -1,0 +1,7 @@
+#name	species	division	taxonomy_id	assembly	assembly_accession	genebuild	variation	microarray	pan_compara	peptide_compara	genome_alignments	other_alignments	core_db	species_id
+Spiny chromis	acanthochromis_polyacanthus	EnsemblVertebrates	80966	ASM210954v1	GCA_002109545.1	2018-05-Ensembl/2020-03	N	N	N	Y	Y	Y	acanthochromis_polyacanthus_core_116_1	1	
+Eurasian sparrowhawk	accipiter_nisus	EnsemblVertebrates	211598	Accipiter_nisus_ver1.0	GCA_004320145.1	2019-07-Ensembl/2019-09	N	N	N	N	N	Y	accipiter_nisus_core_116_1	1	
+Giant panda	ailuropoda_melanoleuca	EnsemblVertebrates	9646	ASM200744v2	GCA_002007445.2	2020-05-Ensembl/2020-06	N	N	N	Y	Y	Y	ailuropoda_melanoleuca_core_116_2	1	
+Human	homo_sapiens	EnsemblVertebrates	9606	GRCh38.p14	GCA_000001405.29	GENCODE50	Y	Y	Y	Y	Y	Y	homo_sapiens_core_116_38	1	
+Mouse	mus_musculus	EnsemblVertebrates	10090	GRCm39	GCA_000001635.9	GENCODEM39	Y	Y	Y	Y	Y	Y	mus_musculus_core_116_39	1	
+Saccharomyces cerevisiae	saccharomyces_cerevisiae	EnsemblVertebrates	559292	R64-1-1	GCA_000146045.2	2018-08-SGD	Y	N	N	Y	N	Y	saccharomyces_cerevisiae_core_116_4	1	

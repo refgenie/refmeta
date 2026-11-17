@@ -1,0 +1,32 @@
+### =========================================================================
+### The "GenomeDescription" class
+### -------------------------------------------------------------------------
+
+setClass("GenomeDescription",
+    representation(
+        ## organism: "Homo sapiens", "Mus musculus", etc...
+        organism="character",
+
+        ## common_name: "Human", "Mouse", etc...
+        common_name="character",
+
+        ## provider: "UCSC", "BDGP", etc...
+        provider="character",
+
+        ## provider_version: "hg18", "mm8", "sacCer1", etc...
+        provider_version="character",
+
+        ## release_date: "Mar. 2006", "Feb. 2006", "Oct. 2003", etc...
+        release_date="character",
+
+        ## release_name: "NCBI Build 36.1", "NCBI Build 36",
+        ## "SGD 1 Oct 2003 sequence", etc...
+        release_name="character",
+
+        ## names, lengths, and circularity flags of the genome sequences
+        seqinfo="Seqinfo"
+    )
+)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

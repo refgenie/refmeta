@@ -1,0 +1,56 @@
+# refmeta crosswalk: ensembl_rest_info_assembly_region <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_rest_info_assembly_region
+source: ensembl
+core: '0.1'
+subject: sequence
+description: REST GET /info/assembly/:species/:region_name; facts about one toplevel sequence. The response does
+  not repeat the region name or species; both are only in the request URL (the example file names carry them).
+records: {mode: each}
+notes: The region name and species are only in the request URL, so sequences[0].name stays empty.
+constants: {}
+derive: []
+rules:
+- native: length
+  core: sequences[0].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/rest_info_assembly_region_homo_sapiens_1.json}
+- native: assembly_name
+  core: assembly.labels[namespace=ensembl].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/rest_info_assembly_region_homo_sapiens_1.json}
+- native: synonyms
+  core: sequences[0].aliases
+  direction: both
+  transform:
+    rekey:
+      keys: {dbname: namespace, name: value}
+      values:
+        namespace: {UCSC: ucsc, INSDC: insdc, RefSeq_genomic: refseq}
+  lossy: Ensembl external_db names become refmeta namespaces.
+  example:
+    native:
+    - {dbname: INSDC, name: CM000663.2}
+    - {name: chr1, dbname: UCSC}
+    - {dbname: RefSeq_genomic, name: NC_000001.11}
+    core:
+    - {namespace: insdc, value: CM000663.2}
+    - {value: chr1, namespace: ucsc}
+    - {namespace: refseq, value: NC_000001.11}
+    file: examples/rest_info_assembly_region_homo_sapiens_1.json
+- native: is_circular
+  core: sequences[0].circular
+  direction: both
+  transform:
+    map:
+      values: {'1': true, '0': false}
+  lossy: null
+  example: {native: 0, core: false, file: examples/rest_info_assembly_region_homo_sapiens_1.json}
+unmapped:
+- {native: coordinate_system, reason: 'chromosome or scaffold: Ensembl''s coordinate system.'}
+- {native: assembly_exception_type, reason: 'REF, or empty for alt and patch scaffolds; does not tell alt from patch.'}
+- {native: is_chromosome, reason: Whether the region is in the chromosome coordinate system.}

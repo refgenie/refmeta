@@ -1,0 +1,466 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://refgenie.org/refmeta/core/0.1/core.schema.json",
+  "title": "refmeta core record",
+  "description": "One refmeta record: what one source says about a reference genome, split into levels. Each level has its own identifier: assembly (accession), collection (seqcol digest), sequence (refget digest or md5), copy (location plus file checksum), deployment (system plus key). Every block is optional; a record fills only what its source knows. See mapping/PROPOSAL.md.",
+  "type": "object",
+  "required": ["refmeta"],
+  "additionalProperties": false,
+  "properties": {
+    "refmeta": {
+      "description": "Version of this schema.",
+      "const": "0.1"
+    },
+    "subject": {
+      "description": "Which level the source record is mainly about. Used to choose a primary identifier and when writing back out.",
+      "enum": ["assembly", "collection", "sequence", "copy", "deployment"]
+    },
+    "assembly": { "$ref": "#/$defs/Assembly" },
+    "collection": { "$ref": "#/$defs/Collection" },
+    "sequences": {
+      "description": "Sequences. In a record about a collection, this is the collection in order, and sequences[].name is the name the collection uses. In a record about an assembly, it lists the assembly's sequences, and their names live only in aliases.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/Sequence" }
+    },
+    "copies": {
+      "description": "Files: a FASTA, an index, a chrom.sizes file, a 2bit file, and so on. Identified by location plus checksum.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/Copy" }
+    },
+    "deployments": {
+      "description": "Entries in a system that uses the genome: a Galaxy data table row, a refgenie asset, an nf-core --genome key, a Bioconductor package, a UCSC browser database.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/Deployment" }
+    },
+    "provenance": {
+      "description": "Where the facts in this record came from. A record made from one file has one entry. A merged record has several.",
+      "type": "array",
+      "items": { "$ref": "#/$defs/Provenance" }
+    },
+    "fieldSources": {
+      "description": "Optional map from a core path (as used in crosswalks, e.g. 'assembly.level') to the provenance ids that gave the value. Omitted when every value has the same provenance.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "array",
+        "items": { "type": "string" }
+      }
+    },
+    "conflicts": {
+      "description": "Values that disagreed when native rows or records were combined. The core keeps the first value; the others are listed here.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["path", "values"],
+        "additionalProperties": false,
+        "properties": {
+          "path": { "type": "string" },
+          "values": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["value"],
+              "additionalProperties": false,
+              "properties": {
+                "value": {},
+                "provenance": { "type": "string" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "extras": { "$ref": "#/$defs/Extras" }
+  },
+  "$defs": {
+    "Extras": {
+      "description": "Native fields with no core home, kept so that writing back to the same format loses nothing. Keyed by format id, then by native field path exactly as in fields.json.",
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9]+(_[a-zA-Z0-9]+)*$" },
+      "additionalProperties": {
+        "type": "object"
+      }
+    },
+    "Name": {
+      "description": "A name in a namespace. Whether a name may point to more than one thing depends on the list it is in (aliases: no; labels: yes). Official namespaces are listed in mapping/namespaces.yaml; other lower-case ids are allowed as custom namespaces.",
+      "type": "object",
+      "required": ["namespace", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "description": "Lower-case namespace id: an official one from mapping/namespaces.yaml (insdc, refseq, ucsc, galaxy.dbkey, ...) or a custom one.",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]*$"
+        },
+        "value": { "type": "string", "minLength": 1 },
+        "scope": {
+          "description": "Where the name is valid when the namespace is not global: a server URL, a pipeline name, a registry. Omitted for global namespaces.",
+          "type": "string"
+        }
+      }
+    },
+    "Accession": {
+      "description": "An assembly accession: a Name in an accession namespace (insdc.gca, insdc.gcf, or a custom one), plus the link a source gave for it.",
+      "type": "object",
+      "required": ["namespace", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "namespace": {
+          "description": "Lower-case namespace id: insdc.gca, insdc.gcf (mapping/namespaces.yaml), or a custom one.",
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_.-]*$"
+        },
+        "value": { "type": "string", "minLength": 1 },
+        "url": { "description": "A web page for this accession, as the source gave it (FHR accessionID.url).", "type": "string" }
+      }
+    },
+    "Taxon": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "description": "NCBI Taxonomy id as given by the source (may be strain level, e.g. 559292). FHR writes it as taxon.uri https://identifiers.org/taxonomy:<id>.",
+          "type": "integer",
+          "minimum": 1
+        },
+        "name": {
+          "description": "Scientific name (FHR taxon.name). Sources disagree on whether the strain is included.",
+          "type": "string"
+        },
+        "commonName": { "description": "Common name of the species (human, baker's yeast).", "type": "string" },
+        "speciesId": {
+          "description": "NCBI Taxonomy id at species rank (e.g. 4932 for S. cerevisiae when id is 559292).",
+          "type": "integer",
+          "minimum": 1
+        },
+        "strain": {
+          "description": "Strain, isolate, breed or cultivar label (e.g. S288C, CHM13).",
+          "type": "string"
+        }
+      }
+    },
+    "Person": {
+      "description": "FHR author object.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "description": "Name of the person or organization.", "type": "string" },
+        "uri": { "description": "Link that identifies the author, such as an ORCID or ROR URL.", "type": "string" },
+        "nameType": { "description": "Whether the author is a person or an organization.", "enum": ["Personal", "Organizational"] }
+      }
+    },
+    "Software": {
+      "description": "FHR assemblySoftware object.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "description": "Name of the program.", "type": "string" },
+        "uri": { "description": "Link to the program.", "type": "string" },
+        "version": { "description": "Version of the program.", "type": "string" },
+        "commandLineOption": { "description": "Command-line options the program was run with.", "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "VitalStats": {
+      "description": "FHR vitalStats, plus ungappedLength and coverage (refmeta additions). Sources define 'total length' differently; see the crosswalk lossy notes.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "totalBasePairs": { "type": "integer", "minimum": 0 },
+        "ungappedLength": { "type": "integer", "minimum": 0 },
+        "N50": { "type": "integer", "minimum": 0 },
+        "L50": { "type": "integer", "minimum": 0 },
+        "N90": { "type": "integer", "minimum": 0 },
+        "L90": { "type": "integer", "minimum": 0 },
+        "scaffoldN50": { "type": "integer", "minimum": 0 },
+        "scaffoldL50": { "type": "integer", "minimum": 0 },
+        "scaffoldN90": { "type": "integer", "minimum": 0 },
+        "scaffoldL90": { "type": "integer", "minimum": 0 },
+        "numberContigs": { "type": "integer", "minimum": 0 },
+        "numberScaffolds": { "type": "integer", "minimum": 0 },
+        "numberChromosomes": {
+          "description": "refmeta addition: chromosomes plus organelles and plasmids (NCBI total_number_of_chromosomes, ENA replicon-count).",
+          "type": "integer",
+          "minimum": 0
+        },
+        "gcContent": {
+          "description": "GC percent, 0 to 100.",
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "readTechnology": { "type": "string" },
+        "coverage": {
+          "description": "refmeta addition: sequencing depth as the source writes it (30.0x, 83).",
+          "type": ["string", "number"]
+        }
+      }
+    },
+    "Assembly": {
+      "description": "The assembly level: an assembled genome as an archive registers it. Field names follow FHR where FHR covers the fact; accessions (FHR accessionID) and taxon.id (FHR taxon.uri) are the two deliberate changes.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "accessions": {
+          "description": "Identifiers that archives issued for this assembly version, such as a GenBank and RefSeq pair (GCA_000001405.15 and GCF_000001405.26). The identifier of this level. The first item is the accession the source record is about; formats with one accession slot write the first item. Namespaces: mapping/namespaces.yaml.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/Accession" }
+        },
+        "name": {
+          "description": "Submitter's assembly name (GRCh38, GRCh38.p14, R64). Not unique: the same name spans versions and the GCA/GCF pair.",
+          "type": "string"
+        },
+        "version": {
+          "description": "FHR version: the genome's own version. refgenie writes the accession's version number here ('15').",
+          "type": "string"
+        },
+        "description": { "description": "Free-text description of the assembly.", "type": "string" },
+        "taxon": { "$ref": "#/$defs/Taxon" },
+        "level": {
+          "description": "Assembly level, lower case: complete genome, chromosome, scaffold, contig.",
+          "type": "string"
+        },
+        "type": {
+          "description": "NCBI assembly type: haploid, haploid-with-alt-loci, diploid, alternate-pseudohaplotype, unresolved-diploid.",
+          "type": "string"
+        },
+        "status": {
+          "description": "Version status: current, replaced, suppressed.",
+          "type": "string"
+        },
+        "releaseType": { "description": "major, minor or patch.", "type": "string" },
+        "representation": { "description": "full or partial.", "type": "string" },
+        "refseqCategory": { "description": "reference genome, representative genome, na.", "type": "string" },
+        "releaseDate": { "description": "When the archive released this version (ISO 8601, may be partial).", "type": "string" },
+        "dateCreated": { "description": "FHR dateCreated (ISO 8601, may be partial).", "type": "string" },
+        "submitter": { "description": "Submitting or providing organization (GRC, SGD).", "type": "string" },
+        "bioproject": { "description": "BioProject accession of the assembly (PRJNA31257).", "type": "string" },
+        "biosample": { "description": "BioSample accession of the sequenced sample.", "type": "string" },
+        "assemblyAuthor": { "description": "People or organizations who made the assembly (FHR assemblyAuthor).", "type": "array", "items": { "$ref": "#/$defs/Person" } },
+        "voucherSpecimen": { "description": "Where a physical specimen of the sequenced organism is kept (FHR voucherSpecimen).", "type": "string" },
+        "instrument": { "description": "Sequencing instruments used (FHR instrument).", "type": "array", "items": { "type": "string" } },
+        "scholarlyArticle": { "description": "DOI without resolver prefix.", "type": "string" },
+        "funding": { "description": "Who funded the assembly (FHR funding).", "type": "string" },
+        "reuseConditions": { "description": "License or reuse terms (FHR reuseConditions; gtars 'license').", "type": "string" },
+        "assemblySoftware": { "description": "Programs used to build the assembly (FHR assemblySoftware).", "type": "array", "items": { "$ref": "#/$defs/Software" } },
+        "assemblyProtocol": { "description": "How the assembly was made, as text or a link (FHR assemblyProtocol).", "type": "string" },
+        "documentation": { "description": "FHR documentation: free text about the genome.", "type": "string" },
+        "identifier": {
+          "description": "FHR identifier: related identifiers as prefix:accession strings (bioproject:PRJNA31257). Kept as written.",
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "relatedLink": { "description": "Other web pages about the assembly (FHR relatedLink).", "type": "array", "items": { "type": "string" } },
+        "vitalStats": { "$ref": "#/$defs/VitalStats" },
+        "labels": {
+          "description": "Names that may cover more than this assembly version (assembly names, UCSC names given as NCBI synonyms, Ensembl coordinate system versions).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/Name" }
+        }
+      }
+    },
+    "Level1": {
+      "description": "Seqcol level 1: the digest of each attribute array. Keys are the seqcol attribute names.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-z_]+$": { "type": "string", "pattern": "^[A-Za-z0-9_-]{32}$" }
+      },
+      "properties": {
+        "names": { "type": "string" },
+        "lengths": { "type": "string" },
+        "sequences": { "type": "string" },
+        "name_length_pairs": { "type": "string" },
+        "sorted_name_length_pairs": { "type": "string" },
+        "sorted_sequences": { "type": "string" }
+      }
+    },
+    "Relation": {
+      "description": "How this collection relates to another one. Computed with seqcol comparison, or asserted by a source.",
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "enum": [
+            "identical",
+            "reordered",
+            "renamed",
+            "same_sequences",
+            "same_coordinates",
+            "subset_of",
+            "superset_of",
+            "overlaps",
+            "derived_from"
+          ]
+        },
+        "digest": { "description": "Seqcol digest of the other collection.", "type": "string" },
+        "name": { "$ref": "#/$defs/Name" },
+        "method": { "enum": ["computed", "asserted"] },
+        "detail": { "type": "string" }
+      }
+    },
+    "Collection": {
+      "description": "The sequence collection level: one exact list of named sequences. Identified by its GA4GH seqcol digest.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "digest": {
+          "description": "Seqcol top-level (level 0) digest, 32 base64url characters, no prefix.",
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]{32}$"
+        },
+        "level1": { "$ref": "#/$defs/Level1" },
+        "nSequences": { "description": "Number of sequences in the collection.", "type": "integer", "minimum": 0 },
+        "totalLength": { "description": "Sum of the lengths of the collection's sequences, in bases.", "type": "integer", "minimum": 0 },
+        "provider": {
+          "description": "Who distributed this sequence set (UCSC, Ensembl, NCBI, GENCODE, iGenomes). Case as written by the source.",
+          "type": "string"
+        },
+        "providerVersion": {
+          "description": "The provider's release label for this set (Ensembl 115, GENCODE 49).",
+          "type": "string"
+        },
+        "description": { "description": "Free-text description of the collection.", "type": "string" },
+        "namingAuthority": {
+          "description": "The sequence-name namespace the collection's names follow (ucsc, ensembl, insdc, refseq, assembly).",
+          "type": "string"
+        },
+        "relationToAssembly": {
+          "description": "How the set relates to the assembly's own sequences: complete (all top-level sequences), primary (primary assembly unit only), subset, superset (adds decoys, viral or other sequences), derived (changed, e.g. hard-masked or mixed), unknown.",
+          "enum": ["complete", "primary", "subset", "superset", "derived", "unknown"]
+        },
+        "relations": { "type": "array", "items": { "$ref": "#/$defs/Relation" } },
+        "aliases": {
+          "description": "Names that point to exactly one collection within their namespace and scope (refgenie aliases, Galaxy unique_build_id, legacy refgenie digests, iGenomes paths).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/Name" }
+        },
+        "labels": {
+          "description": "Names that may cover several collections (UCSC hg38, Galaxy dbkey, FHR genome, nf-core --genome keys, Bioconductor genome()).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/Name" }
+        }
+      }
+    },
+    "Placement": {
+      "description": "Where an alternate locus, patch or unlocalized scaffold sits.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "chromosome": { "description": "Chromosome name, in the source's naming.", "type": "string" },
+        "range": { "description": "1-based inclusive 'start-end' on the chromosome.", "type": "string", "pattern": "^[0-9]+-[0-9]+$" },
+        "region": { "description": "Named region (ENA REGION109, MHC).", "type": "string" }
+      }
+    },
+    "Sequence": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "name": { "description": "Name in this collection.", "type": "string" },
+        "length": { "description": "Length of the sequence, in bases.", "type": "integer", "minimum": 0 },
+        "digest": {
+          "description": "GA4GH refget identifier: 'SQ.' + sha512t24u of the uppercased sequence.",
+          "type": "string",
+          "pattern": "^SQ\\.[A-Za-z0-9_-]{32}$"
+        },
+        "md5": {
+          "description": "MD5 of the uppercased sequence (refget md5, SAM M5), 32 lowercase hex.",
+          "type": "string",
+          "pattern": "^[0-9a-f]{32}$"
+        },
+        "aliases": {
+          "description": "The sequence-name map: this sequence's names in other naming styles (insdc CM000663.2, refseq NC_000001.11, ucsc chr1, ensembl 1, assembly 1).",
+          "type": "array",
+          "items": { "$ref": "#/$defs/Name" }
+        },
+        "role": {
+          "description": "NCBI Sequence-Role spelling: assembled-molecule, unlocalized-scaffold, unplaced-scaffold, alt-scaffold, fix-patch, novel-patch.",
+          "type": "string"
+        },
+        "molecule": {
+          "description": "Assigned molecule type: Chromosome, Mitochondrion, Chloroplast, Plasmid, ...",
+          "type": "string"
+        },
+        "assignedMolecule": { "description": "Chromosome the sequence belongs to (1, X, MT).", "type": "string" },
+        "assemblyUnit": { "description": "Primary Assembly, non-nuclear, ALT_REF_LOCI_1, PATCHES.", "type": "string" },
+        "circular": { "description": "True if the molecule is circular (a mitochondrion, a plasmid, most bacterial chromosomes).", "type": "boolean" },
+        "placement": { "$ref": "#/$defs/Placement" },
+        "description": { "description": "Free-text description of the sequence, such as the text after the name in a FASTA header.", "type": "string" },
+        "gcPercent": { "description": "Percent of G and C bases in the sequence.", "type": "number", "minimum": 0, "maximum": 100 },
+        "ungappedLength": { "description": "Bases that are not N.", "type": "integer", "minimum": 0 },
+        "extras": { "$ref": "#/$defs/Extras" }
+      }
+    },
+    "Checksums": {
+      "description": "Checksums keyed by algorithm: md5, sha1, sha256, sha512, crc32 (hex); fhr (FHR SHA-512/256 base64 over the file without its checksum line); refgenie_asset and refgenie_archive (legacy refgenie digests).",
+      "type": "object",
+      "propertyNames": { "pattern": "^[a-z0-9_]+$" },
+      "additionalProperties": { "type": "string" }
+    },
+    "Copy": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "location": {
+          "description": "URL, s3:// URI or file path, as the source writes it (may be relative or hold placeholders such as ${params.igenomes_base}).",
+          "type": "string"
+        },
+        "kind": {
+          "description": "What the file is: fasta, fai, dict, 2bit, chrom_sizes, chrom_alias, len, genome_size_xml, bwa_index, bwamem2_index, bowtie_index, bowtie2_index, star_index, hisat2_index, bismark_index, salmon_index, kallisto_index, rsem_index, dragmap_index, gtf, gff, refgenie_asset, other.",
+          "type": "string"
+        },
+        "provider": { "description": "Who serves this file.", "type": "string" },
+        "checksums": { "$ref": "#/$defs/Checksums" },
+        "uncompressedChecksums": { "$ref": "#/$defs/Checksums" },
+        "size": { "description": "Bytes as stored.", "type": "integer", "minimum": 0 },
+        "uncompressedSize": { "description": "Size of the file after decompression, in bytes.", "type": "integer", "minimum": 0 },
+        "modified": { "description": "Last-modified time (ISO 8601).", "type": "string" },
+        "masking": {
+          "description": "FHR masking: soft-masked, hard-masked, not-masked, unknown.",
+          "type": "string"
+        },
+        "toolVersion": { "description": "For index files: the version of the tool that built or can read the index.", "type": "string" },
+        "extras": { "$ref": "#/$defs/Extras" }
+      }
+    },
+    "Deployment": {
+      "type": "object",
+      "required": ["system"],
+      "additionalProperties": false,
+      "properties": {
+        "system": {
+          "description": "galaxy, refgenie, nfcore, igenomes, ucsc, ensembl, bioconductor, annotationhub, refget_store.",
+          "type": "string"
+        },
+        "scope": { "description": "Which instance: server URL, pipeline name, release.", "type": "string" },
+        "table": { "description": "Galaxy data table, refgenie asset name, or similar slot.", "type": "string" },
+        "key": { "description": "The identifier the system uses for this entry (Galaxy value, nf-core genome key, package name).", "type": "string" },
+        "displayName": { "description": "Name the system shows to users for this entry (Galaxy's name column).", "type": "string" },
+        "location": { "description": "File or directory the entry points to (same string as the matching copies[].location).", "type": "string" },
+        "extras": { "$ref": "#/$defs/Extras" }
+      }
+    },
+    "Provenance": {
+      "type": "object",
+      "required": ["id"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "description": "Short id used by fieldSources and conflicts (p1, p2, ...).", "type": "string" },
+        "source": { "description": "refmeta source folder id (ncbi, ucsc, ...).", "type": "string" },
+        "format": { "description": "Format id from fields.json.", "type": "string" },
+        "authority": { "description": "Who asserts the facts (NCBI, a Galaxy server admin, a refgenie registry contributor).", "type": "string" },
+        "url": { "description": "Where the native record was fetched.", "type": "string" },
+        "file": { "description": "Local file name, when there is no URL.", "type": "string" },
+        "retrieved": { "description": "When it was fetched (ISO 8601).", "type": "string" },
+        "authors": {
+          "description": "Who wrote the source record (FHR metadataAuthor, a registry contributor). Crosswalk rules may fill provenance[0].authors.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/Person" }
+        },
+        "recordDate": {
+          "description": "When the source record was created or last updated, as the record itself says (ISO 8601, may be partial). Crosswalk rules may fill provenance[0].recordDate.",
+          "type": "string"
+        }
+      }
+    }
+  }
+}

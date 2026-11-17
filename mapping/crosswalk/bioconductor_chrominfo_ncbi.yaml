@@ -1,0 +1,73 @@
+# refmeta crosswalk: bioconductor_chrominfo_ncbi <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_chrominfo_ncbi
+source: bioconductor
+core: '0.1'
+subject: assembly
+description: GenomeInfoDb getChromInfoFromNCBI() result as cached in GenomeInfoDb/inst/chrominfo_db/NCBI/<accession>.tab
+  (written by saveChromInfoFromNCBI()). A reformatted NCBI assembly report plus a circular flag. One record per
+  sequence.
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: A reformatted NCBI assembly report; the accession is only in the file name.
+constants: {}
+derive: []
+rules:
+- native: SequenceName
+  core: sequences[].aliases[namespace=assembly].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+- native: SequenceRole
+  core: sequences[].role
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: assembled-molecule, core: assembled-molecule, file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+- native: AssignedMolecule
+  core: sequences[].assignedMolecule
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+- native: GenBankAccn
+  core: sequences[].aliases[namespace=insdc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: CM000663.2, core: CM000663.2, file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+- native: RefSeqAccn
+  core: sequences[].aliases[namespace=refseq].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: NC_000001.11, core: NC_000001.11, file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+- native: AssemblyUnit
+  core: sequences[].assemblyUnit
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Primary Assembly, core: Primary Assembly, file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+- native: SequenceLength
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+- native: UCSCStyleName
+  core: sequences[].aliases[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+- native: circular
+  core: sequences[].circular
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: false, core: false, file: examples/chrominfo_ncbi_GCF_000001405.40.tab}
+unmapped:
+- {native: Relationship, per: row, reason: '''='' when the GenBank and RefSeq sequence are identical; no core field.'}

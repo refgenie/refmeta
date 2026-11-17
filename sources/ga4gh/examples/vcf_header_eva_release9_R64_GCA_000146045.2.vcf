@@ -1,0 +1,20 @@
+##fileformat=VCFv4.2
+##reference=<ID=R64,accession=GCA_000146045.2,URL=https://www.ebi.ac.uk/ena/browser/view/GCA_000146045.2>
+##contig=<ID=VIII,accession="BK006934.2">
+##contig=<ID=I,accession="BK006935.2">
+##contig=<ID=II,accession="BK006936.2">
+##contig=<ID=III,accession="BK006937.2">
+##contig=<ID=IV,accession="BK006938.2">
+##contig=<ID=V,accession="BK006939.2">
+##contig=<ID=VI,accession="BK006940.2">
+##contig=<ID=VII,accession="BK006941.2">
+##contig=<ID=IX,accession="BK006942.2">
+##contig=<ID=X,accession="BK006943.2">
+##contig=<ID=XI,accession="BK006944.2">
+##contig=<ID=XII,accession="BK006945.2">
+##contig=<ID=XIII,accession="BK006946.2">
+##contig=<ID=XIV,accession="BK006947.3">
+##contig=<ID=XV,accession="BK006948.2">
+##contig=<ID=XVI,accession="BK006949.2">
+##contig=<ID=KP263414.1,accession="KP263414.1">
+#CHROM	POS	ID	REF	ALT	QUAL	FILTER	INFO

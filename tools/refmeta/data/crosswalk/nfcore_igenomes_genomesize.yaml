@@ -1,0 +1,77 @@
+# refmeta crosswalk: nfcore_igenomes_genomesize <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: nfcore_igenomes_genomesize
+source: nfcore
+core: '0.1'
+subject: collection
+description: 'Illumina iGenomes GenomeSize.xml (Sequence/WholeGenomeFasta/GenomeSize.xml): a <sequenceSizes genomeName=...>
+  root with one <chromosome .../> element per sequence. One record per <chromosome>, with the root genomeName repeated
+  on each record.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: [counts]
+rules:
+- native: contigName
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+- native: totalBases
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+- native: md5
+  core: sequences[].md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 6aef897c3d6ff0c78aff06ac189178dd, core: 6aef897c3d6ff0c78aff06ac189178dd, file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+- native: knownBases
+  core: sequences[].ungappedLength
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 230481012, core: 230481012, file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+- native: type
+  core: sequences[].molecule
+  direction: to_core
+  transform:
+    map:
+      values: {Autosome: Chromosome, Allosome: Chromosome, Mitochondria: Mitochondrion}
+      other: drop
+  lossy: Contig and Unknown give no value; autosome and sex-chromosome are not kept apart.
+  example: {native: Autosome, core: Chromosome, file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+- native: genomeName
+  core: collection.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo Sapiens (NCBI GRCh38), core: Homo Sapiens (NCBI GRCh38), file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+- native: build
+  core: collection.labels[namespace=igenomes].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+- native: species
+  core: assembly.taxon.name
+  direction: both
+  transform:
+    replace: {old: _, new: ' '}
+  lossy: null
+  example: {native: Homo_sapiens, core: Homo sapiens, file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+- native: fileName
+  core: copies[kind=fasta].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: genome.fa, core: genome.fa, file: examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml}
+unmapped:
+- {native: isCircular, per: row, reason: 'Placeholder: always false, even for chrM.'}
+- {native: ploidy, per: row, reason: 'Placeholder: always 2.'}

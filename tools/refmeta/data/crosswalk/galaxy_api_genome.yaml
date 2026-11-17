@@ -1,0 +1,43 @@
+# refmeta crosswalk: galaxy_api_genome <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_api_genome
+source: galaxy
+core: '0.1'
+subject: collection
+description: 'GET /api/genomes/{dbkey} on a Galaxy server: the build''s sequence names and lengths (from its .len
+  file).'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: id
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: sacCer3, core: sacCer3, file: examples/usegalaxy_org_api_genomes_sacCer3.json}
+- native: chrom_info
+  core: sequences
+  direction: both
+  transform:
+    rekey:
+      keys: {chrom: name, len: length}
+  lossy: The API natural-sorts the names, so the order is not the .len file's order; a paged response holds only
+    part of the list.
+  example:
+    native:
+    - {chrom: chrI, len: 230218}
+    - {chrom: chrII, len: 813184}
+    - {chrom: chrIII, len: 316620}
+    core:
+    - {name: chrI, length: 230218}
+    - {name: chrII, length: 813184}
+    - {name: chrIII, length: 316620}
+    file: examples/usegalaxy_org_api_genomes_sacCer3.json
+    truncated: true
+unmapped:
+- {native: reference, reason: Whether the server can serve sequence for the dbkey (a twobit entry exists); server
+    capability.}
+- {native: prev_chroms, reason: Paging flag.}
+- {native: next_chroms, reason: Paging flag.}
+- {native: start_index, reason: Paging offset.}

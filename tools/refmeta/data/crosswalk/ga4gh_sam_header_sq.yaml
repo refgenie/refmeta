@@ -1,0 +1,98 @@
+# refmeta crosswalk: ga4gh_sam_header_sq <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ga4gh_sam_header_sq
+source: ga4gh
+core: '0.1'
+subject: collection
+description: SAM header @SQ lines (reference sequence dictionary), as found in SAM/BAM/CRAM headers and Picard/GATK
+  .dict files. One record per @SQ line; order of lines is meaningful.
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: A SAM header or .dict file lists one collection in order. AS and SP repeat on every @SQ line, so they are
+  record rules (first value wins).
+constants: {}
+derive: [counts]
+rules:
+- native: SN
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/sam_dict_broad_hg38_Homo_sapiens_assembly38.dict}
+- native: LN
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/sam_dict_broad_hg38_Homo_sapiens_assembly38.dict}
+- native: M5
+  core: sequences[].md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 6aef897c3d6ff0c78aff06ac189178dd, core: 6aef897c3d6ff0c78aff06ac189178dd, file: examples/sam_dict_broad_hg38_Homo_sapiens_assembly38.dict}
+- native: AN
+  core: sequences[].aliases[namespace=unspecified].value
+  direction: both
+  transform:
+    split: {sep: ','}
+  lossy: Alternative names carry no authority, so they land in namespace 'unspecified'.
+  example:
+    native: chrMT,M,chrM
+    core: [chrMT, M, chrM]
+    file: examples/sam_header_spec_example_SAMv1_AN_footnote.sam
+- native: AH
+  core: sequences[].placement.chromosome
+  direction: to_core
+  transform:
+    regex: {pattern: '^([^:*]+)'}
+  missing: '*'
+  lossy: AH '*' (alt locus, placement unknown) gives no value.
+  example: null
+  note: No example file sets this field.
+- native: AH
+  core: sequences[].placement.range
+  direction: to_core
+  transform:
+    regex: {pattern: ':(\d+-\d+)$'}
+  missing: '*'
+  lossy: null
+  example: null
+  note: No example file sets this field.
+- native: DS
+  core: sequences[].description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38 alternate locus scaffold (hand-written description), core: GRCh38 alternate locus scaffold
+      (hand-written description), file: examples/constructed/sam_header_AH_DS_constructed.sam}
+- native: TP
+  core: sequences[].circular
+  direction: both
+  transform:
+    map:
+      values: {circular: true, linear: false}
+  lossy: null
+  example: {native: circular, core: true, file: examples/sam_header_spec_example_SAMv1_AN_footnote.sam}
+- native: UR
+  core: copies[kind=fasta].location
+  direction: both
+  transform: null
+  lossy: UR is per sequence; one location per record is kept (the first), others go to conflicts.
+  example: {native: /seq/references/Homo_sapiens_assembly38/v0/Homo_sapiens_assembly38.fasta, core: /seq/references/Homo_sapiens_assembly38/v0/Homo_sapiens_assembly38.fasta,
+    file: examples/sam_dict_broad_hg38_Homo_sapiens_assembly38.dict}
+- native: AS
+  core: assembly.labels[namespace=sam.as].value
+  direction: both
+  transform: null
+  lossy: Free text with no fixed meaning (GRCh38 in one file, 38 in another).
+  example: {native: '38', core: '38', file: examples/sam_dict_broad_hg38_Homo_sapiens_assembly38.dict}
+- native: SP
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: 'Free text: sometimes a common name (Human) instead of a scientific name.'
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/sam_dict_broad_hg38_Homo_sapiens_assembly38.dict}
+unmapped: []

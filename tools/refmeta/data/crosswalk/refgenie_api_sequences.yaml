@@ -1,0 +1,147 @@
+# refmeta crosswalk: refgenie_api_sequences <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: refgenie_api_sequences
+source: refgenie
+core: '0.1'
+subject: collection
+description: refgenie 1.x server sequence table, GET https://api.refgenie.org/v4/genomes/{digest}/sequences (OpenAPI
+  schema GenomeSequencesResponse). The adapter gives one record per element of 'sequences'; row fields use their
+  own names (name, length, ...) and the collection fields (digest, n_sequences, total_length, level1.*, collection_aliases)
+  are repeated on every row.
+records:
+  mode: group
+  group_by: [digest]
+  rows: {target: sequences, key: null, explode: null}
+notes: Collection fields repeat on every row; they are record rules here.
+constants: {}
+derive: [seqcol_digests]
+rules:
+- native: digest
+  core: collection.digest
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: EiFob05aCWgVU_B_Ae0cypnQut3cxUP1, core: EiFob05aCWgVU_B_Ae0cypnQut3cxUP1, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: n_sequences
+  core: collection.nSequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 195, core: 195, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: total_length
+  core: collection.totalLength
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 3099922541, core: 3099922541, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: level1.names
+  core: collection.level1.names
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 98mmhMJEAlnJt8y1kHS-uFl10dOMDK5e, core: 98mmhMJEAlnJt8y1kHS-uFl10dOMDK5e, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: level1.lengths
+  core: collection.level1.lengths
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: W1ebzJPljxcH18TSc-q_hrsYxR8UBfwu, core: W1ebzJPljxcH18TSc-q_hrsYxR8UBfwu, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: level1.sequences
+  core: collection.level1.sequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: FYgTyuFCAC7bTk6rX8DgMbbYVzqYLI9C, core: FYgTyuFCAC7bTk6rX8DgMbbYVzqYLI9C, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: level1.name_length_pairs
+  core: collection.level1.name_length_pairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Yyz0Expaluj09xdDYg2Y6VOApvjg05Hf, core: Yyz0Expaluj09xdDYg2Y6VOApvjg05Hf, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: level1.sorted_name_length_pairs
+  core: collection.level1.sorted_name_length_pairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: _dMQ5dPUNVx4OGQnDAPmGMkVRWWcYV99, core: _dMQ5dPUNVx4OGQnDAPmGMkVRWWcYV99, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: level1.sorted_sequences
+  core: collection.level1.sorted_sequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: t92G_9TEqI1b0mV996IAku5_cEEYmlVx, core: t92G_9TEqI1b0mV996IAku5_cEEYmlVx, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: collection_aliases[].namespace
+  core: collection.aliases[].namespace
+  direction: both
+  transform:
+    map:
+      values: {name: refgenie}
+  lossy: RefgetStore namespace 'name' becomes refmeta namespace 'refgenie'; other store namespaces pass through.
+  example:
+    native: [name, name, name]
+    core: [refgenie, refgenie, refgenie]
+    file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json
+    truncated: true
+- native: collection_aliases[].alias
+  core: collection.aliases[].value
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [GRCh38-igenomes-ncbi, hg38-refgenie, GRCh38-fasta-no-alt-analysis]
+    core: [GRCh38-igenomes-ncbi, hg38-refgenie, GRCh38-fasta-no-alt-analysis]
+    file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json
+    truncated: true
+- native: name
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: sha512t24u
+  core: sequences[].digest
+  direction: both
+  transform:
+    prefix: {add: SQ.}
+  lossy: null
+  example: {native: Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO, core: SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: md5
+  core: sequences[].md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 6aef897c3d6ff0c78aff06ac189178dd, core: 6aef897c3d6ff0c78aff06ac189178dd, file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: description
+  core: sequences[].description
+  direction: both
+  transform: null
+  lossy: The rest of the FASTA header line; structured tags inside (AC:, rl:) stay as text.
+  example: {native: 'AC:CM000663.2  gi:568336023  LN:248956422  rl:Chromosome  M5:6aef897c3d6ff0c78aff06ac189178dd  AS:GRCh38',
+    core: 'AC:CM000663.2  gi:568336023  LN:248956422  rl:Chromosome  M5:6aef897c3d6ff0c78aff06ac189178dd  AS:GRCh38',
+    file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: aliases[].namespace
+  core: sequences[].aliases[].namespace
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id001 [refseq, insdc]
+    core: *id001
+    file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json
+- native: aliases[].alias
+  core: sequences[].aliases[].value
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id002 [NC_000001.11, CM000663.2]
+    core: *id002
+    file: examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json
+unmapped:
+- {native: alphabet, per: row, reason: 'RefgetStore storage encoding (dna2bit, dnaio); a deployment detail.'}

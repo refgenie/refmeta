@@ -1,0 +1,12 @@
+>1 unmasked:chromosome GRCh38:1:1:248956422:1
+>2 unmasked:chromosome GRCh38:2:1:242193529:1
+>X unmasked:chromosome GRCh38:X:1:156040895:1
+>Y unmasked:chromosome GRCh38:Y:1:57227415:1
+>MT unmasked:chromosome GRCh38:MT:1:16569:1
+>KI270728.1 unmasked:scaffold GRCh38:KI270728.1:1:1872759:1
+>GL000009.2 unmasked:scaffold GRCh38:GL000009.2:1:201709:1
+>KI270757.1 unmasked:scaffold GRCh38:KI270757.1:1:71251:1
+>HG76_PATCH unmasked:scaffold GRCh38:HG76_PATCH:1:6367528:1 
+>HSCHR15_4_CTG8 unmasked:scaffold GRCh38:HSCHR15_4_CTG8:1:5161414:1 
+>HSCHR6_MHC_SSTO_CTG1 unmasked:scaffold GRCh38:HSCHR6_MHC_SSTO_CTG1:1:4929269:1 
+>HG1817_1_PATCH unmasked:scaffold GRCh38:HG1817_1_PATCH:1:7309:1 

@@ -1,0 +1,28 @@
+commonName,organism,ensemblID,origEnsemblVersion,origEnsemblDate,ensemblVersion,ensemblDate,ucscID,ucscDate,releaseName
+human,homo sapiens,NCBI36,54,May.2009,54,May.2009,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37,55,Jul.2009,55,Jul.2009,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p3,63,Jun.2011,63,Jun.2011,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p5,64,Sep.2011,64,Sep.2011,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p6,66,Feb.2012,66,Feb.2012,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p7,67,May.2012,67,May.2012,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p8,68,Jul.2012,68,Jul.2012,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p10,71,Apr.2013,71,Apr.2013,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p12,73,Sep.2013,73,Sep.2013,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p11,72,Jun.2013,72,Jun.2013,hg19,Feb.2009,Genome Reference Consortium GRCh37
+human,homo sapiens,GRCh37.p13,74,Dec.2013,74,Dec.2013,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38,76,Aug.2014,76,Aug.2014,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38.p2,79,Mar.2015,79,Mar.2015,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38.p3,81,Jul.2015,81,Jul.2015,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38.p5,83,Dec.2015,83,Dec.2015,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38.p7,85,Jul.2016,85,Jul.2016,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38.p10,88,Mar.2017,88,Mar.2017,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38.p12,92,Apr.2018,92,Apr.2018,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38.p13,98,Sept.2019,105,Dec.2021,hg38,Dec.2013,Genome Reference Consortium GRCh38
+human,homo sapiens,GRCh38.p13,106,Apr.2022,109,Feb.2023,hs1,Jan.2022,T2T Consortium CHM13v2.0
+human,homo sapiens,GRCh38.p14,110,Jul.2023,110,Jul.2023,hs1,Jan.2022,T2T Consortium CHM13v2.0
+yeast,saccharomyces cerevisiae,SGD1.01,54,May.2009,54,May.2009,sacCer2,Jun.2008,SGD June 2008 sequence
+yeast,saccharomyces cerevisiae,EF2,59,Aug.2010,59,Aug.2010,sacCer2,Jun.2008,SGD June 2008 sequence
+yeast,saccharomyces cerevisiae,EF2,59,Aug.2010,62,Apr.2011,sacCer3,Apr.2011,SGD June 2011 sequence
+yeast,saccharomyces cerevisiae,EF3,63,Jun.2011,63,Jun.2011,sacCer3,Apr.2011,SGD June 2011 sequence
+yeast,saccharomyces cerevisiae,EF4,65,Dec.2011,65,Dec.2011,sacCer3,Apr.2011,SGD June 2011 sequence
+yeast,saccharomyces cerevisiae,R64-1-1,75,Feb.2014,75,Feb.2014,sacCer3,Apr.2011,SGD June 2011 sequence

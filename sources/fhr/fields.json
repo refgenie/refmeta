@@ -1,0 +1,4895 @@
+{
+  "source": "fhr",
+  "title": "FHR: FAIR Header Reference genome (FAIR-bioHeaders), plus the gtars RefgetStore sidecar variant",
+  "maintainer": "FAIR-bioHeaders project (David Molik and Adam Wright hold schema authority); sidecar variant: databio (gtars) and refgenie",
+  "retrieved": "2026-11-17",
+  "formats": [
+    {
+      "id": "fhr_json",
+      "description": "FHR metadata as a standalone JSON file (FHR 2.1; the same shape holds FHR 1 and 2.0 records)",
+      "media_type": "application/json",
+      "extensions": [
+        ".fhr.json",
+        ".json"
+      ],
+      "spec_files": [
+        "spec/fhr.json",
+        "spec/docs/FORMAT.md",
+        "spec/docs/SCHEMA-VERSIONS.md",
+        "spec/fhr_linkml.yml",
+        "spec/schemas/core.yaml"
+      ],
+      "example_files": [
+        "examples/upstream_example.fhr.json",
+        "examples/upstream_minimal.fhr.json",
+        "examples/constructed/hg38.fhr.json",
+        "examples/constructed/R64-1-1.fhr.json"
+      ],
+      "record_key": "checksum (when it is the real file checksum); otherwise none: a standalone metadata file has no identity of its own. seqcol_id identifies the collection.",
+      "adapter": true
+    },
+    {
+      "id": "fhr_yaml",
+      "description": "FHR metadata as a YAML file (YAML 1.2 core types that read the same under 1.1, rule R12)",
+      "media_type": "application/yaml",
+      "extensions": [
+        ".fhr.yaml",
+        ".fhr.yml",
+        ".yaml"
+      ],
+      "spec_files": [
+        "spec/fhr.json",
+        "spec/docs/FORMAT.md"
+      ],
+      "example_files": [
+        "examples/upstream_example.fhr.yaml",
+        "examples/upstream_extension-fields.fhr.yaml",
+        "examples/constructed/hg38.fhr.yaml",
+        "examples/constructed/R64-1-1.fhr.yaml"
+      ],
+      "record_key": "as fhr_json",
+      "adapter": true
+    },
+    {
+      "id": "fhr_fasta_header",
+      "description": "FHR YAML embedded at the top of a FASTA file in ;~ comment lines; the checksum covers the whole file",
+      "media_type": "text/x-fasta",
+      "extensions": [
+        ".fhr.fasta",
+        ".fhr.fa",
+        ".fasta",
+        ".fa",
+        ".fna"
+      ],
+      "spec_files": [
+        "spec/docs/FORMAT.md",
+        "spec/fhr.json"
+      ],
+      "example_files": [
+        "examples/upstream_example.fhr.fasta",
+        "examples/constructed/hg38.fhr.fasta",
+        "examples/constructed/R64-1-1.fhr.fasta"
+      ],
+      "record_key": "checksum (SHA-512/256 of the file bytes except the checksum line)",
+      "adapter": true
+    },
+    {
+      "id": "fhr_gfa_header",
+      "description": "FHR YAML embedded at the top of a GFA file in #~ comment lines; the checksum covers the whole file",
+      "media_type": "text/plain",
+      "extensions": [
+        ".fhr.gfa",
+        ".gfa"
+      ],
+      "spec_files": [
+        "spec/docs/FORMAT.md",
+        "spec/fhr.json"
+      ],
+      "example_files": [
+        "examples/upstream_example.fhr.gfa",
+        "examples/constructed/hg38.fhr.gfa",
+        "examples/constructed/R64-1-1.fhr.gfa"
+      ],
+      "record_key": "checksum (SHA-512/256 of the file bytes except the checksum line)",
+      "adapter": true
+    },
+    {
+      "id": "fhr_jsonld",
+      "description": "FHR JSON-LD: the same record plus the FHR @context and @type keys (rules J1-J9); extension fields are not allowed",
+      "media_type": "application/ld+json",
+      "extensions": [
+        ".fhr.jsonld",
+        ".jsonld"
+      ],
+      "spec_files": [
+        "spec/docs/JSONLD.md",
+        "spec/jsonld/fhr.context.jsonld",
+        "spec/docs/TERMS.md",
+        "spec/mappings/fhr-jsonld-dcmi.yml"
+      ],
+      "example_files": [
+        "examples/upstream_example.fhr.jsonld",
+        "examples/upstream_minimal.fhr.jsonld",
+        "examples/constructed/hg38.fhr.jsonld",
+        "examples/constructed/R64-1-1.fhr.jsonld"
+      ],
+      "record_key": "as fhr_json",
+      "adapter": true
+    },
+    {
+      "id": "fhr_microdata",
+      "description": "FHR metadata as HTML microdata (itemtype = raw-main fhr.json URL, data-fhr-type annotations, rules M1-M5); extension fields are not allowed",
+      "media_type": "text/html",
+      "extensions": [
+        ".fhr.html",
+        ".html"
+      ],
+      "spec_files": [
+        "spec/docs/MICRODATA.md"
+      ],
+      "example_files": [
+        "examples/upstream_example.microdata.fhr.html",
+        "examples/constructed/hg38.microdata.fhr.html",
+        "examples/constructed/R64-1-1.microdata.fhr.html"
+      ],
+      "record_key": "as fhr_json",
+      "adapter": true
+    },
+    {
+      "id": "fhr_schemaorg_export",
+      "description": "One-way schema.org export: the record split into typed nodes (assembly Dataset, metadata record, CreateAction, Observations, Grant, ScholarlyArticle) in an @graph; cannot be read back to FHR",
+      "media_type": "application/ld+json",
+      "extensions": [
+        ".jsonld"
+      ],
+      "spec_files": [
+        "spec/docs/SCHEMAORG-EXPORT.md",
+        "spec/mappings/fhr-schemaorg-export.yml"
+      ],
+      "example_files": [
+        "examples/upstream_example.fhr.export.jsonld"
+      ],
+      "record_key": "assembly node fhr:checksum",
+      "adapter": false
+    },
+    {
+      "id": "fhr_refgetstore_sidecar",
+      "description": "RefgetStore FHR sidecar: gtars FhrMetadata serialized as JSON at <store>/fhr/<seqcol digest>.fhr.json (refgenie's public stores)",
+      "media_type": "application/json",
+      "extensions": [
+        ".fhr.json"
+      ],
+      "spec_files": [
+        "spec/refgetstore/gtars_fhr_metadata_excerpt.rs",
+        "spec/refgetstore/refgenie_registry_fhr_alignment.md",
+        "spec/history/fhr_2026-02-08_ee8dc12365.json"
+      ],
+      "example_files": [
+        "examples/sidecar_GRCh38-ensembl81_plantcore_EpUZgR6X_cEphzw9gboSc86rumZpXthc.fhr.json",
+        "examples/sidecar_GRCh38.p14-ncbi_jungle_u1HyLgIlq8M_XvEwy0oGqAvKGHJMGtxH.fhr.json",
+        "examples/sidecar_R64-1-1_plantcore_ia9g4Myony-xxLsSc7eQOC_NdClGgPGu.fhr.json",
+        "examples/sidecar_hg38_jungle_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.fhr.json",
+        "examples/sidecar_sacCer-ncbi-build3.1_igenomes_WdaV-flgP58fZtp5r1I08coS-koI_71a.fhr.json",
+        "examples/sidecar_sacCer3_igenomes_8zSJ7M2oerPcCKc8x310hjyfB5u8SJNJ.fhr.json"
+      ],
+      "record_key": "seqcolDigest (the file name <seqcolDigest>.fhr.json; not in the JSON body), within one RefgetStore",
+      "adapter": true
+    }
+  ],
+  "fields": [
+    {
+      "format": "fhr_json",
+      "path": "schema",
+      "type": "uri",
+      "description": "centralized schema file (the URL of the FHR schema this record follows)",
+      "example": "https://w3id.org/fair-bioheaders/fhr/v0.6.0",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Selects the schema version (SCHEMA-VERSIONS.md V1-V7): raw-main URL = current schema; w3id or raw tag URL = that release. Raw-main plus schemaVersion 1 means an FHR 1 record (V6)."
+    },
+    {
+      "format": "fhr_json",
+      "path": "schemaVersion",
+      "type": "string",
+      "description": "Version of the FHR schema contract, as \"MAJOR.MINOR\" (\"2.0\" or \"2.1\")",
+      "example": "2.1",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "A string from v0.4 (FHR 2.0); the number 1 (often written 1.0) in FHR 1 / releases up to v0.3.1. Distinct from the assembly `version` and from the release tag."
+    },
+    {
+      "format": "fhr_json",
+      "path": "genome",
+      "type": "string",
+      "description": "Name of the Genome",
+      "example": "Synthetic human reference example",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Free text. The upstream example uses a descriptive name; refgenie sidecars put a collection-style name here (hg38, sacCer3, R64-1-1), so in practice it may name a collection rather than the assembly."
+    },
+    {
+      "format": "fhr_json",
+      "path": "genomeSynonym",
+      "type": "string",
+      "description": "Other common names of the genome",
+      "example": [
+        "synthetic example"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of strings. refgenie uses it for collection aliases (GRCh38, sacCer3-igenomes-ucsc)."
+    },
+    {
+      "format": "fhr_json",
+      "path": "taxon.name",
+      "type": "string",
+      "description": "Species name (taxon.name)",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "taxon is required; a conforming record has a non-empty taxon.name or taxon.uri. A planned FHR 3.0 rule will require taxon.uri."
+    },
+    {
+      "format": "fhr_json",
+      "path": "taxon.uri",
+      "type": "uri",
+      "description": "URL of the species at identifiers.org (taxon.uri)",
+      "example": "https://identifiers.org/taxonomy:9606",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://identifiers\\.org/taxonomy:[0-9]+$ (NCBI Taxonomy id after the colon)."
+    },
+    {
+      "format": "fhr_json",
+      "path": "version",
+      "type": "string",
+      "description": "Version number of Genome eg. 1.2.0",
+      "example": "0.0.1",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "The assembly's own version, not schemaVersion. refgenie fills it with the number after the dot of the NCBI accession (GCA_000001405.15 -> \"15\")."
+    },
+    {
+      "format": "fhr_json",
+      "path": "metadataAuthor[].name",
+      "type": "string",
+      "description": "Author of the FHR instance (person or organization): name",
+      "example": [
+        "Adam Wright"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Who wrote this metadata record, not the assembly. One list item per author, aligned with the other metadataAuthor[] lists; None where an author lacks the key. metadataAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_json",
+      "path": "metadataAuthor[].uri",
+      "type": "uri",
+      "description": "Author of the FHR instance: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0002-5719-4024"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://orcid\\.org/NNNN-NNNN-NNNN-NNN[0-9X]$ (only ORCID is allowed in 2.x)."
+    },
+    {
+      "format": "fhr_json",
+      "path": "metadataAuthor[].nameType",
+      "type": "string",
+      "description": "Whether the author is a person (Personal) or an organization (Organizational), as DataCite nameType",
+      "example": [
+        "Personal"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum Personal|Organizational; added in v0.4 (FHR 2.0)."
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblyAuthor[].name",
+      "type": "string",
+      "description": "Assembler of the Genome (person or org): name",
+      "example": [
+        "David Molik"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "assemblyAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblyAuthor[].uri",
+      "type": "uri",
+      "description": "Assembler of the Genome: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0003-3192-6538"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "ORCID pattern, as for metadataAuthor."
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblyAuthor[].nameType",
+      "type": "string",
+      "description": "Personal or Organizational (DataCite nameType)",
+      "example": "Organizational",
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum; added in v0.4. Example value from conformance vector valid/jsonld-author-name-type.fhr.jsonld (not copied here)."
+    },
+    {
+      "format": "fhr_json",
+      "path": "dateCreated",
+      "type": "date",
+      "description": "Date the genome assembly was created",
+      "example": "2022-03-21",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "ISO date (format: date). In YAML it must stay a string (rule R12)."
+    },
+    {
+      "format": "fhr_json",
+      "path": "voucherSpecimen",
+      "type": "string",
+      "description": "Description of the physical sample",
+      "example": "Synthetic example; no physical specimen",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (was physicalSample in the 2022 FFRGS draft)."
+    },
+    {
+      "format": "fhr_json",
+      "path": "accessionID.name",
+      "type": "string",
+      "description": "Accession of the genome assembly (accessionID.name)",
+      "example": "PBARC",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "The schema description is garbled (\"accessionID genome assembly was created\"). The official example puts an institution name (PBARC) here; refgenie puts the INSDC assembly accession (GCA_000001405.15). Unique only within the database it comes from."
+    },
+    {
+      "format": "fhr_json",
+      "path": "accessionID.url",
+      "type": "uri",
+      "description": "URL of the accession record (accessionID.url)",
+      "example": "https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie writes https://www.ncbi.nlm.nih.gov/datasets/genome/<accession>/."
+    },
+    {
+      "format": "fhr_json",
+      "path": "instrument",
+      "type": "string",
+      "description": "Physical tools and instruments used in the creation of the genome assembly",
+      "example": [
+        "Example sequencer"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of free-text instrument names."
+    },
+    {
+      "format": "fhr_json",
+      "path": "scholarlyArticle",
+      "type": "string",
+      "description": "DOI (without a resolver prefix) of the scholarly article where the genome was published",
+      "example": "10.1093/bib/bbae122",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^10\\.[0-9]+(\\.[0-9]+)*/\\S+$. FHR 1 allowed anything starting with 10."
+    },
+    {
+      "format": "fhr_json",
+      "path": "documentation",
+      "type": "string",
+      "description": "Documentation about the genome",
+      "example": "Synthetic metadata and sequence; identifiers are placeholders unless explicitly verified.",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text describing the genome; refgenie uses it as the genome description. In JSON-LD a URL value is written as subjectOf."
+    },
+    {
+      "format": "fhr_json",
+      "path": "identifier",
+      "type": "string",
+      "description": "Identifiers of the genome as prefix:accession (CURIE-like)",
+      "example": [
+        "beetlebase:TC010103"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Pattern ^[A-Za-z0-9._-]+:.+$. Which kind of identifier is not said; each is unique within its prefix."
+    },
+    {
+      "format": "fhr_json",
+      "path": "relatedLink",
+      "type": "uri",
+      "description": "Related URLs to the genome",
+      "example": [
+        "http://wfleabase.org/genome/Daphnia_pulex/dpulex_jgi060905/fasta/"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Any related URL; refgenie's hg38 sidecar lists a download URL of the FASTA (a copy) and a blog post."
+    },
+    {
+      "format": "fhr_json",
+      "path": "funding",
+      "type": "string",
+      "description": "Grant line item",
+      "example": "funding",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text; the schema.org export turns it into a Grant node."
+    },
+    {
+      "format": "fhr_json",
+      "path": "reuseConditions",
+      "type": "string",
+      "description": "License and reuse conditions for the use of the Genome",
+      "example": "public domain",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (the 2022 draft called it licence). gtars and the refgenie registry use a different key, license, which is not an FHR field."
+    },
+    {
+      "format": "fhr_json",
+      "path": "masking",
+      "type": "string",
+      "description": "Masking applied to the genome assembly",
+      "example": "soft-masked",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Enum by pattern: not-masked|hard-masked|soft-masked|repeat-masked|unknown. A property of a particular FASTA file: soft-masking does not change refget digests (sequences are uppercased first), hard-masking does."
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.L50",
+      "type": "integer",
+      "description": "Contig L50: the smallest number of contigs whose lengths sum to at least 50 percent of the assembly length",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Computed over the sequences of the file; describes the assembly only when the file holds all of it."
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.N50",
+      "type": "integer",
+      "description": "Contig N50: contig length in base pairs at 50 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.L90",
+      "type": "integer",
+      "description": "Contig L90",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.N90",
+      "type": "integer",
+      "description": "Contig length in base pairs at 90 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.totalBasePairs",
+      "type": "integer",
+      "description": "Total base pairs of the genome assembly",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.numberContigs",
+      "type": "integer",
+      "description": "Number of contigs of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.numberScaffolds",
+      "type": "integer",
+      "description": "Number of scaffolds of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.scaffoldN50",
+      "type": "integer",
+      "description": "Scaffold N50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.scaffoldN90",
+      "type": "integer",
+      "description": "Scaffold N90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.scaffoldL50",
+      "type": "integer",
+      "description": "Scaffold L50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.scaffoldL90",
+      "type": "integer",
+      "description": "Scaffold L90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.gcContent",
+      "type": "number",
+      "description": "GC content as a percentage (0 to 100), not a fraction",
+      "example": 37.5,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_json",
+      "path": "vitalStats.readTechnology",
+      "type": "string",
+      "description": "Read technology of the genome assembly (short, long, hifi, etc.)",
+      "example": "HiFi",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text."
+    },
+    {
+      "format": "fhr_json",
+      "path": "checksum",
+      "type": "string",
+      "description": "SHA-512/256 of the file, standard padded base64 (44 characters)",
+      "example": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Rules R1-R5: hash of the exact (decompressed) file bytes except the root checksum line, so metadata, comments and sequence all count. It identifies one exact FASTA/GFA file, not the sequences. Old FHR docs used md5: values; the refgenie registry writes sha256:<hex>, which is not FHR. In standalone JSON/YAML/JSON-LD/HTML examples it is a placeholder."
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblySoftware",
+      "type": "string",
+      "description": "Assembly software: legacy name string",
+      "example": "synthetic-assembler",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "assemblySoftware is either this legacy string or a list of objects (the assemblySoftware[] fields). Example value from conformance vector valid/jsonld-legacy-software-string.fhr.jsonld (not copied here); the 2022 draft example used HiFiASM."
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblySoftware[].name",
+      "type": "string",
+      "description": "Assembly software name",
+      "example": [
+        "hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Required in each software object."
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblySoftware[].uri",
+      "type": "uri",
+      "description": "Assembly software URI",
+      "example": [
+        "https://github.com/chhylp123/hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblySoftware[].version",
+      "type": "string",
+      "description": "Assembly software version",
+      "example": [
+        "0.19.8"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblySoftware[].commandLineOption",
+      "type": "array",
+      "description": "Command-line arguments used",
+      "example": [
+        [
+          "-t",
+          "2"
+        ]
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "One list of argument strings per software item, so the value is a list of lists."
+    },
+    {
+      "format": "fhr_json",
+      "path": "assemblyProtocol",
+      "type": "uri",
+      "description": "URI of the assembly protocol or workflow documentation",
+      "example": "https://example.org/assembly-protocol",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_json",
+      "path": "seqcol_id",
+      "type": "string",
+      "description": "Unprefixed GA4GH refget sequence collection top-level digest (sha512t24u); supplied by the user, not calculated by FHR",
+      "example": "EiFob05aCWgVU_B_Ae0cypnQut3cxUP1",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "32 base64url characters. The link from FHR to the seqcol level. Added in v0.3. Official examples hold a placeholder (all A); several FHR files (for example soft-masked and unmasked copies) can share one digest. The schema.org export writes it as identifier PropertyValue 'GA4GH refget sequence collection'. Example: the real hg38 digest, as used in the constructed anchors."
+    },
+    {
+      "format": "fhr_json",
+      "path": "x-refget-assemblySource",
+      "type": "string",
+      "description": "Extension field (R15): who distributed this sequence set",
+      "example": "ncbi",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "The upstream example holds a placeholder. The constructed anchors move refgenie's assemblySource here (ncbi, Ensembl, UCSC; not normalized). Extension fields mean nothing to the standard."
+    },
+    {
+      "format": "fhr_json",
+      "path": "x-refget-assemblyLevel",
+      "type": "string",
+      "description": "Extension field (R15): NCBI assembly level",
+      "example": "chromosome",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Only in constructed anchors (refgenie's assemblyLevel moved to an x- key)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "schema",
+      "type": "uri",
+      "description": "centralized schema file (the URL of the FHR schema this record follows)",
+      "example": "https://w3id.org/fair-bioheaders/fhr/v0.6.0",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Selects the schema version (SCHEMA-VERSIONS.md V1-V7): raw-main URL = current schema; w3id or raw tag URL = that release. Raw-main plus schemaVersion 1 means an FHR 1 record (V6)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "schemaVersion",
+      "type": "string",
+      "description": "Version of the FHR schema contract, as \"MAJOR.MINOR\" (\"2.0\" or \"2.1\")",
+      "example": "2.1",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "A string from v0.4 (FHR 2.0); the number 1 (often written 1.0) in FHR 1 / releases up to v0.3.1. Distinct from the assembly `version` and from the release tag."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "genome",
+      "type": "string",
+      "description": "Name of the Genome",
+      "example": "Synthetic human reference example",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Free text. The upstream example uses a descriptive name; refgenie sidecars put a collection-style name here (hg38, sacCer3, R64-1-1), so in practice it may name a collection rather than the assembly."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "genomeSynonym",
+      "type": "string",
+      "description": "Other common names of the genome",
+      "example": [
+        "synthetic example"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of strings. refgenie uses it for collection aliases (GRCh38, sacCer3-igenomes-ucsc)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "taxon.name",
+      "type": "string",
+      "description": "Species name (taxon.name)",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "taxon is required; a conforming record has a non-empty taxon.name or taxon.uri. A planned FHR 3.0 rule will require taxon.uri."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "taxon.uri",
+      "type": "uri",
+      "description": "URL of the species at identifiers.org (taxon.uri)",
+      "example": "https://identifiers.org/taxonomy:9606",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://identifiers\\.org/taxonomy:[0-9]+$ (NCBI Taxonomy id after the colon)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "version",
+      "type": "string",
+      "description": "Version number of Genome eg. 1.2.0",
+      "example": "0.0.1",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "The assembly's own version, not schemaVersion. refgenie fills it with the number after the dot of the NCBI accession (GCA_000001405.15 -> \"15\")."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "metadataAuthor[].name",
+      "type": "string",
+      "description": "Author of the FHR instance (person or organization): name",
+      "example": [
+        "Adam Wright"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Who wrote this metadata record, not the assembly. One list item per author, aligned with the other metadataAuthor[] lists; None where an author lacks the key. metadataAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "metadataAuthor[].uri",
+      "type": "uri",
+      "description": "Author of the FHR instance: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0002-5719-4024"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://orcid\\.org/NNNN-NNNN-NNNN-NNN[0-9X]$ (only ORCID is allowed in 2.x)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "metadataAuthor[].nameType",
+      "type": "string",
+      "description": "Whether the author is a person (Personal) or an organization (Organizational), as DataCite nameType",
+      "example": [
+        "Personal"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum Personal|Organizational; added in v0.4 (FHR 2.0)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblyAuthor[].name",
+      "type": "string",
+      "description": "Assembler of the Genome (person or org): name",
+      "example": [
+        "David Molik"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "assemblyAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblyAuthor[].uri",
+      "type": "uri",
+      "description": "Assembler of the Genome: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0003-3192-6538"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "ORCID pattern, as for metadataAuthor."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblyAuthor[].nameType",
+      "type": "string",
+      "description": "Personal or Organizational (DataCite nameType)",
+      "example": "Organizational",
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum; added in v0.4. Example value from conformance vector valid/jsonld-author-name-type.fhr.jsonld (not copied here)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "dateCreated",
+      "type": "date",
+      "description": "Date the genome assembly was created",
+      "example": "2022-03-21",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "ISO date (format: date). In YAML it must stay a string (rule R12)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "voucherSpecimen",
+      "type": "string",
+      "description": "Description of the physical sample",
+      "example": "Synthetic example; no physical specimen",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (was physicalSample in the 2022 FFRGS draft)."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "accessionID.name",
+      "type": "string",
+      "description": "Accession of the genome assembly (accessionID.name)",
+      "example": "PBARC",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "The schema description is garbled (\"accessionID genome assembly was created\"). The official example puts an institution name (PBARC) here; refgenie puts the INSDC assembly accession (GCA_000001405.15). Unique only within the database it comes from."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "accessionID.url",
+      "type": "uri",
+      "description": "URL of the accession record (accessionID.url)",
+      "example": "https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie writes https://www.ncbi.nlm.nih.gov/datasets/genome/<accession>/."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "instrument",
+      "type": "string",
+      "description": "Physical tools and instruments used in the creation of the genome assembly",
+      "example": [
+        "Example sequencer"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of free-text instrument names."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "scholarlyArticle",
+      "type": "string",
+      "description": "DOI (without a resolver prefix) of the scholarly article where the genome was published",
+      "example": "10.1093/bib/bbae122",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^10\\.[0-9]+(\\.[0-9]+)*/\\S+$. FHR 1 allowed anything starting with 10."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "documentation",
+      "type": "string",
+      "description": "Documentation about the genome",
+      "example": "Synthetic metadata and sequence; identifiers are placeholders unless explicitly verified.",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text describing the genome; refgenie uses it as the genome description. In JSON-LD a URL value is written as subjectOf."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "identifier",
+      "type": "string",
+      "description": "Identifiers of the genome as prefix:accession (CURIE-like)",
+      "example": [
+        "beetlebase:TC010103"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Pattern ^[A-Za-z0-9._-]+:.+$. Which kind of identifier is not said; each is unique within its prefix."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "relatedLink",
+      "type": "uri",
+      "description": "Related URLs to the genome",
+      "example": [
+        "http://wfleabase.org/genome/Daphnia_pulex/dpulex_jgi060905/fasta/"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Any related URL; refgenie's hg38 sidecar lists a download URL of the FASTA (a copy) and a blog post."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "funding",
+      "type": "string",
+      "description": "Grant line item",
+      "example": "funding",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text; the schema.org export turns it into a Grant node."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "reuseConditions",
+      "type": "string",
+      "description": "License and reuse conditions for the use of the Genome",
+      "example": "public domain",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (the 2022 draft called it licence). gtars and the refgenie registry use a different key, license, which is not an FHR field."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "masking",
+      "type": "string",
+      "description": "Masking applied to the genome assembly",
+      "example": "soft-masked",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Enum by pattern: not-masked|hard-masked|soft-masked|repeat-masked|unknown. A property of a particular FASTA file: soft-masking does not change refget digests (sequences are uppercased first), hard-masking does."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.L50",
+      "type": "integer",
+      "description": "Contig L50: the smallest number of contigs whose lengths sum to at least 50 percent of the assembly length",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Computed over the sequences of the file; describes the assembly only when the file holds all of it."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.N50",
+      "type": "integer",
+      "description": "Contig N50: contig length in base pairs at 50 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.L90",
+      "type": "integer",
+      "description": "Contig L90",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.N90",
+      "type": "integer",
+      "description": "Contig length in base pairs at 90 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.totalBasePairs",
+      "type": "integer",
+      "description": "Total base pairs of the genome assembly",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.numberContigs",
+      "type": "integer",
+      "description": "Number of contigs of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.numberScaffolds",
+      "type": "integer",
+      "description": "Number of scaffolds of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.scaffoldN50",
+      "type": "integer",
+      "description": "Scaffold N50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.scaffoldN90",
+      "type": "integer",
+      "description": "Scaffold N90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.scaffoldL50",
+      "type": "integer",
+      "description": "Scaffold L50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.scaffoldL90",
+      "type": "integer",
+      "description": "Scaffold L90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.gcContent",
+      "type": "number",
+      "description": "GC content as a percentage (0 to 100), not a fraction",
+      "example": 37.5,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "vitalStats.readTechnology",
+      "type": "string",
+      "description": "Read technology of the genome assembly (short, long, hifi, etc.)",
+      "example": "HiFi",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "checksum",
+      "type": "string",
+      "description": "SHA-512/256 of the file, standard padded base64 (44 characters)",
+      "example": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Rules R1-R5: hash of the exact (decompressed) file bytes except the root checksum line, so metadata, comments and sequence all count. It identifies one exact FASTA/GFA file, not the sequences. Old FHR docs used md5: values; the refgenie registry writes sha256:<hex>, which is not FHR. In standalone JSON/YAML/JSON-LD/HTML examples it is a placeholder."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblySoftware",
+      "type": "string",
+      "description": "Assembly software: legacy name string",
+      "example": "synthetic-assembler",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "assemblySoftware is either this legacy string or a list of objects (the assemblySoftware[] fields). Example value from conformance vector valid/jsonld-legacy-software-string.fhr.jsonld (not copied here); the 2022 draft example used HiFiASM."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblySoftware[].name",
+      "type": "string",
+      "description": "Assembly software name",
+      "example": [
+        "hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Required in each software object."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblySoftware[].uri",
+      "type": "uri",
+      "description": "Assembly software URI",
+      "example": [
+        "https://github.com/chhylp123/hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblySoftware[].version",
+      "type": "string",
+      "description": "Assembly software version",
+      "example": [
+        "0.19.8"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblySoftware[].commandLineOption",
+      "type": "array",
+      "description": "Command-line arguments used",
+      "example": [
+        [
+          "-t",
+          "2"
+        ]
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "One list of argument strings per software item, so the value is a list of lists."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "assemblyProtocol",
+      "type": "uri",
+      "description": "URI of the assembly protocol or workflow documentation",
+      "example": "https://example.org/assembly-protocol",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "seqcol_id",
+      "type": "string",
+      "description": "Unprefixed GA4GH refget sequence collection top-level digest (sha512t24u); supplied by the user, not calculated by FHR",
+      "example": "EiFob05aCWgVU_B_Ae0cypnQut3cxUP1",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "32 base64url characters. The link from FHR to the seqcol level. Added in v0.3. Official examples hold a placeholder (all A); several FHR files (for example soft-masked and unmasked copies) can share one digest. The schema.org export writes it as identifier PropertyValue 'GA4GH refget sequence collection'. Example: the real hg38 digest, as used in the constructed anchors."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "x-refget-commonName",
+      "type": "string",
+      "description": "Extension field (R15): common name of the species",
+      "example": "human",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Appears only in the upstream extension-fields example; illustrative value."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "x-refget-assemblySource",
+      "type": "string",
+      "description": "Extension field (R15): who distributed this sequence set",
+      "example": "Synthetic example source (placeholder)",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "The upstream example holds a placeholder. The constructed anchors move refgenie's assemblySource here (ncbi, Ensembl, UCSC; not normalized). Extension fields mean nothing to the standard."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "x-example-pipeline",
+      "type": "object",
+      "description": "Extension field (R15): an example nested value",
+      "example": {
+        "name": "synthetic-pipeline",
+        "steps": [
+          "assemble",
+          "polish"
+        ]
+      },
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Illustrative only; shows that an extension value may be an object."
+    },
+    {
+      "format": "fhr_yaml",
+      "path": "x-refget-assemblyLevel",
+      "type": "string",
+      "description": "Extension field (R15): NCBI assembly level",
+      "example": "chromosome",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Only in constructed anchors (refgenie's assemblyLevel moved to an x- key)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "schema",
+      "type": "uri",
+      "description": "centralized schema file (the URL of the FHR schema this record follows)",
+      "example": "https://w3id.org/fair-bioheaders/fhr/v0.6.0",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Selects the schema version (SCHEMA-VERSIONS.md V1-V7): raw-main URL = current schema; w3id or raw tag URL = that release. Raw-main plus schemaVersion 1 means an FHR 1 record (V6)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "schemaVersion",
+      "type": "string",
+      "description": "Version of the FHR schema contract, as \"MAJOR.MINOR\" (\"2.0\" or \"2.1\")",
+      "example": "2.1",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "A string from v0.4 (FHR 2.0); the number 1 (often written 1.0) in FHR 1 / releases up to v0.3.1. Distinct from the assembly `version` and from the release tag."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "genome",
+      "type": "string",
+      "description": "Name of the Genome",
+      "example": "Synthetic human reference example",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Free text. The upstream example uses a descriptive name; refgenie sidecars put a collection-style name here (hg38, sacCer3, R64-1-1), so in practice it may name a collection rather than the assembly."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "genomeSynonym",
+      "type": "string",
+      "description": "Other common names of the genome",
+      "example": [
+        "synthetic example"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of strings. refgenie uses it for collection aliases (GRCh38, sacCer3-igenomes-ucsc)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "taxon.name",
+      "type": "string",
+      "description": "Species name (taxon.name)",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "taxon is required; a conforming record has a non-empty taxon.name or taxon.uri. A planned FHR 3.0 rule will require taxon.uri."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "taxon.uri",
+      "type": "uri",
+      "description": "URL of the species at identifiers.org (taxon.uri)",
+      "example": "https://identifiers.org/taxonomy:9606",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://identifiers\\.org/taxonomy:[0-9]+$ (NCBI Taxonomy id after the colon)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "version",
+      "type": "string",
+      "description": "Version number of Genome eg. 1.2.0",
+      "example": "0.0.1",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "The assembly's own version, not schemaVersion. refgenie fills it with the number after the dot of the NCBI accession (GCA_000001405.15 -> \"15\")."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "metadataAuthor[].name",
+      "type": "string",
+      "description": "Author of the FHR instance (person or organization): name",
+      "example": [
+        "Adam Wright"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Who wrote this metadata record, not the assembly. One list item per author, aligned with the other metadataAuthor[] lists; None where an author lacks the key. metadataAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "metadataAuthor[].uri",
+      "type": "uri",
+      "description": "Author of the FHR instance: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0002-5719-4024"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://orcid\\.org/NNNN-NNNN-NNNN-NNN[0-9X]$ (only ORCID is allowed in 2.x)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "metadataAuthor[].nameType",
+      "type": "string",
+      "description": "Whether the author is a person (Personal) or an organization (Organizational), as DataCite nameType",
+      "example": [
+        "Personal"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum Personal|Organizational; added in v0.4 (FHR 2.0)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblyAuthor[].name",
+      "type": "string",
+      "description": "Assembler of the Genome (person or org): name",
+      "example": [
+        "David Molik"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "assemblyAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblyAuthor[].uri",
+      "type": "uri",
+      "description": "Assembler of the Genome: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0003-3192-6538"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "ORCID pattern, as for metadataAuthor."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblyAuthor[].nameType",
+      "type": "string",
+      "description": "Personal or Organizational (DataCite nameType)",
+      "example": "Organizational",
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum; added in v0.4. Example value from conformance vector valid/jsonld-author-name-type.fhr.jsonld (not copied here)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "dateCreated",
+      "type": "date",
+      "description": "Date the genome assembly was created",
+      "example": "2022-03-21",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "ISO date (format: date). In YAML it must stay a string (rule R12)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "voucherSpecimen",
+      "type": "string",
+      "description": "Description of the physical sample",
+      "example": "Synthetic example; no physical specimen",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (was physicalSample in the 2022 FFRGS draft)."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "accessionID.name",
+      "type": "string",
+      "description": "Accession of the genome assembly (accessionID.name)",
+      "example": "PBARC",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "The schema description is garbled (\"accessionID genome assembly was created\"). The official example puts an institution name (PBARC) here; refgenie puts the INSDC assembly accession (GCA_000001405.15). Unique only within the database it comes from."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "accessionID.url",
+      "type": "uri",
+      "description": "URL of the accession record (accessionID.url)",
+      "example": "https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie writes https://www.ncbi.nlm.nih.gov/datasets/genome/<accession>/."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "instrument",
+      "type": "string",
+      "description": "Physical tools and instruments used in the creation of the genome assembly",
+      "example": [
+        "Example sequencer"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of free-text instrument names."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "scholarlyArticle",
+      "type": "string",
+      "description": "DOI (without a resolver prefix) of the scholarly article where the genome was published",
+      "example": "10.1093/bib/bbae122",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^10\\.[0-9]+(\\.[0-9]+)*/\\S+$. FHR 1 allowed anything starting with 10."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "documentation",
+      "type": "string",
+      "description": "Documentation about the genome",
+      "example": "Synthetic metadata and sequence; identifiers are placeholders unless explicitly verified.",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text describing the genome; refgenie uses it as the genome description. In JSON-LD a URL value is written as subjectOf."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "identifier",
+      "type": "string",
+      "description": "Identifiers of the genome as prefix:accession (CURIE-like)",
+      "example": [
+        "beetlebase:TC010103"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Pattern ^[A-Za-z0-9._-]+:.+$. Which kind of identifier is not said; each is unique within its prefix."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "relatedLink",
+      "type": "uri",
+      "description": "Related URLs to the genome",
+      "example": [
+        "http://wfleabase.org/genome/Daphnia_pulex/dpulex_jgi060905/fasta/"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Any related URL; refgenie's hg38 sidecar lists a download URL of the FASTA (a copy) and a blog post."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "funding",
+      "type": "string",
+      "description": "Grant line item",
+      "example": "funding",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text; the schema.org export turns it into a Grant node."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "reuseConditions",
+      "type": "string",
+      "description": "License and reuse conditions for the use of the Genome",
+      "example": "public domain",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (the 2022 draft called it licence). gtars and the refgenie registry use a different key, license, which is not an FHR field."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "masking",
+      "type": "string",
+      "description": "Masking applied to the genome assembly",
+      "example": "soft-masked",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Enum by pattern: not-masked|hard-masked|soft-masked|repeat-masked|unknown. A property of a particular FASTA file: soft-masking does not change refget digests (sequences are uppercased first), hard-masking does."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.L50",
+      "type": "integer",
+      "description": "Contig L50: the smallest number of contigs whose lengths sum to at least 50 percent of the assembly length",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Computed over the sequences of the file; describes the assembly only when the file holds all of it."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.N50",
+      "type": "integer",
+      "description": "Contig N50: contig length in base pairs at 50 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.L90",
+      "type": "integer",
+      "description": "Contig L90",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.N90",
+      "type": "integer",
+      "description": "Contig length in base pairs at 90 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.totalBasePairs",
+      "type": "integer",
+      "description": "Total base pairs of the genome assembly",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.numberContigs",
+      "type": "integer",
+      "description": "Number of contigs of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.numberScaffolds",
+      "type": "integer",
+      "description": "Number of scaffolds of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.scaffoldN50",
+      "type": "integer",
+      "description": "Scaffold N50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.scaffoldN90",
+      "type": "integer",
+      "description": "Scaffold N90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.scaffoldL50",
+      "type": "integer",
+      "description": "Scaffold L50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.scaffoldL90",
+      "type": "integer",
+      "description": "Scaffold L90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.gcContent",
+      "type": "number",
+      "description": "GC content as a percentage (0 to 100), not a fraction",
+      "example": 37.5,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "vitalStats.readTechnology",
+      "type": "string",
+      "description": "Read technology of the genome assembly (short, long, hifi, etc.)",
+      "example": "HiFi",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "checksum",
+      "type": "string",
+      "description": "SHA-512/256 of the file, standard padded base64 (44 characters)",
+      "example": "oVOUoqUJJWHHGe7JlwNErSs9Yvx32ujIOyaM+DDTK3s=",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Rules R1-R5: hash of the exact (decompressed) file bytes except the root checksum line, so metadata, comments and sequence all count. It identifies one exact FASTA/GFA file, not the sequences. Old FHR docs used md5: values; the refgenie registry writes sha256:<hex>, which is not FHR. In standalone JSON/YAML/JSON-LD/HTML examples it is a placeholder."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblySoftware",
+      "type": "string",
+      "description": "Assembly software: legacy name string",
+      "example": "synthetic-assembler",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "assemblySoftware is either this legacy string or a list of objects (the assemblySoftware[] fields). Example value from conformance vector valid/jsonld-legacy-software-string.fhr.jsonld (not copied here); the 2022 draft example used HiFiASM."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblySoftware[].name",
+      "type": "string",
+      "description": "Assembly software name",
+      "example": [
+        "hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Required in each software object."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblySoftware[].uri",
+      "type": "uri",
+      "description": "Assembly software URI",
+      "example": [
+        "https://github.com/chhylp123/hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblySoftware[].version",
+      "type": "string",
+      "description": "Assembly software version",
+      "example": [
+        "0.19.8"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblySoftware[].commandLineOption",
+      "type": "array",
+      "description": "Command-line arguments used",
+      "example": [
+        [
+          "-t",
+          "2"
+        ]
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "One list of argument strings per software item, so the value is a list of lists."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "assemblyProtocol",
+      "type": "uri",
+      "description": "URI of the assembly protocol or workflow documentation",
+      "example": "https://example.org/assembly-protocol",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "seqcol_id",
+      "type": "string",
+      "description": "Unprefixed GA4GH refget sequence collection top-level digest (sha512t24u); supplied by the user, not calculated by FHR",
+      "example": "EiFob05aCWgVU_B_Ae0cypnQut3cxUP1",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "32 base64url characters. The link from FHR to the seqcol level. Added in v0.3. Official examples hold a placeholder (all A); several FHR files (for example soft-masked and unmasked copies) can share one digest. The schema.org export writes it as identifier PropertyValue 'GA4GH refget sequence collection'. Example: the real hg38 digest, as used in the constructed anchors."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "x-refget-assemblySource",
+      "type": "string",
+      "description": "Extension field (R15): who distributed this sequence set",
+      "example": "ncbi",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "The upstream example holds a placeholder. The constructed anchors move refgenie's assemblySource here (ncbi, Ensembl, UCSC; not normalized). Extension fields mean nothing to the standard."
+    },
+    {
+      "format": "fhr_fasta_header",
+      "path": "x-refget-assemblyLevel",
+      "type": "string",
+      "description": "Extension field (R15): NCBI assembly level",
+      "example": "chromosome",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Only in constructed anchors (refgenie's assemblyLevel moved to an x- key)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "schema",
+      "type": "uri",
+      "description": "centralized schema file (the URL of the FHR schema this record follows)",
+      "example": "https://w3id.org/fair-bioheaders/fhr/v0.6.0",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Selects the schema version (SCHEMA-VERSIONS.md V1-V7): raw-main URL = current schema; w3id or raw tag URL = that release. Raw-main plus schemaVersion 1 means an FHR 1 record (V6)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "schemaVersion",
+      "type": "string",
+      "description": "Version of the FHR schema contract, as \"MAJOR.MINOR\" (\"2.0\" or \"2.1\")",
+      "example": "2.1",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "A string from v0.4 (FHR 2.0); the number 1 (often written 1.0) in FHR 1 / releases up to v0.3.1. Distinct from the assembly `version` and from the release tag."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "genome",
+      "type": "string",
+      "description": "Name of the Genome",
+      "example": "Synthetic human reference example",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Free text. The upstream example uses a descriptive name; refgenie sidecars put a collection-style name here (hg38, sacCer3, R64-1-1), so in practice it may name a collection rather than the assembly."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "genomeSynonym",
+      "type": "string",
+      "description": "Other common names of the genome",
+      "example": [
+        "synthetic example"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of strings. refgenie uses it for collection aliases (GRCh38, sacCer3-igenomes-ucsc)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "taxon.name",
+      "type": "string",
+      "description": "Species name (taxon.name)",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "taxon is required; a conforming record has a non-empty taxon.name or taxon.uri. A planned FHR 3.0 rule will require taxon.uri."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "taxon.uri",
+      "type": "uri",
+      "description": "URL of the species at identifiers.org (taxon.uri)",
+      "example": "https://identifiers.org/taxonomy:9606",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://identifiers\\.org/taxonomy:[0-9]+$ (NCBI Taxonomy id after the colon)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "version",
+      "type": "string",
+      "description": "Version number of Genome eg. 1.2.0",
+      "example": "0.0.1",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "The assembly's own version, not schemaVersion. refgenie fills it with the number after the dot of the NCBI accession (GCA_000001405.15 -> \"15\")."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "metadataAuthor[].name",
+      "type": "string",
+      "description": "Author of the FHR instance (person or organization): name",
+      "example": [
+        "Adam Wright"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Who wrote this metadata record, not the assembly. One list item per author, aligned with the other metadataAuthor[] lists; None where an author lacks the key. metadataAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "metadataAuthor[].uri",
+      "type": "uri",
+      "description": "Author of the FHR instance: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0002-5719-4024"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://orcid\\.org/NNNN-NNNN-NNNN-NNN[0-9X]$ (only ORCID is allowed in 2.x)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "metadataAuthor[].nameType",
+      "type": "string",
+      "description": "Whether the author is a person (Personal) or an organization (Organizational), as DataCite nameType",
+      "example": [
+        "Personal"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum Personal|Organizational; added in v0.4 (FHR 2.0)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblyAuthor[].name",
+      "type": "string",
+      "description": "Assembler of the Genome (person or org): name",
+      "example": [
+        "David Molik"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "assemblyAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblyAuthor[].uri",
+      "type": "uri",
+      "description": "Assembler of the Genome: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0003-3192-6538"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "ORCID pattern, as for metadataAuthor."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblyAuthor[].nameType",
+      "type": "string",
+      "description": "Personal or Organizational (DataCite nameType)",
+      "example": "Organizational",
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum; added in v0.4. Example value from conformance vector valid/jsonld-author-name-type.fhr.jsonld (not copied here)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "dateCreated",
+      "type": "date",
+      "description": "Date the genome assembly was created",
+      "example": "2022-03-21",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "ISO date (format: date). In YAML it must stay a string (rule R12)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "voucherSpecimen",
+      "type": "string",
+      "description": "Description of the physical sample",
+      "example": "Synthetic example; no physical specimen",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (was physicalSample in the 2022 FFRGS draft)."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "accessionID.name",
+      "type": "string",
+      "description": "Accession of the genome assembly (accessionID.name)",
+      "example": "PBARC",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "The schema description is garbled (\"accessionID genome assembly was created\"). The official example puts an institution name (PBARC) here; refgenie puts the INSDC assembly accession (GCA_000001405.15). Unique only within the database it comes from."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "accessionID.url",
+      "type": "uri",
+      "description": "URL of the accession record (accessionID.url)",
+      "example": "https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie writes https://www.ncbi.nlm.nih.gov/datasets/genome/<accession>/."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "instrument",
+      "type": "string",
+      "description": "Physical tools and instruments used in the creation of the genome assembly",
+      "example": [
+        "Example sequencer"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of free-text instrument names."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "scholarlyArticle",
+      "type": "string",
+      "description": "DOI (without a resolver prefix) of the scholarly article where the genome was published",
+      "example": "10.1093/bib/bbae122",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^10\\.[0-9]+(\\.[0-9]+)*/\\S+$. FHR 1 allowed anything starting with 10."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "documentation",
+      "type": "string",
+      "description": "Documentation about the genome",
+      "example": "Synthetic metadata and sequence; identifiers are placeholders unless explicitly verified.",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text describing the genome; refgenie uses it as the genome description. In JSON-LD a URL value is written as subjectOf."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "identifier",
+      "type": "string",
+      "description": "Identifiers of the genome as prefix:accession (CURIE-like)",
+      "example": [
+        "beetlebase:TC010103"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Pattern ^[A-Za-z0-9._-]+:.+$. Which kind of identifier is not said; each is unique within its prefix."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "relatedLink",
+      "type": "uri",
+      "description": "Related URLs to the genome",
+      "example": [
+        "http://wfleabase.org/genome/Daphnia_pulex/dpulex_jgi060905/fasta/"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Any related URL; refgenie's hg38 sidecar lists a download URL of the FASTA (a copy) and a blog post."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "funding",
+      "type": "string",
+      "description": "Grant line item",
+      "example": "funding",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text; the schema.org export turns it into a Grant node."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "reuseConditions",
+      "type": "string",
+      "description": "License and reuse conditions for the use of the Genome",
+      "example": "public domain",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (the 2022 draft called it licence). gtars and the refgenie registry use a different key, license, which is not an FHR field."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "masking",
+      "type": "string",
+      "description": "Masking applied to the genome assembly",
+      "example": "soft-masked",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Enum by pattern: not-masked|hard-masked|soft-masked|repeat-masked|unknown. A property of a particular FASTA file: soft-masking does not change refget digests (sequences are uppercased first), hard-masking does."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.L50",
+      "type": "integer",
+      "description": "Contig L50: the smallest number of contigs whose lengths sum to at least 50 percent of the assembly length",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Computed over the sequences of the file; describes the assembly only when the file holds all of it."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.N50",
+      "type": "integer",
+      "description": "Contig N50: contig length in base pairs at 50 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.L90",
+      "type": "integer",
+      "description": "Contig L90",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.N90",
+      "type": "integer",
+      "description": "Contig length in base pairs at 90 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.totalBasePairs",
+      "type": "integer",
+      "description": "Total base pairs of the genome assembly",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.numberContigs",
+      "type": "integer",
+      "description": "Number of contigs of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.numberScaffolds",
+      "type": "integer",
+      "description": "Number of scaffolds of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.scaffoldN50",
+      "type": "integer",
+      "description": "Scaffold N50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.scaffoldN90",
+      "type": "integer",
+      "description": "Scaffold N90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.scaffoldL50",
+      "type": "integer",
+      "description": "Scaffold L50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.scaffoldL90",
+      "type": "integer",
+      "description": "Scaffold L90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.gcContent",
+      "type": "number",
+      "description": "GC content as a percentage (0 to 100), not a fraction",
+      "example": 37.5,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "vitalStats.readTechnology",
+      "type": "string",
+      "description": "Read technology of the genome assembly (short, long, hifi, etc.)",
+      "example": "HiFi",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "checksum",
+      "type": "string",
+      "description": "SHA-512/256 of the file, standard padded base64 (44 characters)",
+      "example": "vNCZUY1mbTuo5nE3ut8KGx0oExSfzqLp8np/gYTvPcM=",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Rules R1-R5: hash of the exact (decompressed) file bytes except the root checksum line, so metadata, comments and sequence all count. It identifies one exact FASTA/GFA file, not the sequences. Old FHR docs used md5: values; the refgenie registry writes sha256:<hex>, which is not FHR. In standalone JSON/YAML/JSON-LD/HTML examples it is a placeholder."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblySoftware",
+      "type": "string",
+      "description": "Assembly software: legacy name string",
+      "example": "synthetic-assembler",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "assemblySoftware is either this legacy string or a list of objects (the assemblySoftware[] fields). Example value from conformance vector valid/jsonld-legacy-software-string.fhr.jsonld (not copied here); the 2022 draft example used HiFiASM."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblySoftware[].name",
+      "type": "string",
+      "description": "Assembly software name",
+      "example": [
+        "hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Required in each software object."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblySoftware[].uri",
+      "type": "uri",
+      "description": "Assembly software URI",
+      "example": [
+        "https://github.com/chhylp123/hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblySoftware[].version",
+      "type": "string",
+      "description": "Assembly software version",
+      "example": [
+        "0.19.8"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblySoftware[].commandLineOption",
+      "type": "array",
+      "description": "Command-line arguments used",
+      "example": [
+        [
+          "-t",
+          "2"
+        ]
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "One list of argument strings per software item, so the value is a list of lists."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "assemblyProtocol",
+      "type": "uri",
+      "description": "URI of the assembly protocol or workflow documentation",
+      "example": "https://example.org/assembly-protocol",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "seqcol_id",
+      "type": "string",
+      "description": "Unprefixed GA4GH refget sequence collection top-level digest (sha512t24u); supplied by the user, not calculated by FHR",
+      "example": "EiFob05aCWgVU_B_Ae0cypnQut3cxUP1",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "32 base64url characters. The link from FHR to the seqcol level. Added in v0.3. Official examples hold a placeholder (all A); several FHR files (for example soft-masked and unmasked copies) can share one digest. The schema.org export writes it as identifier PropertyValue 'GA4GH refget sequence collection'. Example: the real hg38 digest, as used in the constructed anchors."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "x-refget-assemblySource",
+      "type": "string",
+      "description": "Extension field (R15): who distributed this sequence set",
+      "example": "ncbi",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "The upstream example holds a placeholder. The constructed anchors move refgenie's assemblySource here (ncbi, Ensembl, UCSC; not normalized). Extension fields mean nothing to the standard."
+    },
+    {
+      "format": "fhr_gfa_header",
+      "path": "x-refget-assemblyLevel",
+      "type": "string",
+      "description": "Extension field (R15): NCBI assembly level",
+      "example": "chromosome",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Only in constructed anchors (refgenie's assemblyLevel moved to an x- key)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "schema",
+      "type": "uri",
+      "description": "centralized schema file (the URL of the FHR schema this record follows)",
+      "example": "https://w3id.org/fair-bioheaders/fhr/v0.6.0",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Selects the schema version (SCHEMA-VERSIONS.md V1-V7): raw-main URL = current schema; w3id or raw tag URL = that release. Raw-main plus schemaVersion 1 means an FHR 1 record (V6)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "schemaVersion",
+      "type": "string",
+      "description": "Version of the FHR schema contract, as \"MAJOR.MINOR\" (\"2.0\" or \"2.1\")",
+      "example": "2.1",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "A string from v0.4 (FHR 2.0); the number 1 (often written 1.0) in FHR 1 / releases up to v0.3.1. Distinct from the assembly `version` and from the release tag."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "genome",
+      "type": "string",
+      "description": "Name of the Genome",
+      "example": "Synthetic human reference example",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Free text. The upstream example uses a descriptive name; refgenie sidecars put a collection-style name here (hg38, sacCer3, R64-1-1), so in practice it may name a collection rather than the assembly."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "genomeSynonym",
+      "type": "string",
+      "description": "Other common names of the genome",
+      "example": [
+        "synthetic example"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of strings. refgenie uses it for collection aliases (GRCh38, sacCer3-igenomes-ucsc)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "taxon.name",
+      "type": "string",
+      "description": "Species name (taxon.name)",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "taxon is required; a conforming record has a non-empty taxon.name or taxon.uri. A planned FHR 3.0 rule will require taxon.uri."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "taxon.uri",
+      "type": "uri",
+      "description": "URL of the species at identifiers.org (taxon.uri)",
+      "example": "https://identifiers.org/taxonomy:9606",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://identifiers\\.org/taxonomy:[0-9]+$ (NCBI Taxonomy id after the colon)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "version",
+      "type": "string",
+      "description": "Version number of Genome eg. 1.2.0",
+      "example": "0.0.1",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "The assembly's own version, not schemaVersion. refgenie fills it with the number after the dot of the NCBI accession (GCA_000001405.15 -> \"15\")."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "metadataAuthor[].name",
+      "type": "string",
+      "description": "Author of the FHR instance (person or organization): name",
+      "example": [
+        "Adam Wright"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Who wrote this metadata record, not the assembly. One list item per author, aligned with the other metadataAuthor[] lists; None where an author lacks the key. metadataAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "metadataAuthor[].uri",
+      "type": "uri",
+      "description": "Author of the FHR instance: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0002-5719-4024"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://orcid\\.org/NNNN-NNNN-NNNN-NNN[0-9X]$ (only ORCID is allowed in 2.x)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "metadataAuthor[].nameType",
+      "type": "string",
+      "description": "Whether the author is a person (Personal) or an organization (Organizational), as DataCite nameType",
+      "example": [
+        "Personal"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum Personal|Organizational; added in v0.4 (FHR 2.0)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblyAuthor[].name",
+      "type": "string",
+      "description": "Assembler of the Genome (person or org): name",
+      "example": [
+        "David Molik"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "assemblyAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblyAuthor[].uri",
+      "type": "uri",
+      "description": "Assembler of the Genome: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0003-3192-6538"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "ORCID pattern, as for metadataAuthor."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblyAuthor[].nameType",
+      "type": "string",
+      "description": "Personal or Organizational (DataCite nameType)",
+      "example": "Organizational",
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum; added in v0.4. Example value from conformance vector valid/jsonld-author-name-type.fhr.jsonld (not copied here)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "dateCreated",
+      "type": "date",
+      "description": "Date the genome assembly was created",
+      "example": "2022-03-21",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "ISO date (format: date). In YAML it must stay a string (rule R12)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "voucherSpecimen",
+      "type": "string",
+      "description": "Description of the physical sample",
+      "example": "Synthetic example; no physical specimen",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (was physicalSample in the 2022 FFRGS draft)."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "accessionID.name",
+      "type": "string",
+      "description": "Accession of the genome assembly (accessionID.name)",
+      "example": "PBARC",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "The schema description is garbled (\"accessionID genome assembly was created\"). The official example puts an institution name (PBARC) here; refgenie puts the INSDC assembly accession (GCA_000001405.15). Unique only within the database it comes from."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "accessionID.url",
+      "type": "uri",
+      "description": "URL of the accession record (accessionID.url)",
+      "example": "https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie writes https://www.ncbi.nlm.nih.gov/datasets/genome/<accession>/."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "instrument",
+      "type": "string",
+      "description": "Physical tools and instruments used in the creation of the genome assembly",
+      "example": [
+        "Example sequencer"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of free-text instrument names."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "scholarlyArticle",
+      "type": "string",
+      "description": "DOI (without a resolver prefix) of the scholarly article where the genome was published",
+      "example": "10.1093/bib/bbae122",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^10\\.[0-9]+(\\.[0-9]+)*/\\S+$. FHR 1 allowed anything starting with 10."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "documentation",
+      "type": "string",
+      "description": "Documentation about the genome",
+      "example": "Synthetic metadata and sequence; identifiers are placeholders unless explicitly verified.",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text describing the genome; refgenie uses it as the genome description. In JSON-LD a URL value is written as subjectOf."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "identifier",
+      "type": "string",
+      "description": "Identifiers of the genome as prefix:accession (CURIE-like)",
+      "example": [
+        "beetlebase:TC010103"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Pattern ^[A-Za-z0-9._-]+:.+$. Which kind of identifier is not said; each is unique within its prefix."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "relatedLink",
+      "type": "uri",
+      "description": "Related URLs to the genome",
+      "example": [
+        "http://wfleabase.org/genome/Daphnia_pulex/dpulex_jgi060905/fasta/"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Any related URL; refgenie's hg38 sidecar lists a download URL of the FASTA (a copy) and a blog post."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "funding",
+      "type": "string",
+      "description": "Grant line item",
+      "example": "funding",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text; the schema.org export turns it into a Grant node."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "reuseConditions",
+      "type": "string",
+      "description": "License and reuse conditions for the use of the Genome",
+      "example": "public domain",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (the 2022 draft called it licence). gtars and the refgenie registry use a different key, license, which is not an FHR field."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "masking",
+      "type": "string",
+      "description": "Masking applied to the genome assembly",
+      "example": "soft-masked",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Enum by pattern: not-masked|hard-masked|soft-masked|repeat-masked|unknown. A property of a particular FASTA file: soft-masking does not change refget digests (sequences are uppercased first), hard-masking does."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.L50",
+      "type": "integer",
+      "description": "Contig L50: the smallest number of contigs whose lengths sum to at least 50 percent of the assembly length",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Computed over the sequences of the file; describes the assembly only when the file holds all of it."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.N50",
+      "type": "integer",
+      "description": "Contig N50: contig length in base pairs at 50 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.L90",
+      "type": "integer",
+      "description": "Contig L90",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.N90",
+      "type": "integer",
+      "description": "Contig length in base pairs at 90 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.totalBasePairs",
+      "type": "integer",
+      "description": "Total base pairs of the genome assembly",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.numberContigs",
+      "type": "integer",
+      "description": "Number of contigs of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.numberScaffolds",
+      "type": "integer",
+      "description": "Number of scaffolds of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.scaffoldN50",
+      "type": "integer",
+      "description": "Scaffold N50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.scaffoldN90",
+      "type": "integer",
+      "description": "Scaffold N90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.scaffoldL50",
+      "type": "integer",
+      "description": "Scaffold L50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.scaffoldL90",
+      "type": "integer",
+      "description": "Scaffold L90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.gcContent",
+      "type": "number",
+      "description": "GC content as a percentage (0 to 100), not a fraction",
+      "example": 37.5,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "vitalStats.readTechnology",
+      "type": "string",
+      "description": "Read technology of the genome assembly (short, long, hifi, etc.)",
+      "example": "HiFi",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "checksum",
+      "type": "string",
+      "description": "SHA-512/256 of the file, standard padded base64 (44 characters)",
+      "example": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Rules R1-R5: hash of the exact (decompressed) file bytes except the root checksum line, so metadata, comments and sequence all count. It identifies one exact FASTA/GFA file, not the sequences. Old FHR docs used md5: values; the refgenie registry writes sha256:<hex>, which is not FHR. In standalone JSON/YAML/JSON-LD/HTML examples it is a placeholder."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblySoftware",
+      "type": "string",
+      "description": "Assembly software: legacy name string",
+      "example": "synthetic-assembler",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "assemblySoftware is either this legacy string or a list of objects (the assemblySoftware[] fields). Example value from conformance vector valid/jsonld-legacy-software-string.fhr.jsonld (not copied here); the 2022 draft example used HiFiASM."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblySoftware[].name",
+      "type": "string",
+      "description": "Assembly software name",
+      "example": [
+        "hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Required in each software object."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblySoftware[].uri",
+      "type": "uri",
+      "description": "Assembly software URI",
+      "example": [
+        "https://github.com/chhylp123/hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblySoftware[].version",
+      "type": "string",
+      "description": "Assembly software version",
+      "example": [
+        "0.19.8"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblySoftware[].commandLineOption",
+      "type": "array",
+      "description": "Command-line arguments used",
+      "example": [
+        [
+          "-t",
+          "2"
+        ]
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "One list of argument strings per software item, so the value is a list of lists."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "assemblyProtocol",
+      "type": "uri",
+      "description": "URI of the assembly protocol or workflow documentation",
+      "example": "https://example.org/assembly-protocol",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_jsonld",
+      "path": "seqcol_id",
+      "type": "string",
+      "description": "Unprefixed GA4GH refget sequence collection top-level digest (sha512t24u); supplied by the user, not calculated by FHR",
+      "example": "EiFob05aCWgVU_B_Ae0cypnQut3cxUP1",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "32 base64url characters. The link from FHR to the seqcol level. Added in v0.3. Official examples hold a placeholder (all A); several FHR files (for example soft-masked and unmasked copies) can share one digest. The schema.org export writes it as identifier PropertyValue 'GA4GH refget sequence collection'. Example: the real hg38 digest, as used in the constructed anchors."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "schema",
+      "type": "uri",
+      "description": "centralized schema file (the URL of the FHR schema this record follows)",
+      "example": "https://w3id.org/fair-bioheaders/fhr/v0.6.0",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Selects the schema version (SCHEMA-VERSIONS.md V1-V7): raw-main URL = current schema; w3id or raw tag URL = that release. Raw-main plus schemaVersion 1 means an FHR 1 record (V6)."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "schemaVersion",
+      "type": "string",
+      "description": "Version of the FHR schema contract, as \"MAJOR.MINOR\" (\"2.0\" or \"2.1\")",
+      "example": "2.1",
+      "level": "other",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "A string from v0.4 (FHR 2.0); the number 1 (often written 1.0) in FHR 1 / releases up to v0.3.1. Distinct from the assembly `version` and from the release tag."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "genome",
+      "type": "string",
+      "description": "Name of the Genome",
+      "example": "Synthetic human reference example",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Free text. The upstream example uses a descriptive name; refgenie sidecars put a collection-style name here (hg38, sacCer3, R64-1-1), so in practice it may name a collection rather than the assembly."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "genomeSynonym",
+      "type": "string",
+      "description": "Other common names of the genome",
+      "example": [
+        "synthetic example"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of strings. refgenie uses it for collection aliases (GRCh38, sacCer3-igenomes-ucsc)."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "taxon.name",
+      "type": "string",
+      "description": "Species name (taxon.name)",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "taxon is required; a conforming record has a non-empty taxon.name or taxon.uri. A planned FHR 3.0 rule will require taxon.uri."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "taxon.uri",
+      "type": "uri",
+      "description": "URL of the species at identifiers.org (taxon.uri)",
+      "example": "https://identifiers.org/taxonomy:9606",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://identifiers\\.org/taxonomy:[0-9]+$ (NCBI Taxonomy id after the colon)."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "version",
+      "type": "string",
+      "description": "Version number of Genome eg. 1.2.0",
+      "example": "0.0.1",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "The assembly's own version, not schemaVersion. refgenie fills it with the number after the dot of the NCBI accession (GCA_000001405.15 -> \"15\")."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "metadataAuthor[].name",
+      "type": "string",
+      "description": "Author of the FHR instance (person or organization): name",
+      "example": [
+        "Adam Wright"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "Who wrote this metadata record, not the assembly. One list item per author, aligned with the other metadataAuthor[] lists; None where an author lacks the key. metadataAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "metadataAuthor[].uri",
+      "type": "uri",
+      "description": "Author of the FHR instance: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0002-5719-4024"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^https://orcid\\.org/NNNN-NNNN-NNNN-NNN[0-9X]$ (only ORCID is allowed in 2.x)."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "metadataAuthor[].nameType",
+      "type": "string",
+      "description": "Whether the author is a person (Personal) or an organization (Organizational), as DataCite nameType",
+      "example": [
+        "Personal"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum Personal|Organizational; added in v0.4 (FHR 2.0)."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblyAuthor[].name",
+      "type": "string",
+      "description": "Assembler of the Genome (person or org): name",
+      "example": [
+        "David Molik"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": true,
+      "unique": "none",
+      "notes": "assemblyAuthor itself is required; a conforming author has a non-empty name."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblyAuthor[].uri",
+      "type": "uri",
+      "description": "Assembler of the Genome: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0003-3192-6538"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "ORCID pattern, as for metadataAuthor."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblyAuthor[].nameType",
+      "type": "string",
+      "description": "Personal or Organizational (DataCite nameType)",
+      "example": "Organizational",
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum; added in v0.4. Example value from conformance vector valid/jsonld-author-name-type.fhr.jsonld (not copied here)."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "dateCreated",
+      "type": "date",
+      "description": "Date the genome assembly was created",
+      "example": "2022-03-21",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "ISO date (format: date). In YAML it must stay a string (rule R12)."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "voucherSpecimen",
+      "type": "string",
+      "description": "Description of the physical sample",
+      "example": "Synthetic example; no physical specimen",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (was physicalSample in the 2022 FFRGS draft)."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "accessionID.name",
+      "type": "string",
+      "description": "Accession of the genome assembly (accessionID.name)",
+      "example": "PBARC",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "The schema description is garbled (\"accessionID genome assembly was created\"). The official example puts an institution name (PBARC) here; refgenie puts the INSDC assembly accession (GCA_000001405.15). Unique only within the database it comes from."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "accessionID.url",
+      "type": "uri",
+      "description": "URL of the accession record (accessionID.url)",
+      "example": "https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie writes https://www.ncbi.nlm.nih.gov/datasets/genome/<accession>/."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "instrument",
+      "type": "string",
+      "description": "Physical tools and instruments used in the creation of the genome assembly",
+      "example": [
+        "Example sequencer"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of free-text instrument names."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "scholarlyArticle",
+      "type": "string",
+      "description": "DOI (without a resolver prefix) of the scholarly article where the genome was published",
+      "example": "10.1093/bib/bbae122",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^10\\.[0-9]+(\\.[0-9]+)*/\\S+$. FHR 1 allowed anything starting with 10."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "documentation",
+      "type": "string",
+      "description": "Documentation about the genome",
+      "example": "Synthetic metadata and sequence; identifiers are placeholders unless explicitly verified.",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text describing the genome; refgenie uses it as the genome description. In JSON-LD a URL value is written as subjectOf."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "identifier",
+      "type": "string",
+      "description": "Identifiers of the genome as prefix:accession (CURIE-like)",
+      "example": [
+        "beetlebase:TC010103"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Pattern ^[A-Za-z0-9._-]+:.+$. Which kind of identifier is not said; each is unique within its prefix."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "relatedLink",
+      "type": "uri",
+      "description": "Related URLs to the genome",
+      "example": [
+        "http://wfleabase.org/genome/Daphnia_pulex/dpulex_jgi060905/fasta/"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Any related URL; refgenie's hg38 sidecar lists a download URL of the FASTA (a copy) and a blog post."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "funding",
+      "type": "string",
+      "description": "Grant line item",
+      "example": "funding",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text; the schema.org export turns it into a Grant node."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "reuseConditions",
+      "type": "string",
+      "description": "License and reuse conditions for the use of the Genome",
+      "example": "public domain",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (the 2022 draft called it licence). gtars and the refgenie registry use a different key, license, which is not an FHR field."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "masking",
+      "type": "string",
+      "description": "Masking applied to the genome assembly",
+      "example": "soft-masked",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "none",
+      "notes": "Enum by pattern: not-masked|hard-masked|soft-masked|repeat-masked|unknown. A property of a particular FASTA file: soft-masking does not change refget digests (sequences are uppercased first), hard-masking does."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.L50",
+      "type": "integer",
+      "description": "Contig L50: the smallest number of contigs whose lengths sum to at least 50 percent of the assembly length",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Computed over the sequences of the file; describes the assembly only when the file holds all of it."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.N50",
+      "type": "integer",
+      "description": "Contig N50: contig length in base pairs at 50 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.L90",
+      "type": "integer",
+      "description": "Contig L90",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.N90",
+      "type": "integer",
+      "description": "Contig length in base pairs at 90 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.totalBasePairs",
+      "type": "integer",
+      "description": "Total base pairs of the genome assembly",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.numberContigs",
+      "type": "integer",
+      "description": "Number of contigs of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.numberScaffolds",
+      "type": "integer",
+      "description": "Number of scaffolds of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.scaffoldN50",
+      "type": "integer",
+      "description": "Scaffold N50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.scaffoldN90",
+      "type": "integer",
+      "description": "Scaffold N90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.scaffoldL50",
+      "type": "integer",
+      "description": "Scaffold L50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.scaffoldL90",
+      "type": "integer",
+      "description": "Scaffold L90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.4. No official example sets it."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.gcContent",
+      "type": "number",
+      "description": "GC content as a percentage (0 to 100), not a fraction",
+      "example": 37.5,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "vitalStats.readTechnology",
+      "type": "string",
+      "description": "Read technology of the genome assembly (short, long, hifi, etc.)",
+      "example": "HiFi",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "checksum",
+      "type": "string",
+      "description": "SHA-512/256 of the file, standard padded base64 (44 characters)",
+      "example": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "level": "copy",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "Rules R1-R5: hash of the exact (decompressed) file bytes except the root checksum line, so metadata, comments and sequence all count. It identifies one exact FASTA/GFA file, not the sequences. Old FHR docs used md5: values; the refgenie registry writes sha256:<hex>, which is not FHR. In standalone JSON/YAML/JSON-LD/HTML examples it is a placeholder."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblySoftware",
+      "type": "string",
+      "description": "Assembly software: legacy name string",
+      "example": "synthetic-assembler",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "assemblySoftware is either this legacy string or a list of objects (the assemblySoftware[] fields). Example value from conformance vector valid/jsonld-legacy-software-string.fhr.jsonld (not copied here); the 2022 draft example used HiFiASM."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblySoftware[].name",
+      "type": "string",
+      "description": "Assembly software name",
+      "example": [
+        "hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Required in each software object."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblySoftware[].uri",
+      "type": "uri",
+      "description": "Assembly software URI",
+      "example": [
+        "https://github.com/chhylp123/hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblySoftware[].version",
+      "type": "string",
+      "description": "Assembly software version",
+      "example": [
+        "0.19.8"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": ""
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblySoftware[].commandLineOption",
+      "type": "array",
+      "description": "Command-line arguments used",
+      "example": [
+        [
+          "-t",
+          "2"
+        ]
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "One list of argument strings per software item, so the value is a list of lists."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "assemblyProtocol",
+      "type": "uri",
+      "description": "URI of the assembly protocol or workflow documentation",
+      "example": "https://example.org/assembly-protocol",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Added in v0.3."
+    },
+    {
+      "format": "fhr_microdata",
+      "path": "seqcol_id",
+      "type": "string",
+      "description": "Unprefixed GA4GH refget sequence collection top-level digest (sha512t24u); supplied by the user, not calculated by FHR",
+      "example": "EiFob05aCWgVU_B_Ae0cypnQut3cxUP1",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "32 base64url characters. The link from FHR to the seqcol level. Added in v0.3. Official examples hold a placeholder (all A); several FHR files (for example soft-masked and unmasked copies) can share one digest. The schema.org export writes it as identifier PropertyValue 'GA4GH refget sequence collection'. Example: the real hg38 digest, as used in the constructed anchors."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "schema",
+      "type": "uri",
+      "description": "centralized schema file (the URL of the FHR schema this record follows)",
+      "example": "https://raw.githubusercontent.com/FAIR-bioHeaders/FHR-Specification/main/fhr.json",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Always the raw-main FHR-Specification fhr.json URL in refgenie's stores (tools/genome_to_fhr.py FHR_SCHEMA_URL). With schemaVersion 1 this makes it an FHR 1 record (V6), checked against v0.3.1."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "schemaVersion",
+      "type": "number",
+      "description": "Version of FHR (gtars keeps it as a number)",
+      "example": 1.0,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "A JSON number in gtars (serde_json::Number); refgenie writes 1.0. Upstream FHR 2.x needs the string \"2.0\"/\"2.1\"."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "genome",
+      "type": "string",
+      "description": "Name of the Genome",
+      "example": "homo_sapiens_ENSEMBL_release_81",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie writes its collection name (hg38, R64-1-1, hg38_p14_genomic); refgenie's apply_fhr does not read it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "taxon.name",
+      "type": "string",
+      "description": "Species name (taxon.name)",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Species scientific name. refgenie-registry takes it from its species list (NCBI scientific name); every public sidecar has it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "taxon.uri",
+      "type": "uri",
+      "description": "URL of the species at identifiers.org (taxon.uri)",
+      "example": "https://identifiers.org/taxonomy:9606",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "identifiers.org taxonomy URI built from the NCBI taxon id. Note: refgenie's yeast sidecars use 4932 (Saccharomyces cerevisiae), not 559292 (strain S288C)."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "version",
+      "type": "string",
+      "description": "Version number of Genome eg. 1.2.0",
+      "example": "40",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie writes the NCBI accession version number (\"15\" for GCA_000001405.15) and leaves it out without an accession; refgenie does not read it back."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "metadataAuthor[].name",
+      "type": "string",
+      "description": "Author of the FHR instance (person or organization): name",
+      "example": null,
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Optional in gtars (every sidecar field is). One list item per author, aligned with metadataAuthor[].uri. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "metadataAuthor[].uri",
+      "type": "uri",
+      "description": "Author of the FHR instance: ORCID URI",
+      "example": null,
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "gtars FhrAuthor has only name and uri; nameType is dropped when gtars loads the file. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "assemblyAuthor[].name",
+      "type": "string",
+      "description": "Assembler of the Genome (person or org): name",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Optional in gtars (every sidecar field is). One list item per author, aligned with assemblyAuthor[].uri. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "assemblyAuthor[].uri",
+      "type": "uri",
+      "description": "Assembler of the Genome: ORCID URI",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "gtars FhrAuthor has only name and uri; nameType is dropped when gtars loads the file. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "dateCreated",
+      "type": "date",
+      "description": "Date the genome assembly was created",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "ISO date (format: date). In YAML it must stay a string (rule R12). No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "voucherSpecimen",
+      "type": "string",
+      "description": "Description of the physical sample",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text (was physicalSample in the 2022 FFRGS draft). No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "masking",
+      "type": "string",
+      "description": "Masking applied to the genome assembly",
+      "example": null,
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Enum by pattern: not-masked|hard-masked|soft-masked|repeat-masked|unknown. A property of a particular FASTA file: soft-masking does not change refget digests (sequences are uppercased first), hard-masking does. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "checksum",
+      "type": "string",
+      "description": "SHA-512/256 of the file, standard padded base64 (44 characters)",
+      "example": null,
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "gtars documents SHA2-512/256 per FHR, but the refgenie registry exporter writes sha256:<hex of the FASTA> here. None of the public sidecars retrieved has it. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "genomeSynonym",
+      "type": "string",
+      "description": "Other common names of the genome",
+      "example": [
+        "GRCh38-81-ensembl"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie: other names search should find. Can contain duplicates (the GRCh38.p14 sidecar lists GRCh38.p14-fasta-genomic twice)."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "accessionID.name",
+      "type": "string",
+      "description": "Accession of the genome assembly (accessionID.name)",
+      "example": "GCF_000001405.40",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "namespace",
+      "notes": "refgenie: INSDC/RefSeq assembly accession (GCA_ or GCF_). Absent for collections without an accession (sacCer3, Ensembl 81 GRCh38)."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "accessionID.url",
+      "type": "uri",
+      "description": "URL of the accession record (accessionID.url)",
+      "example": "https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie derives https://www.ncbi.nlm.nih.gov/datasets/genome/<accession>/."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "instrument",
+      "type": "string",
+      "description": "Physical tools and instruments used in the creation of the genome assembly",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "List of free-text instrument names. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "scholarlyArticle",
+      "type": "string",
+      "description": "DOI (without a resolver prefix) of the scholarly article where the genome was published",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Pattern ^10\\.[0-9]+(\\.[0-9]+)*/\\S+$. FHR 1 allowed anything starting with 10. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "documentation",
+      "type": "string",
+      "description": "Documentation about the genome",
+      "example": "GRCh38 from Ensembl release 81, all 493 top-level sequences: chromosomes 1-22,\nX, Y and MT, 169 unplaced and unlocalized scaffolds, and 299 haplotype and\npatch sequences (named like CHR_HG126_PATCH). Chromosome Y is 54,106,423 bp,\nshorter than the 57,227,415 bp of other GRCh38 copies.\n",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "refgenie uses it as the genome description (multi-line text allowed)."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "identifier",
+      "type": "string",
+      "description": "Identifiers of the genome as prefix:accession (CURIE-like)",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "namespace",
+      "notes": "Pattern ^[A-Za-z0-9._-]+:.+$. Which kind of identifier is not said; each is unique within its prefix. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "license",
+      "type": "string",
+      "description": "License of the genome (gtars field)",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "gtars named field, NOT an FHR field (FHR uses reuseConditions). The refgenie registry writes an SPDX id here. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "relatedLink",
+      "type": "uri",
+      "description": "Related URLs to the genome",
+      "example": [
+        "https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use",
+        "ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "Any related URL; refgenie's hg38 sidecar lists a download URL of the FASTA (a copy) and a blog post."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "funding",
+      "type": "string",
+      "description": "Grant line item",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text; the schema.org export turns it into a Grant node. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "vitalStats.L50",
+      "type": "integer",
+      "description": "Contig L50: the smallest number of contigs whose lengths sum to at least 50 percent of the assembly length",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Computed over the sequences of the file; describes the assembly only when the file holds all of it. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "vitalStats.N50",
+      "type": "integer",
+      "description": "Contig N50: contig length in base pairs at 50 percent of the assembly length",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "vitalStats.L90",
+      "type": "integer",
+      "description": "Contig L90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "vitalStats.totalBasePairs",
+      "type": "integer",
+      "description": "Total base pairs of the genome assembly",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "vitalStats.numberContigs",
+      "type": "integer",
+      "description": "Number of contigs of the genome assembly",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "vitalStats.numberScaffolds",
+      "type": "integer",
+      "description": "Number of scaffolds of the genome assembly",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "vitalStats.readTechnology",
+      "type": "string",
+      "description": "Read technology of the genome assembly (short, long, hifi, etc.)",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Free text. No public refgenie sidecar retrieved on 2026-11-17 sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "assemblySource",
+      "type": "string",
+      "description": "Who distributed this sequence set (refgenie-registry assembly.source / sources.csv source)",
+      "example": "Ensembl",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not an FHR field: it rides gtars FhrMetadata.extra (serde flatten). Values are not normalized: ncbi, NCBI, Ensembl, UCSC, iGenomes, GenBank. refgenie reads it into the genome.assembly_source column. Upstream FHR 2.1 would need an x- prefix (its own example uses x-refget-assemblySource)."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "assemblyLevel",
+      "type": "string",
+      "description": "NCBI assembly level (chromosome, scaffold, contig, complete genome)",
+      "example": "chromosome",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Not an FHR field (gtars extra). refgenie-registry fills it from a static map of NCBI Datasets assembly_info.assembly_level for known accessions, lowercased, or from the genome YAML; never guessed. refgenie reads it into genome.assembly_level."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "reuseConditions",
+      "type": "string",
+      "description": "License and reuse conditions for the use of the Genome",
+      "example": null,
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Upstream FHR field with no gtars named field: kept verbatim in FhrMetadata.extra. No public refgenie sidecar sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "assemblySoftware",
+      "type": "string",
+      "description": "Assembly software: legacy name string",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Upstream FHR field with no gtars named field: kept verbatim in FhrMetadata.extra. No public refgenie sidecar sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "assemblyProtocol",
+      "type": "uri",
+      "description": "URI of the assembly protocol or workflow documentation",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "Upstream FHR field with no gtars named field: kept verbatim in FhrMetadata.extra. No public refgenie sidecar sets it."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "seqcol_id",
+      "type": "string",
+      "description": "Unprefixed GA4GH refget sequence collection top-level digest (sha512t24u); supplied by the user, not calculated by FHR",
+      "example": null,
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "global",
+      "notes": "Upstream FHR field with no gtars named field: kept verbatim in FhrMetadata.extra. No public refgenie sidecar sets it; refgenie writes the digest only as the file name, not as seqcol_id."
+    },
+    {
+      "format": "fhr_refgetstore_sidecar",
+      "path": "seqcolDigest",
+      "type": "string",
+      "description": "Seqcol top-level digest of the collection this sidecar describes",
+      "example": "EiFob05aCWgVU_B_Ae0cypnQut3cxUP1",
+      "level": "collection",
+      "cardinality": "one",
+      "required": true,
+      "unique": "global",
+      "notes": "NOT a key in the JSON body: gtars FhrMetadata.seqcol_digest is #[serde(skip)], and the store names the file <seqcolDigest>.fhr.json. read(text) cannot see it, so native records from read() never contain it; a caller that knows the file name can add it (fhr.sidecar_digest(filename)), and write() drops it. Example from examples/sidecar_hg38_jungle_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.fhr.json."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[metadata-record].schemaVersion",
+      "type": "uri",
+      "description": "centralized schema file (the URL of the FHR schema this record follows)",
+      "example": "https://w3id.org/fair-bioheaders/fhr/v0.6.0",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field schema. Written as an IRI on the metadata record, not on the assembly. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[metadata-record].fhr:schemaVersion",
+      "type": "string",
+      "description": "Version of the FHR schema contract, as \"MAJOR.MINOR\" (\"2.0\" or \"2.1\")",
+      "example": "2.1",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field schemaVersion. The metadata contract version; distinct from the assembly version and the schema URL. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].name",
+      "type": "string",
+      "description": "Name of the Genome",
+      "example": "Synthetic human reference example",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field genome. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].alternateName",
+      "type": "string",
+      "description": "Other common names of the genome",
+      "example": [
+        "synthetic example"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field genomeSynonym[]. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].about",
+      "type": "object",
+      "description": "taxon as a typed node",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field taxon. A Taxon node. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[taxon].name",
+      "type": "string",
+      "description": "Species name (taxon.name)",
+      "example": "Homo sapiens",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field taxon.name. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[taxon].@id",
+      "type": "uri",
+      "description": "URL of the species at identifiers.org (taxon.uri)",
+      "example": "https://identifiers.org/taxonomy:9606",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field taxon.uri. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].version",
+      "type": "string",
+      "description": "Version number of Genome eg. 1.2.0",
+      "example": "0.0.1",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field version. The assembly version, not the FHR schemaVersion. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[metadata-record].creator",
+      "type": "object",
+      "description": "metadataAuthor[] as a typed node",
+      "example": null,
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field metadataAuthor[]. Typed like 011: ORCID gives Person, ROR Organization, otherwise fhr:Agent. Authors of the header, not of the assembly. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[author].name",
+      "type": "string",
+      "description": "Author of the FHR instance (person or organization): name",
+      "example": [
+        "Adam Wright"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field metadataAuthor[].name. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[author].@id",
+      "type": "uri",
+      "description": "Author of the FHR instance: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0002-5719-4024"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field metadataAuthor[].uri. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[author].@type",
+      "type": "string",
+      "description": "Whether the author is a person (Personal) or an organization (Organizational), as DataCite nameType",
+      "example": [
+        "Personal"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field metadataAuthor[].nameType. Personal gives Person and Organizational gives Organization; an explicit nameType decides the type before the ORCID or ROR inference (v0.4). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].creator",
+      "type": "object",
+      "description": "assemblyAuthor[] as a typed node",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblyAuthor[]. Typed like 011: ORCID gives Person, ROR Organization, otherwise fhr:Agent. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[author].name",
+      "type": "string",
+      "description": "Assembler of the Genome (person or org): name",
+      "example": [
+        "David Molik"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblyAuthor[].name. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[author].@id",
+      "type": "uri",
+      "description": "Assembler of the Genome: ORCID URI",
+      "example": [
+        "https://orcid.org/0000-0003-3192-6538"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblyAuthor[].uri. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[author].@type",
+      "type": "string",
+      "description": "Personal or Organizational (DataCite nameType)",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblyAuthor[].nameType. Personal gives Person and Organizational gives Organization; an explicit nameType decides the type before the ORCID or ROR inference (v0.4). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].dateCreated",
+      "type": "date",
+      "description": "Date the genome assembly was created",
+      "example": "2022-03-21",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field dateCreated. Date the assembly was created; never used as an observation date. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].fhr:voucherSpecimen",
+      "type": "string",
+      "description": "Description of the physical sample",
+      "example": "Synthetic example; no physical specimen",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field voucherSpecimen. Free text; structured specimens are #101. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].identifier",
+      "type": "object",
+      "description": "accessionID as a typed node",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field accessionID. A PropertyValue in the assembly's identifier list. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[accession].name",
+      "type": "string",
+      "description": "Accession of the genome assembly (accessionID.name)",
+      "example": "PBARC",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field accessionID.name. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[accession].url",
+      "type": "uri",
+      "description": "URL of the accession record (accessionID.url)",
+      "example": "https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field accessionID.url. Written as an IRI. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].fhr:instrument",
+      "type": "string",
+      "description": "Physical tools and instruments used in the creation of the genome assembly",
+      "example": [
+        "Example sequencer"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field instrument[]. The sequencing instrument may belong to an upstream sequencing activity, so it is not an instrument of the assembly CreateAction. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].subjectOf",
+      "type": "string",
+      "description": "DOI (without a resolver prefix) of the scholarly article where the genome was published",
+      "example": "10.1093/bib/bbae122",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field scholarlyArticle. A ScholarlyArticle node: @id https://doi.org/<DOI>, identifier PropertyValue (propertyID the identifiers.org DOI registry, value the DOI). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].description",
+      "type": "string",
+      "description": "Documentation about the genome",
+      "example": "Synthetic metadata and sequence; identifiers are placeholders unless explicitly verified.",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field documentation. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].identifier",
+      "type": "string",
+      "description": "Identifiers of the genome as prefix:accession (CURIE-like)",
+      "example": [
+        "beetlebase:TC010103"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field identifier[]. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].fhr:relatedLink",
+      "type": "uri",
+      "description": "Related URLs to the genome",
+      "example": [
+        "http://wfleabase.org/genome/Daphnia_pulex/dpulex_jgi060905/fasta/"
+      ],
+      "level": "other",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field relatedLink[]. Each link written as an IRI. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].funding",
+      "type": "string",
+      "description": "Grant line item",
+      "example": "funding",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field funding. A Grant node with the unchanged text as description. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].license",
+      "type": "string",
+      "description": "License and reuse conditions for the use of the Genome",
+      "example": "public domain",
+      "level": "other",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field reuseConditions. An IRI when the value is an absolute URL, otherwise text. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].fhr:masking",
+      "type": "string",
+      "description": "Masking applied to the genome assembly",
+      "example": "soft-masked",
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field masking. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].observationAbout",
+      "type": "object",
+      "description": "vitalStats as a typed node",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats. Each numeric statistic becomes an Observation about the assembly; readTechnology stays in a reduced fhr:VitalStats node. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Contig L50: the smallest number of contigs whose lengths sum to at least 50 percent of the assembly length",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.L50. Observation about the assembly: measuredProperty fhr:L50, the number as value, unitCode UO_0000189 (count unit). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Contig N50: contig length in base pairs at 50 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.N50. Observation about the assembly: measuredProperty fhr:N50, the number as value, unitCode UO_0000244 (base pair). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Contig L90",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.L90. Observation about the assembly: measuredProperty fhr:L90, the number as value, unitCode UO_0000189 (count unit). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Total base pairs of the genome assembly",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.totalBasePairs. Observation about the assembly: measuredProperty fhr:totalBasePairs, the number as value, unitCode UO_0000244 (base pair). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Number of contigs of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.numberContigs. Observation about the assembly: measuredProperty fhr:numberContigs, the number as value, unitCode UO_0000189 (count unit). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Number of scaffolds of the genome assembly",
+      "example": 1,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.numberScaffolds. Observation about the assembly: measuredProperty fhr:numberScaffolds, the number as value, unitCode UO_0000189 (count unit). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[vital-stats].fhr:readTechnology",
+      "type": "string",
+      "description": "Read technology of the genome assembly (short, long, hifi, etc.)",
+      "example": "HiFi",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.readTechnology. Text, not a measurement. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Contig length in base pairs at 90 percent of the assembly length",
+      "example": 16,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.N90. Observation about the assembly: measuredProperty fhr:N90, the number as value, unitCode UO_0000244 (base pair). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Scaffold N50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.scaffoldN50. Observation about the assembly: measuredProperty fhr:scaffoldN50, the number as value, unitCode UO_0000244 (base pair). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Scaffold N90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.scaffoldN90. Observation about the assembly: measuredProperty fhr:scaffoldN90, the number as value, unitCode UO_0000244 (base pair). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Scaffold L50",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.scaffoldL50. Observation about the assembly: measuredProperty fhr:scaffoldL50, the number as value, unitCode UO_0000189 (count unit). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "integer",
+      "description": "Scaffold L90",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.scaffoldL90. Observation about the assembly: measuredProperty fhr:scaffoldL90, the number as value, unitCode UO_0000189 (count unit). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[observation].value",
+      "type": "number",
+      "description": "GC content as a percentage (0 to 100), not a fraction",
+      "example": 37.5,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field vitalStats.gcContent. Observation about the assembly: measuredProperty fhr:gcContent, the number as value, unitCode UO_0000187 (percent). Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[assembly].fhr:checksum",
+      "type": "string",
+      "description": "SHA-512/256 of the file, standard padded base64 (44 characters)",
+      "example": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=",
+      "level": "copy",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field checksum. The exact-file checksum; kept apart from the SeqCol identifier and the metadata record. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[activity].instrument",
+      "type": "string",
+      "description": "Assembly software: legacy name string",
+      "example": null,
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblySoftware. One SoftwareApplication per item; the legacy string form becomes one SoftwareApplication with that name. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[software].name",
+      "type": "string",
+      "description": "Assembly software name",
+      "example": [
+        "hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblySoftware[].name. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[software].url",
+      "type": "uri",
+      "description": "Assembly software URI",
+      "example": [
+        "https://github.com/chhylp123/hifiasm"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblySoftware[].uri. Written as an IRI. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[software].softwareVersion",
+      "type": "string",
+      "description": "Assembly software version",
+      "example": [
+        "0.19.8"
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblySoftware[].version. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[software].fhr:commandLineOption",
+      "type": "array",
+      "description": "Command-line arguments used",
+      "example": [
+        [
+          "-t",
+          "2"
+        ]
+      ],
+      "level": "assembly",
+      "cardinality": "many",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblySoftware[].commandLineOption[]. An ordered @list. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[activity].actionProcess",
+      "type": "uri",
+      "description": "URI of the assembly protocol or workflow documentation",
+      "example": "https://example.org/assembly-protocol",
+      "level": "assembly",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field assemblyProtocol. A HowTo node with the protocol URI as @id. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    },
+    {
+      "format": "fhr_schemaorg_export",
+      "path": "@graph[seqcol].value",
+      "type": "string",
+      "description": "Unprefixed GA4GH refget sequence collection top-level digest (sha512t24u); supplied by the user, not calculated by FHR",
+      "example": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "level": "collection",
+      "cardinality": "one",
+      "required": false,
+      "unique": "none",
+      "notes": "From FHR field seqcol_id. A PropertyValue in the assembly's identifier list, propertyID \"GA4GH refget sequence collection\", the unchanged digest as value. Identifies the assembly's sequence collection, not the file or the metadata record; no resolver URL is written. Example shows the FHR source value from upstream_example.fhr.json (the export example was written from it)."
+    }
+  ]
+}

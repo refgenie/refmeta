@@ -1,0 +1,77 @@
+# refmeta crosswalk: galaxy_idc_all_tables <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_idc_all_tables
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'IDC PR #88 all_tables YAML (sync/tool_data_table_conf_to_yaml.py): every row of every data table on
+  a server, keyed by table, with the .loc and conf file it came from. One native record per row.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: table
+  core: copies[0].kind
+  direction: to_core
+  transform:
+    map:
+      values: {all_fasta: fasta, fasta_indexes: fasta, bwa_mem_indexes: bwa_index, bowtie2_indexes: bowtie2_index,
+        rnastar_index2x_versioned: star_index, twobit: 2bit, __dbkeys__: len, sam_fa_indexes: fasta}
+  lossy: Tables not in the list pass their own name through as the kind.
+  example: {native: __dbkeys__, core: len, file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+- native: table
+  core: deployments[system=galaxy].table
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: __dbkeys__, core: __dbkeys__, file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+- native: value
+  core: deployments[system=galaxy].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+- native: dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+- native: name
+  core: deployments[system=galaxy].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human Dec. 2013 (GRCh38/hg38) (hg38), core: Human Dec. 2013 (GRCh38/hg38) (hg38), file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+- native: path
+  core: copies[0].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38female.fa, core: /cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38female.fa,
+    file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+- native: path
+  core: deployments[system=galaxy].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38female.fa, core: /cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38female.fa,
+    file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+- native: len_path
+  core: copies[kind=len].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len, core: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len,
+    file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+- native: version
+  core: copies[0].toolVersion
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 2.7.4a, core: 2.7.4a, file: examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml}
+unmapped:
+- {native: with_gene_model, reason: Whether a STAR index was built with a GTF; no core field.}
+- {native: line_type, reason: 'sam_fa_indexes column, always ''index''.'}
+- {native: loc_file, reason: The .loc file the row came from; server configuration.}
+- {native: xml_file, reason: The tool_data_table_conf.xml that declared it; server configuration.}

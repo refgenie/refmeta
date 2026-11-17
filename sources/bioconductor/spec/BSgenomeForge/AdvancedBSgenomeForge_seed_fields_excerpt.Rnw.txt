@@ -1,0 +1,214 @@
+\subsection{Prepare the BSgenome data package seed file}
+
+\subsubsection{Overview}
+
+The \term{BSgenome data package seed file} will contain all the information
+needed by the \Rfunction{forgeBSgenomeDataPkg} function to forge the
+\term{target package}.
+
+The format of this file is DCF (Debian Control File), which is also the format
+used for the \texttt{DESCRIPTION} file of any {\R} package. The valid fields of
+a \term{seed file} are divided in 3 categories:
+\begin{enumerate}
+\item Standard \texttt{DESCRIPTION} fields. These fields are actually
+      the mandatory fields found in any \texttt{DESCRIPTION} file.
+      They will be copied to the \texttt{DESCRIPTION} file of the \term{target
+      package}.
+
+\item Non-standard \texttt{DESCRIPTION} fields. These fields are specific
+      to \term{seed files} and they will also be copied to the
+      \texttt{DESCRIPTION} file of the \term{target package}.
+      In addition, the values of these fields will be stored in the
+      \Rclass{BSgenome} object that will be contained in the \term{target
+      package}. This means that the users of the \term{target package} will be
+      able to retrieve these values via the accessor methods defined for
+      \Rclass{BSgenome} objects. See the man page for the \Rclass{BSgenome}
+      class (\code{{?}`BSgenome-class`}) for a description of these methods.
+
+\item Additional fields that don't fall in the first 2 categories.
+\end{enumerate}
+
+The 3 following sub-subsections give an extensive description of all the
+valid fields of a \term{seed file}.
+
+Alternatively, the reader in a hurry can go directly to the last
+sub-subsection of this subsection for an example of a \term{seed file}.
+
+\subsubsection{Standard \texttt{DESCRIPTION} fields}
+
+\begin{itemize}
+\item \code{Package}: Name to give to the \term{target package}. The convention
+      used for the packages built by the Bioconductor project is to use a name
+      made of 4 parts separated by a dot.
+      Part 1 is always \code{BSgenome}.
+      Part 2 is the abbreviated name of the organism (when the name of
+      the organism is made of 2 words, we put together the first letter of the
+      first word in upper case followed by the entire second word in lower
+      case e.g. \code{Rnorvegicus}).
+      Part 3 is the name of the organisation who provided the genome
+      (e.g. \code{UCSC}).
+      Part 4 is the release string or number used by this organisation
+      to identify this version of the genome (e.g. \code{rn4}).
+
+\item \code{Title}: The title of the \term{target package}. E.g. \code{Full
+      genome sequences for Rattus norvegicus (UCSC version rn4)}.
+
+\item \code{Description}, \code{Version}, \code{Author}, \code{Maintainer},
+      \code{License}: Like the 2 previous fields, these are mandatory fields
+      found in any \texttt{DESCRIPTION} file.
+      Please refer to the \textit{The DESCRIPTION file} subsection
+      of the \textit{Writing R Extensions} manual
+      \footnote{\url{https://cran.r-project.org/doc/manuals/R-exts.html\#The-DESCRIPTION-file}}
+      for more information about these fields.
+      If you plan to distribute the \term{target package} that you are about
+      to forge, please pickup the license carefully and make sure that it is
+      compatible with the license of the \term{sequence data files} if any.
+
+\item \code{Suggests}: [OPTIONAL] If you're going to add examples to the
+      \code{Examples} section of the \term{target package} (see
+      \code{PkgExamples} field below for how to do this), use this field
+      to list the packages used in these examples.
+\end{itemize}
+
+\subsubsection{Non-standard \texttt{DESCRIPTION} fields}
+
+\begin{itemize}
+\item \code{organism}: The scientific name of the organism in the format
+      \code{Genus species} (e.g. \code{Rattus norvegicus}, \code{Homo sapiens})
+      or \code{Genus species subspecies} (e.g. \code{Homo sapiens
+      neanderthalensis}).
+
+\item \code{common\_name}: The common name of the organism (e.g. \code{Rat}
+      or \code{Human}). For organisms that have more than one commmon name
+      (e.g. \code{Bovine} or \code{Cow} for Bos taurus), choose one.
+      Note that for the packages built by the Bioconductor project from a
+      UCSC genome, this field corresponds to the \code{SPECIES} column of
+      the \textit{List of UCSC genome releases} table
+      \footnote{\url{https://genome.ucsc.edu/FAQ/FAQreleases\#release1}}.
+
+\item \code{genome}: The name of the genome. Typically the name of an NCBI
+      assembly (e.g. \code{GRCh38.p12}, \code{WBcel235}, \code{TAIR10.1},
+      \code{ARS-UCD1.2}, etc...) or UCSC genome (e.g. \code{hg38},
+      \code{bosTau9}, \code{galGal6}, \code{ce11}, etc...).
+      Should preferably match part 4 of the package name (field \code{Package}).
+      For the packages built by the Bioconductor project from a UCSC genome,
+      this field corresponds to the \code{UCSC VERSION} field of the
+      \textit{List of UCSC genome releases} table.
+
+\item \code{provider}: The provider of the \term{sequence data files} e.g.
+      \code{UCSC}, \code{NCBI}, \code{BDGP}, \code{FlyBase}, etc...
+      Should preferably match part 3 of the package name (field \code{Package}).
+
+\item \code{release\_date}: When this assembly of the genome was released.
+      For the packages built by the Bioconductor project from a UCSC genome,
+      this field corresponds to the \code{RELEASE DATE} field of the
+      \textit{List of UCSC genome releases} table.
+
+\item \code{source\_url}: The permanent URL where the \term{sequence
+      data files} used to forge the \term{target package} can be found.
+      If the \term{target package} is for an NCBI assembly, use
+      the link to the NCBI landing page for the assembly e.g.
+      \url{https://www.ncbi.nlm.nih.gov/assembly/GCF\_003254395.2/}.
+
+\item \code{organism\_biocview}: The official biocViews term for this organism.
+      This is generally the same as the \code{organism} field except that spaces
+      should be replaced with underscores. The value of this field matters
+      only if the \term{target package} is going to be added to a Bioconductor
+      repository, because it will determine where the package will show
+      up in the biocViews tree
+      \footnote{\url{https://bioconductor.org/packages/release/BiocViews.html\#\_\_\_Organism}}.
+      Note that this is the only field in this category that won't get
+      stored in the \Rclass{BSgenome} object that will get wrapped in
+      the \term{target package}.
+\end{itemize}
+
+\subsubsection{Other fields}
+
+\begin{itemize}
+\item \code{BSgenomeObjname}: Should match part 2 of the package name (see
+      \code{Package} field above).
+
+\item \code{seqnames}: [OPTIONAL] Needed only if you are using a collection
+      of \term{sequence data files}. In that case \code{seqnames} must be an
+      {\R} expression returning the names of the single sequences to forge
+      (in a character vector).
+      E.g. \code{paste("chr", c(1:20, "X", "M", "Un", paste(c(1:20, "X", "Un"),
+      "\_random", sep="")), sep="")}.
+
+\item \code{circ\_seqs}: Not needed if your NCBI assembly or UCSC genome is
+      registered in the \Rpackage{GenomeInfoDb} package.
+      An {\R} expression returning the names of the circular sequences (in a
+      character vector). If the \code{seqnames} field is specified, then
+      \code{circ\_seqs} must be a subset of it. E.g. \code{"chrM"} for rn4
+      or \code{c("chrM", "2micron")} for the sacCer2 genome (Yeast) from UCSC.
+      If the assembly or genome has no circular sequence, set \code{circ\_seqs}
+      to \code{character(0)}.
+
+\item \code{mseqnames}: [OPTIONAL] An {\R} expression returning the names of
+      the multiple sequences to forge (in a character vector).
+      E.g. \code{c("random", "chrUn")} for \code{rn5}.
+      The default value for \code{mseqnames} is \code{NULL} (no multiple
+      sequence).
+
+\item \code{PkgDetails}: [OPTIONAL] Some arbitrary text that will be copied
+      to the \code{Details} section of the man page of the \term{target
+      package}.
+
+\item \code{SrcDataFiles}: [OPTIONAL] Some arbitrary text that will be copied
+      to the \code{Note} section of the man pages of the \term{target package}.
+      \code{SrcDataFiles} should describe briefly where the \term{sequence
+      data files} are coming from. Will typically contain URLs (permanent
+      URLs are a must).
+
+\item \code{PkgExamples}: [OPTIONAL] Some {\R} code (possibly with comments)
+      that will be added to the \code{Examples} section of the man page of the
+      \term{target package}. Don't forget to list the packages used in these
+      examples in the \code{Suggests} field.
+
+\item \code{seqs\_srcdir}: The absolute path to the folder containing the
+      \term{sequence data files}.
+
+\item \code{seqfile\_name}: Required if the \term{sequence data files} is a
+      single twoBit file (e.g. \code{musFur1.2bit}). Ignored otherwise.
+
+\item \code{seqfiles\_prefix}, \code{seqfiles\_suffix}: [OPTIONAL] Needed only
+      if you are using a collection of \term{sequence data files}.
+      The common prefix and suffix that need to be added to all the sequence
+      names (fields \code{seqnames} and \code{mseqnames}) to get the name of
+      the corresponding FASTA file.
+      Default values are the empty prefix for \code{seqfiles\_prefix} and
+      \code{.fa} for \code{seqfiles\_suffix}.
+
+\item \code{ondisk\_seq\_format}: [OPTIONAL] Specifies how the single sequences
+      should be stored in the \term{target package}. Can be \code{2bit},
+      \code{rda}, \code{fa.rz}, or \code{fa}.
+      If \code{2bit} (the default), then all the single sequences are stored
+      in a single twoBit file.
+      If \code{rda}, then each single sequence is stored in a separated
+      serialized \Rclass{XString} object (one per single sequence).
+      If \code{fa.rz} or \code{fa}, then all the single sequences are stored
+      in a single FASTA file (compressed in the RAZip format if \code{fa.rz}).
+\end{itemize}
+
+\subsubsection{An example}
+
+The \term{seed files} used for the packages forged by the Bioconductor project
+are included in the \Rpackage{BSgenomeForge} package:
+<<>>=
+library(BSgenomeForge)
+seed_files <- system.file("extdata", "seeds", package="BSgenomeForge")
+tail(list.files(seed_files, pattern="-seed$"))
+
+## Display seed file for musFur1:
+musFur1_seed <- list.files(seed_files, pattern="\\.musFur1-seed$", full.names=TRUE)
+cat(readLines(musFur1_seed), sep="\n")
+
+## Display seed file for rn4:
+rn4_seed <- list.files(seed_files, pattern="\\.rn4-seed$", full.names=TRUE)
+cat(readLines(rn4_seed), sep="\n")
+@
+
+From now we assume that you have managed to prepare the \term{seed file} for
+your \term{target package}.
+
+

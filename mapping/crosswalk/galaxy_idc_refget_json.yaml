@@ -1,0 +1,108 @@
+# refmeta crosswalk: galaxy_idc_refget_json <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_idc_refget_json
+source: galaxy
+core: '0.1'
+subject: collection
+description: 'IDC PR #88 json/<unique_build_id>.json (sync/all_fasta_files_to_refget_store.py): seqcol level 0/1/2
+  digests of one all_fasta FASTA plus its Galaxy aliases.'
+records: {mode: each}
+constants: {}
+derive: [seqcol_digests, counts]
+rules:
+- native: level_0
+  core: collection.digest
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: nDnCavW_mjqY22G9AfLUaY0diIFApk_O, core: nDnCavW_mjqY22G9AfLUaY0diIFApk_O, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: level_1.names
+  core: collection.level1.names
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: QwbBGcx3jlPGQbh9YyMAklU4TqjMIN_g, core: QwbBGcx3jlPGQbh9YyMAklU4TqjMIN_g, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: level_1.lengths
+  core: collection.level1.lengths
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: iUV7eKYYzNONUVjb4iinQ0NCyx6_nP_Y, core: iUV7eKYYzNONUVjb4iinQ0NCyx6_nP_Y, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: level_1.sequences
+  core: collection.level1.sequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: T4sofxM5XgnGbXDVz2F6vfsw9tebmzd9, core: T4sofxM5XgnGbXDVz2F6vfsw9tebmzd9, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: level_1.name_length_pairs
+  core: collection.level1.name_length_pairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 15886uBC-UhFTgRAxgW2fcQFck2lZdt2, core: 15886uBC-UhFTgRAxgW2fcQFck2lZdt2, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: level_1.sorted_name_length_pairs
+  core: collection.level1.sorted_name_length_pairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9rs5ZWHsSaT_D7nJOSChpFR3Q2ZHRDI6, core: 9rs5ZWHsSaT_D7nJOSChpFR3Q2ZHRDI6, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: level_1.sorted_sequences
+  core: collection.level1.sorted_sequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: IPR_3KMc1Z0UMDczv96ckuYOG_TIiRcZ, core: IPR_3KMc1Z0UMDczv96ckuYOG_TIiRcZ, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: level_2.names
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [chr1, chr2, chr3]
+    core: [chr1, chr2, chr3]
+    file: examples/constructed/idc_pr88_json_hg38canon.json
+    truncated: true
+- native: level_2.lengths
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [248956422, 242193529, 198295559]
+    core: [248956422, 242193529, 198295559]
+    file: examples/constructed/idc_pr88_json_hg38canon.json
+    truncated: true
+- native: level_2.sequences
+  core: sequences[].digest
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [SQ.2YnepKM7OkBoOrKmvHbGqguVfF9amCST, SQ.lwDyBi432Py-7xnAISyQlnlhWDEaBPv2, SQ.Eqk6_SvMMDCc6C-uEfickOUWTatLMDQZ]
+    core: [SQ.2YnepKM7OkBoOrKmvHbGqguVfF9amCST, SQ.lwDyBi432Py-7xnAISyQlnlhWDEaBPv2, SQ.Eqk6_SvMMDCc6C-uEfickOUWTatLMDQZ]
+    file: examples/constructed/idc_pr88_json_hg38canon.json
+    truncated: true
+- native: aliases.galaxy_unique_build_id
+  core: collection.aliases[namespace=galaxy.build_id].value
+  direction: both
+  transform: null
+  lossy: Unique only within one table on one server, and Galaxy does not enforce it.
+  example: {native: hg38canon, core: hg38canon, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: aliases.galaxy_dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/constructed/idc_pr88_json_hg38canon.json}
+- native: aliases.galaxy_name
+  core: collection.labels[namespace=galaxy.name].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Human (Homo sapiens) (b38): hg38 Canonical', core: 'Human (Homo sapiens) (b38): hg38 Canonical',
+    file: examples/constructed/idc_pr88_json_hg38canon.json}
+unmapped:
+- {native: aliases.galaxy_loc_file, reason: 'The .loc file the row came from, with ''/'' written as ''!''; server
+    configuration.'}
+- {native: aliases.galaxy_tool_data_table_conf, reason: 'The tool_data_table_conf.xml, with ''/'' written as ''!'';
+    server configuration.'}

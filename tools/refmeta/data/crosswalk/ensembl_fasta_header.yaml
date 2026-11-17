@@ -1,0 +1,53 @@
+# refmeta crosswalk: ensembl_fasta_header <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_fasta_header
+source: ensembl
+core: '0.1'
+subject: collection
+description: 'Header lines of Ensembl genomic DNA FASTA files. Release FTP style: ''>ID SEQTYPE:COORDSYS COORDSYS:VERSION:NAME:START:END:STRAND
+  EXC'' (EXC is ''REF'' or empty with a trailing space). ensemblorganisms FTP style: ''>ID SEQTYPE:COORDSYS VERSION:NAME:START:END:STRAND''
+  (no coord system inside the location; non-reference scaffolds end with a trailing space). The format is positional;
+  the field paths are names chosen here, following the Ensembl Slice name parts.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {collection.namingAuthority: ensembl, collection.provider: Ensembl}
+derive: [counts]
+rules:
+- native: id
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/fasta_headers_Homo_sapiens.GRCh38.dna.toplevel.txt}
+- native: slice.end
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/fasta_headers_Homo_sapiens.GRCh38.dna.toplevel.txt}
+  note: The location always spans the whole sequence (start 1), so end is the length.
+- native: slice.version
+  core: assembly.labels[namespace=ensembl].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/fasta_headers_Homo_sapiens.GRCh38.dna.toplevel.txt}
+- native: sequence_type
+  core: copies[kind=fasta].masking
+  direction: both
+  transform:
+    map:
+      values: {dna: not-masked, unmasked: not-masked, dna_sm: soft-masked, softmasked: soft-masked, dna_rm: hard-masked,
+        hardmasked: hard-masked}
+  lossy: The release FTP writes dna, the new FTP unmasked; both become not-masked and are written back as dna.
+  example: {native: dna, core: not-masked, file: examples/fasta_headers_Homo_sapiens.GRCh38.dna.toplevel.txt}
+unmapped:
+- {native: coord_system_name, per: row, reason: 'chromosome or scaffold: Ensembl''s coordinate system.'}
+- {native: slice.coord_system_name, per: row, reason: Repeats coord_system_name.}
+- {native: slice.seq_region_name, per: row, reason: Repeats id.}
+- {native: slice.start, per: row, reason: Always 1.}
+- {native: slice.strand, per: row, reason: Always 1.}
+- {native: assembly_exception_type, per: row, reason: 'REF, or empty for alt and patch scaffolds; does not tell
+    alt from patch.'}

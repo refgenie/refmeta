@@ -1,0 +1,17 @@
+accession	sequence-name	sequence-length	sequence-role	replicon-name	replicon-type	assembly-unit
+BK006935.2	I	230218	assembled-molecule	I	Chromosome	Primary Assembly
+BK006936.2	II	813184	assembled-molecule	II	Chromosome	Primary Assembly
+BK006937.2	III	316620	assembled-molecule	III	Chromosome	Primary Assembly
+BK006938.2	IV	1531933	assembled-molecule	IV	Chromosome	Primary Assembly
+BK006939.2	V	576874	assembled-molecule	V	Chromosome	Primary Assembly
+BK006940.2	VI	270161	assembled-molecule	VI	Chromosome	Primary Assembly
+BK006941.2	VII	1090940	assembled-molecule	VII	Chromosome	Primary Assembly
+BK006934.2	VIII	562643	assembled-molecule	VIII	Chromosome	Primary Assembly
+BK006942.2	IX	439888	assembled-molecule	IX	Chromosome	Primary Assembly
+BK006943.2	X	745751	assembled-molecule	X	Chromosome	Primary Assembly
+BK006944.2	XI	666816	assembled-molecule	XI	Chromosome	Primary Assembly
+BK006945.2	XII	1078177	assembled-molecule	XII	Chromosome	Primary Assembly
+BK006946.2	XIII	924431	assembled-molecule	XIII	Chromosome	Primary Assembly
+BK006947.3	XIV	784333	assembled-molecule	XIV	Chromosome	Primary Assembly
+BK006948.2	XV	1091291	assembled-molecule	XV	Chromosome	Primary Assembly
+BK006949.2	XVI	948066	assembled-molecule	XVI	Chromosome	Primary Assembly

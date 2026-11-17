@@ -1,0 +1,55 @@
+# refmeta crosswalk: ga4gh_vcf_header_contig <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ga4gh_vcf_header_contig
+source: ga4gh
+core: '0.1'
+subject: collection
+description: 'VCF header ##contig=<...> lines. One record per contig; order of lines is meaningful (BCF encodes
+  CHROM as an index into this list).'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: [counts]
+rules:
+- native: ID
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/vcf_header_giab_HG002_GRCh38_v4.2.1.vcf}
+- native: length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/vcf_header_giab_HG002_GRCh38_v4.2.1.vcf}
+- native: md5
+  core: sequences[].md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: f126cdf8a6e0c7f379d618ff66beb2da, core: f126cdf8a6e0c7f379d618ff66beb2da, file: examples/vcf_header_spec_example_VCFv4.5.vcf}
+- {native: URL, core: 'copies[kind=fasta].location', direction: both, transform: null, lossy: Per contig in VCF;
+    one location per record is kept., example: null, note: No example file sets this field.}
+- native: assembly
+  core: assembly.labels[namespace=vcf.assembly].value
+  direction: both
+  transform: null
+  lossy: 'Free text: a FASTA file name, gnomAD_GRCh38, or a number.'
+  example: {native: human_GRCh38_no_alt_analysis_set.fasta, core: human_GRCh38_no_alt_analysis_set.fasta, file: examples/vcf_header_giab_HG002_GRCh38_v4.2.1.vcf}
+- native: species
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/vcf_header_spec_example_VCFv4.5.vcf}
+- native: accession
+  core: sequences[].aliases[namespace=insdc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: BK006934.2, core: BK006934.2, file: examples/vcf_header_eva_release9_R64_GCA_000146045.2.vcf}
+unmapped:
+- {native: taxonomy, per: record, reason: Spec-example key with no defined meaning (value 'x').}

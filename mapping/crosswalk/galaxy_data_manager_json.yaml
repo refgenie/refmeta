@@ -1,0 +1,73 @@
+# refmeta crosswalk: galaxy_data_manager_json <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_data_manager_json
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'Data manager output JSON: what a data manager tool writes so Galaxy can add rows to data tables. Paths
+  are relative here; data_manager_conf.xml moves the files and rewrites them to absolute paths. One native record
+  per entry.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: data_table
+  core: copies[0].kind
+  direction: to_core
+  transform:
+    map:
+      values: {all_fasta: fasta, fasta_indexes: fasta, bwa_mem_indexes: bwa_index, bowtie2_indexes: bowtie2_index,
+        rnastar_index2x_versioned: star_index, twobit: 2bit, __dbkeys__: len}
+  lossy: Tables not in the list pass their own name through as the kind.
+  example: {native: all_fasta, core: fasta, file: examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json}
+- native: data_table
+  core: deployments[system=galaxy].table
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: all_fasta, core: all_fasta, file: examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json}
+- native: value
+  core: deployments[system=galaxy].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38canon, core: hg38canon, file: examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json}
+- native: dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json}
+- native: name
+  core: deployments[system=galaxy].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Human (Homo sapiens) (b38): hg38 Canonical', core: 'Human (Homo sapiens) (b38): hg38 Canonical',
+    file: examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json}
+- native: path
+  core: copies[0].location
+  direction: both
+  transform: null
+  lossy: Relative to the job's output folder until Galaxy moves the file.
+  example: {native: hg38canon.fa, core: hg38canon.fa, file: examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json}
+- native: path
+  core: deployments[system=galaxy].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38canon.fa, core: hg38canon.fa, file: examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json}
+- native: len_path
+  core: copies[kind=len].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: phiX174.len, core: phiX174.len, file: examples/dm_fetch_genome_all_fasta_phiX174.data_manager_json}
+- native: version
+  core: copies[0].toolVersion
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 2.7.4a, core: 2.7.4a, file: examples/dm_rnastar_index_phiX174.data_manager_json}
+unmapped:
+- {native: with_gene_model, reason: Whether a STAR index was built with a GTF; no core field.}

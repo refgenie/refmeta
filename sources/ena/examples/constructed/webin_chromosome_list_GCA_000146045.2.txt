@@ -1,0 +1,16 @@
+I	I	linear-chromosome
+II	II	linear-chromosome
+III	III	linear-chromosome
+IV	IV	linear-chromosome
+V	V	linear-chromosome
+VI	VI	linear-chromosome
+VII	VII	linear-chromosome
+VIII	VIII	linear-chromosome
+IX	IX	linear-chromosome
+X	X	linear-chromosome
+XI	XI	linear-chromosome
+XII	XII	linear-chromosome
+XIII	XIII	linear-chromosome
+XIV	XIV	linear-chromosome
+XV	XV	linear-chromosome
+XVI	XVI	linear-chromosome

@@ -1,0 +1,237 @@
+{
+    "components": {
+        "schemas": {
+            "Metadata": {
+                "description": "Holds information about a sequence checksum",
+                "example": {
+                    "metadata": {
+                        "added": "2016-08-27T21:17:00+00:00",
+                        "aliases": [
+                            "GRCh38:1",
+                            "GRCh38:chr1",
+                            "GRCh38.p1:1",
+                            "GRCh38.p1:chr1",
+                            "GRCh38.p10:1",
+                            "GRCh38.p10:chr1",
+                            "GRCh38.p11:1",
+                            "GRCh38.p11:chr1",
+                            "GRCh38.p12:1",
+                            "GRCh38.p12:chr1",
+                            "GRCh38.p2:1",
+                            "GRCh38.p2:chr1",
+                            "GRCh38.p3:1",
+                            "GRCh38.p3:chr1",
+                            "GRCh38.p4:1",
+                            "GRCh38.p4:chr1",
+                            "GRCh38.p5:1",
+                            "GRCh38.p5:chr1",
+                            "GRCh38.p6:1",
+                            "GRCh38.p6:chr1",
+                            "GRCh38.p7:1",
+                            "GRCh38.p7:chr1",
+                            "GRCh38.p8:1",
+                            "GRCh38.p8:chr1",
+                            "GRCh38.p9:1",
+                            "GRCh38.p9:chr1",
+                            "MD5:6aef897c3d6ff0c78aff06ac189178dd",
+                            "RefSeq:NC_000001.11",
+                            "SEGUID:FCUd6VJ6uikS/VWLbhGdVmj2rOA",
+                            "SHA1:14251de9527aba2912fd558b6e119d5668f6ace0",
+                            "VMC:GS_Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO",
+                            "genbank:CM000663.2"
+                        ],
+                        "alphabet": "ACGMNRT",
+                        "length": 248956422
+                    }
+                },
+                "properties": {
+                    "metadata": {
+                        "properties": {
+                            "added": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "aliases": {
+                                "items": {
+                                    "type": "string"
+                                },
+                                "type": "array"
+                            },
+                            "alphabet": {
+                                "nullable": true,
+                                "type": "string"
+                            },
+                            "length": {
+                                "description": "An decimal integer of the length of the reference sequence",
+                                "format": "int64",
+                                "type": "integer"
+                            }
+                        },
+                        "required": [
+                            "length",
+                            "aliases",
+                            "alphabet",
+                            "added"
+                        ],
+                        "type": "object"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "info": {
+        "contact": {
+            "email": "biocommons-dev@googlegroups.com",
+            "name": "biocommons",
+            "url": "https://github.com/biocommons/seqrepo-rest-interface"
+        },
+        "description": "Provides an OpenAPI-based REST interface to biological sequences and sequence metadata.\n\nClients refer to sequences and metadata using familiar identifiers, such as NM_000551.3 or GRCh38:1, or any of several hash-based identifiers.  The interface supports fast slicing of arbitrary regions of large sequences.\n\nA \"fully-qualified\" identifier includes a namespace to disambiguate accessions (e.g., \"1\" in GRCh37 and GRCh38). If the namespace is provided, seqrepo uses it as-is.  If the namespace is not provided and the unqualified identifier refers to a unique sequence, it is returned; otherwise, ambiguous identifiers will raise an error.\n\nDocker instances of SeqRepo and this REST API are available for local installation.\n\nExamples:\n  * `refseq:NM_000551.3`\n  * `NM_000551.3`\n  * `MD5:215137b1973c1a5afcf86be7d999574a`\n  * `SEGUID:T12L0p2X5E8DbnL0+SwI4Wc1S6g`\n  * `SHA1:4f5d8bd29d97e44f036e72f4f92c08e167354ba8`\n  * `ga4gh:GS.v_QTc1p-MUYdgrRv4LMT6ByXIOsdw3C_`\n  * `sha512t24u:v_QTc1p-MUYdgrRv4LMT6ByXIOsdw3C_`\n\nNon-examples:\n  * `RefSeq:NM_000551.3`: correct namespace is \"refseq\"\n  * `ENST000000000`: without version, sequence is ambiguous\n\n\nLinks: [Issues](https://github.com/biocommons/seqrepo-rest-service/issues) | [Docker image](https://cloud.docker.com/u/biocommons/repository/docker/biocommons/seqrepo-rest-service)",
+        "title": "Seqrepo API",
+        "version": "1.0.0"
+    },
+    "openapi": "3.0.0",
+    "paths": {
+        "/metadata/{alias}": {
+            "get": {
+                "description": "Retrieve a metadata about a reference sequence using a hash identifier",
+                "operationId": "seqrepo_rest_service.seqrepo.routes.metadata.get",
+                "parameters": [
+                    {
+                        "description": "The identifier to use. Should be a checksum hash",
+                        "example": "GRCh38:1",
+                        "in": "path",
+                        "name": "alias",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Metadata"
+                                }
+                            }
+                        },
+                        "description": "OK"
+                    },
+                    "404": {
+                        "description": "NOT FOUND; sequence does not exist"
+                    },
+                    "422": {
+                        "description": "UNPROCESSABLE ENTITY; request was understood, but is invalid"
+                    }
+                },
+                "summary": "Get reference metadata from a hash",
+                "tags": [
+                    "Metadata"
+                ]
+            }
+        },
+        "/ping": {
+            "get": {
+                "operationId": "seqrepo_rest_service.seqrepo.routes.ping.get",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "description": "Display of all known configurations for a service deployment"
+                    }
+                },
+                "summary": "Check status of service and return a summary of features",
+                "tags": [
+                    "Status"
+                ]
+            }
+        },
+        "/sequence/{alias}": {
+            "get": {
+                "description": "Retrieve a reference sequence using a hash function",
+                "operationId": "seqrepo_rest_service.seqrepo.routes.sequence.get",
+                "parameters": [
+                    {
+                        "description": "Any sequence alias or hash",
+                        "example": "refseq:NM_000551.3",
+                        "in": "path",
+                        "name": "alias",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "description": "Optional; specifies start of requested sequence using interbase coordinates (numerically equivalent to 0-based, right-open).",
+                        "in": "query",
+                        "name": "start",
+                        "schema": {
+                            "format": "int32",
+                            "minimum": 0,
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "description": "Optional; specifies end of requested sequence using interbase coordinates (numerically equivalent to 0-based, right-open).",
+                        "in": "query",
+                        "name": "end",
+                        "schema": {
+                            "format": "int32",
+                            "minimum": 0,
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "example": "MSSPTPPGGQRTLQKRKQGSSQKVAASAPKKNTNSNNSILKIYSDEATGLRVDPLVVLFLAVGFIFSVVALHVISKVAGKLF",
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "Successful retrieval of sequence. Returned as a single string with no line breaks"
+                    },
+                    "404": {
+                        "description": "NOT FOUND; sequence does not exist"
+                    },
+                    "422": {
+                        "description": "UNPROCESSABLE ENTITY; request was understood, but is invalid"
+                    }
+                },
+                "summary": "Retrieve a sequence by any alias",
+                "tags": [
+                    "Sequence"
+                ]
+            }
+        }
+    },
+    "servers": [
+        {
+            "url": "/seqrepo/1"
+        }
+    ],
+    "tags": [
+        {
+            "description": "Show service status",
+            "name": "Status"
+        },
+        {
+            "description": "Services linked to fetching sequence from an identifier",
+            "name": "Sequence"
+        },
+        {
+            "description": "Services linked to retrieving metadata from an identifier",
+            "name": "Metadata"
+        }
+    ]
+}

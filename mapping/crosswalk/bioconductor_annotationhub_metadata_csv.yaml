@@ -1,0 +1,68 @@
+# refmeta crosswalk: bioconductor_annotationhub_metadata_csv <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_annotationhub_metadata_csv
+source: bioconductor
+core: '0.1'
+subject: copy
+description: 'AnnotationHub contributor metadata file: a CSV in inst/extdata/ of a hub package, one row per hub
+  resource, read by AnnotationHubData::makeAnnotationHubMetadata() and loaded into the hub database.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: Title
+  core: deployments[system=annotationhub].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Sequences of snoRNA targets of Homo sapiens hg38, core: Sequences of snoRNA targets of Homo
+      sapiens hg38, file: examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv}
+- native: Genome
+  core: collection.labels[namespace=annotationhub].value
+  direction: both
+  transform: null
+  missing: NA
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv}
+- native: Species
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Validated against GenomeInfoDbData; may include the strain.
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv}
+- native: TaxonomyId
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  missing: NA
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv}
+- native: DataProvider
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: NCBI, core: NCBI, file: examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv}
+- native: SourceUrl
+  core: copies[kind=source].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://www.ncbi.nlm.nih.gov/gene', core: 'https://www.ncbi.nlm.nih.gov/gene', file: examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv}
+- native: RDataPath
+  core: deployments[system=annotationhub].location
+  direction: both
+  transform: null
+  lossy: Relative to the hub bucket (or Location_Prefix).
+  example: {native: EpiTxDb.Hs.hg38/snoRNA.targets.hg38.fa, core: EpiTxDb.Hs.hg38/snoRNA.targets.hg38.fa, file: examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv}
+unmapped:
+- {native: Description, reason: Free text.}
+- {native: BiocVersion, reason: First Bioconductor version.}
+- {native: SourceType, reason: Format of the source.}
+- {native: SourceVersion, reason: Version of the source data.}
+- {native: Coordinate_1_based, reason: Coordinate base.}
+- {native: Maintainer, reason: Maintainer.}
+- {native: RDataClass, reason: R class.}
+- {native: DispatchClass, reason: Loader.}
+- {native: Location_Prefix, reason: Base URL.}
+- {native: Tags, reason: Search tags.}

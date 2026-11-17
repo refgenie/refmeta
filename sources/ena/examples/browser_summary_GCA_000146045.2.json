@@ -1,0 +1,156 @@
+{
+  "summaries" : [ {
+    "accession" : "GCA_000146045",
+    "title" : "R64 assembly for Saccharomyces cerevisiae S288C",
+    "description" : "The <i>Saccharomyces cerevisiae</i> Third Party Annotation (TPA) sequence was derived from the primary nucleotide sequence submitted to DDBJ/EMBL/GenBank International Nucleotide Sequence Database and assembled by <a href=\"http://www.yeastgenome.org/\">Saccharomyces Genome Database</a>.",
+    "name" : "R64",
+    "version" : 2,
+    "dataType" : "ASSEMBLY",
+    "status" : 4,
+    "statusDescription" : "public",
+    "chromosomes" : [ {
+      "accession" : [ "BK006935.2" ],
+      "name" : "I",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006936.2" ],
+      "name" : "II",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006937.2" ],
+      "name" : "III",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006938.2" ],
+      "name" : "IV",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006942.2" ],
+      "name" : "IX",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006939.2" ],
+      "name" : "V",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006940.2" ],
+      "name" : "VI",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006941.2" ],
+      "name" : "VII",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006934.2" ],
+      "name" : "VIII",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006943.2" ],
+      "name" : "X",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006944.2" ],
+      "name" : "XI",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006945.2" ],
+      "name" : "XII",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006946.2" ],
+      "name" : "XIII",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006947.3" ],
+      "name" : "XIV",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006948.2" ],
+      "name" : "XV",
+      "type" : "Chromosome",
+      "count" : 1
+    }, {
+      "accession" : [ "BK006949.2" ],
+      "name" : "XVI",
+      "type" : "Chromosome",
+      "count" : 1
+    } ],
+    "assemblyLevel" : "complete genome",
+    "attributes" : [ {
+      "tag" : "total-length",
+      "value" : "12071326"
+    }, {
+      "tag" : "ungapped-length",
+      "value" : "12071326"
+    }, {
+      "tag" : "n50",
+      "value" : "924431"
+    }, {
+      "tag" : "spanned-gaps",
+      "value" : "0"
+    }, {
+      "tag" : "unspanned-gaps",
+      "value" : "0"
+    }, {
+      "tag" : "scaffold-count",
+      "value" : "16"
+    }, {
+      "tag" : "count-contig",
+      "value" : "16"
+    }, {
+      "tag" : "contig-n50",
+      "value" : "924431"
+    }, {
+      "tag" : "contig-L50",
+      "value" : "6"
+    }, {
+      "tag" : "contig-n75",
+      "value" : "666816"
+    }, {
+      "tag" : "contig-n90",
+      "value" : "439888"
+    }, {
+      "tag" : "scaf-L50",
+      "value" : "6"
+    }, {
+      "tag" : "scaf-n75",
+      "value" : "666816"
+    }, {
+      "tag" : "scaf-n90",
+      "value" : "439888"
+    }, {
+      "tag" : "replicon-count",
+      "value" : "16"
+    }, {
+      "tag" : "count-non-chromosome-replicon",
+      "value" : "0"
+    }, {
+      "tag" : "count-alt-loci-units",
+      "value" : "0"
+    }, {
+      "tag" : "count-regions",
+      "value" : "0"
+    }, {
+      "tag" : "count-patches",
+      "value" : "0"
+    }, {
+      "tag" : "ENA-LAST-UPDATED",
+      "value" : "2015-02-27"
+    } ]
+  } ],
+  "total" : "1"
+}

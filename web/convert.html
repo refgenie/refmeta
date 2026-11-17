@@ -1,0 +1,1340 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>refmeta converter</title>
+<meta name="description" content="Convert reference genome metadata between 100 formats, in your browser.">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #f5f6f8;
+  --surface: #ffffff;
+  --surface-2: #f0f2f5;
+  --border: #dcdfe5;
+  --border-strong: #c3c8d1;
+  --text: #1b2230;
+  --muted: #5c6575;
+  --accent: #1d6b86;
+  --accent-strong: #165770;
+  --accent-soft: #e1eff4;
+  --on-accent: #ffffff;
+  --ok: #1d7444;
+  --ok-soft: #e2f3e9;
+  --warn: #7f5300;
+  --warn-soft: #fff4da;
+  --warn-border: #edd093;
+  --err: #a8261b;
+  --err-soft: #fdecea;
+  --err-border: #f0b7b1;
+  --code-bg: #f3f4f7;
+  --alias-bg: #edf5f8;
+  --focus: #2b7fff;
+  --lv-assembly: #6a4fb8;
+  --lv-collection: #17798b;
+  --lv-sequences: #a66400;
+  --lv-copies: #2c66c4;
+  --lv-deployments: #b13a69;
+  --shadow: 0 1px 2px rgba(20, 30, 50, .06), 0 1px 1px rgba(20, 30, 50, .04);
+  --radius: 10px;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0f1318;
+    --surface: #171c23;
+    --surface-2: #1f262f;
+    --border: #2c3540;
+    --border-strong: #3d4855;
+    --text: #e5e8ed;
+    --muted: #9aa4b2;
+    --accent: #5bb6d4;
+    --accent-strong: #84cbe3;
+    --accent-soft: #15313b;
+    --on-accent: #08141a;
+    --ok: #63d19b;
+    --ok-soft: #12301f;
+    --warn: #f1c46a;
+    --warn-soft: #2f2610;
+    --warn-border: #5b4716;
+    --err: #ff8f85;
+    --err-soft: #361715;
+    --err-border: #6a2a24;
+    --code-bg: #12171d;
+    --alias-bg: #14262d;
+    --focus: #6aa7ff;
+    --lv-assembly: #a891ff;
+    --lv-collection: #5ccadb;
+    --lv-sequences: #eea544;
+    --lv-copies: #78a8ff;
+    --lv-deployments: #f07ba7;
+    --shadow: none;
+  }
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 15px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+a { color: var(--accent); }
+code, pre, .mono { font-family: var(--mono); font-size: 0.9em; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.wrap { max-width: 1280px; margin: 0 auto; padding: 0 16px; }
+[hidden] { display: none !important; }
+
+/* site nav (shared with index.html) */
+.site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; padding: 14px 0 0; font-size: 0.92rem; }
+.site-nav .brand { font-weight: 700; color: var(--text); text-decoration: none; margin-right: 6px; }
+.site-nav a { text-decoration: none; }
+.site-nav a:hover { text-decoration: underline; }
+.site-nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
+
+/* header */
+.top { padding: 0 0 8px; }
+.top h1 { margin: 18px 0 6px; font-size: 1.75rem; letter-spacing: -0.01em; }
+.lede { margin: 0 0 12px; color: var(--muted); max-width: 70ch; }
+.status { display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; color: var(--muted); max-width: 100%;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 999px; padding: 4px 12px 4px 10px; }
+.status .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--muted); flex: none; }
+.status.busy .dot { background: var(--accent); animation: pulse 1s ease-in-out infinite; }
+.status.ready .dot { background: var(--ok); }
+.status.error .dot { background: var(--err); }
+@keyframes pulse { 50% { opacity: .25; } }
+@media (prefers-reduced-motion: reduce) { .status.busy .dot { animation: none; } }
+
+/* panels */
+main { padding-bottom: 40px; }
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 16px; margin-top: 16px; min-width: 0; }
+.panel h2 { margin: 0 0 12px; font-size: 1.08rem; display: flex; align-items: center; gap: 8px; }
+.step { display: inline-grid; place-items: center; width: 24px; height: 24px; border-radius: 50%;
+  background: var(--accent-soft); color: var(--accent-strong); font-size: 0.8rem; font-weight: 700; flex: none; }
+.panel-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-bottom: 12px; }
+.panel-head h2 { margin: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 0.85rem; }
+
+/* input */
+.dropzone { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  text-align: center; padding: 28px 16px; border: 2px dashed var(--border-strong); border-radius: var(--radius);
+  background: var(--surface-2); cursor: pointer; transition: border-color .15s, background .15s; }
+.dropzone:hover, .dropzone.over { border-color: var(--accent); background: var(--accent-soft); }
+.dropzone strong { font-size: 1.05rem; }
+.linklike { color: var(--accent); text-decoration: underline; }
+.samples { margin-top: 14px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 10px; }
+.samples-label { color: var(--muted); font-size: 0.9rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; min-width: 0; }
+button { font: inherit; }
+.chip-btn { border: 1px solid var(--border-strong); background: var(--surface); color: var(--text);
+  border-radius: 999px; padding: 3px 11px; font-size: 0.86rem; cursor: pointer; }
+.chip-btn:hover { border-color: var(--accent); color: var(--accent-strong); }
+.chip-btn .src { color: var(--muted); font-size: 0.78rem; margin-left: 4px; }
+details.paste { margin-top: 12px; }
+details.paste summary { cursor: pointer; color: var(--accent); font-size: 0.9rem; width: max-content; }
+details.paste textarea { display: block; width: 100%; min-height: 140px; margin: 8px 0; padding: 8px;
+  font-family: var(--mono); font-size: 0.85rem; background: var(--code-bg); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; resize: vertical; }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+input[type=text], select { font: inherit; color: var(--text); background: var(--surface); border: 1px solid var(--border-strong);
+  border-radius: 8px; padding: 6px 8px; min-width: 0; max-width: 100%; }
+.btn { border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); border-radius: 8px;
+  padding: 6px 14px; cursor: pointer; font-size: 0.92rem; }
+.btn:hover:not(:disabled) { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--on-accent); font-weight: 600; }
+.btn.primary:hover:not(:disabled) { background: var(--accent-strong); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.file-info { margin-top: 12px; font-size: 0.9rem; color: var(--muted); overflow-wrap: anywhere; }
+.file-info strong { color: var(--text); }
+
+/* alerts */
+.alert { border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; margin-top: 10px; font-size: 0.92rem; overflow-wrap: anywhere; }
+.alert p { margin: 0; }
+.alert p + p, .alert p + .row, .alert ul { margin-top: 6px; }
+.alert ul { padding-left: 20px; margin-bottom: 0; }
+.alert.error { background: var(--err-soft); border-color: var(--err-border); }
+.alert.error > strong:first-child { color: var(--err); }
+.alert.warn { background: var(--warn-soft); border-color: var(--warn-border); }
+.alert.warn > strong:first-child { color: var(--warn); }
+.alert.info { background: var(--surface-2); }
+.alert details summary { cursor: pointer; }
+.alert pre { max-height: 240px; }
+
+/* read panel */
+.readas { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.readas label { font-weight: 600; }
+.readas select { flex: 1 1 260px; }
+.detect-line { margin-top: 10px; overflow-wrap: anywhere; }
+.badge { display: inline-block; font-size: 0.75rem; font-weight: 600; border-radius: 999px; padding: 1px 8px;
+  border: 1px solid var(--border); background: var(--surface-2); color: var(--muted); vertical-align: 1px; white-space: nowrap; }
+.badge.ok { background: var(--ok-soft); color: var(--ok); border-color: transparent; }
+.badge.warn { background: var(--warn-soft); color: var(--warn); border-color: var(--warn-border); }
+.badge.accent { background: var(--accent-soft); color: var(--accent-strong); border-color: transparent; }
+
+/* results */
+.results { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0 16px; align-items: start; }
+@media (min-width: 1040px) {
+  .results { grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
+  .out-panel { position: sticky; top: 8px; }
+}
+.tabs { display: inline-flex; border: 1px solid var(--border-strong); border-radius: 8px; overflow: hidden; }
+.tabs button { border: 0; background: var(--surface); color: var(--muted); padding: 4px 12px; cursor: pointer; font-size: 0.88rem; }
+.tabs button + button { border-left: 1px solid var(--border-strong); }
+.tabs button[aria-selected=true] { background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
+.record-pick { display: flex; flex-wrap: wrap; gap: 6px 10px; align-items: center; margin-bottom: 12px; font-size: 0.92rem; }
+.record-pick select { flex: 1 1 220px; }
+.levelmap { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
+.lvpill { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 3px 10px 3px 8px;
+  font-size: 0.85rem; border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: default; }
+.lvpill .sw { width: 9px; height: 9px; border-radius: 3px; background: var(--border-strong); }
+.lvpill.on { color: var(--text); border-color: var(--border-strong); cursor: pointer; }
+.lvpill.on .sw { background: var(--lv); }
+.lvpill.subject { box-shadow: 0 0 0 2px var(--lv) inset; }
+.lvpill .n { font-variant-numeric: tabular-nums; color: var(--muted); }
+.prov { font-size: 0.85rem; color: var(--muted); margin: 6px 0 12px; overflow-wrap: anywhere; }
+.lv-assembly { --lv: var(--lv-assembly); }
+.lv-collection { --lv: var(--lv-collection); }
+.lv-sequences { --lv: var(--lv-sequences); }
+.lv-copies { --lv: var(--lv-copies); }
+.lv-deployments { --lv: var(--lv-deployments); }
+.level-card { border: 1px solid var(--border); border-left: 4px solid var(--lv, var(--border-strong)); border-radius: 8px;
+  padding: 10px 12px; margin-top: 10px; background: var(--surface); min-width: 0; }
+.level-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin-bottom: 6px; }
+.level-head h3 { margin: 0; font-size: 0.98rem; color: var(--lv, var(--text)); }
+.level-head .what { color: var(--muted); font-size: 0.82rem; }
+.level-head .ident { font-family: var(--mono); font-size: 0.85rem; overflow-wrap: anywhere; }
+.empty-levels { font-size: 0.85rem; color: var(--muted); margin-top: 10px; }
+dl.kv { display: grid; grid-template-columns: minmax(90px, max-content) minmax(0, 1fr); gap: 3px 14px; margin: 0; font-size: 0.9rem; }
+dl.kv > dt { color: var(--muted); overflow-wrap: anywhere; }
+dl.kv > dt[title] { text-decoration: underline dotted var(--border-strong); text-underline-offset: 3px; cursor: help; }
+dl.kv > dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
+dl.kv dl.kv { font-size: 0.86rem; }
+@media (max-width: 520px) {
+  dl.kv { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  dl.kv > dd { margin-bottom: 6px; }
+}
+.multiline { white-space: pre-wrap; }
+.objlist { display: flex; flex-direction: column; gap: 6px; }
+.objlist > div { border: 1px solid var(--border); border-radius: 6px; padding: 4px 8px; }
+.name-chip { display: inline-flex; align-items: baseline; gap: 5px; border: 1px solid var(--border-strong);
+  border-radius: 6px; padding: 0 7px; font-size: 0.84rem; background: var(--surface); max-width: 100%; overflow-wrap: anywhere; }
+.name-chip .ns { color: var(--muted); font-size: 0.76rem; }
+.name-chip .v { font-family: var(--mono); font-size: 0.82rem; }
+.name-chip.label { border-style: dashed; }
+.chip-legend { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+.table-wrap { overflow-x: auto; max-width: 100%; border: 1px solid var(--border); border-radius: 6px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.84rem; }
+th, td { text-align: left; padding: 4px 8px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--surface-2); color: var(--muted); font-weight: 600; white-space: nowrap; position: sticky; top: 0; }
+tr:last-child td { border-bottom: 0; }
+td.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.mono { font-family: var(--mono); font-size: 0.8rem; }
+td .chips { gap: 3px; }
+td.nm { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
+.seq-table th, .seq-table td { white-space: nowrap; }
+.seq-table th.alias-col { background: var(--alias-bg); color: var(--accent-strong); font-family: var(--mono); font-weight: 600; }
+.seq-table td.alias { background: var(--alias-bg); }
+.items-table td { white-space: nowrap; }
+.items-table td.wrapcell { white-space: normal; overflow-wrap: anywhere; min-width: 22ch; }
+.card-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 6px 12px; margin-top: 8px; font-size: 0.85rem; color: var(--muted); }
+.copy-item + .copy-item { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--border); }
+.copy-loc { font-family: var(--mono); font-size: 0.85rem; overflow-wrap: anywhere; margin-bottom: 4px; }
+details.sub { margin-top: 10px; font-size: 0.9rem; }
+details.sub > summary { cursor: pointer; color: var(--muted); }
+details.sub > summary:hover { color: var(--text); }
+details.sub ul { margin: 6px 0 0; padding-left: 20px; }
+details.sub li { overflow-wrap: anywhere; }
+
+/* raw + output */
+pre.code { margin: 0; background: var(--code-bg); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px;
+  overflow: auto; max-height: 70vh; font-size: 0.8rem; line-height: 1.45; white-space: pre; tab-size: 8; }
+.controls { display: grid; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.controls label { display: flex; flex-direction: column; gap: 4px; font-weight: 600; font-size: 0.9rem; }
+.controls select { font-weight: 400; width: 100%; }
+.target-about { font-size: 0.84rem; color: var(--muted); margin-top: 6px; overflow-wrap: anywhere; }
+.target-about code { color: var(--text); }
+.out-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; margin: 12px 0 8px; }
+.out-bar .meta { font-size: 0.85rem; color: var(--muted); overflow-wrap: anywhere; min-width: 0; }
+.out-bar .acts { display: flex; gap: 8px; }
+.trunc-note { font-size: 0.82rem; color: var(--muted); margin-top: 6px; }
+footer { color: var(--muted); font-size: 0.85rem; padding: 0 0 32px; }
+footer p { margin: 4px 0; }
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); border: 0; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <nav class="site-nav" aria-label="Site">
+      <a class="brand" href="index.html">refmeta</a>
+      <a href="index.html#fields">Terms</a>
+      <a href="index.html#namespaces">Namespaces</a>
+      <a href="convert.html" aria-current="page">Converter</a>
+      <a href="https://github.com/refgenie/refmeta">GitHub</a>
+    </nav>
+    <h1>refmeta converter</h1>
+    <p class="lede">Drop a reference genome metadata file. refmeta reads it into one shared record, then writes
+      that record in any of 100 formats from 10 sources. Everything runs in this browser tab; your file is not uploaded.</p>
+    <div id="status" class="status busy" role="status" aria-live="polite"><span class="dot"></span><span id="status-text">Starting…</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="fatal" class="alert error" role="alert" hidden></div>
+
+  <section class="panel" aria-labelledby="h-input">
+    <h2 id="h-input"><span class="step">1</span>Choose a file</h2>
+    <label id="dropzone" class="dropzone" for="file-input" tabindex="0">
+      <input type="file" id="file-input" class="sr-only" tabindex="-1">
+      <strong>Drop a file here</strong>
+      <span>or <span class="linklike">choose one</span></span>
+      <span class="muted small">Text files up to 64 MB. A .gz file is unzipped for you.</span>
+    </label>
+    <div class="samples">
+      <span class="samples-label">Or try a sample:</span>
+      <div id="samples" class="chips"></div>
+    </div>
+    <details class="paste">
+      <summary>Paste text instead</summary>
+      <textarea id="paste-text" spellcheck="false" aria-label="Pasted file text" placeholder="Paste the contents of a metadata file"></textarea>
+      <div class="row">
+        <input type="text" id="paste-name" placeholder="File name, optional (helps detection)" aria-label="File name for the pasted text">
+        <button type="button" id="paste-go" class="btn">Read pasted text</button>
+      </div>
+    </details>
+    <div id="file-info" class="file-info" hidden></div>
+    <div id="input-error" class="alert error" role="alert" hidden></div>
+  </section>
+
+  <section class="panel" id="read-panel" aria-labelledby="h-read" hidden>
+    <h2 id="h-read"><span class="step">2</span>What refmeta read</h2>
+    <div class="readas">
+      <label for="read-as">Read as</label>
+      <select id="read-as"></select>
+    </div>
+    <div id="read-msg" aria-live="polite"></div>
+  </section>
+
+  <div id="results" class="results" hidden>
+    <section class="panel core-panel" aria-labelledby="h-core">
+      <div class="panel-head">
+        <h2 id="h-core"><span class="step">3</span>Core record</h2>
+        <div class="tabs" role="tablist" aria-label="Core record view">
+          <button type="button" role="tab" data-view="readable" aria-selected="true">Readable</button>
+          <button type="button" role="tab" data-view="yaml" aria-selected="false">YAML</button>
+          <button type="button" role="tab" data-view="json" aria-selected="false">JSON</button>
+        </div>
+      </div>
+      <div id="core-readable"></div>
+      <div id="core-raw" hidden>
+        <div class="out-bar"><span class="meta" id="raw-meta"></span>
+          <span class="acts"><button type="button" class="btn" id="raw-copy">Copy</button></span></div>
+        <pre class="code" id="raw-pre"></pre>
+        <p class="trunc-note" id="raw-trunc" hidden></p>
+      </div>
+      <details class="sub" id="core-warnings" hidden><summary></summary><ul></ul></details>
+    </section>
+
+    <section class="panel out-panel" aria-labelledby="h-out">
+      <h2 id="h-out"><span class="step">4</span>Write it as</h2>
+      <div class="controls">
+        <label>Format
+          <select id="target"></select>
+        </label>
+        <label>Sequence names
+          <select id="names"></select>
+        </label>
+      </div>
+      <div class="target-about" id="target-about"></div>
+      <p class="muted small" id="scan-msg" aria-live="polite"></p>
+      <div id="out-error" class="alert error" role="alert" hidden></div>
+      <div id="out-ok" hidden>
+        <div class="out-bar">
+          <span class="meta" id="out-meta"></span>
+          <span class="acts">
+            <button type="button" class="btn" id="out-copy">Copy</button>
+            <button type="button" class="btn primary" id="out-download">Download</button>
+          </span>
+        </div>
+        <pre class="code" id="out-pre"></pre>
+        <p class="trunc-note" id="out-trunc" hidden></p>
+        <details class="sub" id="out-warnings" hidden><summary></summary><ul></ul></details>
+      </div>
+    </section>
+  </div>
+</main>
+
+<footer class="wrap">
+  <p>refmeta maps each format onto five levels (assembly, collection, sequences, copies, deployments) and keeps native
+    fields it cannot place as extras, so writing back to the same format loses nothing.</p>
+  <p id="foot-version">Runs the refmeta Python package with Pyodide 0.26.4.</p>
+</footer>
+
+<script src="refmeta_bundle.js" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/pyodide@0.26.4/pyodide.js"></script>
+<script>
+"use strict";
+
+// Pyodide comes from the npm package above (pinned). That package holds no
+// package wheels, and in a browser Pyodide only falls back to its own CDN when
+// running under Node, so pyyaml is loaded by the URL of the same release's wheel.
+const PYYAML_WHEEL = "https://cdn.jsdelivr.net/pyodide/v0.26.4/full/PyYAML-6.0.1-cp312-cp312-pyodide_2024_0_wasm32.whl";
+const PY_ROOT = "/home/pyodide/refmeta_web";
+const MAX_BYTES = 64 * 1024 * 1024;
+const PREVIEW_LINES = 2000;
+const PREVIEW_CHARS = 400000;
+const SEQ_ROWS = 50;
+const SCAN_BATCH = 10;
+// First of these that can hold the record is shown, until the user picks a format.
+const DEFAULT_TARGETS = ["ucsc_chrom_sizes", "fhr_yaml", "ga4gh_seqcol_level2", "refgenie_registry_genome", "fhr_json",
+  "galaxy_loc_all_fasta", "core"];
+const LEVELS = [
+  {key: "assembly", subject: "assembly", title: "Assembly", def: "Assembly", what: "what an archive registered, named by an accession"},
+  {key: "collection", subject: "collection", title: "Collection", def: "Collection", what: "one exact list of named sequences, named by a seqcol digest"},
+  {key: "sequences", subject: "sequence", title: "Sequences", def: "Sequence", what: "each sequence, with its names in other styles"},
+  {key: "copies", subject: "copy", title: "Copies", def: "Copy", what: "files holding the sequences: a location plus checksums"},
+  {key: "deployments", subject: "deployment", title: "Deployments", def: "Deployment", what: "entries in a system that uses the files"},
+];
+
+const S = {
+  bundle: window.REFMETA_BUNDLE || null,
+  glue: null, catalog: null, byId: {}, schema: {defs: {}},
+  input: null, pending: false, readAs: "", analysis: null, recordIndex: 0, view: "readable",
+  target: "", userTarget: "", names: "", scan: null, scanToken: 0, output: null, showAllSeqs: false,
+};
+const $ = (id) => document.getElementById(id);
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+const paint = () => sleep(20); // let the browser draw a status message before Python blocks the page
+
+function h(tag, attrs, ...kids) {
+  const e = document.createElement(tag);
+  if (attrs) {
+    for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === "class") e.className = v;
+      else if (k.startsWith("on")) e.addEventListener(k.slice(2), v);
+      else e.setAttribute(k, v === true ? "" : v);
+    }
+  }
+  for (const kid of kids.flat(Infinity)) {
+    if (kid == null || kid === false) continue;
+    e.append(kid instanceof Node ? kid : String(kid));
+  }
+  return e;
+}
+
+// replaceChildren() that flattens arrays and skips null/false, like h()
+function put(el, ...kids) {
+  el.replaceChildren(...kids.flat(Infinity).filter((k) => k != null && k !== false));
+  return el;
+}
+
+function pref(key, value) {
+  try {
+    if (value === undefined) return localStorage.getItem("refmeta." + key) || "";
+    localStorage.setItem("refmeta." + key, value);
+  } catch (e) { /* storage blocked: preferences are optional */ }
+  return "";
+}
+
+function setStatus(kind, text) {
+  $("status").className = "status " + kind;
+  document.body.dataset.status = kind;
+  $("status-text").textContent = text;
+}
+
+function readyText() {
+  const n = S.catalog ? S.catalog.formats.length : 100;
+  return `Ready: reads and writes ${n} formats`;
+}
+
+function fatal(title, detail) {
+  setStatus("error", "Could not start");
+  const box = $("fatal");
+  put(box, h("strong", null, title), detail ? h("p", null, detail) : null);
+  box.hidden = false;
+}
+
+function fmtBytes(n) {
+  if (n < 1024) return `${n} bytes`;
+  if (n < 1024 * 1024) return `${(n / 1024).toFixed(n < 10240 ? 1 : 0)} KB`;
+  return `${(n / 1024 / 1024).toFixed(1)} MB`;
+}
+function fmtInt(n) { return Number(n).toLocaleString("en-US"); }
+function plural(n, one, many) { return `${fmtInt(n)} ${n === 1 ? one : (many || one + "s")}`; }
+function lineCount(text) {
+  if (!text) return 0;
+  let n = 0;
+  for (let i = text.indexOf("\n"); i !== -1; i = text.indexOf("\n", i + 1)) n++;
+  return text.endsWith("\n") ? n : n + 1;
+}
+function pyMessage(e) {
+  const msg = String((e && e.message) || e);
+  const lines = msg.trim().split("\n");
+  return lines[lines.length - 1] || msg;
+}
+
+// ------------------------------------------------------------------ format names
+
+function fmt(id) { return S.byId[id]; }
+function fmtLabel(id) {
+  if (id === "core" || id === "core.yaml") return "refmeta core record (YAML)";
+  if (id === "core.json") return "refmeta core record (JSON)";
+  const f = fmt(id);
+  return f ? `${f.label}` : id;
+}
+function fmtNode(id) {
+  return h("span", null, h("strong", null, fmtLabel(id)), " ", h("code", null, id));
+}
+
+function bySource(list) {
+  const groups = new Map();
+  for (const f of list) {
+    if (!groups.has(f.sourceName)) groups.set(f.sourceName, []);
+    groups.get(f.sourceName).push(f);
+  }
+  return [...groups.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0], "en", {sensitivity: "base"}))
+    .map(([name, fs]) => [name, fs.sort((a, b) => a.label.localeCompare(b.label))]);
+}
+
+function fillReadAs() {
+  const sel = $("read-as");
+  const auto = S.analysis && S.analysis.auto && S.analysis.format
+    ? `Detect automatically (found: ${fmtLabel(S.analysis.format)})` : "Detect automatically";
+  put(sel,
+    h("option", {value: ""}, auto),
+    h("optgroup", {label: "refmeta"}, h("option", {value: "core"}, "refmeta core record (YAML or JSON)")),
+    bySource(S.catalog.formats.filter((f) => f.read)).map(([name, fs]) =>
+      h("optgroup", {label: name}, fs.map((f) => h("option", {value: f.id, title: f.description}, f.label)))),
+  );
+  sel.value = S.analysis && !S.analysis.auto ? S.analysis.format : S.readAs;
+}
+
+function buildTargets() {
+  const sel = $("target");
+  const writable = S.catalog.formats.filter((f) => f.write);
+  const cannot = [];
+  const groups = [];
+  for (const [name, fs] of bySource(writable)) {
+    const opts = [];
+    for (const f of fs) {
+      if (S.scan && S.scan[f.id]) cannot.push(f);
+      else opts.push(h("option", {value: f.id, title: f.description}, f.label));
+    }
+    if (opts.length) groups.push(h("optgroup", {label: name}, opts));
+  }
+  put(sel,
+    h("optgroup", {label: "refmeta"},
+      h("option", {value: "core"}, "Core record, YAML"),
+      h("option", {value: "core.json"}, "Core record, JSON")),
+    groups,
+    cannot.length ? h("optgroup", {label: "Cannot hold this record"},
+      cannot.map((f) => h("option", {value: f.id, title: S.scan[f.id]}, `${f.sourceName}: ${f.label}`))) : null,
+  );
+  if (S.target) sel.value = S.target;
+  describeTarget();
+}
+
+function describeTarget() {
+  const id = S.target;
+  const box = $("target-about");
+  if (!id) { put(box); return; }
+  if (id === "core" || id === "core.json") {
+    put(box, "The record shown on the left, as refmeta stores it.");
+    return;
+  }
+  const f = fmt(id);
+  if (!f) { put(box); return; }
+  put(box, h("code", null, id), ` · ${f.sourceName} · `, f.description);
+}
+
+function fillNames(a) {
+  const sel = $("names");
+  const list = a.namespaces || [];
+  const current = (a.records[S.recordIndex] && a.records[S.recordIndex].collection || {}).namingAuthority;
+  if (S.names && !list.some((n) => n.namespace === S.names)) S.names = "";
+  put(sel,
+    h("option", {value: ""}, current ? `As in the file (${current})` : "As in the file"),
+    list.map((n) => h("option", {value: n.namespace},
+      `${n.namespace} (${n.count === n.total ? "all" : fmtInt(n.count) + " of"} ${plural(n.total, "sequence")})`)),
+  );
+  sel.value = S.names;
+  sel.disabled = list.length === 0;
+  sel.title = list.length ? "Rename sequences to their names in this style before writing"
+    : "This record has no other names for its sequences";
+}
+
+// ------------------------------------------------------------------ boot
+
+async function boot() {
+  if (!S.bundle) {
+    fatal("refmeta_bundle.js is missing.",
+      "Build it with `python tools/build_web.py` and keep it next to convert.html.");
+    return;
+  }
+  try { S.schema = {defs: JSON.parse(S.bundle.files["refmeta/data/core.schema.json"]).$defs || {}}; }
+  catch (e) { S.schema = {defs: {}}; }
+  renderSamples();
+  $("foot-version").textContent = `Runs the refmeta Python package (bundle ${S.bundle.version}) with Pyodide 0.26.4.`;
+  if (typeof loadPyodide !== "function") {
+    fatal("Could not load Pyodide from cdn.jsdelivr.net.",
+      "This page runs Python in the browser and loads it from that CDN (about 12 MB, cached after the first visit). " +
+      "Check the internet connection, then reload.");
+    return;
+  }
+  try {
+    setStatus("busy", "Loading Python in the browser (about 12 MB the first time)…");
+    const py = await loadPyodide();
+    setStatus("busy", "Loading pyyaml…");
+    await py.loadPackage(PYYAML_WHEEL, {messageCallback: () => {}});
+    setStatus("busy", "Loading refmeta…");
+    await paint();
+    for (const [path, text] of Object.entries(S.bundle.files)) {
+      const full = `${PY_ROOT}/${path}`;
+      py.FS.mkdirTree(full.slice(0, full.lastIndexOf("/")));
+      py.FS.writeFile(full, text);
+    }
+    py.runPython(`import sys\nsys.path.insert(0, ${JSON.stringify(PY_ROOT)})\nimport yaml`);
+    S.glue = py.pyimport("refmeta_web");
+    S.catalog = JSON.parse(S.glue.catalog());
+    for (const f of S.catalog.formats) S.byId[f.id] = f;
+  } catch (e) {
+    fatal("Python did not start.", `${pyMessage(e)}. Check the internet connection (Pyodide and pyyaml come from cdn.jsdelivr.net), then reload.`);
+    return;
+  }
+  setStatus("ready", readyText());
+  if (S.pending) {
+    S.pending = false;
+    S.glue.set_input(S.input.text, S.input.filename);
+    await analyze();
+  }
+}
+
+// ------------------------------------------------------------------ input
+
+function renderSamples() {
+  const box = $("samples");
+  put(box, ...S.bundle.samples.map((s, i) => h("button", {
+    type: "button", class: "chip-btn", title: `${s.about}\n${s.path}`, "data-sample": i,
+    onclick: () => loadText(s.text, s.filename, `Sample from refmeta/${s.path}`),
+  }, s.label)));
+}
+
+function showInputError(title, detail) {
+  const box = $("input-error");
+  put(box, h("strong", null, title), detail ? h("p", null, detail) : null);
+  box.hidden = false;
+}
+
+function looksBinary(bytes) {
+  const n = Math.min(bytes.length, 8192);
+  for (let i = 0; i < n; i++) if (bytes[i] === 0) return true;
+  return false;
+}
+
+class InputProblem extends Error {
+  constructor(title, detail) { super(title); this.detail = detail; }
+}
+
+async function fileText(file) {
+  if (file.size > MAX_BYTES) {
+    throw new InputProblem(`This file is ${fmtBytes(file.size)}; the converter reads files up to 64 MB.`,
+      "refmeta reads metadata, not sequence. For a large FASTA file, keep only its header lines first, " +
+      "for example: grep '^[>;]' genome.fa > headers.fa");
+  }
+  let bytes = new Uint8Array(await file.arrayBuffer());
+  let name = file.name;
+  let note = "";
+  if (bytes.length === 0) throw new InputProblem("This file is empty.");
+  if (bytes[0] === 0x1f && bytes[1] === 0x8b) {
+    if (typeof DecompressionStream !== "function") {
+      throw new InputProblem("This file is gzip-compressed, and this browser cannot unzip it.",
+        "Unzip it first (gunzip), then drop the result.");
+    }
+    try {
+      const stream = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("gzip"));
+      bytes = new Uint8Array(await new Response(stream).arrayBuffer());
+    } catch (e) {
+      throw new InputProblem("This .gz file could not be unzipped.", String(e.message || e));
+    }
+    if (bytes.length > MAX_BYTES) {
+      throw new InputProblem(`Unzipped, this file is ${fmtBytes(bytes.length)}; the converter reads files up to 64 MB.`);
+    }
+    note = `Unzipped from ${fmtBytes(file.size)}.`;
+    name = name.replace(/\.gz$/i, "");
+  }
+  if (bytes[0] === 0x50 && bytes[1] === 0x4b && bytes[2] === 3 && bytes[3] === 4) {
+    throw new InputProblem("This is a zip archive (or an Excel or Word file).",
+      "Unzip it and drop one of the text files inside.");
+  }
+  if (looksBinary(bytes)) {
+    throw new InputProblem("This looks like a binary file, not text.",
+      "refmeta reads text formats: tables, JSON, YAML, XML and file headers. BAM, CRAM, 2bit, bgzip-indexed and " +
+      "spreadsheet files are not supported.");
+  }
+  return {text: new TextDecoder("utf-8").decode(bytes), name, note, bytes: bytes.length};
+}
+
+async function takeFile(file) {
+  $("input-error").hidden = true;
+  if (!file) return;
+  try {
+    const {text, name, note, bytes} = await fileText(file);
+    loadText(text, name, note, bytes);
+  } catch (e) {
+    if (e instanceof InputProblem) showInputError(e.message, e.detail);
+    else showInputError("Could not open this file.", String(e.message || e));
+  }
+}
+
+function loadText(text, filename, note, bytes) {
+  $("input-error").hidden = true;
+  if (!text || !text.trim()) {
+    showInputError("This file is empty.");
+    return;
+  }
+  S.input = {text, filename: filename || "", note: note || "", bytes: bytes || new Blob([text]).size};
+  S.readAs = "";
+  S.names = "";
+  S.recordIndex = 0;
+  S.showAllSeqs = false;
+  const info = $("file-info");
+  put(info, h("strong", null, S.input.filename || "Pasted text"), ` · ${fmtBytes(S.input.bytes)} · `,
+    plural(lineCount(text), "line"), S.input.note ? ` · ${S.input.note}` : "");
+  info.hidden = false;
+  if (!S.glue) {
+    S.pending = true;
+    info.append(h("span", null, " · This file will be read as soon as Python has loaded."));
+    return;
+  }
+  S.glue.set_input(text, S.input.filename);
+  analyze();
+}
+
+// ------------------------------------------------------------------ analyze
+
+async function analyze() {
+  S.scanToken++;
+  S.scan = null;
+  setStatus("busy", "Reading the file…");
+  await paint();
+  let a;
+  try { a = JSON.parse(S.glue.analyze(S.readAs || null)); }
+  catch (e) { a = {ok: false, kind: "bug", error: `refmeta hit an unexpected error: ${pyMessage(e)}`}; }
+  S.analysis = a;
+  S.recordIndex = 0;
+  S.showAllSeqs = false;
+  $("read-panel").hidden = false;
+  fillReadAs();
+  renderReadMsg(a);
+  if (!a.ok) {
+    $("results").hidden = true;
+    setStatus("ready", readyText());
+    return;
+  }
+  $("results").hidden = false;
+  renderCore();
+  fillNames(a);
+  buildTargets();
+  await chooseTarget();
+  setStatus("ready", readyText());
+  scanTargets();
+}
+
+function readAsButton(id, text) {
+  return h("button", {type: "button", class: "btn", onclick: () => { S.readAs = id; analyze(); }}, text || `Read as ${fmtLabel(id)}`);
+}
+
+function renderReadMsg(a) {
+  const box = $("read-msg");
+  const parts = [];
+  if (!a.ok) {
+    const alts = (a.others || []).filter((id) => fmt(id));
+    const tips = {
+      unknown: "Pick a format under 'Read as' if you know it. refmeta reads tables, JSON, YAML, XML and file headers " +
+        "from NCBI, ENA, Ensembl, UCSC, GA4GH, FHR, refgenie, Galaxy, nf-core and Bioconductor.",
+      empty: "",
+      norecords: "The file may be a different format, or a part of one that holds no genome records.",
+      read: a.auto ? "The detected format may be wrong. Try another one below or under 'Read as'." :
+        "Pick a different format under 'Read as', or switch back to automatic detection.",
+      bug: "This is a bug in refmeta. The message above says where it stopped.",
+    };
+    parts.push(h("div", {class: "alert error", role: "alert"},
+      h("strong", null, a.kind === "unknown" ? "Unknown format." : a.kind === "empty" ? "Nothing to read."
+        : a.kind === "norecords" ? "No records found." : a.kind === "read" && a.format ? `Could not read this file as ${fmtLabel(a.format)}.`
+          : "Could not read this file."),
+      h("p", null, a.error),
+      tips[a.kind] ? h("p", null, tips[a.kind]) : null,
+      alts.length ? h("div", {class: "row", style: "margin-top:8px"}, alts.map((id) => readAsButton(id))) : null,
+      !a.auto && a.kind !== "empty" ? h("div", {class: "row", style: "margin-top:8px"}, readAsButton("", "Detect automatically")) : null,
+    ));
+    put(box, ...parts);
+    return;
+  }
+  const best = (a.detected || []).find(([id]) => id === a.format);
+  parts.push(h("p", {class: "detect-line"},
+    "Read as ", fmtNode(a.format), " ",
+    a.format === "core" ? h("span", {class: "badge accent"}, "core record")
+      : a.auto ? h("span", {class: "badge ok", title: "Detector score, 0 to 1"}, `detected${best ? ", score " + best[1].toFixed(2) : ""}`)
+        : h("span", {class: "badge accent"}, "chosen by you"),
+  ));
+  if (a.alsoRead && a.alsoRead.length) {
+    parts.push(h("p", {class: "detect-line small"}, "The same file also holds ",
+      a.alsoRead.map((id, i) => [i ? " and " : "", fmtNode(id)]),
+      "; refmeta read both and merged them into one record."));
+  }
+  const n = a.records.length;
+  parts.push(h("p", {class: "detect-line small muted"},
+    `${plural(a.nativeRecords, "native record")} in the file became ${plural(n, "core record")}.`));
+  for (const [id, score] of a.ambiguous || []) {
+    parts.push(h("div", {class: "alert warn"},
+      h("strong", null, "This file also fits another format."),
+      h("p", null, "It could also be ", fmtNode(id), ` (score ${score.toFixed(2)}). If that is what it is, read it that way.`),
+      h("div", {class: "row", style: "margin-top:8px"}, readAsButton(id))));
+  }
+  for (const note of a.notes || []) {
+    parts.push(h("div", {class: "alert warn"}, h("strong", null, "Check the format."), h("p", null, note),
+      h("div", {class: "row", style: "margin-top:8px"}, readAsButton("", "Detect automatically"))));
+  }
+  put(box, ...parts);
+}
+
+// ------------------------------------------------------------------ core record view
+
+function defProps(defName) {
+  const d = S.schema.defs[defName];
+  return (d && d.properties) || {};
+}
+function refOf(defName, key) {
+  const p = defProps(defName)[key];
+  if (!p) return "";
+  const ref = p.$ref || (p.items && p.items.$ref) || "";
+  return ref ? ref.split("/").pop() : "";
+}
+function docOf(defName, key) {
+  const p = defProps(defName)[key];
+  return (p && (p.description || p.title)) || "";
+}
+function orderedKeys(obj, defName) {
+  const known = Object.keys(defProps(defName));
+  const keys = known.filter((k) => k in obj);
+  for (const k of Object.keys(obj)) if (!keys.includes(k)) keys.push(k);
+  return keys;
+}
+
+const NUMERIC_KEY = /length|size|count|pairs|^[nl][59]0$|^scaffold[nl][59]0$|^number|^nSequences$/i;
+const MONO_KEY = /digest|md5|sha|checksum|accession|location|^key$|^url$|^uri$|^path$|^id$|level1|^names$|^lengths$|^sequences$|crc/i;
+
+function isNameList(v) {
+  return Array.isArray(v) && v.length > 0 && v.every((x) => x && typeof x === "object" && "namespace" in x && "value" in x);
+}
+function nameChips(list, isLabel) {
+  return h("div", {class: "chips"}, list.map((n) => h("span", {
+    class: "name-chip" + (isLabel ? " label" : ""),
+    title: `${isLabel ? "Label" : "Alias"} in namespace ${n.namespace}${n.scope ? ", scope " + n.scope : ""}`,
+  }, h("span", {class: "ns"}, n.namespace), h("span", {class: "v"}, n.value))));
+}
+
+function renderValue(v, key, defName) {
+  if (v === null || v === undefined) return h("span", {class: "muted"}, "none");
+  if (typeof v === "boolean") return v ? "yes" : "no";
+  if (typeof v === "number") return NUMERIC_KEY.test(key) ? fmtInt(v) : String(v);
+  if (typeof v === "string") {
+    if (/^(https?|ftp):\/\/\S+$/i.test(v)) return h("a", {href: v, target: "_blank", rel: "noopener noreferrer", class: "mono"}, v);
+    if (v.includes("\n")) return h("span", {class: "multiline"}, v.trim());
+    return MONO_KEY.test(key) ? h("span", {class: "mono"}, v) : v;
+  }
+  if (isNameList(v)) return nameChips(v, key === "labels");
+  if (Array.isArray(v)) {
+    if (v.every((x) => x === null || typeof x !== "object")) {
+      return h("div", {class: "chips"}, v.map((x) => h("span", {class: "name-chip"}, h("span", {class: "v"}, x === null ? "none" : String(x)))));
+    }
+    const sub = refOf(defName, key);
+    return h("div", {class: "objlist"}, v.map((x) => h("div", null,
+      x && typeof x === "object" && !Array.isArray(x) ? kvList(x, sub) : renderValue(x, key, defName))));
+  }
+  if (typeof v === "object") return kvList(v, refOf(defName, key));
+  return String(v);
+}
+
+function kvList(obj, defName, skip) {
+  const dl = h("dl", {class: "kv"});
+  for (const k of orderedKeys(obj, defName)) {
+    if ((skip && skip.includes(k)) || obj[k] === null || obj[k] === undefined) continue;
+    const doc = docOf(defName, k);
+    dl.append(h("dt", doc ? {title: doc} : null, k), h("dd", null, renderValue(obj[k], k, defName)));
+  }
+  return dl;
+}
+
+function hasContent(v) {
+  if (v == null) return false;
+  if (Array.isArray(v)) return v.length > 0;
+  if (typeof v === "object") return Object.keys(v).length > 0;
+  return true;
+}
+
+function recordName(r, i) {
+  const pick = (list) => (list && list.length ? list[0].value : "");
+  const d = (r.deployments || [])[0];
+  const c = r.collection || {};
+  const a = r.assembly || {};
+  const s = (r.sequences || [])[0];
+  const name = (d && (d.key || d.displayName)) || pick(c.aliases) || pick(c.labels) || a.name || pick(a.accessions) ||
+    (r.copies && r.copies[0] && r.copies[0].location) || (s && (s.name || pick(s.aliases))) || "";
+  return `${i + 1}. ${name || "record"}`;
+}
+
+function levelHeader(level, ident, extra) {
+  return h("header", {class: "level-head"},
+    h("h3", null, level.title),
+    ident ? h("span", {class: "ident"}, ident) : null,
+    extra || null,
+    h("span", {class: "what"}, level.what));
+}
+
+function assemblyCard(level, a) {
+  const acc = (a.accessions || [])[0];
+  const ident = (acc && acc.value) || a.name || "";
+  return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
+    levelHeader(level, ident), kvList(a, level.def, ["extras"]));
+}
+
+function collectionCard(level, c) {
+  const ident = c.digest ? c.digest : "";
+  const extra = c.digest ? null : h("span", {class: "badge"}, "no seqcol digest");
+  return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
+    levelHeader(level, ident, extra), kvList(c, level.def, ["extras"]));
+}
+
+// The name map: one column per alias namespace, most common first.
+function aliasColumns(seqs) {
+  const counts = new Map();
+  for (const s of seqs) {
+    const seen = new Set();
+    for (const n of isNameList(s.aliases) ? s.aliases : []) {
+      if (seen.has(n.namespace)) continue;
+      seen.add(n.namespace);
+      counts.set(n.namespace, (counts.get(n.namespace) || 0) + 1);
+    }
+  }
+  return [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0])).map(([ns]) => ns);
+}
+
+function sequencesCard(level, seqs) {
+  const keys = [];
+  for (const s of seqs) for (const k of Object.keys(s)) if (k !== "extras" && !keys.includes(k)) keys.push(k);
+  const order = Object.keys(defProps("Sequence"));
+  keys.sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99));
+  const nsCols = aliasColumns(seqs);
+  const lead = keys.filter((k) => k === "name" || k === "length");
+  const rest = keys.filter((k) => k !== "name" && k !== "length" && k !== "aliases");
+  const cols = [...lead.map((k) => ({k})), ...nsCols.map((ns) => ({ns})), ...rest.map((k) => ({k}))];
+  const shown = S.showAllSeqs ? seqs : seqs.slice(0, SEQ_ROWS);
+  const aliasCell = (s, ns) => {
+    const vals = (isNameList(s.aliases) ? s.aliases : []).filter((n) => n.namespace === ns).map((n) => n.value);
+    return h("td", {class: "mono alias"}, vals.join(", "));
+  };
+  const cell = (s, k) => {
+    const v = s[k];
+    if (v == null) return h("td", {class: "muted"}, "");
+    if (k === "name") return h("td", {class: "nm"}, v);
+    if (typeof v === "number") return h("td", {class: "num"}, NUMERIC_KEY.test(k) ? fmtInt(v) : String(v));
+    if (isNameList(v)) return h("td", null, nameChips(v, k === "labels"));
+    if (typeof v === "object") {
+      const flat = Object.entries(v).map(([kk, vv]) => `${kk}: ${typeof vv === "object" ? JSON.stringify(vv) : vv}`).join(", ");
+      return h("td", {class: "small"}, flat);
+    }
+    if (typeof v === "boolean") return h("td", null, v ? "yes" : "no");
+    return h("td", {class: MONO_KEY.test(k) ? "mono" : null}, String(v));
+  };
+  const table = h("table", {class: "seq-table"},
+    h("thead", null, h("tr", null, cols.map((c) => c.ns
+      ? h("th", {class: "alias-col", scope: "col", title: `Alias: this sequence's name in the ${c.ns} namespace`}, c.ns)
+      : h("th", {title: docOf("Sequence", c.k) || null, scope: "col"}, c.k)))),
+    h("tbody", null, shown.map((s) => h("tr", null, cols.map((c) => (c.ns ? aliasCell(s, c.ns) : cell(s, c.k)))))));
+  const lengths = seqs.map((s) => s.length);
+  const total = lengths.every((x) => typeof x === "number") ? lengths.reduce((x, y) => x + y, 0) : null;
+  const withExtras = seqs.filter((s) => s.extras && Object.keys(s.extras).length).length;
+  const foot = h("div", {class: "card-foot"},
+    h("span", null, plural(seqs.length, "sequence"), total !== null ? `, ${fmtInt(total)} bp in total` : "",
+      withExtras ? ` · ${fmtInt(withExtras)} carry extras (see YAML)` : ""),
+    seqs.length > SEQ_ROWS ? h("button", {type: "button", class: "btn", onclick: () => { S.showAllSeqs = !S.showAllSeqs; renderCore(); }},
+      S.showAllSeqs ? `Show the first ${SEQ_ROWS}` : `Show all ${fmtInt(seqs.length)}`) : null);
+  const hasNames = seqs.some((s) => s.name);
+  const hasAliases = seqs.some((s) => isNameList(s.aliases));
+  return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
+    levelHeader(level, "", null),
+    nsCols.length ? h("p", {class: "small muted", style: "margin:0 0 6px"},
+      `Shaded columns are aliases, the same sequence's name in another style (${nsCols.join(", ")}).`,
+      !hasNames && hasAliases ? " These sequences have no name of their own here. To write a format that needs " +
+        "names, pick a naming style under 'Sequence names'." : "") : null,
+    h("div", {class: "table-wrap"}, table), foot);
+}
+
+// Few items read best as key/value blocks; many as a table (long locations wrap, other cells stay on one line).
+const ITEMS_AS_BLOCKS = 3;
+
+function itemsTable(items, defName, first) {
+  const keys = [];
+  for (const it of items) for (const k of Object.keys(it)) if (k !== "extras" && !keys.includes(k)) keys.push(k);
+  const order = [...first, ...Object.keys(defProps(defName))];
+  keys.sort((a, b) => (order.indexOf(a) + 1 || 99) - (order.indexOf(b) + 1 || 99));
+  const cell = (v, k) => {
+    if (v == null) return h("td", {class: "muted"}, "");
+    if (k === "location") return h("td", {class: "mono wrapcell"}, String(v));
+    if (typeof v === "number") return h("td", {class: "num"}, NUMERIC_KEY.test(k) ? fmtInt(v) : String(v));
+    if (isNameList(v)) return h("td", null, nameChips(v, k === "labels"));
+    if (typeof v === "object") {
+      return h("td", {class: "mono"}, Object.entries(v).map(([kk, vv]) => `${kk}: ${typeof vv === "object" ? JSON.stringify(vv) : vv}`).join(", "));
+    }
+    return h("td", {class: MONO_KEY.test(k) ? "mono" : null}, String(v));
+  };
+  return h("div", {class: "table-wrap"}, h("table", {class: "items-table"},
+    h("thead", null, h("tr", null, keys.map((k) => h("th", {title: docOf(defName, k) || null, scope: "col"}, k)))),
+    h("tbody", null, items.map((it) => h("tr", null, keys.map((k) => cell(it[k], k)))))));
+}
+
+function itemBlocks(items, defName) {
+  return items.map((c) => h("div", {class: "copy-item"},
+    c.location ? h("div", {class: "copy-loc"}, renderValue(c.location, "location", defName)) : null,
+    kvList(c, defName, ["location", "extras"])));
+}
+
+function copiesCard(level, copies) {
+  return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
+    levelHeader(level, "", h("span", {class: "badge"}, plural(copies.length, "file"))),
+    copies.length > ITEMS_AS_BLOCKS ? itemsTable(copies, "Copy", ["kind", "location"]) : itemBlocks(copies, "Copy"));
+}
+
+function deploymentsCard(level, deps) {
+  return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
+    levelHeader(level, "", h("span", {class: "badge"}, plural(deps.length, "entry", "entries"))),
+    deps.length > ITEMS_AS_BLOCKS ? itemsTable(deps, "Deployment", ["system", "table", "key"]) : itemBlocks(deps, "Deployment"));
+}
+
+function renderCore() {
+  const a = S.analysis;
+  const r = a.records[S.recordIndex] || a.records[0];
+  const box = $("core-readable");
+  const parts = [];
+  if (a.records.length > 1) {
+    const sel = h("select", {id: "record-select", "aria-label": "Record to show",
+      onchange: (e) => { S.recordIndex = Number(e.target.value); S.showAllSeqs = false; renderCore(); }},
+    a.records.map((rec, i) => h("option", {value: String(i)}, recordName(rec, i))));
+    sel.value = String(S.recordIndex);
+    parts.push(h("div", {class: "record-pick"},
+      h("span", null, `This file holds ${fmtInt(a.records.length)} records. Showing`), sel));
+  }
+  const filled = LEVELS.filter((L) => hasContent(r[L.key]));
+  parts.push(h("div", {class: "levelmap", "aria-label": "Levels in this record"}, LEVELS.map((L) => {
+    const v = r[L.key];
+    const on = hasContent(v);
+    const n = Array.isArray(v) ? v.length : null;
+    return h(on ? "button" : "span", {
+      type: on ? "button" : null,
+      class: `lvpill lv-${L.key}` + (on ? " on" : "") + (r.subject === L.subject ? " subject" : ""),
+      title: on ? `${L.title}: ${L.what}` : `${L.title}: not in this record`,
+      onclick: on ? () => { const t = $(`lv-${L.key}`); if (t) t.scrollIntoView({behavior: "smooth", block: "start"}); } : null,
+    }, h("span", {class: "sw"}), L.title, n !== null && on ? h("span", {class: "n"}, fmtInt(n)) : null);
+  })));
+  const prov = r.provenance || [];
+  const invalid = (a.invalid || [])[S.recordIndex] || [];
+  parts.push(h("p", {class: "prov"},
+    r.subject ? ["Mainly about: ", h("strong", null, r.subject), " · "] : null,
+    prov.length ? prov.map((p, i) => [i ? "; " : "From ", h("code", null, p.format || p.source || "?"),
+      p.file ? ` (${p.file})` : "", p.retrieved ? `, retrieved ${p.retrieved}` : ""]) : "No provenance",
+    " · ",
+    invalid.length ? h("span", {class: "badge warn"}, `${invalid.length} schema problem${invalid.length === 1 ? "" : "s"}`)
+      : h("span", {class: "badge ok", title: "Checked against refmeta's core.schema.json"}, "valid core record")));
+  if (invalid.length) {
+    parts.push(h("details", {class: "sub"}, h("summary", null, "Where the record breaks the core schema"),
+      h("ul", null, invalid.map((m) => h("li", null, m)))));
+  }
+  for (const L of filled) {
+    const v = r[L.key];
+    if (L.key === "assembly") parts.push(assemblyCard(L, v));
+    else if (L.key === "collection") parts.push(collectionCard(L, v));
+    else if (L.key === "sequences") parts.push(sequencesCard(L, v));
+    else if (L.key === "copies") parts.push(copiesCard(L, v));
+    else if (L.key === "deployments") parts.push(deploymentsCard(L, v));
+  }
+  const missing = LEVELS.filter((L) => !hasContent(r[L.key]));
+  if (missing.length) {
+    parts.push(h("p", {class: "empty-levels"},
+      `Not in this record: ${missing.map((L) => L.title.toLowerCase()).join(", ")}.`));
+  }
+  if (r.conflicts && r.conflicts.length) {
+    parts.push(h("div", {class: "alert warn"}, h("strong", null, "Values that disagreed when parts were merged"),
+      h("ul", null, r.conflicts.map((c) => h("li", null, h("code", null, c.path), ": ",
+        (c.values || []).map((x) => JSON.stringify(x.value !== undefined ? x.value : x)).join(" vs "))))));
+  }
+  const extras = r.extras || {};
+  const extraCount = Object.values(extras).reduce((n, o) => n + Object.keys(o || {}).length, 0);
+  if (extraCount) {
+    parts.push(h("details", {class: "sub"},
+      h("summary", null, `Kept as extras: ${plural(extraCount, "native field")} with no place in the core record`),
+      Object.entries(extras).map(([fid, o]) => h("div", {style: "margin-top:6px"},
+        h("div", {class: "small"}, h("code", null, fid)), kvList(o || {}, "")))));
+  }
+  put(box, ...parts);
+  renderRaw();
+  const w = a.warnings || [];
+  const det = $("core-warnings");
+  det.hidden = w.length === 0;
+  det.querySelector("summary").textContent = `${plural(w.length, "note")} from reading: values kept as extras or skipped`;
+  put(det.querySelector("ul"), ...w.map((m) => h("li", null, m)));
+}
+
+function clip(text) {
+  let out = text;
+  let cut = false;
+  if (out.length > PREVIEW_CHARS) { out = out.slice(0, PREVIEW_CHARS); cut = true; }
+  let idx = -1;
+  for (let i = 0; i < PREVIEW_LINES; i++) { idx = out.indexOf("\n", idx + 1); if (idx === -1) break; }
+  if (idx !== -1 && idx < out.length - 1) { out = out.slice(0, idx + 1); cut = true; }
+  return {out, cut};
+}
+
+function renderRaw() {
+  const a = S.analysis;
+  const text = S.view === "json" ? a.json : a.yaml;
+  const {out, cut} = clip(text);
+  $("raw-pre").textContent = out;
+  $("raw-meta").textContent = `${S.view.toUpperCase()} · ${plural(lineCount(text), "line")} · all ${plural(a.records.length, "record")}`;
+  $("raw-trunc").hidden = !cut;
+  $("raw-trunc").textContent = cut ? `Showing the start only. Copy gets all ${plural(lineCount(text), "line")}.` : "";
+}
+
+function setView(view) {
+  S.view = view;
+  for (const b of document.querySelectorAll(".tabs button")) b.setAttribute("aria-selected", String(b.dataset.view === view));
+  $("core-readable").hidden = view !== "readable";
+  $("core-raw").hidden = view === "readable";
+  if (view !== "readable" && S.analysis && S.analysis.ok) renderRaw();
+}
+
+// ------------------------------------------------------------------ output
+
+function convertNow(target) {
+  try { return JSON.parse(S.glue.convert(target, S.names || null)); }
+  catch (e) { return {ok: false, kind: "bug", error: `refmeta hit an unexpected error: ${pyMessage(e)}`}; }
+}
+
+async function chooseTarget() {
+  const source = S.analysis.format;
+  if (S.userTarget) {
+    S.target = S.userTarget;
+    $("target").value = S.target;
+    describeTarget();
+    return runConvert();
+  }
+  const order = [pref("target"), ...DEFAULT_TARGETS]
+    .filter((t, i, all) => t && all.indexOf(t) === i && t !== source && (t.startsWith("core") || (fmt(t) && fmt(t).write)));
+  for (const t of order) {
+    const r = convertNow(t);
+    if (r.ok) {
+      S.target = t;
+      $("target").value = t;
+      describeTarget();
+      renderOutput(r);
+      return;
+    }
+  }
+  S.target = "core";
+  $("target").value = "core";
+  describeTarget();
+  renderOutput(convertNow("core"));
+}
+
+async function runConvert() {
+  setStatus("busy", `Writing ${fmtLabel(S.target)}…`);
+  await paint();
+  renderOutput(convertNow(S.target));
+  setStatus("ready", readyText());
+}
+
+const KNOWN_EXTS = () => S.catalog.formats.flatMap((f) => f.extensions || []).filter((e) => e.startsWith("."))
+  .sort((a, b) => b.length - a.length);
+
+function baseName(name) {
+  const lower = name.toLowerCase();
+  for (const ext of KNOWN_EXTS()) if (lower.endsWith(ext.toLowerCase()) && lower.length > ext.length) return name.slice(0, -ext.length);
+  const m = name.match(/^(.+)\.[A-Za-z0-9]{1,6}$/);
+  return m ? m[1] : name;
+}
+
+function outName(target) {
+  const input = S.input.filename || "pasted";
+  const base = baseName(input);
+  if (target === "core") return `${base}.refmeta.yaml`;
+  if (target === "core.json") return `${base}.refmeta.json`;
+  const f = fmt(target);
+  const ext = (f && f.extensions && f.extensions[0]) || ".txt";
+  let name = ext.startsWith(".") || ext.startsWith("-") ? base + ext : ext;
+  if (name === input) name = ext.startsWith(".") || ext.startsWith("-") ? `${base}.${target}${ext}` : `${base}.${target}`;
+  return name;
+}
+
+// One-click naming styles, for a target that needs sequence names
+function namesButtons() {
+  const list = ((S.analysis && S.analysis.namespaces) || []).slice(0, 4);
+  if (!list.length) return null;
+  return h("div", {class: "row", style: "margin-top:8px"}, list.map((n) => h("button", {
+    type: "button", class: "btn",
+    title: n.count === n.total ? "Every sequence has a name in this style" : `${n.count} of ${n.total} sequences have one; the rest are left out`,
+    onclick: () => { const sel = $("names"); sel.value = n.namespace; sel.dispatchEvent(new Event("change")); },
+  }, `Use ${n.namespace} names`)));
+}
+
+function renderOutput(r) {
+  S.output = r;
+  const err = $("out-error");
+  const ok = $("out-ok");
+  if (!r.ok) {
+    ok.hidden = true;
+    const nothing = /^Nothing to write/i.test(r.error);
+    const needsNames = /Sequence names/.test(r.error);
+    let detail = r.error.replace(/^Cannot write [\w.]+: /, "");
+    detail = detail.charAt(0).toUpperCase() + detail.slice(1);
+    const tip = nothing
+      ? "This format has no field for anything this record holds. Formats that can hold it are listed above the 'Cannot hold this record' group."
+      : r.kind === "bug" ? "This is a bug in refmeta, not a problem with your file." : "";
+    put(err,
+      h("strong", null, nothing ? `${fmtLabel(S.target)} cannot hold this record.`
+        : needsNames ? `${fmtLabel(S.target)} needs sequence names.` : `Could not write ${fmtLabel(S.target)}.`),
+      h("p", null, detail), tip ? h("p", null, tip) : null,
+      needsNames ? namesButtons() : null,
+      r.trace ? h("details", null, h("summary", null, "Python traceback"), h("pre", {class: "code"}, r.trace)) : null);
+    err.hidden = false;
+    return;
+  }
+  err.hidden = true;
+  ok.hidden = false;
+  const {out, cut} = clip(r.text);
+  $("out-pre").textContent = out;
+  const lines = lineCount(r.text);
+  const recs = S.analysis && S.analysis.records.length > 1 ? ` · from all ${S.analysis.records.length} records` : "";
+  put($("out-meta"), h("code", null, outName(S.target)), ` · ${plural(lines, "line")} · ${fmtBytes(new Blob([r.text]).size)}${recs}`);
+  $("out-trunc").hidden = !cut;
+  $("out-trunc").textContent = cut ? `Showing the start only. Download gets all ${plural(lines, "line")}.` : "";
+  const w = r.warnings || [];
+  const det = $("out-warnings");
+  det.hidden = w.length === 0;
+  det.querySelector("summary").textContent = `${plural(w.length, "note")} from this conversion`;
+  put(det.querySelector("ul"), ...w.map((m) => h("li", null, m)));
+}
+
+async function scanTargets() {
+  const token = ++S.scanToken;
+  const ids = S.catalog.formats.filter((f) => f.write).map((f) => f.id);
+  const found = {};
+  document.body.dataset.scan = "running";
+  $("scan-msg").textContent = "Checking which formats can hold this record…";
+  for (let i = 0; i < ids.length; i += SCAN_BATCH) {
+    await sleep(0);
+    if (token !== S.scanToken) return;
+    const part = ids.slice(i, i + SCAN_BATCH);
+    try { Object.assign(found, JSON.parse(S.glue.scan(JSON.stringify(part), S.names || null))); }
+    catch (e) { for (const id of part) found[id] = pyMessage(e); }
+  }
+  if (token !== S.scanToken) return;
+  S.scan = found;
+  buildTargets();
+  const n = ids.filter((id) => !found[id]).length;
+  $("scan-msg").textContent = `${n} of ${ids.length} formats can hold this record` +
+    (S.names ? ` with ${S.names} names.` : ".") + (n < ids.length ? " The others are listed last." : "");
+  document.body.dataset.scan = "done";
+}
+
+function download() {
+  if (!S.output || !S.output.ok) return;
+  const name = outName(S.target);
+  const type = /\.json$/i.test(name) ? "application/json" : "text/plain";
+  const url = URL.createObjectURL(new Blob([S.output.text], {type: `${type};charset=utf-8`}));
+  const link = h("a", {href: url, download: name});
+  document.body.append(link);
+  link.click();
+  link.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 10000);
+}
+
+async function copyText(text, button) {
+  let done = false;
+  try { await navigator.clipboard.writeText(text); done = true; }
+  catch (e) {
+    const ta = h("textarea", {style: "position:fixed;left:-9999px;top:0"});
+    ta.value = text;
+    document.body.append(ta);
+    ta.select();
+    try { done = document.execCommand("copy"); } catch (e2) { done = false; }
+    ta.remove();
+  }
+  const old = button.textContent;
+  button.textContent = done ? "Copied" : "Copy failed";
+  setTimeout(() => { button.textContent = old; }, 1400);
+}
+
+// ------------------------------------------------------------------ events
+
+function wire() {
+  const zone = $("dropzone");
+  const input = $("file-input");
+  input.addEventListener("change", () => { takeFile(input.files[0]); input.value = ""; });
+  zone.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); input.click(); }
+  });
+  let depth = 0;
+  window.addEventListener("dragenter", (e) => { e.preventDefault(); depth++; zone.classList.add("over"); });
+  window.addEventListener("dragleave", () => { depth = Math.max(0, depth - 1); if (!depth) zone.classList.remove("over"); });
+  window.addEventListener("dragover", (e) => { e.preventDefault(); });
+  window.addEventListener("drop", (e) => {
+    e.preventDefault();
+    depth = 0;
+    zone.classList.remove("over");
+    const files = e.dataTransfer && e.dataTransfer.files;
+    if (files && files.length) {
+      takeFile(files[0]).then(() => {
+        if (files.length > 1) $("file-info").append(` · Read the first of ${files.length} dropped files.`);
+      });
+    } else {
+      const text = e.dataTransfer && e.dataTransfer.getData("text/plain");
+      if (text) loadText(text, "", "Dropped text");
+    }
+  });
+  $("paste-go").addEventListener("click", () => {
+    const text = $("paste-text").value;
+    if (!text.trim()) { showInputError("There is no text to read.", "Paste the contents of a file into the box first."); return; }
+    loadText(text, $("paste-name").value.trim(), "Pasted text");
+  });
+  $("read-as").addEventListener("change", (e) => { S.readAs = e.target.value; analyze(); });
+  $("target").addEventListener("change", (e) => {
+    S.target = e.target.value;
+    S.userTarget = S.target;
+    pref("target", S.target);
+    describeTarget();
+    runConvert();
+  });
+  $("names").addEventListener("change", async (e) => {
+    S.names = e.target.value;
+    S.scan = null;
+    buildTargets();
+    await runConvert();
+    scanTargets();
+  });
+  for (const b of document.querySelectorAll(".tabs button")) b.addEventListener("click", () => setView(b.dataset.view));
+  $("out-download").addEventListener("click", download);
+  $("out-copy").addEventListener("click", (e) => S.output && S.output.ok && copyText(S.output.text, e.currentTarget));
+  $("raw-copy").addEventListener("click", (e) => S.analysis && S.analysis.ok &&
+    copyText(S.view === "json" ? S.analysis.json : S.analysis.yaml, e.currentTarget));
+}
+
+wire();
+boot();
+</script>
+</body>
+</html>

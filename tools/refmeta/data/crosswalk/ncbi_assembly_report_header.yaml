@@ -1,0 +1,169 @@
+# refmeta crosswalk: ncbi_assembly_report_header <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ncbi_assembly_report_header
+source: ncbi
+core: '0.1'
+subject: assembly
+description: 'Header comment block (''# Key: value'' lines and ''## Assembly-Unit'' lines) of the FTP file <accession>_<asm_name>_assembly_report.txt.
+  One record per file, assembly level.'
+records: {mode: each}
+notes: The header lists both the GenBank and the RefSeq accession; which one the file is about is only in the file
+  name. Both go to assembly.accessions, GenBank first.
+constants: {}
+derive: []
+rules:
+- native: Assembly name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Description
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium Human Build 38, core: Genome Reference Consortium Human Build 38,
+    file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Organism name
+  core: assembly.taxon.name
+  direction: to_core
+  transform:
+    regex: {pattern: '^(.*?)(?: \([^()]*\))?$'}
+  lossy: Drops the common name in parentheses; includes the strain for strain-level taxa.
+  example: {native: Homo sapiens (human), core: Homo sapiens, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Organism name
+  core: assembly.taxon.commonName
+  direction: to_core
+  transform:
+    regex: {pattern: '\(([^()]*)\)$'}
+  lossy: null
+  example: {native: Homo sapiens (human), core: human, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Taxid
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: BioProject
+  core: assembly.bioproject
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: PRJNA168, core: PRJNA168, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Submitter
+  core: assembly.submitter
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium, core: Genome Reference Consortium, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Date
+  core: assembly.releaseDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2013-12-17', core: '2013-12-17', file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Synonyms
+  core: assembly.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: In practice UCSC's name for the assembly; a label.
+  example:
+    native: &id001 [hg38]
+    core: *id001
+    file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt
+- native: Assembly type
+  core: assembly.type
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: haploid-with-alt-loci, core: haploid-with-alt-loci, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Release type
+  core: assembly.releaseType
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: major, core: major, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Assembly level
+  core: assembly.level
+  direction: both
+  transform:
+    map:
+      values: {Chromosome: chromosome, Complete Genome: complete genome, Scaffold: scaffold, Contig: contig}
+  lossy: null
+  example: {native: Chromosome, core: chromosome, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Genome representation
+  core: assembly.representation
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: full, core: full, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: RefSeq category
+  core: assembly.refseqCategory
+  direction: both
+  transform:
+    map:
+      values: {Reference Genome: reference genome, Representative Genome: representative genome}
+  lossy: null
+  example: {native: Reference Genome, core: reference genome, file: examples/ftp_GCA_000146045.2_R64_assembly_report.txt}
+- native: GenBank assembly accession
+  core: assembly.accessions[namespace=insdc.gca].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCA_000001405.15, core: GCA_000001405.15, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: RefSeq assembly accession
+  core: assembly.accessions[namespace=insdc.gcf].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000001405.26, core: GCF_000001405.26, file: examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt}
+- native: Infraspecific name
+  core: assembly.taxon.strain
+  direction: both
+  transform:
+    regex: {pattern: =(.*)$, template: 'strain={}'}
+  lossy: Keeps the value after '='; on write the tag is always 'strain'.
+  example: {native: strain=S288C, core: S288C, file: examples/ftp_GCA_000146045.2_R64_assembly_report.txt}
+- native: Isolate
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: CHM13, core: CHM13, file: examples/ftp_GCF_009914755.1_T2T-CHM13v2.0_assembly_report.txt}
+- native: BioSample
+  core: assembly.biosample
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SAMN03255769, core: SAMN03255769, file: examples/ftp_GCF_009914755.1_T2T-CHM13v2.0_assembly_report.txt}
+- native: Assembly method
+  core: assembly.assemblySoftware[0].name
+  direction: both
+  transform: null
+  lossy: Free text; versions and notes stay in the name.
+  example: {native: T2T assembly pipeline + rDNA (see manuscript for details) v. 04/23/2021, core: T2T assembly
+      pipeline + rDNA (see manuscript for details) v. 04/23/2021, file: examples/ftp_GCF_009914755.1_T2T-CHM13v2.0_assembly_report.txt}
+- native: Genome coverage
+  core: assembly.vitalStats.coverage
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 30.0x, core: 30.0x, file: examples/ftp_GCF_009914755.1_T2T-CHM13v2.0_assembly_report.txt}
+- native: Sequencing technology
+  core: assembly.instrument
+  direction: both
+  transform:
+    split: {sep: '; '}
+  lossy: null
+  example:
+    native: PacBio Sequel II HiFi; Oxford Nanopore MinION; Illumina NovaSeq
+    core: [PacBio Sequel II HiFi, Oxford Nanopore MinION, Illumina NovaSeq]
+    file: examples/ftp_GCF_009914755.1_T2T-CHM13v2.0_assembly_report.txt
+unmapped:
+- {native: RefSeq assembly and GenBank assemblies identical, reason: yes/no comparison of the pair; no core relation
+    between assemblies.}
+- {native: Assembly-Unit names, reason: Assembly units; per-sequence assemblyUnit holds the unit of each sequence.}
+- {native: Assembly-Units, reason: Assembly unit accessions; no core field.}
+- {native: Sex, reason: Sex of the sample; sample metadata.}
+- {native: Expected final version, reason: Submitter's expectation; no core field.}

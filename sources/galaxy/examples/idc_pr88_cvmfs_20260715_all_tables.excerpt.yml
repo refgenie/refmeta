@@ -1,0 +1,227 @@
+__dbkeys__:
+- len_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len
+  loc_file: /cvmfs/data.galaxyproject.org/managed/location/dbkeys_ucsc.loc
+  name: Human Dec. 2013 (GRCh38/hg38) (hg38)
+  value: hg38
+  xml_file: /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+- len_path: /cvmfs/data.galaxyproject.org/managed/len/ucsc/sacCer3.len
+  loc_file: /cvmfs/data.galaxyproject.org/managed/location/dbkeys_ucsc.loc
+  name: S. cerevisiae Apr. 2011 (SacCer_Apr2011/sacCer3) (sacCer3)
+  value: sacCer3
+  xml_file: /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+- len_path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/len/GCF_000146045.2.len
+  loc_file: /cvmfs/brc.galaxyproject.org/config/dbkeys.loc
+  name: Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)
+  value: GCF_000146045.2
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+- len_path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/len/GCF_000001405.40.len
+  loc_file: /cvmfs/brc.galaxyproject.org/config/dbkeys.loc
+  name: Homo sapiens (GCF_000001405.40)
+  value: GCF_000001405.40
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+all_fasta:
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/all_fasta.loc
+  name: 'Human (Homo sapiens) (b38): hg38 Canonical Female'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38female.fa
+  value: hg38female
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/all_fasta.loc
+  name: 'Human (Homo sapiens) (b38): hg38 Canonical'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38canon.fa
+  value: hg38canon
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/all_fasta.loc
+  name: 'Human (Homo sapiens) (b38): hg38'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38.fa
+  value: hg38
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: sacCer3
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/all_fasta.loc
+  name: 'Yeast (Saccharomyces cerevisiae): sacCer3'
+  path: /cvmfs/data.galaxyproject.org/byhand/sacCer3/seq/sacCer3.fa
+  value: sacCer3
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: GCF_000146045.2
+  loc_file: /cvmfs/brc.galaxyproject.org/config/all_fasta.loc
+  name: Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/seq/GCF_000146045.2.fa
+  value: GCF_000146045.2
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+- dbkey: GCF_000001405.40
+  loc_file: /cvmfs/brc.galaxyproject.org/config/all_fasta.loc
+  name: Homo sapiens (GCF_000001405.40)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/seq/GCF_000001405.40.fa
+  value: GCF_000001405.40
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+bowtie2_indexes:
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/bowtie2_indices.loc
+  name: 'Human (Homo sapiens) (b38): hg38 Canonical Female'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bowtie2_index/hg38female
+  value: hg38female
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/bowtie2_indices.loc
+  name: 'Human (Homo sapiens) (b38): hg38 Canonical'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38canon/bowtie2_index/hg38canon
+  value: hg38canon
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/bowtie2_indices.loc
+  name: 'Human (Homo sapiens) (b38): hg38'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38full/bowtie2_index/hg38full
+  value: hg38
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: sacCer3
+  loc_file: /cvmfs/data.galaxyproject.org/managed/location/bowtie2_indices.loc
+  name: 'Yeast (Saccharomyces cerevisiae): sacCer3'
+  path: /cvmfs/data.galaxyproject.org/managed/bowtie2_index/sacCer3/sacCer3
+  value: sacCer3
+  xml_file: /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+- dbkey: GCF_000146045.2
+  loc_file: /cvmfs/brc.galaxyproject.org/config/bowtie2_indices.loc
+  name: Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/bowtie_index/v2/GCF_000146045.2/GCF_000146045.2
+  value: GCF_000146045.2
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+- dbkey: GCF_000001405.40
+  loc_file: /cvmfs/brc.galaxyproject.org/config/bowtie2_indices.loc
+  name: Homo sapiens (GCF_000001405.40)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/bowtie_index/v2/GCF_000001405.40/GCF_000001405.40
+  value: GCF_000001405.40
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+bwa_mem_indexes:
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/bwa_mem_index.loc
+  name: 'Human (Homo sapiens) (b38): hg38 Canonical Female'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bwa_index_v0.7.10-r789/hg38female.fa
+  value: hg38female
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/bwa_mem_index.loc
+  name: 'Human (Homo sapiens) (b38): hg38 Canonical'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38canon/bwa_index_v0.7.10-r789/hg38canon.fa
+  value: hg38canon
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/bwa_mem_index.loc
+  name: 'Human (Homo sapiens) (b38): hg38'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38full/bwa_index_v0.7.10-r789/hg38full.fa
+  value: hg38
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: sacCer3
+  loc_file: /cvmfs/data.galaxyproject.org/managed/location/bwa_mem_index.loc
+  name: 'Yeast (Saccharomyces cerevisiae): sacCer3'
+  path: /cvmfs/data.galaxyproject.org/managed/bwa_mem_index/sacCer3/sacCer3.fa
+  value: sacCer3
+  xml_file: /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+- dbkey: GCF_000146045.2
+  loc_file: /cvmfs/brc.galaxyproject.org/config/bwa_mem_index.loc
+  name: Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/bwa_mem_index/v1/GCF_000146045.2/GCF_000146045.2.fa
+  value: GCF_000146045.2
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+- dbkey: GCF_000001405.40
+  loc_file: /cvmfs/brc.galaxyproject.org/config/bwa_mem_index.loc
+  name: Homo sapiens (GCF_000001405.40)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/bwa_mem_index/v1/GCF_000001405.40/GCF_000001405.40.fa
+  value: GCF_000001405.40
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+fasta_indexes:
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/fasta_indexes.loc
+  name: 'Human (Homo sapiens): hg38'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/sam_index/hg38.fa
+  value: hg38
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: sacCer3
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/fasta_indexes.loc
+  name: 'Yeast (Saccharomyces cerevisiae): sacCer3'
+  path: /cvmfs/data.galaxyproject.org/byhand/sacCer3/sam_index/sacCer3.fa
+  value: sacCer3
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: GCF_000146045.2
+  loc_file: /cvmfs/brc.galaxyproject.org/config/fasta_indexes.loc
+  name: Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/sam_fasta_index/v1/GCF_000146045.2/GCF_000146045.2.fa
+  value: GCF_000146045.2
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+- dbkey: GCF_000001405.40
+  loc_file: /cvmfs/brc.galaxyproject.org/config/fasta_indexes.loc
+  name: Homo sapiens (GCF_000001405.40)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/sam_fasta_index/v1/GCF_000001405.40/GCF_000001405.40.fa
+  value: GCF_000001405.40
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+picard_indexes:
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/picard_index.loc
+  name: 'Human (Homo sapiens): hg38'
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/picard_index/hg38.fa
+  value: hg38
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- dbkey: sacCer3
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/picard_index.loc
+  name: 'Yeast (Saccharomyces cerevisiae): sacCer3'
+  path: /cvmfs/data.galaxyproject.org/byhand/sacCer3/picard_index/sacCer3.fa
+  value: sacCer3
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+rnastar_index2x_versioned:
+- dbkey: hg38
+  loc_file: /cvmfs/data.galaxyproject.org/managed/location/rnastar_index2x_versioned.loc
+  name: 'Human (Homo sapiens) (b38): hg38'
+  path: /cvmfs/data.galaxyproject.org/managed/rnastar/2.7.4a/hg38/hg38/dataset_fdfceb86-2b00-45f3-a3f4-63794ea8182d_files
+  value: hg38
+  version: 2.7.4a
+  with_gene_model: '0'
+  xml_file: /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+- dbkey: sacCer3
+  loc_file: /cvmfs/data.galaxyproject.org/managed/location/rnastar_index2x_versioned.loc
+  name: 'Yeast (Saccharomyces cerevisiae): sacCer3'
+  path: /cvmfs/data.galaxyproject.org/managed/rnastar/2.7.4a/sacCer3/sacCer3/dataset_ee6db620-7c48-4da0-8451-017d274c97ca_files
+  value: sacCer3
+  version: 2.7.4a
+  with_gene_model: '0'
+  xml_file: /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml
+- dbkey: GCF_000146045.2
+  loc_file: /cvmfs/brc.galaxyproject.org/config/rnastar_index2x_versioned.loc
+  name: Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/rnastar_index/v2.7.4a/GCF_000146045.2
+  value: GCF_000146045.2
+  version: 2.7.4a
+  with_gene_model: '0'
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+- dbkey: GCF_000001405.40
+  loc_file: /cvmfs/brc.galaxyproject.org/config/rnastar_index2x_versioned.loc
+  name: Homo sapiens (GCF_000001405.40)
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/rnastar_index/v2.7.4a/GCF_000001405.40
+  value: GCF_000001405.40
+  version: 2.7.4a
+  with_gene_model: '0'
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+sam_fa_indexes:
+- line_type: index
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/sam_fa_indices.loc
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/sam_index/hg38.fa
+  value: hg38
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- line_type: index
+  loc_file: /cvmfs/data.galaxyproject.org/byhand/location/sam_fa_indices.loc
+  path: /cvmfs/data.galaxyproject.org/byhand/sacCer3/sam_index/sacCer3.fa
+  value: sacCer3
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+twobit:
+- loc_file: /cvmfs/data.galaxyproject.org/byhand/location/twobit.loc
+  path: /cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38.2bit
+  value: hg38
+  xml_file: /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml
+- loc_file: /cvmfs/brc.galaxyproject.org/config/twobit.loc
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/seq/GCF_000146045.2.2bit
+  value: GCF_000146045.2
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml
+- loc_file: /cvmfs/brc.galaxyproject.org/config/twobit.loc
+  path: /cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/seq/GCF_000001405.40.2bit
+  value: GCF_000001405.40
+  xml_file: /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml

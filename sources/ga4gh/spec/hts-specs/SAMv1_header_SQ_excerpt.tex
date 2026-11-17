@@ -1,0 +1,163 @@
+% EXCERPT of SAMv1.tex from https://github.com/samtools/hts-specs (master @ 510c107ba89aa13113818c9e4fa3071283cb7f7b), retrieved 2026-11-17.
+% Kept: lines 113-117 (example header), 198-320 (character set rules and the header table incl. @SQ), 381-410 (reference MD5 calculation). Nothing else edited.
+% ---- lines 113-117 ----
+\begin{verbatim}
+@HD VN:1.6 SO:coordinate
+@SQ SN:ref LN:45
+r001   99 ref  7 30 8M2I4M1D3M = 37  39 TTAGATAAAGGATACTG *
+r002    0 ref  9 30 3S6M1P1I4M *  0   0 AAAAGATAAGGATA    *
+% ---- lines 198-320 ----
+\subsubsection{Character set restrictions}\label{sec:charset}
+
+Reference sequence names, CIGAR strings, and several other field types are used as values or parts of values of other fields in SAM and related formats such as VCF.
+To ensure that these other fields' representations are unambiguous, these field types disallow particular delimiter characters.
+
+Query or read names may contain any printable ASCII characters in the range \verb"[!-~]" apart from `\verb"@"', so that SAM alignment lines can be easily distinguished from header lines.
+(They are also limited in length.)
+
+Reference sequence names may contain any printable ASCII characters in the range {\tt [!-\verb:~:]} apart from backslashes, commas, quotation marks, and brackets---i.e., apart from `{\tt \verb:\:\,,\,"`'\,()\,[]\,\verb:{}:\,<>}'---and may not start with `{\tt *}' or `{\tt =}'.%
+\footnote{Characters that are \emph{not} disallowed include `{\tt |}', which historically appeared in reference names derived from NCBI FASTA files, and `{\tt :}', which appears in HLA allele names.
+Appendix~\ref{sec:parse-region} describes approaches for parsing \emph{name}{\tt [:}\emph{begin}{\tt -}\emph{end}{\tt ]} region notation unambiguously even though \emph{name} may itself contain colons.}
+
+Thus they match the following regular expression:
+\begin{center}
+{\tt [\verb"0-9A-Za-z!#$%&+./:;?@^_|~-"][\verb"0-9A-Za-z!#$%&*+./:;=?@^_|~-"]*}
+\end{center}
+
+% Pedantically this should be [[:rname:]^*=][[:rname:]]*, but we take advantage
+% of POSIX (Issue 7) section 9.3.5/8 to elide the excess brackets for clarity.
+\newcommand*{\rnameRegexp}{[\cclass{rname}\caret*=][\cclass{rname}]*}
+
+\noindent
+For clarity, elsewhere in this specification we write this set of allowed characters as a character class~{\tt [\cclass{rname}]} and extend the POSIX regular expression notation to use {\tt\caret *=} to indicate the omission of `{\tt *}' and `{\tt =}' from the character class.
+Thus this regular expression can be written more clearly as {\tt\rnameRegexp}.
+
+\subsection{The header section}
+Each header line begins with the character `{\tt @}' followed by
+one of the two-letter header record type codes defined in this section.
+In the header, each line is TAB-delimited and, apart from {\tt @CO} lines,
+each data field follows a format `{\tt TAG:VALUE}' where {\tt TAG}
+is a two-character string that defines the format and content of {\tt VALUE}.
+Thus header lines match {\tt
+  /\char94@(HD|SQ|RG|PG)(\char92t[A-Za-z][A-Za-z0-9]:[
+  -\char126]+)+\$/} or {\tt /\char94@CO\char92t.*/}.
+Within each (non-{\tt @CO}) header line, no field tag may appear more than
+once and the order in which the fields appear is not significant.
+
+The following table describes the header record types that may be used
+and their predefined tags.
+Tags listed with `*' are required; e.g., every {\tt @SQ} header line must
+have {\tt SN} and {\tt LN} fields.
+As with alignment optional fields (see Section~\ref{sec:alnaux}),
+you can freely add new tags for further data fields.
+Tags containing lowercase letters are reserved for local use and will not be
+formally defined in any future version of this specification.%
+\footnote{Best practice is to use lowercase tags while designing and
+experimenting with new data field tags or for fields of local interest only.
+For new tags that are of general interest, raise an
+\href{https://github.com/samtools/hts-specs/issues}{{\tt hts-specs} issue}
+or email {\tt samtools-devel@lists.sourceforge.net} to have an uppercase
+equivalent added to the specification.
+This way collisions of the same uppercase tag being used with different
+meanings can be avoided.}
+
+\begin{center}
+\small
+\begin{longtable}{|l|l|p{13.5cm}|}
+  \cline{1-3}
+  \multicolumn{2}{|l|}{\bf Tag} & {\bf Description} \\
+  \cline{1-3}
+  \endfirsthead
+  \cline{1-3}
+  \endhead
+  \multicolumn{2}{|l}{\tt @HD} & File-level metadata. Optional. If present, there must be only one {\tt @HD} line and it must be the first line of the file. \\\cline{2-3}
+  & {\tt VN}* & Format version. \emph{Accepted format}: {\tt /\char94[0-9]+\char92.[0-9]+\$/}.\\\cline{2-3}
+  & {\tt SO} & Sorting order of alignments. \emph{Valid values}: {\tt unknown} (default), {\tt
+    unsorted}, {\tt queryname} and {\tt coordinate}. For coordinate sort, the major sort
+  key is the {\sf RNAME} field, with order defined by the order of {\tt @SQ} lines in the header.  The
+  minor sort key is the {\sf POS} field.  For alignments with equal {\sf RNAME} and {\sf POS}, order is
+  arbitrary.  All alignments with `{\tt *}' in {\sf RNAME} field follow alignments with some other
+  value but otherwise are in arbitrary order.
+  For queryname sort, no explicit requirement is made regarding the ordering other than that it be applied consistently throughout the entire file.%
+  \footnote{It is known that widely used software libraries have differing definitions of the queryname sort order, meaning care should be taken when operating on multiple files of varying provenance.
+  Tools may wish to use the sub-sort field to explicitly distinguish between natural and lexicographical ordering.  See Section~\ref{sec:sub-sort}.}\\\cline{2-3}
+  & {\tt GO} & Grouping of alignments, indicating that similar alignment records
+    are grouped together but the file is not necessarily sorted overall.
+    \emph{Valid values}: {\tt none} (default), {\tt query} (alignments are
+    grouped by {\sf QNAME}), and {\tt reference} (alignments are grouped by
+    {\sf RNAME}/{\sf POS}).\\\cline{2-3}
+  & {\tt SS} & Sub-sorting order of alignments. Valid values are of the form \emph{sort-order}{\tt :}\emph{sub-sort}, where \emph{sort-order} is the same value stored in the {\tt SO} tag and \emph{sub-sort} is an implementation-dependent colon-separated string further describing the sort order, but with some predefined terms defined in Section~\ref{sec:sub-sort}.
+    For example, if an algorithm relies on a {\tt coordinate} sort that, at each coordinate, is further sorted by query name then the header could contain {\tt @HD SO:coordinate SS:coordinate:queryname}.%
+\footnote{The repetition of \emph{sort-order} enables a limited form of validation.
+For example, {\tt @HD SO:queryname SS:coordinate:TLEN} would indicate that the data has been re-sorted (by query name) by a non-{\tt SS}-aware tool and the {\tt SS} field should be ignored.}
+    If the primary sort is not one of the predefined primary sort orders, then {\tt unsorted} should be used and the sub-sort is effectively the major sort.
+    For example, if sorted by an auxiliary tag {\tt MI} then by coordinate then the header could contain {\tt @HD SO:unsorted SS:unsorted:MI:coordinate}.
+    \newline
+    \emph{Regular expression}: {\tt (coordinate|queryname|unsorted)(:[\verb"A-Za-z0-9_-"]+)+}\\\cline{1-3}
+  \multicolumn{2}{|l}{\tt @SQ} & Reference sequence dictionary. The order of {\tt @SQ} lines defines the alignment sorting order.\\\cline{2-3}
+  & {\tt SN}* & Reference sequence name.
+The {\tt SN} tags and all individual {\tt AN} names in all {\tt @SQ} lines
+must be distinct.
+  The value of this field is used in the
+  alignment records in {\sf RNAME} and {\sf RNEXT} fields. Regular expression: {\tt\rnameRegexp}\\\cline{2-3}
+  & {\tt LN}* & Reference sequence length. \emph{Range}: $[1,\,2^{31}-1]$\\\cline{2-3}
+  & {\tt AH} & Indicates that this sequence is an alternate locus.%
+\footnote{See \url{https://www.ncbi.nlm.nih.gov/grc/help/definitions} for descriptions of \emph{alternate locus} and \emph{primary assembly}.}
+  The value is the locus in the primary assembly for which this sequence is an alternative, in the format `\emph{chr}{\tt :}\emph{start}{\tt -}\emph{end}', `\emph{chr}' (if known), or `{\tt *}' (if unknown), where `\emph{chr}' is a sequence in the primary assembly.
+  Must not be present on sequences in the primary assembly.\\\cline{2-3}
+  & {\tt AN} & Alternative reference sequence names.
+A comma-separated list of alternative names that tools may use when referring
+to this reference sequence.%
+\footnote{For example, given `{\tt @SQ SN:MT AN:chrMT,M,chrM LN:16569 TP:circular}',
+tools can ensure that a user's request for any of `MT', `chrMT', `M',
+or~`chrM' succeeds and refers to the same sequence.}
+These alternative names are not used elsewhere within the SAM file;
+in particular, they must not appear in alignment records' {\sf RNAME}
+or~{\sf RNEXT} fields.
+\emph{Regular expression}: \emph{name}{\tt (,}\emph{name}{\tt )*}
+where \emph{name} is {\tt\rnameRegexp}\\\cline{2-3}
+  & {\tt AS} & Genome assembly identifier. \\\cline{2-3}
+  & {\tt DS} & Description.  UTF-8 encoding may be used.\\\cline{2-3}
+  & {\tt M5} & MD5 checksum of the sequence.  See Section~\ref{sec:ref-md5}\\\cline{2-3}
+  & {\tt SP} & Species.\\\cline{2-3}
+  & {\tt TP} & Molecule topology. \emph{Valid values}: {\tt linear} (default) and {\tt circular}.%
+\footnote{The previous footnote's example identifies MT as a circular chromosome.
+The {\tt TP} field is often omitted, which implies linear.}\\\cline{2-3}
+  & {\tt UR} & URI of the sequence.  This value may start with one of the standard
+  protocols, e.g., `{\tt http:}' or `{\tt ftp:}'.  If it does not start with one of these protocols, it is assumed to be a file-system path.\\\cline{1-3}
+  \multicolumn{2}{|l}{\tt @RG} & Read group. Unordered multiple {\tt @RG} lines are allowed.\\\cline{2-3}
+  & {\tt ID}* & Read group identifier. Each {\tt @RG} line must have a unique {\tt ID}. The value of {\tt ID}
+  is used in the RG tags of alignment records. Must be unique among all read groups in header section.  Read group IDs may be modified when merging SAM files in order to handle collisions.\\\cline{2-3}
+  & {\tt BC} & Barcode sequence identifying the sample or library.
+  This value is the expected barcode bases as read by the sequencing machine in the absence of errors.
+% ---- lines 381-410 ----
+\subsubsection{Reference MD5 calculation}\label{sec:ref-md5}
+The {\tt M5} tag on {\tt @SQ} lines allows reference sequences to be uniquely identified through the MD5 digest of the sequence itself.
+As the digest is based on the sequence and nothing else, it can help resolve ambiguities with reference naming.
+For example, it allows a quick way of checking that references named `1', `Chr1' and `chr1' in different files are in fact the same.
+
+The reference sequence must be in the 7-bit US-ASCII character set.
+All valid reference bases can be represented in this set, and it avoids the problem of determining exactly which 8-bit representation may have been used.
+Padding characters (See Section~\ref{sec:padded-sam}) must be represented only using the `*' character. 
+
+The digest is calculated as follows:
+\begin{itemize}
+\item All characters outside of the inclusive range 33 (`\char33') to 126 (`\char126') are stripped out.
+This removes all unprintable and whitespace characters including spaces and new lines.
+Everything else is retained, even if not a legal nucleotide code.
+\item All lowercase characters are converted to uppercase.
+This operation is equivalent to calling \href{http://pubs.opengroup.org/onlinepubs/9699919799/functions/toupper.html}{\sl toupper()} on characters in the \href{http://pubs.opengroup.org/onlinepubs/9699919799/basedefs/V1\_chap07.html\#tag\_07\_02}{\sl POSIX locale}.
+\item The MD5 digest is calculated as described in \href{https://tools.ietf.org/html/rfc1321}{\sl RFC 1321} and presented as a 32 character lowercase hexadecimal number.
+\end{itemize}
+
+As an example, if the reference contains the following characters (including spaces):
+\begin{verbatim}
+ACGT ACGT ACGT
+acgt acgt acgt
+... 12345 !!!
+\end{verbatim}
+then the digest is that of the string {\tt ACGTACGTACGTACGTACGTACGT...12345!!!}
+and the resulting tag would be {\tt M5:dfabdbb36e239a6da88957841f32b8e4}.
+
+In padded SAM files, the padding bases should be inserted into the reference as `*' characters.
+Taking the example in Section~\ref{sec:padded-sam}, the padded version of the reference is

@@ -1,0 +1,15 @@
+{
+  "schema": "https://raw.githubusercontent.com/FAIR-bioHeaders/FHR-Specification/main/fhr.json",
+  "schemaVersion": 1.0,
+  "genome": "sacCer3",
+  "taxon": {
+    "name": "Saccharomyces cerevisiae",
+    "uri": "https://identifiers.org/taxonomy:4932"
+  },
+  "genomeSynonym": [
+    "sacCer3-igenomes-ucsc"
+  ],
+  "documentation": "UCSC sacCer3 (S. cerevisiae S288C, assembly R64-1-1), as packaged by Illumina\niGenomes. Chromosomes are named chrI to chrXVI and chrM.\n",
+  "assemblySource": "UCSC",
+  "assemblyLevel": "chromosome"
+}

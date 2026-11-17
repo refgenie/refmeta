@@ -1,0 +1,101 @@
+    }
+}
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### The BSgenomeDataPkgSeed and MaskedBSgenomeDataPkgSeed classes and their
+### low-level constructors.
+###
+
+setClass("BSgenomeDataPkgSeed",
+    representation(
+        Package="character",
+        Title="character",
+        Description="character",
+        Version="character",
+        Author="character",
+        Maintainer="character",
+        Suggests="character",
+        License="character",
+        organism="character",
+        common_name="character",
+        ## Should be accepted by 'Seqinfo(genome=genome)' e.g. "TAIR10.1",
+        ## "hg38", "ce11" etc...
+        genome="character",
+        provider="character",
+        provider_version="character", # deprecated in favor of 'genome'
+        release_date="character",
+        release_name="character",    # deprecated (not replaced by anything)
+        source_url="character",
+        organism_biocview="character",
+        BSgenomeObjname="character",
+        seqnames="character",        # a single string containing R source code
+        circ_seqs="character",       # a single string containing R source code
+        mseqnames="character",       # a single string containing R source code
+        PkgDetails="character",
+        SrcDataFiles="character",
+        PkgExamples="character",
+        seqfile_name="character",
+        seqfiles_prefix="character",
+        seqfiles_suffix="character",
+        ondisk_seq_format="character",
+        citation_file="character"    # a single string containing R source code
+    ),
+    prototype(
+        Author="The Bioconductor Dev Team",
+        Maintainer="Bioconductor Package Maintainer <maintainer@bioconductor.org>",
+        Suggests="",
+        License="Artistic-2.0",
+        genome=NA_character_,
+        provider_version=NA_character_,
+        release_name=NA_character_,
+        source_url="-- information not available --",
+        seqnames=NA_character_,
+        circ_seqs=NA_character_,
+        mseqnames="NULL",            # equivalent to "character(0)"
+        PkgDetails="",
+        SrcDataFiles="-- information not available --",
+        PkgExamples="",
+        seqfile_name=NA_character_,
+        seqfiles_prefix="",
+        seqfiles_suffix=".fa",
+        ondisk_seq_format="2bit",
+        citation_file=NA_character_
+    )
+)
+
+setClass("MaskedBSgenomeDataPkgSeed",
+    representation(
+        Package="character",
+        Title="character",
+        Description="character",
+        Version="character",
+        Author="character",
+        Maintainer="character",
+        RefPkgname="character",
+        Suggests="character",
+        License="character",
+        source_url="character",
+        organism_biocview="character",
+        nmask_per_seq="integer",     # a single integer
+        PkgDetails="character",
+        SrcDataFiles="character",
+        PkgExamples="character",
+        AGAPSfiles_type="character",
+        AGAPSfiles_name="character",
+        AGAPSfiles_prefix="character",
+        AGAPSfiles_suffix="character",
+        RMfiles_name="character",
+        RMfiles_prefix="character",
+        RMfiles_suffix="character",
+        TRFfiles_name="character",
+        TRFfiles_prefix="character",
+        TRFfiles_suffix="character"
+    ),
+    prototype(
+        Author="The Bioconductor Dev Team",
+        Maintainer="Bioconductor Package Maintainer <maintainer@bioconductor.org>",
+        Suggests="",
+        License="Artistic-2.0",
+        source_url="-- information not available --",
+        nmask_per_seq=0L,

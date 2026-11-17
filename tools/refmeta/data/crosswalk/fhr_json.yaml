@@ -1,0 +1,328 @@
+# refmeta crosswalk: fhr_json <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: fhr_json
+source: fhr
+core: '0.1'
+subject: assembly
+description: FHR metadata as a standalone JSON file (FHR 2.1; the same shape holds FHR 1 and 2.0 records)
+records: {mode: each}
+notes: FHR is mostly assembly level, but its identity is the checksum of one file (copy level) and seqcol_id is
+  collection level. Field names are reused unchanged in the core assembly block.
+constants: {}
+derive: []
+rules:
+- native: genome
+  core: collection.labels[namespace=fhr.genome].value
+  direction: both
+  transform: null
+  fallback: ['collection.aliases[namespace=refgenie].value', assembly.name]
+  lossy: FHR calls this the name of the genome. refgenie writes its collection name (hg38), the upstream examples
+    an assembly name. Kept as a non-unique label on the collection; on write, falls back to the refgenie alias,
+    then the assembly name.
+  example: {native: Synthetic human reference example, core: Synthetic human reference example, file: examples/upstream_example.fhr.json}
+- native: genomeSynonym
+  core: collection.labels[namespace=fhr.synonym].value
+  direction: both
+  transform: null
+  fallback: ['collection.labels[namespace=refgenie.synonym].value']
+  lossy: 'Level is unclear: refgenie writes collection aliases here (GRCh38 for hg38). Kept as non-unique labels
+    on the collection.'
+  example:
+    native: &id001 [synthetic example]
+    core: *id001
+    file: examples/upstream_example.fhr.json
+- native: taxon.name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/upstream_example.fhr.json}
+- native: taxon.uri
+  core: assembly.taxon.id
+  direction: both
+  transform:
+    regex: {pattern: 'taxonomy:(\d+)$', as: integer, template: 'https://identifiers.org/taxonomy:{}'}
+  lossy: Only identifiers.org taxonomy URIs give a number; on write the URI is rebuilt in that form.
+  example: {native: 'https://identifiers.org/taxonomy:9606', core: 9606, file: examples/upstream_example.fhr.json}
+- native: version
+  core: assembly.version
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 0.0.1, core: 0.0.1, file: examples/upstream_example.fhr.json}
+- native: metadataAuthor[].name
+  core: provenance[0].authors[].name
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id002 [Adam Wright]
+    core: *id002
+    file: examples/upstream_example.fhr.json
+- native: metadataAuthor[].uri
+  core: provenance[0].authors[].uri
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id003 ['https://orcid.org/0000-0002-5719-4024']
+    core: *id003
+    file: examples/upstream_example.fhr.json
+- native: metadataAuthor[].nameType
+  core: provenance[0].authors[].nameType
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id004 [Personal]
+    core: *id004
+    file: examples/upstream_example.fhr.json
+- native: assemblyAuthor[].name
+  core: assembly.assemblyAuthor[].name
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id005 [David Molik]
+    core: *id005
+    file: examples/upstream_example.fhr.json
+- native: assemblyAuthor[].uri
+  core: assembly.assemblyAuthor[].uri
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id006 ['https://orcid.org/0000-0003-3192-6538']
+    core: *id006
+    file: examples/upstream_example.fhr.json
+- {native: 'assemblyAuthor[].nameType', core: 'assembly.assemblyAuthor[].nameType', direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- native: dateCreated
+  core: assembly.dateCreated
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2022-03-21', core: '2022-03-21', file: examples/upstream_example.fhr.json}
+- native: voucherSpecimen
+  core: assembly.voucherSpecimen
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Synthetic example; no physical specimen, core: Synthetic example; no physical specimen, file: examples/upstream_example.fhr.json}
+- native: accessionID.name
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {other: unspecified}
+  lossy: FHR accessionID is any archive's id (the upstream example has PBARC, inherited from the 2022 field 'place');
+    refmeta treats it as the assembly accession.
+  example:
+    native: PBARC
+    core: {namespace: unspecified, value: PBARC}
+    file: examples/upstream_example.fhr.json
+- native: accessionID.url
+  core: assembly.accessions[0].url
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/',
+    core: 'https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/',
+    file: examples/upstream_example.fhr.json}
+- native: instrument
+  core: assembly.instrument
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id007 [Example sequencer]
+    core: *id007
+    file: examples/upstream_example.fhr.json
+- native: scholarlyArticle
+  core: assembly.scholarlyArticle
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 10.1093/bib/bbae122, core: 10.1093/bib/bbae122, file: examples/upstream_example.fhr.json}
+- native: documentation
+  core: assembly.documentation
+  direction: both
+  transform: null
+  fallback: [collection.description, assembly.description]
+  lossy: null
+  example: {native: Synthetic metadata and sequence; identifiers are placeholders unless explicitly verified., core: Synthetic
+      metadata and sequence; identifiers are placeholders unless explicitly verified., file: examples/upstream_example.fhr.json}
+- native: identifier
+  core: assembly.identifier
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id008 ['beetlebase:TC010103']
+    core: *id008
+    file: examples/upstream_example.fhr.json
+- native: relatedLink
+  core: assembly.relatedLink
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id009 ['http://wfleabase.org/genome/Daphnia_pulex/dpulex_jgi060905/fasta/']
+    core: *id009
+    file: examples/upstream_example.fhr.json
+- native: funding
+  core: assembly.funding
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: funding, core: funding, file: examples/upstream_example.fhr.json}
+- native: reuseConditions
+  core: assembly.reuseConditions
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: public domain, core: public domain, file: examples/upstream_example.fhr.json}
+- native: masking
+  core: copies[kind=fasta].masking
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: soft-masked, core: soft-masked, file: examples/upstream_example.fhr.json}
+- native: vitalStats.totalBasePairs
+  core: assembly.vitalStats.totalBasePairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 16, core: 16, file: examples/upstream_example.fhr.json}
+- native: vitalStats.N50
+  core: assembly.vitalStats.N50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 16, core: 16, file: examples/upstream_example.fhr.json}
+- native: vitalStats.L50
+  core: assembly.vitalStats.L50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 1, core: 1, file: examples/upstream_example.fhr.json}
+- native: vitalStats.N90
+  core: assembly.vitalStats.N90
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 16, core: 16, file: examples/upstream_example.fhr.json}
+- native: vitalStats.L90
+  core: assembly.vitalStats.L90
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 1, core: 1, file: examples/upstream_example.fhr.json}
+- {native: vitalStats.scaffoldN50, core: assembly.vitalStats.scaffoldN50, direction: both, transform: null, lossy: null,
+  example: null, note: No example file sets this field.}
+- {native: vitalStats.scaffoldL50, core: assembly.vitalStats.scaffoldL50, direction: both, transform: null, lossy: null,
+  example: null, note: No example file sets this field.}
+- {native: vitalStats.scaffoldN90, core: assembly.vitalStats.scaffoldN90, direction: both, transform: null, lossy: null,
+  example: null, note: No example file sets this field.}
+- {native: vitalStats.scaffoldL90, core: assembly.vitalStats.scaffoldL90, direction: both, transform: null, lossy: null,
+  example: null, note: No example file sets this field.}
+- native: vitalStats.numberContigs
+  core: assembly.vitalStats.numberContigs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 1, core: 1, file: examples/upstream_example.fhr.json}
+- native: vitalStats.numberScaffolds
+  core: assembly.vitalStats.numberScaffolds
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 1, core: 1, file: examples/upstream_example.fhr.json}
+- native: vitalStats.gcContent
+  core: assembly.vitalStats.gcContent
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 37.5, core: 37.5, file: examples/upstream_example.fhr.json}
+- native: vitalStats.readTechnology
+  core: assembly.vitalStats.readTechnology
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: HiFi, core: HiFi, file: examples/upstream_example.fhr.json}
+- native: checksum
+  core: copies[kind=fasta].checksums.fhr
+  direction: both
+  transform: null
+  lossy: 'FHR checksum: SHA-512/256, base64, over the file without its checksum line. Not a plain file checksum
+    and not a refget digest.'
+  example: {native: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=, core: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=,
+    file: examples/upstream_example.fhr.json}
+- {native: assemblySoftware, core: 'assembly.assemblySoftware[0].name', direction: to_core, transform: null, lossy: Legacy
+    single-string form; any version inside the string stays in the name. Read only; refmeta writes the object
+    form instead because an FHR record cannot hold both forms., example: null, note: No example file sets
+    this field.}
+- native: assemblySoftware[].name
+  core: assembly.assemblySoftware[].name
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id010 [hifiasm]
+    core: *id010
+    file: examples/upstream_example.fhr.json
+- native: assemblySoftware[].uri
+  core: assembly.assemblySoftware[].uri
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id011 ['https://github.com/chhylp123/hifiasm']
+    core: *id011
+    file: examples/upstream_example.fhr.json
+- native: assemblySoftware[].version
+  core: assembly.assemblySoftware[].version
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id012 [0.19.8]
+    core: *id012
+    file: examples/upstream_example.fhr.json
+- native: assemblySoftware[].commandLineOption
+  core: assembly.assemblySoftware[].commandLineOption
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id013
+    - [-t, '2']
+    core: *id013
+    file: examples/upstream_example.fhr.json
+- native: assemblyProtocol
+  core: assembly.assemblyProtocol
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://example.org/assembly-protocol', core: 'https://example.org/assembly-protocol', file: examples/upstream_example.fhr.json}
+- native: seqcol_id
+  core: collection.digest
+  direction: both
+  transform: null
+  lossy: Supplied by the record's author and never verified; a seqcol_digests derivation on sequences may disagree.
+  example: {native: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, core: AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA, file: examples/upstream_example.fhr.json}
+- native: x-refget-assemblySource
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: Values are not normalized (ncbi, NCBI, Ensembl, UCSC).
+  example: {native: ncbi, core: ncbi, file: examples/constructed/hg38.fhr.json}
+- native: x-refget-assemblyLevel
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/constructed/hg38.fhr.json}
+unmapped:
+- {native: schema, reason: 'URL of the FHR schema the record follows: a property of the record format, not of the
+    genome.'}
+- {native: schemaVersion, reason: 'FHR contract version (1, 2.0, 2.1): a property of the record format.'}

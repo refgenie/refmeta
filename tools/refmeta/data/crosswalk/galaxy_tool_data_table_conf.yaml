@@ -1,0 +1,31 @@
+# refmeta crosswalk: galaxy_tool_data_table_conf <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_tool_data_table_conf
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'tool_data_table_conf.xml: declares each data table (name, column names, comment character, the .loc
+  files or refgenie config that fill it). One native record per <table>.'
+records: {mode: each}
+notes: Declares data tables; it holds no facts about any genome. Only the table name maps.
+constants: {}
+derive: []
+rules:
+- native: name
+  core: deployments[system=galaxy].table
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: all_fasta, core: all_fasta, file: examples/galaxy_tool_data_table_conf.xml.sample}
+unmapped:
+- {native: comment_char, reason: Parsing setting for .loc files.}
+- {native: allow_duplicate_entries, reason: Parsing setting.}
+- {native: type, reason: Table type (tabular or refgenie).}
+- {native: asset, reason: refgenie asset that fills a refgenie-type table.}
+- {native: separator, reason: Parsing setting.}
+- {native: empty_field_value, reason: Parsing setting.}
+- {native: user_accessible, reason: Access setting.}
+- {native: columns, reason: Column names of the table.}
+- {native: column, reason: Column declarations.}
+- {native: file, reason: .loc files that fill the table.}
+- {native: field, reason: Template fields of a refgenie-type table.}

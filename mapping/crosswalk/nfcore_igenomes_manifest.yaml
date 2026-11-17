@@ -1,0 +1,45 @@
+# refmeta crosswalk: nfcore_igenomes_manifest <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: nfcore_igenomes_manifest
+source: nfcore
+core: '0.1'
+subject: copy
+description: 'AWS iGenomes file manifest (ngi-igenomes_file_manifest.txt): one s3:// URI per line, one record per
+  file. The adapter splits each URI along the iGenomes layout igenomes/<species>/<source>/<build>/<section>/<subpath>.'
+records:
+  mode: group
+  group_by: [species, source, build]
+  rows: {target: copies, key: null, explode: null}
+notes: One record per iGenomes build (species/source/build); each manifest line is one file.
+constants: {}
+derive: []
+rules:
+- native: uri
+  core: copies[].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 's3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes.gencode/genes.gtf', core: 's3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Annotation/Genes.gencode/genes.gtf',
+    file: examples/igenomes_manifest_anchors_excerpt.txt}
+- native: species
+  core: assembly.taxon.name
+  direction: both
+  transform:
+    replace: {old: _, new: ' '}
+  lossy: null
+  example: {native: Homo_sapiens, core: Homo sapiens, file: examples/igenomes_manifest_anchors_excerpt.txt}
+- native: source
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: 'The provider in the path does not tell the naming style: iGenomes NCBI/GRCh38 uses UCSC-style names.'
+  example: {native: NCBI, core: NCBI, file: examples/igenomes_manifest_anchors_excerpt.txt}
+- native: build
+  core: collection.labels[namespace=igenomes].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/igenomes_manifest_anchors_excerpt.txt}
+unmapped:
+- {native: section, per: row, reason: 'Path segment (Sequence, Annotation); part of the location.'}
+- {native: subpath, per: row, reason: Rest of the path; part of the location.}

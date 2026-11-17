@@ -1,0 +1,18 @@
+# refmeta crosswalk: galaxy_idc_data_managers <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_idc_data_managers
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'IDC data_managers.yml (older pipeline): data manager short name to Tool Shed tool id, tags that genomes.yml
+  indexers refer to, and fixed parameters.'
+records: {mode: each}
+notes: Configuration of data manager tools. It holds no facts about any genome, so nothing maps.
+constants: {}
+derive: []
+rules: []
+unmapped:
+- {native: data_manager, reason: Short name of a data manager tool.}
+- {native: tool_id, reason: Tool Shed id of the data manager.}
+- {native: tags, reason: Tags used to pick data managers.}
+- {native: parameters, reason: Fixed tool parameters.}

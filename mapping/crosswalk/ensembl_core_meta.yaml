@@ -1,0 +1,199 @@
+# refmeta crosswalk: ensembl_core_meta <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_core_meta
+source: ensembl
+core: '0.1'
+subject: assembly
+description: 'Core database meta table as dumped on the release FTP (mysql/<db>/meta.txt.gz): tab-separated meta_id,
+  species_id, meta_key, meta_value, MySQL escaping, \N = NULL. The adapter returns one record per species_id; database-wide
+  rows (species_id NULL: schema_type, schema_version, patch) are copied into each record; repeated keys become lists.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: assembly.accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.29
+    core: {namespace: insdc.gca, value: GCA_000001405.29}
+    file: examples/core_meta_homo_sapiens_core_116_38.txt
+- native: assembly.name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38.p14, core: GRCh38.p14, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: assembly.default
+  core: assembly.labels[namespace=ensembl].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: assembly.ucsc_alias
+  core: assembly.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: assembly.long_name
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium Human Build 38, core: Genome Reference Consortium Human Build 38,
+    file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: assembly.date
+  core: assembly.releaseDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 2013-12, core: 2013-12, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: assembly.version
+  core: assembly.version
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2', core: '2', file: examples/core_meta_saccharomyces_cerevisiae_core_63_116_4.txt}
+- native: assembly.provider_name
+  core: assembly.submitter
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium, core: Genome Reference Consortium, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: species.taxonomy_id
+  core: assembly.taxon.id
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example: {native: '9606', core: 9606, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: organism.taxonomy_id
+  core: assembly.taxon.id
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example: {native: '9606', core: 9606, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: species.species_taxonomy_id
+  core: assembly.taxon.speciesId
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example: {native: '4932', core: 4932, file: examples/core_meta_saccharomyces_cerevisiae_core_63_116_4.txt}
+- native: organism.species_taxonomy_id
+  core: assembly.taxon.speciesId
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example: {native: '9606', core: 9606, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: species.scientific_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: organism.scientific_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: species.common_name
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: human, core: human, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: species.strain
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: S288C, core: S288C, file: examples/core_meta_saccharomyces_cerevisiae_core_63_116_4.txt}
+- native: organism.biosample_id
+  core: assembly.biosample
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SAMN12121739, core: SAMN12121739, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: species.production_name
+  core: deployments[system=ensembl].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: homo_sapiens, core: homo_sapiens, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: species.display_name
+  core: deployments[system=ensembl].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human, core: Human, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+- native: species.division
+  core: deployments[system=ensembl].scope
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: EnsemblVertebrates, core: EnsemblVertebrates, file: examples/core_meta_homo_sapiens_core_116_38.txt}
+unmapped:
+- {native: species_id, reason: 'Database, annotation or website setting; no core field.'}
+- {native: schema_type, reason: 'Database, annotation or website setting; no core field.'}
+- {native: schema_version, reason: 'Database, annotation or website setting; no core field.'}
+- {native: patch, reason: 'Database, annotation or website setting; no core field.'}
+- {native: genebuild.id, reason: 'Database, annotation or website setting; no core field.'}
+- {native: assembly.mapping, reason: Coordinate system mappings inside the database.}
+- {native: genebuild.last_geneset_update, reason: 'Database, annotation or website setting; no core field.'}
+- {native: assembly.coverage_depth, reason: Historical depth class (high/low).}
+- {native: assembly.web_accession_source, reason: Website link setting.}
+- {native: assembly.web_accession_type, reason: Website link label.}
+- {native: genebuild.start_date, reason: 'Database, annotation or website setting; no core field.'}
+- {native: genebuild.initial_release_date, reason: 'Database, annotation or website setting; no core field.'}
+- {native: gencode.version, reason: 'Database, annotation or website setting; no core field.'}
+- {native: genebuild.method, reason: 'Database, annotation or website setting; no core field.'}
+- {native: species.stable_id_prefix, reason: 'Database, annotation or website setting; no core field.'}
+- {native: species.url, reason: 'Database, annotation or website setting; no core field.'}
+- {native: repeat.analysis, reason: 'Database, annotation or website setting; no core field.'}
+- {native: repeat_featurebuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: simple_featurebuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: prediction_transcriptbuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: prediction_exonbuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: genebuild.havana_datafreeze_date, reason: 'Database, annotation or website setting; no core field.'}
+- {native: liftover.mapping, reason: 'Database, annotation or website setting; no core field.'}
+- {native: lrg, reason: 'Database, annotation or website setting; no core field.'}
+- {native: xref.timestamp, reason: 'Database, annotation or website setting; no core field.'}
+- {native: species.alias, reason: Species aliases used by the website.}
+- {native: species.classification, reason: Lineage names.}
+- {native: sample.location_param, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.location_text, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.gene_param, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.gene_text, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.transcript_param, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.transcript_text, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.search_text, reason: 'Database, annotation or website setting; no core field.'}
+- {native: annotation.provider_name, reason: 'Database, annotation or website setting; no core field.'}
+- {native: annotation.provider_url, reason: 'Database, annotation or website setting; no core field.'}
+- {native: assembly.provider_url, reason: Provider web page.}
+- {native: sample.vep_hgvs, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.vep_id, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.vep_vcf, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.vep_spdi, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.vep_ensembl, reason: 'Database, annotation or website setting; no core field.'}
+- {native: genebuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: transcriptbuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: exonbuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: dna_align_featurebuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: protein_align_featurebuild.level, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.gene_keep, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.vep_keep, reason: 'Database, annotation or website setting; no core field.'}
+- {native: mane.version, reason: 'Database, annotation or website setting; no core field.'}
+- {native: genebuild.version, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.variation_param, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.variation_text, reason: 'Database, annotation or website setting; no core field.'}
+- {native: sample.vep_pileup, reason: 'Database, annotation or website setting; no core field.'}
+- {native: species.species_name, reason: Species name without strain; core keeps one name.}
+- {native: species.wikipedia_url, reason: 'Database, annotation or website setting; no core field.'}

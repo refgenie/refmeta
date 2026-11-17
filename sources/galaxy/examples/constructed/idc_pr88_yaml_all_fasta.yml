@@ -1,0 +1,40 @@
+hg38canon:
+  level_0: nDnCavW_mjqY22G9AfLUaY0diIFApk_O
+  level_1:
+    names: QwbBGcx3jlPGQbh9YyMAklU4TqjMIN_g
+    lengths: iUV7eKYYzNONUVjb4iinQ0NCyx6_nP_Y
+    sequences: T4sofxM5XgnGbXDVz2F6vfsw9tebmzd9
+    name_length_pairs: 15886uBC-UhFTgRAxgW2fcQFck2lZdt2
+    sorted_name_length_pairs: 9rs5ZWHsSaT_D7nJOSChpFR3Q2ZHRDI6
+    sorted_sequences: IPR_3KMc1Z0UMDczv96ckuYOG_TIiRcZ
+  level_2_peek:
+    sequence_count: 25
+    first_name: chr1
+    first_length: 248956422
+    first_sequence: SQ.2YnepKM7OkBoOrKmvHbGqguVfF9amCST
+  aliases:
+    galaxy_unique_build_id: hg38canon
+    galaxy_dbkey: hg38
+    galaxy_name: 'Human (Homo sapiens) (b38): hg38 Canonical'
+    galaxy_loc_file: '!cvmfs!data.galaxyproject.org!byhand!location!all_fasta.loc'
+    galaxy_tool_data_table_conf: '!cvmfs!data.galaxyproject.org!byhand!location!tool_data_table_conf.xml'
+sacCer3:
+  level_0: nHYYtlwZOhq203qjGUFNUaJlgiO2ISMs
+  level_1:
+    names: z6pvqSO86Y2CUDTMiqb7xnsBBT6rBqZ6
+    lengths: I7-Dnzs1PFnVDEyQJPn5Ib_EmuZkNJJt
+    sequences: V6NnxC1my11WQOioJVWP4HRyvLVzvpnk
+    name_length_pairs: RgKCw_i5djYC6lJ1j6PbjhXxDk8UjRbu
+    sorted_name_length_pairs: EAAxfIk5JoCJbgS3YZHxESEouOQakHGZ
+    sorted_sequences: diyPQYCRG37hE2IHuGGWOb3SNHIuB8IT
+  level_2_peek:
+    sequence_count: 17
+    first_name: chrI
+    first_length: 230218
+    first_sequence: SQ.lZyxiD_ByprhOUzrR1o1bq0ezO_1gkrn
+  aliases:
+    galaxy_unique_build_id: sacCer3
+    galaxy_dbkey: sacCer3
+    galaxy_name: 'Yeast (Saccharomyces cerevisiae): sacCer3'
+    galaxy_loc_file: '!cvmfs!data.galaxyproject.org!byhand!location!all_fasta.loc'
+    galaxy_tool_data_table_conf: '!cvmfs!data.galaxyproject.org!byhand!location!tool_data_table_conf.xml'

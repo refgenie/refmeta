@@ -1,0 +1,52 @@
+# refmeta crosswalk: ga4gh_vrs_sequence_reference <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ga4gh_vrs_sequence_reference
+source: ga4gh
+core: '0.1'
+subject: sequence
+description: 'GA4GH VRS 2.x SequenceReference: the object VRS uses to point at a reference sequence by refget accession.
+  Appears inside SequenceLocation.sequenceReference of every VRS Allele. The adapter collects every SequenceReference
+  found anywhere in a JSON or YAML document.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: refgetAccession
+  core: sequences[].digest
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO, core: SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO, file: examples/vrs_normalizer_response_NC_000001.11_g.11796321G_A.json}
+- native: name
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: I, core: I, file: examples/constructed/vrs_SequenceReference_R64-1-1_chrI_constructed.json}
+- native: aliases
+  core: sequences[].aliases[namespace=unspecified].value
+  direction: both
+  transform: null
+  lossy: VRS aliases carry no naming authority, so they land in namespace 'unspecified'.
+  example:
+    native: &id001 [chrI, BK006935.2]
+    core: *id001
+    file: examples/constructed/vrs_SequenceReference_R64-1-1_chrI_constructed.json
+- {native: description, core: 'sequences[].description', direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: circular
+  core: sequences[].circular
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: false, core: false, file: examples/constructed/vrs_SequenceReference_R64-1-1_chrI_constructed.json}
+unmapped:
+- {native: id, per: row, reason: Identifier in the producing system only.}
+- {native: type, per: row, reason: Always 'SequenceReference'; implied by the format.}
+- {native: extensions, per: row, reason: Free gkm-core extension objects.}
+- {native: residueAlphabet, per: row, reason: na/aa; core assumes nucleic acid.}
+- {native: sequence, per: row, reason: 'Literal sequence text; refmeta holds metadata, not sequence.'}
+- {native: moleculeType, per: row, reason: 'RefSeq molecule type (genomic, mRNA); not the replicon type in sequences[].molecule.'}

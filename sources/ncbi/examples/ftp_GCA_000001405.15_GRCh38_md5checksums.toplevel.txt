@@ -1,0 +1,12 @@
+b14f459a2ae66d5bf3180ab2e1a94cf5  ./GCA_000001405.15_GRCh38_assembly_regions.txt
+1e91ddafe29018ab6defc47d9e303fc6  ./GCA_000001405.15_GRCh38_assembly_report+ucsc_names.txt
+99b5029c02ec5fe6c732061ded4d9ddb  ./GCA_000001405.15_GRCh38_assembly_report.txt
+42597d550ea5ed3aef7787dbe5105907  ./GCA_000001405.15_GRCh38_assembly_stats.txt
+9313516997244892bbeceef731fc607e  ./GCA_000001405.15_GRCh38_genomic.fna.gz
+367abc54769e7df483baaf0cc7172663  ./GCA_000001405.15_GRCh38_genomic.gaps.gz
+94a16e4300273fb5c3aed52c0275122d  ./GCA_000001405.15_GRCh38_genomic.gbff.gz
+ec6c19acb140e8e6db102de8f5988f74  ./GCA_000001405.15_GRCh38_genomic.gff.gz
+a40f2415ddbc6596a3186ee4982230ef  ./GCA_000001405.15_GRCh38_protein.faa.gz
+d1ed6cb4f2995023ccd624fdfa1a2449  ./GCA_000001405.15_GRCh38_protein.gpff.gz
+652b79d5a89d13d6110002b11fe8097c  ./GCA_000001405.15_GRCh38_rm.out.gz
+e230fee77b3332f21f3066c8b7472798  ./GCA_000001405.15_GRCh38_rm.run

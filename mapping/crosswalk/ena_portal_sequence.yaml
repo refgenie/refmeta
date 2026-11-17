@@ -1,0 +1,144 @@
+# refmeta crosswalk: ena_portal_sequence <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ena_portal_sequence
+source: ena
+core: '0.1'
+subject: assembly
+description: ENA Portal API search result=sequence, fields=all, as TSV. One row per INSDC sequence record, including
+  sequence_md5.
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: A whole result file is one record. assembly_accession is empty on alt-locus rows (386 of 455 for GRCh38),
+  so it cannot be used to group rows.
+constants: {}
+derive: []
+rules:
+- native: assembly_accession
+  core: assembly.labels[namespace=ena.chain].value
+  direction: both
+  transform: null
+  lossy: The unversioned accession chain; it names every version, so it is a label.
+  example: {native: GCA_000001405, core: GCA_000001405, file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: sequence_accession
+  core: sequences[].aliases[namespace=insdc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: CM000669.2, core: CM000669.2, file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: description
+  core: sequences[].description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Homo sapiens chromosome 7, GRCh38 reference primary assembly.', core: 'Homo sapiens chromosome
+      7, GRCh38 reference primary assembly.', file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: organelle
+  core: sequences[].molecule
+  direction: both
+  transform:
+    map:
+      values: {mitochondrion: Mitochondrion, chloroplast: Chloroplast, plastid: Plastid}
+  lossy: Only organelle sequences have a value; nuclear chromosomes stay empty.
+  example: {native: mitochondrion, core: Mitochondrion, file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: topology
+  core: sequences[].circular
+  direction: both
+  transform:
+    map:
+      values: {circular: true, linear: false}
+  lossy: null
+  example: {native: linear, core: false, file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: sequence_md5
+  core: sequences[].md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: cc044cc2256a1141212660fb07b6171e, core: cc044cc2256a1141212660fb07b6171e, file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: base_count
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 159345973, core: 159345973, file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: scientific_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: tax_id
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/portal_sequence_GCA_000001405.15.tsv}
+- native: strain
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: S288C, core: S288C, file: examples/portal_sequence_GCA_000146045.2.tsv}
+- native: study_accession
+  core: assembly.bioproject
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: PRJNA31257, core: PRJNA31257, file: examples/portal_sequence_GCA_000001405.15.tsv}
+unmapped:
+- {native: accession, per: row, reason: Unversioned sequence accession; sequence_accession is versioned.}
+- {native: collection_date, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: country, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: keywords, per: row, reason: INSDC keywords (ALTERNATE_LOCUS); role is not stated directly.}
+- {native: dataclass, per: row, reason: 'INSDC data class (CON, STD).'}
+- {native: sample_accession, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: dev_stage, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: run_accession, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: pubmed_id, per: row, reason: Citations of the sequence record.}
+- {native: identified_by, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: cell_line, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: host, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: tag, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: serotype, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: bio_material, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: last_updated, per: row, reason: Record update date.}
+- {native: germline, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: agricola_id, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: collection_date_end, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: culture_collection, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: cultivar, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: doi, per: row, reason: Citations of the sequence record.}
+- {native: mol_type, per: row, reason: genomic DNA for all.}
+- {native: status, per: row, reason: public.}
+- {native: altitude, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: metagenome_source, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: plasmid, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: collected_by, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: secondary_sample_accession, per: record, reason: Sample or environment field; sample metadata is out
+    of scope.}
+- {native: host_tax_id, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: isolate, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: tax_lineage, per: record, reason: Lineage taxids.}
+- {native: variety, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: cell_type, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: ecotype, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: haplotype, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: mating_type, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: tissue_lib, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: collection_date_start, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: environmental_sample, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: first_public, per: row, reason: Record public date.}
+- {native: sub_species, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: sex, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: sub_strain, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: specimen_voucher, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: patent_number, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: tax_division, per: record, reason: Taxonomic division.}
+- {native: serovar, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: location, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: lab_host, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: tissue_type, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: indexed_date, per: row, reason: Portal index date.}
+- {native: isolation_source, per: record, reason: Sample or environment field; sample metadata is out of scope.}
+- {native: sequence_version, per: row, reason: Version part of sequence_accession.}

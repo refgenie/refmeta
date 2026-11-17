@@ -1,0 +1,30 @@
+# refmeta crosswalk: galaxy_api_genomes <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_api_genomes
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'GET /api/genomes on a Galaxy server: JSON array of [display name, dbkey] pairs for every known build.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: '[1]'
+  core: deployments[system=galaxy,table=builds].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '?', core: '?', file: examples/usegalaxy_org_api_genomes.excerpt.json}
+- native: '[1]'
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: A dbkey can cover several sequence collections.
+  example: {native: '?', core: '?', file: examples/usegalaxy_org_api_genomes.excerpt.json}
+- native: '[0]'
+  core: deployments[system=galaxy,table=builds].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'unspecified (?)', core: 'unspecified (?)', file: examples/usegalaxy_org_api_genomes.excerpt.json}
+unmapped: []

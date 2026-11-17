@@ -1,0 +1,48 @@
+# refmeta crosswalk: bioconductor_registered_ucsc <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_registered_ucsc
+source: bioconductor
+core: '0.1'
+subject: collection
+description: 'GenomeInfoDb registration file for a UCSC genome (inst/registered/UCSC_genomes/<genome>.R): an R script
+  assigning GENOME, ORGANISM, ASSEMBLED_MOLECULES, CIRC_SEQS and optionally FETCH_ORDERED_CHROM_SIZES, NCBI_LINKER
+  and ENSEMBL_LINKER. Read by registered_UCSC_genomes() and getChromInfoFromUCSC(). One record per file; NCBI_LINKER
+  components are flattened to NCBI_LINKER.<name>.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: GENOME
+  core: collection.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/registered_ucsc_hg38.R}
+- native: ORGANISM
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/registered_ucsc_hg38.R}
+- native: NCBI_LINKER.assembly_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: 'The accession the UCSC genome is linked to (GCF_000001405.40 for hg38), not proof that the sequence sets match:
+    hg38 keeps two fix patches that .40 lacks.'
+  example:
+    native: GCF_000001405.40
+    core: {namespace: insdc.gcf, value: GCF_000001405.40}
+    file: examples/registered_ucsc_hg38.R
+unmapped:
+- {native: ASSEMBLED_MOLECULES, reason: 'Names of the assembled molecules, a subset of the collection.'}
+- {native: CIRC_SEQS, reason: Names of the circular sequences.}
+- {native: FETCH_ORDERED_CHROM_SIZES, reason: R function source.}
+- {native: NCBI_LINKER.special_mappings, reason: UCSC to NCBI name exceptions; partial name map.}
+- {native: NCBI_LINKER.unmapped_seqs, reason: 'UCSC sequences with no NCBI match, grouped by role; core has no field
+    for ''not in the linked assembly''.'}
+- {native: NCBI_LINKER.AssemblyUnits, reason: Assembly units to match on.}
+- {native: NCBI_LINKER.drop_unmapped, reason: Mapping option.}
+- {native: NCBI_LINKER, reason: Raw R source when it could not be evaluated.}
+- {native: ENSEMBL_LINKER, reason: Name of the UCSC table used for Ensembl names.}

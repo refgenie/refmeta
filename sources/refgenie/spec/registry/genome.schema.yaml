@@ -1,0 +1,267 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+$id: https://refgenie.org/schemas/genome.schema.yaml
+title: Refgenie Genome Entry
+description: >-
+  Schema for a genome definition in the refgenie-registry. Aligned to the FAIR
+  Headers Reference genome (FHR) vocabulary: the registry-native keys are the
+  source of truth for the FHR core (name/aliases/organism/assembly/fasta.checksum/
+  seqcol), and the optional `fhr` block is an escape hatch for pure-FHR provenance
+  fields that have no registry-native home. See schema/README.md for the
+  deterministic YAML -> .fhr.json mapping.
+type: object
+required:
+  - name
+  - description
+  - organism
+  - fasta
+  - seqcol
+  - build
+properties:
+  name:
+    type: string
+    pattern: "^[a-zA-Z0-9_.-]+$"
+    description: >-
+      Primary identifier for this genome assembly (e.g., hg38, mm10). Must equal
+      the YAML filename stem. Exported to FHR `genome`.
+  aliases:
+    type: array
+    items:
+      type: string
+      pattern: "^[^/]+$"
+    description: >-
+      Alternative names for this assembly (e.g., GRCh38 for hg38). An alias may
+      not contain '/', which refgenie reads as a genome/asset separator.
+      Exported to FHR `genomeSynonym`.
+  description:
+    type: string
+    minLength: 1
+    description: Human-readable description of this genome assembly. Exported to FHR `documentation`.
+  organism:
+    type: object
+    required:
+      - scientific_name
+      - taxon_id
+    properties:
+      scientific_name:
+        type: string
+        minLength: 1
+        description: Binomial name (e.g., Homo sapiens). Exported to FHR `taxon.name`.
+      taxon_id:
+        type: integer
+        minimum: 1
+        description: >-
+          NCBI Taxonomy ID (e.g., 9606). Required. The exporter derives the FHR
+          `taxon.uri` as https://identifiers.org/taxonomy:{taxon_id}.
+    additionalProperties: false
+  assembly:
+    type: object
+    properties:
+      source:
+        type: string
+        description: Authoritative source of this assembly (e.g., NCBI, Ensembl, UCSC, Gencode, Broad).
+      accession:
+        type: string
+        description: >-
+          Assembly accession number (e.g., GCF_000001405.40). Exported to FHR
+          `accessionID`; for an NCBI `GCA_`/`GCF_` accession, its version number
+          (the part after the dot, e.g. 40) becomes FHR `version`.
+      level:
+        type: string
+        enum: [chromosome, scaffold, contig]
+        description: Assembly level.
+    additionalProperties: false
+  masking:
+    type: string
+    enum: [soft-masked, hard-masked, not-masked, unknown]
+    description: Masking applied to the assembly. Exported to FHR `masking`.
+  fasta:
+    type: object
+    anyOf:
+      - required: [sources]
+      - required: [checksum]
+    properties:
+      sources:
+        type: array
+        minItems: 1
+        items:
+          type: object
+          required:
+            - url
+          properties:
+            provider:
+              type: string
+              description: Name of the provider (e.g., NCBI, UCSC, Ensembl, Gencode, Broad).
+            url:
+              type: string
+              format: uri
+              description: Download URL for this FASTA file.
+          additionalProperties: false
+        description: Download sources for this FASTA, each with a URL and optional provider name.
+      checksum:
+        type: object
+        properties:
+          sha256:
+            type: string
+            pattern: "^(compute_on_registration|[0-9a-f]{64})$"
+            description: >-
+              SHA-256 hash of the uncompressed FASTA file (64 lowercase hex chars),
+              or the sentinel "compute_on_registration". Exported to FHR `checksum`
+              (omitted when the sentinel is used).
+          md5:
+            type: string
+            pattern: "^[0-9a-f]{32}$"
+            description: MD5 hash of the compressed FASTA file (32 lowercase hex chars).
+        additionalProperties: false
+    additionalProperties: false
+  seqcol:
+    type: object
+    anyOf:
+      - required: [digest]
+      - required: [compute]
+    properties:
+      digest:
+        type: string
+        description: Sequence collection digest (the canonical genome identifier and .fhr.json sidecar filename).
+      length:
+        type: integer
+        description: Number of sequences in the collection.
+      compute:
+        type: boolean
+        description: If true, compute the seqcol digest on registration.
+    additionalProperties: false
+  fhr:
+    type: object
+    description: >-
+      Optional escape hatch for pure-FHR provenance fields that have no
+      registry-native home. Every field is optional. Keys are snake_case here and
+      are mapped to camelCase FHR JSON by tools/genome_to_fhr.py.
+    properties:
+      license:
+        type: string
+        description: SPDX license identifier (e.g., CC0-1.0). Exported to FHR `license`.
+      funding:
+        type: string
+        description: Funding line item. Exported to FHR `funding`.
+      scholarly_article:
+        type: string
+        description: DOI of the publishing article (e.g., 10.1038/nature...). Exported to FHR `scholarlyArticle`.
+      date_created:
+        type: string
+        format: date
+        description: Assembly creation date (ISO 8601). Exported to FHR `dateCreated`.
+      voucher_specimen:
+        type: string
+        description: Description of the physical sample. Exported to FHR `voucherSpecimen`.
+      documentation:
+        type: string
+        description: Overrides the top-level `description` as FHR `documentation` when present.
+      instrument:
+        type: array
+        items:
+          type: string
+        description: Sequencing instruments used. Exported to FHR `instrument`.
+      related_link:
+        type: array
+        items:
+          type: string
+        description: Related URLs. Exported to FHR `relatedLink`.
+      identifier:
+        type: array
+        items:
+          type: string
+        description: Namespace-qualified identifiers (e.g., insdc:GCA_000001405.15). Exported to FHR `identifier`.
+      metadata_author:
+        type: array
+        items:
+          type: object
+          required: [name]
+          properties:
+            name:
+              type: string
+            uri:
+              type: string
+              description: ORCID URI (https://orcid.org/0000-0002-1825-0097).
+          additionalProperties: false
+        description: Authors of the metadata record. Exported to FHR `metadataAuthor`.
+      assembly_author:
+        type: array
+        items:
+          type: object
+          required: [name]
+          properties:
+            name:
+              type: string
+            uri:
+              type: string
+              description: ORCID or ROR URI.
+          additionalProperties: false
+        description: Authors of the assembly. Exported to FHR `assemblyAuthor`.
+      vital_stats:
+        type: object
+        properties:
+          n50:
+            type: integer
+          l50:
+            type: integer
+          l90:
+            type: integer
+          total_base_pairs:
+            type: integer
+          number_contigs:
+            type: integer
+          number_scaffolds:
+            type: integer
+          read_technology:
+            type: string
+        additionalProperties: false
+        description: Assembly summary statistics. Exported to FHR `vitalStats`.
+    additionalProperties: false
+  build:
+    type: object
+    description: >-
+      Registry pipeline instructions. NOT exported to FHR, these describe what
+      the registry does with the genome, not what the genome is. Nested (rather
+      than top-level) to keep the FHR boundary obvious, the same way `metadata:`
+      is fenced off.
+    required:
+      - store
+      - tier
+    properties:
+      store:
+        type: string
+        pattern: "^[a-z0-9_-]+$"
+        description: >-
+          Slug of the store holding this genome's sequence. Must name an existing
+          directory under stores/ that contains a project_config.yaml.
+      tier:
+        type: string
+        enum: [store_only, sequence_only, standard, full]
+        description: >-
+          How far to take this genome. Each tier includes every tier below it.
+          store_only loads the sequence and builds no assets.
+      add:
+        type: array
+        items: {type: string}
+        description: Extra assets to build beyond the tier, by recipe name.
+      drop:
+        type: array
+        items: {type: string}
+        description: Assets to skip from the tier, by recipe name.
+    additionalProperties: false
+  metadata:
+    type: object
+    description: Registry bookkeeping. Not exported to FHR.
+    properties:
+      added:
+        type: string
+        format: date
+        description: Date this genome was added (YYYY-MM-DD).
+      added_by:
+        type: string
+        description: GitHub username of the contributor.
+      last_verified:
+        type: string
+        format: date
+        description: Date the FASTA URL and checksum were last verified.
+    additionalProperties: false
+additionalProperties: false

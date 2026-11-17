@@ -1,0 +1,108 @@
+# refmeta crosswalk: ensembl_rest_info_genomes <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_rest_info_genomes
+source: ensembl
+core: '0.1'
+subject: assembly
+description: REST GET /info/genomes/:genome_name (same object from /info/genomes/assembly/:accession). Built from
+  the legacy ensembl_metadata database. Without expand=1; expand=1 adds large annotation/compara/variation blocks
+  not covered here.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: assembly_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.29
+    core: {namespace: insdc.gca, value: GCA_000001405.29}
+    file: examples/rest_info_genomes_homo_sapiens.json
+- native: assembly_name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38.p14, core: GRCh38.p14, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: assembly_default
+  core: assembly.labels[namespace=ensembl].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: assembly_ucsc
+  core: assembly.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: assembly_level
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: scientific_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: taxonomy_id
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: species_taxonomy_id
+  core: assembly.taxon.speciesId
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: strain
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: S288C, core: S288C, file: examples/rest_info_genomes_saccharomyces_cerevisiae.json}
+- native: name
+  core: deployments[system=ensembl].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: homo_sapiens, core: homo_sapiens, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: display_name
+  core: deployments[system=ensembl].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human, core: Human, file: examples/rest_info_genomes_homo_sapiens.json}
+- native: division
+  core: deployments[system=ensembl].scope
+  direction: both
+  transform: null
+  lossy: Yeast is listed under EnsemblVertebrates here but EnsemblFungi in its own core database.
+  example: {native: EnsemblVertebrates, core: EnsemblVertebrates, file: examples/rest_info_genomes_homo_sapiens.json}
+unmapped:
+- {native: has_genome_alignments, reason: Data availability flag.}
+- {native: has_synteny, reason: Data availability flag.}
+- {native: has_microarray, reason: Data availability flag.}
+- {native: data_release_id, reason: Internal database row id.}
+- {native: serotype, reason: Serotype; no example.}
+- {native: has_other_alignments, reason: Data availability flag.}
+- {native: has_variations, reason: Data availability flag.}
+- {native: assembly_id, reason: Internal database row id.}
+- {native: reference, reason: Name of the genome this one is a strain or variant of; a relation between assemblies
+    the core does not model. No example.}
+- {native: genebuild, reason: Gene annotation label; out of scope.}
+- {native: url_name, reason: Website URL name.}
+- {native: has_pan_compara, reason: Data availability flag.}
+- {native: base_count, reason: 'Length of all toplevel regions in the core database, LRGs included (3398673745 for
+    human); matches no sequence set.'}
+- {native: has_peptide_compara, reason: Data availability flag.}
+- {native: website_packed, reason: Website flag.}
+- {native: organism_id, reason: Internal database row id.}

@@ -1,0 +1,46 @@
+# refmeta crosswalk: galaxy_loc_bowtie2_indexes <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_loc_bowtie2_indexes
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'Galaxy bowtie2_indices.loc: Bowtie2 index basename per row (data table bowtie2_indexes). TAB-separated,
+  ''#'' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: value
+  core: deployments[system=galaxy,table=bowtie2_indexes].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38female, core: hg38female, file: examples/cvmfs_bowtie2_indices.loc}
+- native: dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/cvmfs_bowtie2_indices.loc}
+- native: name
+  core: deployments[system=galaxy,table=bowtie2_indexes].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Human (Homo sapiens) (b38): hg38 Canonical Female', core: 'Human (Homo sapiens) (b38): hg38
+      Canonical Female', file: examples/cvmfs_bowtie2_indices.loc}
+- native: path
+  core: copies[kind=bowtie2_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bowtie2_index/hg38female, core: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bowtie2_index/hg38female,
+    file: examples/cvmfs_bowtie2_indices.loc}
+- native: path
+  core: deployments[system=galaxy,table=bowtie2_indexes].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bowtie2_index/hg38female, core: /cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bowtie2_index/hg38female,
+    file: examples/cvmfs_bowtie2_indices.loc}
+unmapped: []

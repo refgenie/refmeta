@@ -1,0 +1,209 @@
+{
+  "$comment": "Excerpt of nf-core/rnaseq nextflow_schema.json (master @ a6a0de0): only the reference_genome_options definition. Retrieved 2026-11-17.",
+  "reference_genome_options": {
+    "title": "Reference genome options",
+    "type": "object",
+    "fa_icon": "fas fa-dna",
+    "description": "Reference genome related files and options required for the workflow.",
+    "properties": {
+      "genome": {
+        "type": "string",
+        "description": "Name of a `params.genomes` catalogue entry (iGenomes or a user-defined catalogue).",
+        "fa_icon": "fas fa-book",
+        "minLength": 1,
+        "pattern": "^[a-zA-Z0-9_\\-\\.]+$",
+        "errorMessage": "The genome name must not contain spaces and must be a valid identifier.",
+        "help_text": "Selects a reference bundle from the `params.genomes` map and populates `fasta`, `gtf`, index paths, etc. from it. The pipeline ships the AWS iGenomes catalogue by default (entries like `--genome GRCh38`), but iGenomes annotations are vastly out of date and not recommended for new analyses. For modern reference data, supply `--fasta`/`--gtf` directly or define your own catalogue with the same `params.genomes` shape and load it via `-c`. See the [usage documentation](https://nf-co.re/rnaseq/usage#reference-catalogues-via---genome) for details."
+      },
+      "fasta": {
+        "type": "string",
+        "format": "file-path",
+        "exists": true,
+        "mimetype": "text/plain",
+        "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+        "description": "Path to FASTA genome file.",
+        "help_text": "This parameter is mandatory if `--genome` is not specified. If you don't have the appropriate alignment index, it will be generated automatically. Use with `--save_reference` to store the index for future runs.",
+        "fa_icon": "far fa-file-code",
+        "errorMessage": "The FASTA file path must end with .fa, .fna, .fasta optionally with .gz, must not contain spaces, and must exist."
+      },
+      "gtf": {
+        "type": "string",
+        "format": "file-path",
+        "exists": true,
+        "mimetype": "text/plain",
+        "pattern": "^\\S+\\.gtf(\\.gz)?$",
+        "description": "Path to GTF annotation file.",
+        "fa_icon": "fas fa-code-branch",
+        "help_text": "This parameter is mandatory if `--genome` is not specified.",
+        "errorMessage": "The GTF file must have a .gtf or .gtf.gz extension, must not contain spaces, and must exist."
+      },
+      "gff": {
+        "type": "string",
+        "format": "file-path",
+        "exists": true,
+        "mimetype": "text/plain",
+        "pattern": "^\\S+\\.gff3?(\\.gz)?$",
+        "fa_icon": "fas fa-code-branch",
+        "description": "Path to GFF3 annotation file.",
+        "help_text": "This parameter must be specified if neither `--genome` nor `--gtf` is provided.",
+        "errorMessage": "The GFF file must have a .gff, .gff3, .gff.gz, or .gff3.gz extension, must not contain spaces, and must exist."
+      },
+      "gene_bed": {
+        "type": "string",
+        "format": "file-path",
+        "exists": true,
+        "mimetype": "text/plain",
+        "pattern": "^\\S+\\.bed(\\.gz)?$",
+        "fa_icon": "fas fa-procedures",
+        "description": "Path to BED file containing gene intervals. This will be created from the GTF file if not specified.",
+        "errorMessage": "The BED file must have a .bed or .bed.gz extension, must not contain spaces, and must exist."
+      },
+      "transcript_fasta": {
+        "type": "string",
+        "format": "file-path",
+        "exists": true,
+        "mimetype": "text/plain",
+        "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+        "fa_icon": "far fa-file-code",
+        "description": "Path to FASTA transcriptome file.",
+        "help_text": "If not provided, the transcriptome will be generated from the genome FASTA and GTF files. Cannot be used together with `--additional_fasta` when building a pseudo-aligner index, because the pipeline cannot append spike-in sequences to a user-provided transcriptome. Either omit this parameter or provide a pre-built index."
+      },
+      "additional_fasta": {
+        "type": "string",
+        "format": "file-path",
+        "exists": true,
+        "mimetype": "text/plain",
+        "pattern": "^\\S+\\.fn?a(sta)?(\\.gz)?$",
+        "fa_icon": "far fa-file-code",
+        "description": "FASTA file to concatenate to genome FASTA file e.g. containing spike-in sequences.",
+        "help_text": "If provided, sequences in this file will be concatenated to the genome FASTA file. A GTF file will be automatically created using these sequences, and alignment indices will be created from the combined files. Use `--save_reference` to reuse these indices in future runs. Cannot be used together with `--transcript_fasta` when building a pseudo-aligner index - either omit `--transcript_fasta` or provide a pre-built index that already contains the spike-ins."
+      },
+      "splicesites": {
+        "type": "string",
+        "format": "file-path",
+        "exists": true,
+        "mimetype": "text/plain",
+        "fa_icon": "fas fa-hand-scissors",
+        "description": "Splice sites file required for HISAT2."
+      },
+      "star_index": {
+        "type": "string",
+        "format": "path",
+        "exists": true,
+        "fa_icon": "fas fa-bezier-curve",
+        "description": "Path to directory or tar.gz archive for pre-built STAR index."
+      },
+      "hisat2_index": {
+        "type": "string",
+        "format": "path",
+        "exists": true,
+        "fa_icon": "fas fa-bezier-curve",
+        "description": "Path to directory or tar.gz archive for pre-built HISAT2 index."
+      },
+      "rsem_index": {
+        "type": "string",
+        "format": "path",
+        "exists": true,
+        "fa_icon": "fas fa-bezier-curve",
+        "description": "Path to directory or tar.gz archive for pre-built RSEM index."
+      },
+      "salmon_index": {
+        "type": "string",
+        "format": "path",
+        "exists": true,
+        "fa_icon": "fas fa-bezier-curve",
+        "description": "Path to directory or tar.gz archive for pre-built Salmon index."
+      },
+      "kallisto_index": {
+        "type": "string",
+        "format": "path",
+        "exists": true,
+        "fa_icon": "fas fa-bezier-curve",
+        "description": "Path to directory or tar.gz archive for pre-built Kallisto index."
+      },
+      "bowtie2_index": {
+        "type": "string",
+        "format": "path",
+        "exists": true,
+        "fa_icon": "fas fa-bezier-curve",
+        "description": "Path to directory or tar.gz archive for pre-built Bowtie2 index.",
+        "help_text": "Required when using `--aligner bowtie2_salmon`. If not provided, the index will be built from the transcript FASTA file for use with Salmon alignment-based quantification."
+      },
+      "hisat2_build_memory": {
+        "type": "string",
+        "default": "200.GB",
+        "fa_icon": "fas fa-memory",
+        "pattern": "^\\d+(\\.\\d+)?\\.?\\s*(K|M|G|T)?B$",
+        "description": "Minimum memory required to use splice sites and exons in the HiSAT2 index build process.",
+        "help_text": "HiSAT2 requires significant RAM to build genome indices for large genomes with splice sites and exons (human genome typically needs 200GB). If you provide less memory than this threshold, splice sites and exons will be ignored, reducing memory requirements. For small genomes, set a lower value; for larger genomes, provide more memory.",
+        "errorMessage": "Memory format must be a valid string like '200.GB', '16.MB', '8KB'."
+      },
+      "gencode": {
+        "type": "boolean",
+        "fa_icon": "fas fa-code-branch",
+        "description": "Specify if your GTF annotation is in GENCODE format.",
+        "help_text": "If your GTF file is in GENCODE format and you want to run Salmon (using `--pseudo_aligner salmon`), enable this parameter to build the Salmon index correctly."
+      },
+      "prokaryotic": {
+        "type": "boolean",
+        "hidden": true,
+        "fa_icon": "fas fa-bacterium",
+        "description": "Enable prokaryotic mode for bacterial/archaeal RNA-seq data.",
+        "help_text": "Prokaryotic genomes have different annotation conventions than eukaryotes. This configures STAR to use CDS features instead of exons. Use `-profile prokaryotic` to enable this along with other recommended prokaryotic settings."
+      },
+      "gffread_transcript_fasta": {
+        "type": "boolean",
+        "fa_icon": "fas fa-file-code",
+        "description": "Use gffread to generate transcript FASTA instead of RSEM.",
+        "help_text": "By default, RSEM is used to extract transcript sequences from the genome FASTA and GTF. RSEM expects exon features in the GTF, which may not be present in some annotations (e.g., prokaryotic). Enable this to use gffread instead, which handles CDS-only annotations correctly. This is automatically enabled by `-profile prokaryotic`."
+      },
+      "gtf_extra_attributes": {
+        "type": "string",
+        "default": "gene_name",
+        "fa_icon": "fas fa-plus-square",
+        "description": "By default, the pipeline uses the `gene_name` field to obtain additional gene identifiers from the input GTF file when running Salmon.",
+        "help_text": "Modify this parameter to change which attributes are extracted from the GTF file when running Salmon. You can specify multiple values separated by commas (e.g., `--gtf_extra_attributes gene_id,transcript_id`)."
+      },
+      "gtf_group_features": {
+        "type": "string",
+        "default": "gene_id",
+        "description": "Define the attribute type used to group features in the GTF file when running Salmon.",
+        "fa_icon": "fas fa-layer-group"
+      },
+      "featurecounts_group_type": {
+        "type": "string",
+        "default": "gene_biotype",
+        "fa_icon": "fas fa-layer-group",
+        "description": "The attribute type used to group feature types in the GTF file when generating the biotype plot with featureCounts."
+      },
+      "featurecounts_feature_type": {
+        "type": "string",
+        "default": "exon",
+        "description": "By default, the pipeline assigns reads based on the 'exon' attribute within the GTF file.",
+        "fa_icon": "fas fa-indent",
+        "help_text": "Specifies the feature type from the GTF file to use when generating the biotype plot with featureCounts."
+      },
+      "igenomes_ignore": {
+        "type": "boolean",
+        "description": "Do not load the iGenomes reference config.",
+        "fa_icon": "fas fa-ban",
+        "hidden": true,
+        "help_text": "Prevent loading of `igenomes.config` when running the pipeline. Use this option if you encounter conflicts between custom parameters and those in the iGenomes configuration."
+      },
+      "arm": {
+        "type": "boolean",
+        "description": "Use ARM architecture containers.",
+        "fa_icon": "fas fa-microchip",
+        "hidden": true,
+        "help_text": "Set automatically by the arm64 profile. Signals ARM architecture so that container closures can select ARM-compatible images where needed (e.g. STAR 2.6.1d in nf-test configs)."
+      },
+      "igenomes_base": {
+        "type": "string",
+        "description": "The base path to the igenomes reference files",
+        "fa_icon": "fas fa-ban",
+        "hidden": true,
+        "default": "s3://ngi-igenomes/igenomes/"
+      }
+    }
+  }
+}

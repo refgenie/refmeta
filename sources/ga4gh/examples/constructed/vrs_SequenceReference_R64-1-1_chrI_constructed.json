@@ -1,0 +1,9 @@
+{
+  "type": "SequenceReference",
+  "refgetAccession": "SQ.lZyxiD_ByprhOUzrR1o1bq0ezO_1gkrn",
+  "name": "I",
+  "aliases": ["chrI", "BK006935.2"],
+  "residueAlphabet": "na",
+  "moleculeType": "genomic",
+  "circular": false
+}

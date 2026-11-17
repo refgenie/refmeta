@@ -1,0 +1,110 @@
+\subsection{Prepare the seed file for the masked BSgenome data package}
+
+\subsubsection{Overview}
+
+The \term{seed file} for the \term{BSgenome data package} with masked
+sequences (i.e. \term{2nd target package}) is similar to the \term{seed file}
+for the \term{BSgenome data package} containing the corresponding bare
+sequences (a.k.a. the \term{reference target package} i.e. the package you
+forged in the previous section). It will contain all the information needed
+by the \Rfunction{forgeMaskedBSgenomeDataPkg} function to forge the
+\term{2nd target package}.
+
+The fields of this \term{seed file} are described in the 3 following
+sub-subsections.
+
+Alternatively, the reader in a hurry can go directly to the last
+sub-subsection of this subsection for an example of \term{seed file}.
+
+\subsubsection{Standard \texttt{DESCRIPTION} fields}
+
+\begin{itemize}
+\item \code{Package}: Name to give to the \term{2nd target package}.
+      The convention used for the packages built by the Bioconductor project
+      is to use the same name as the \term{reference target package} with the
+      \code{.masked} suffix added to it.
+
+\item \code{Title}: The title of the package. E.g. \code{Full masked genome
+      sequences for Rattus norvegicus (UCSC version rn4)}.
+
+\item \code{Description}, \code{Version}, \code{Author}, \code{Maintainer},
+      \code{License}: See previous section.
+\end{itemize}
+
+\subsubsection{Non-standard \texttt{DESCRIPTION} fields}
+
+\begin{itemize}
+\item \code{organism\_biocview}: Same as for the \term{reference target
+      package}.
+
+\item \code{source\_url}: The permanent URL where the \term{mask data files}
+      used to forge this package can be found.
+\end{itemize}
+
+\subsubsection{Other fields}
+
+\begin{itemize}
+\item \code{RefPkgname}: The name of the \term{reference target package}.
+
+\item \code{nmask\_per\_seq}: The number of masks per sequence (1 to 4).
+
+\item \code{PkgDetails}, \code{PkgExamples}: See previous section.
+
+\item \code{SrcDataFiles}: [OPTIONAL] Some arbitrary text that will be copied
+      to the \code{Note} section of the man pages of the \term{target package}.
+      \code{SrcDataFiles} should describe briefly where the \term{mask data
+      files} are coming from. Will typically contain URLs (permanent
+      URLs are a must).
+
+\item \code{masks\_srcdir}: The path to the \textit{<masks\_srcdir>} folder.
+
+\item \code{AGAPSfiles\_type}: [OPTIONAL] Must be \code{gap} (the default) if
+      the \term{source data files} containing the AGAPS masks information are
+      UCSC ``gap'' files, or \code{agp} if they are NCBI ``agp'' files.
+
+\item \code{AGAPSfiles\_name}: [OPTIONAL] Omit this field if you have one
+      \term{source data file} per single sequence for the AGAPS masks and use
+      the \code{AGAPSfiles\_prefix} and \code{AGAPSfiles\_suffix} fields below
+      instead.
+      Otherwise, use this field to specify the name of the single big file.
+
+\item \code{AGAPSfiles\_prefix}, \code{AGAPSfiles\_suffix}: [OPTIONAL] Omit
+      these fields if you have one single big \term{source data file} for all
+      the AGAPS masks and use the \code{AGAPSfiles\_name} field above instead.
+      Otherwise, use these fields to specify the common prefix and suffix that
+      need to be added to all the single sequence names (field \code{seqnames})
+      to get the name of the file that contains the corresponding AGAPS mask
+      information.
+      Default values are the empty prefix for \code{AGAPSfiles\_prefix} and
+      \code{\_gap.txt} for \code{AGAPSfiles\_suffix}.
+
+\item \code{RMfiles\_name}, \code{RMfiles\_prefix}, \code{RMfiles\_suffix}:
+      [OPTIONAL] Those fields work like the \code{AGAPSfiles*} fields above
+      but for the RM masks.
+      Default values are the empty prefix for \code{RMfiles\_prefix} and
+      \texttt{.fa.out} for \code{RMfiles\_suffix}.
+
+\item \code{TRFfiles\_name}, \code{TRFfiles\_prefix}, \code{TRFfiles\_suffix}:
+      [OPTIONAL] Those fields work like the \code{AGAPSfiles*} fields above
+      but for the TRF masks.
+      Default values are the empty prefix for \code{TRFfiles\_prefix} and
+      \texttt{.bed} for \code{TRFfiles\_suffix}.
+\end{itemize}
+
+\subsubsection{An example}
+
+The \term{seed files} used for the packages forged by the Bioconductor project
+are included in the \Rpackage{BSgenomeForge} package:
+<<>>=
+library(BSgenomeForge)
+seed_files <- system.file("extdata", "seeds", package="BSgenomeForge")
+tail(list.files(seed_files, pattern="\\.masked-seed$"))
+rn4_masked_seed <- list.files(seed_files, pattern="\\.rn4\\.masked-seed$", full.names=TRUE)
+cat(readLines(rn4_masked_seed), sep="\n")
+@
+
+From now we assume that you have managed to prepare the \term{seed file} for
+the \term{2nd target package}.
+
+
+\subsection{Forge the \term{2nd target package}}

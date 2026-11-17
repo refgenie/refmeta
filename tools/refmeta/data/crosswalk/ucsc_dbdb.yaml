@@ -1,0 +1,90 @@
+# refmeta crosswalk: ucsc_dbdb <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_dbdb
+source: ucsc
+core: '0.1'
+subject: collection
+description: 'REST API /list/ucscGenomes: one record per UCSC database genome. Each record is a row of the hgcentral.dbDb
+  table.'
+records: {mode: each}
+notes: 'A UCSC database name (hg38) is a label, not a collection id: hg38 had 455 sequences at release and 711 at
+  p14.'
+constants: {}
+derive: []
+rules:
+- native: name
+  core: collection.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+- native: name
+  core: deployments[system=ucsc,table=dbDb].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+- native: description
+  core: collection.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Dec. 2013 (GRCh38/hg38), core: Dec. 2013 (GRCh38/hg38), file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+- native: description
+  core: assembly.labels[namespace=ucsc.assembly].value
+  direction: to_core
+  transform:
+    regex: {pattern: '\(([^/()]+)/[^/()]+\)$'}
+  lossy: Pulls 'GRCh38' out of 'Dec. 2013 (GRCh38/hg38)'. For yeast it gives SacCer_Apr2011, UCSC's own label, so
+    it is kept as a label, not as assembly.name.
+  example: {native: Dec. 2013 (GRCh38/hg38), core: GRCh38, file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+- native: nibPath
+  core: deployments[system=ucsc,table=dbDb].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /gbdb/hg38, core: /gbdb/hg38, file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+- native: organism
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: Capitalized menu label (Human, S. cerevisiae), not always a common name.
+  example: {native: Human, core: Human, file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+- native: scientificName
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+- native: sourceName
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38 Genome Reference Consortium Human Reference 38 (GCA_000001405.15), core: GRCh38 Genome
+      Reference Consortium Human Reference 38 (GCA_000001405.15), file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+- native: sourceName
+  core: assembly.accessions
+  direction: to_core
+  transform:
+  - regex: {pattern: '\((GC[AF]_\d{9}\.\d+)\)'}
+  - accession: {}
+  lossy: The accession sits in free text; only GCA_/GCF_ forms in parentheses are found.
+  example:
+    native: GRCh38 Genome Reference Consortium Human Reference 38 (GCA_000001405.15)
+    core: {namespace: insdc.gca, value: GCA_000001405.15}
+    file: examples/api_list_ucscGenomes_hg38_sacCer3.json
+- native: taxId
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/api_list_ucscGenomes_hg38_sacCer3.json}
+unmapped:
+- {native: defaultPos, reason: Browser start position.}
+- {native: active, reason: Browser flag.}
+- {native: orderKey, reason: Menu order.}
+- {native: genome, reason: 'Menu group shared by all builds of an organism (Human), not the genome name.'}
+- {native: htmlPath, reason: Server path of the description page.}
+- {native: hgNearOk, reason: Browser feature flag.}
+- {native: hgPbOk, reason: Browser feature flag.}

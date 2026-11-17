@@ -1,0 +1,8 @@
+fasta,name,organism,source,genome_assembly,accession,group,pep_sample_name
+homo_sapiens/ENA/hg38/fasta/GRCh38-ena-15_GCA_000001405.fa.gz,hg38_p0_ena,Homo sapiens,ENA,hg38,,homo_sapiens,GRCh38-ena-15
+homo_sapiens/ENA/hg38/fasta/GRCh38-ena-29_GCA_000001405.fa.gz,hg38_p14_ena,Homo sapiens,ENA,hg38,,homo_sapiens,GRCh38-ena-29
+homo_sapiens/broad/hg38/Homo_sapiens_assembly38.fasta.gz,hg38-broad,Homo sapiens,broad,hg38,,homo_sapiens,hg38-broad
+homo_sapiens/broad/hg38/Homo_sapiens_assembly38_noALT_noHLA_noDecoy.fasta.gz,hg38-noALT-noHLA-noDecoy-broad,Homo sapiens,broad,hg38,,homo_sapiens,hg38-noALT-noHLA-noDecoy-broad
+homo_sapiens/ensembl/hg38/fasta/Homo_sapiens.GRCh38.dna.primary_assembly.fa.gz,hg38_primary_ensembl,Homo sapiens,ensembl,hg38,,homo_sapiens,hg38-primary-113-ensembl
+homo_sapiens/misc/hl_blog/hg38/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna,hs38,Homo sapiens,ncbi,hg38,GCA_000001405.15,homo_sapiens,hs38
+homo_sapiens/refgenie/hg38/fasta/2230c535660fb4774114bfa966a62f823fdb6d21acf138d4.fa.gz,hg38-refgenie,Homo sapiens,refgenie,hg38,,homo_sapiens,hg38-refgenie

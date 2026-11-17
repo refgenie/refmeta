@@ -1,0 +1,14 @@
+hub Test GenArk track hub
+shortLabel Test track hub
+longLabel A track hub to attach to an GenArk assembly
+useOneFile on
+email genome-www@soe.ucsc.edu
+
+genome GCA_002844635.1
+
+track test
+shortLabel Test Track
+longLabel Test Track hub for GenArk
+visibility pack
+bigDataUrl test.bb
+type bigBed

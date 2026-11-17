@@ -1,0 +1,32 @@
+{
+ "genome_uuid": "59871324-7803-4234-856e-2a2bd96d7b3c",
+ "retrieved": "2026-11-17",
+ "url_template": "https://www.ensembl.org/api/metadata/genome/59871324-7803-4234-856e-2a2bd96d7b3c/checksum/{region_name}",
+ "responses": {
+  "1": "2648ae1bacce4ec4b6cf337dcae37816",
+  "2": "4bb4f82880a14111eb7327169ffb729b",
+  "3": "a48af509898d3736ba95dc0912c0b461",
+  "4": "3210fecf1eb92d5489da4346b3fddc6e",
+  "5": "f7f05fb7ceea78cbc32ce652c540ff2d",
+  "6": "6a48dfa97e854e3c6f186c8ff973f7dd",
+  "7": "94eef2b96fd5a7c8db162c8c74378039",
+  "8": "c67955b5f7815a9a1edfaa15893d3616",
+  "9": "addd2795560986b7491c40b1faa3978a",
+  "10": "907112d17fcb73bcab1ed1c72b97ce68",
+  "11": "1511375dc2dd1b633af8cf439ae90cec",
+  "12": "e81e16d3f44337034695a29b97708fce",
+  "13": "17dab79b963ccd8e7377cef59a54fe1c",
+  "14": "acbd9552c059d9b403e75ed26c1ce5bc",
+  "15": "f036bd11158407596ca6bf3581454706",
+  "16": "24e7cabfba3548a2bb4dff582b9ee870",
+  "17": "a8499ca51d6fb77332c2d242923994eb",
+  "18": "11eeaa801f6b0e2e36a1138616b8ee9a",
+  "19": "b0eba2c7bb5c953d1e06a508b5e487de",
+  "20": "b18e6c531b0bd70e949a7fc20859cb01",
+  "21": "2f45a3455007b7e271509161e52954a9",
+  "22": "221733a2a15e2de66d33e73d126c5109",
+  "X": "49527016a48497d9d1cbd8e4a9049bd3",
+  "Y": "b2b7e6369564d89059e763cd6e736837",
+  "MT": "c68f52674c9fb33aef52dcf399755519"
+ }
+}

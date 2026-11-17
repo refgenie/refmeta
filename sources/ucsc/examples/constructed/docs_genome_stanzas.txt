@@ -1,0 +1,23 @@
+genome GCF_000001405.39
+taxId 9606
+groups groups.txt
+description human
+twoBitPath GCF_000001405.39.2bit
+twoBitBptUrl GCF_000001405.39.2bit.bpt
+chromSizes GCF_000001405.39.chrom.sizes.txt
+chromAlias GCF_000001405.39.chromAlias.txt
+chromAuthority ucsc
+organism human
+defaultPos chr1:82985474-82995474
+scientificName Homo sapiens
+htmlPath html/GCF_000001405.39_GRCh38.p13.description.html
+
+genome GCF_000224145.3
+taxId 7719
+groups groups.txt
+description vase tunicate
+twoBitPath GCF_000224145.3.2bit
+codonTable default=1 NC_017929.1=13
+organism KH Sep. 2013
+defaultPos NC_020166.2:3347001-3357001
+scientificName Ciona intestinalis

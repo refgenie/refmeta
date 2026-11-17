@@ -1,0 +1,64 @@
+# refmeta crosswalk: ga4gh_seqrepo_metadata <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ga4gh_seqrepo_metadata
+source: ga4gh
+core: '0.1'
+subject: sequence
+description: 'biocommons SeqRepo REST metadata for one sequence: GET /seqrepo/1/metadata/<namespace:alias>. Lists
+  every namespaced alias SeqRepo knows for the sequence.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/seqrepo_metadata_refseq_NC_000001.11.json}
+- native: aliases
+  core: sequences[].md5
+  direction: to_core
+  transform:
+    regex: {pattern: '^MD5:([0-9a-f]{32})$'}
+  lossy: null
+  example:
+    native: ['GRCh38:1', 'GRCh38:chr1', 'GRCh38.p1:1']
+    core: [6aef897c3d6ff0c78aff06ac189178dd]
+    file: examples/seqrepo_metadata_refseq_NC_000001.11.json
+    truncated: true
+- native: aliases
+  core: sequences[].digest
+  direction: to_core
+  transform:
+    regex: {pattern: '^ga4gh:(SQ\.[A-Za-z0-9_-]{32})$'}
+  lossy: null
+  example:
+    native: ['GRCh38:1', 'GRCh38:chr1', 'GRCh38.p1:1']
+    core: [SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO]
+    file: examples/seqrepo_metadata_refseq_NC_000001.11.json
+    truncated: true
+- native: aliases
+  core: sequences[].aliases
+  direction: both
+  transform:
+    curie:
+      namespaces: {NCBI: refseq, refseq: refseq, MD5: md5, ga4gh: ga4gh, sha512t24u: sha512t24u, VMC: vmc, SEGUID: seguid,
+        SHA1: sha1}
+  lossy: 'Prefixes are normalized: NCBI: and refseq: both become refseq (one is written back), and assembly-name
+    prefixes (GRCh38.p1:) are lower-cased (grch38.p1). Digest aliases stay in the alias list as well.'
+  example:
+    native: ['GRCh38:1', 'GRCh38:chr1', 'GRCh38.p1:1']
+    core:
+    - {namespace: grch38, value: '1'}
+    - {namespace: grch38, value: chr1}
+    - {namespace: grch38.p1, value: '1'}
+    file: examples/seqrepo_metadata_refseq_NC_000001.11.json
+    truncated: true
+unmapped:
+- {native: added, per: row, reason: 'When this SeqRepo instance loaded the sequence: deployment fact with no core
+    field.'}
+- {native: alphabet, per: row, reason: Set of residue letters present; no core field.}

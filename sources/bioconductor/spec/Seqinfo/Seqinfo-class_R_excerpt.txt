@@ -1,0 +1,116 @@
+### =========================================================================
+### Seqinfo objects
+### -------------------------------------------------------------------------
+###
+### A Seqinfo object is a table-like object that contains basic information
+### about a set of genomic sequences. The table has one entry per sequence,
+### with each entry containing the following sequence attributes:
+###   - sequence name (primary key)
+###   - sequence length
+###   - circularity flag
+###   - genome (e.g. hg19)
+###
+
+setClass("Seqinfo",
+    representation(
+        seqnames="character",
+        seqlengths="integer",
+        is_circular="logical",
+        genome="character"
+    )
+)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### updateObject()
+###
+### The Seqinfo class definition was moved from GenomeInfoDb to the Seqinfo
+### package in BioC 3.22.
+###
+### IMPORTANT NOTE: Calling updateObject() on a Seqinfo object with the
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+### Coercion
+###
+
+### --- S3/S4 combo for as.data.frame.Seqinfo ---
+### Inherits the 'validRN' argument from as.data.frame.vector(), and
+### the 'stringsAsFactors' argument from as.data.frame.character(),
+### as.data.frame.list(), and as.data.frame.matrix().
+### Silently ignores the 'validRN' argument but we must have it anyways to
+### make data.frame(Seqinfo()) work. That's because data.frame() explicitly
+### sets the 'validRN' argument when calling as.data.frame() internally on
+### the supplied Seqinfo object.
+.as.data.frame.Seqinfo <- function(x, row.names=NULL,
+                                   validRN=TRUE, stringsAsFactors=FALSE)
+{
+    data.frame(seqnames=seqnames(x),
+               seqlengths=unname(seqlengths(x)),
+               isCircular=unname(isCircular(x)),
+               genome=unname(genome(x)),
+               row.names=row.names, check.names=FALSE,
+               stringsAsFactors=stringsAsFactors)
+}
+### Silently ignores the 'optional' argument.
+as.data.frame.Seqinfo <- function(x, row.names=NULL, optional=FALSE, ...)
+    .as.data.frame.Seqinfo(x, row.names=row.names, ...)
+setMethod("as.data.frame", "Seqinfo", as.data.frame.Seqinfo)
+
+.from_DataFrame_to_Seqinfo <- function(from)
+{
+    if (!is.data.frame(from) && !is(from, "DataFrame"))
+        stop("'from' must be a data.frame or DataFrame object")
+    from_colnames <- colnames(from)
+
+    ## Extract seqnames.
+    if ("seqnames" %in% from_colnames) {
+        ans_seqnames <- from[ , "seqnames"]
+    } else if ("seqlevels" %in% from_colnames) {
+        ans_seqnames <- from[ , "seqlevels"]
+    } else {
+        ans_seqnames <- rownames(from)
+        seqnames_as_ints <- suppressWarnings(as.integer(ans_seqnames))
+        if (!any(is.na(seqnames_as_ints))
+          && all(seqnames_as_ints == ans_seqnames))
+            stop("no sequence names found in input")
+    }
+    if (!is.character(ans_seqnames))
+        ans_seqnames <- as.character(ans_seqnames)
+
+    ## Extract seqlengths.
+    if ("seqlengths" %in% from_colnames) {
+        ans_seqlengths <- from[ , "seqlengths"]
+    } else {
+        ans_seqlengths <- rep.int(NA_integer_, nrow(from))
+    }
+    if (!is.integer(ans_seqlengths))
+        ans_seqlengths <-  as.integer(ans_seqlengths)
+
+    ## Extract isCircular.
+    if ("isCircular" %in% from_colnames) {
+        ans_isCircular <- from[ , "isCircular"]
+    } else if ("is_circular" %in% from_colnames) {
+        ans_isCircular <- from[ , "is_circular"]
+    } else {
+        ans_isCircular <- rep.int(NA, nrow(from))
+    }
+    if (!is.logical(ans_isCircular))
+        ans_isCircular <-  as.logical(ans_isCircular)
+
+    ## Extract genome.
+    if ("genome" %in% from_colnames) {
+        ans_genome <- from[ , "genome"]
+    } else {
+        ans_genome <- rep.int(NA_character_, nrow(from))
+    }
+    if (!is.character(ans_genome))
+        ans_genome <-  as.character(ans_genome)
+
+    Seqinfo(seqnames=ans_seqnames, seqlengths=ans_seqlengths,
+            isCircular=ans_isCircular, genome=ans_genome)
+}
+setAs("data.frame", "Seqinfo", .from_DataFrame_to_Seqinfo)
+setAs("DataFrame", "Seqinfo", .from_DataFrame_to_Seqinfo)
+
+
+### - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -

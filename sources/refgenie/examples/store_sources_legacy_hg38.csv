@@ -1,0 +1,2 @@
+fasta,name,organism,source,genome_assembly,accession,group
+hg38.fa.gz,hg38,Homo sapiens,refgenie,hg38,GCA_000001405.15,legacy

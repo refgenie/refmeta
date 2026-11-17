@@ -1,0 +1,28 @@
+# refmeta crosswalk: ucsc_md5sum <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_md5sum
+source: ucsc
+core: '0.1'
+subject: copy
+description: md5sum.txt in download directories (GNU md5sum output); one record per file checksum.
+records:
+  mode: group
+  group_by: []
+  rows: {target: copies, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: file
+  core: copies[].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38.2bit, core: hg38.2bit, file: examples/bigZips_hg38_md5sum.txt}
+- native: md5
+  core: copies[].checksums.md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: dcc3ea27079aa6dc3f9deccd7275e0f8, core: dcc3ea27079aa6dc3f9deccd7275e0f8, file: examples/bigZips_hg38_md5sum.txt}
+  note: Of the file as served (compressed bytes for .gz).
+unmapped: []

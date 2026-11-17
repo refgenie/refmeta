@@ -1,0 +1,46 @@
+# refmeta crosswalk: galaxy_loc_fasta_indexes <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_loc_fasta_indexes
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'Galaxy fasta_indexes.loc: samtools faidx-indexed FASTA per row (data table fasta_indexes). TAB-separated,
+  ''#'' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path.'
+records: {mode: each}
+notes: The path is the FASTA file; tools add .fai to find the index next to it.
+constants: {}
+derive: []
+rules:
+- native: value
+  core: deployments[system=galaxy,table=fasta_indexes].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/cvmfs_fasta_indexes.loc}
+- native: dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/cvmfs_fasta_indexes.loc}
+- native: name
+  core: deployments[system=galaxy,table=fasta_indexes].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Human (Homo sapiens): hg38', core: 'Human (Homo sapiens): hg38', file: examples/cvmfs_fasta_indexes.loc}
+- native: path
+  core: copies[kind=fasta].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/byhand/hg38/sam_index/hg38.fa, core: /cvmfs/data.galaxyproject.org/byhand/hg38/sam_index/hg38.fa,
+    file: examples/cvmfs_fasta_indexes.loc}
+- native: path
+  core: deployments[system=galaxy,table=fasta_indexes].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: /cvmfs/data.galaxyproject.org/byhand/hg38/sam_index/hg38.fa, core: /cvmfs/data.galaxyproject.org/byhand/hg38/sam_index/hg38.fa,
+    file: examples/cvmfs_fasta_indexes.loc}
+unmapped: []

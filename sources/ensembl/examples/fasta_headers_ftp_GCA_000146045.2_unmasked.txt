@@ -1,0 +1,17 @@
+>IV unmasked:chromosome R64-1-1:IV:1:1531933:1
+>XV unmasked:chromosome R64-1-1:XV:1:1091291:1
+>VII unmasked:chromosome R64-1-1:VII:1:1090940:1
+>XII unmasked:chromosome R64-1-1:XII:1:1078177:1
+>XVI unmasked:chromosome R64-1-1:XVI:1:948066:1
+>XIII unmasked:chromosome R64-1-1:XIII:1:924431:1
+>II unmasked:chromosome R64-1-1:II:1:813184:1
+>XIV unmasked:chromosome R64-1-1:XIV:1:784333:1
+>X unmasked:chromosome R64-1-1:X:1:745751:1
+>XI unmasked:chromosome R64-1-1:XI:1:666816:1
+>V unmasked:chromosome R64-1-1:V:1:576874:1
+>VIII unmasked:chromosome R64-1-1:VIII:1:562643:1
+>IX unmasked:chromosome R64-1-1:IX:1:439888:1
+>III unmasked:chromosome R64-1-1:III:1:316620:1
+>VI unmasked:chromosome R64-1-1:VI:1:270161:1
+>I unmasked:chromosome R64-1-1:I:1:230218:1
+>Mito unmasked:chromosome R64-1-1:Mito:1:85779:1

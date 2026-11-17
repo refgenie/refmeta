@@ -1,0 +1,50 @@
+# refmeta crosswalk: ucsc_api_hubgenomes <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_api_hubgenomes
+source: ucsc
+core: '0.1'
+subject: collection
+description: 'REST API /list/hubGenomes: the genome stanzas of one hub as the browser parsed them (relative paths
+  made absolute); one record per genome.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: genome
+  core: collection.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2, core: GCF_000146045.2, file: examples/api_list_hubGenomes_GCF_000146045.2.json}
+- native: genome
+  core: deployments[system=ucsc,table=hub_genome].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF_000146045.2, core: GCF_000146045.2, file: examples/api_list_hubGenomes_GCF_000146045.2.json}
+- native: hubUrl
+  core: deployments[system=ucsc,table=hub_genome].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://hgdownload.soe.ucsc.edu/hubs/GCF/000/146/045/GCF_000146045.2/hub.txt', core: 'https://hgdownload.soe.ucsc.edu/hubs/GCF/000/146/045/GCF_000146045.2/hub.txt',
+    file: examples/api_list_hubGenomes_GCF_000146045.2.json}
+- native: description
+  core: collection.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: baker's yeast S288C (2014), core: baker's yeast S288C (2014), file: examples/api_list_hubGenomes_GCF_000146045.2.json}
+- native: twoBitPath
+  core: copies[kind=2bit].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://hgdownload.soe.ucsc.edu/hubs/GCF/000/146/045/GCF_000146045.2/GCF_000146045.2.2bit',
+    core: 'https://hgdownload.soe.ucsc.edu/hubs/GCF/000/146/045/GCF_000146045.2/GCF_000146045.2.2bit', file: examples/api_list_hubGenomes_GCF_000146045.2.json}
+unmapped:
+- {native: organism, reason: The stanza's organism setting (GenArk writes '<asmName> <date>').}
+- {native: trackDbFile, reason: Track definitions file.}
+- {native: groups, reason: Track groups file.}
+- {native: defaultPos, reason: Browser start position.}
+- {native: orderKey, reason: Menu order.}

@@ -1,0 +1,155 @@
+# refmeta crosswalk: ensembl_web_genome_stats <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_web_genome_stats
+source: ensembl
+core: '0.1'
+subject: assembly
+description: New Ensembl metadata API /api/metadata/genome/{genome_id}/stats; nested objects flattened with '.'.
+  Only assembly_stats are about the sequences; the rest are annotation statistics.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: genome_stats.assembly_stats.contig_n50
+  core: assembly.vitalStats.N50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 54806562, core: 54806562, file: examples/web_stats_GCA_000001405.29.json}
+- native: genome_stats.assembly_stats.gc_percentage
+  core: assembly.vitalStats.gcContent
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 38.88, core: 38.88, file: examples/web_stats_GCA_000001405.29.json}
+- native: genome_stats.assembly_stats.chromosomes
+  core: assembly.vitalStats.numberChromosomes
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 25, core: 25, file: examples/web_stats_GCA_000001405.29.json}
+unmapped:
+- {native: genome_stats.assembly_stats.total_genome_length, reason: 3298912062 for human matches no known sequence
+    set; left out rather than guessed.}
+- {native: genome_stats.assembly_stats.total_coding_sequence_length, reason: Annotation; out of scope.}
+- {native: genome_stats.assembly_stats.total_gap_length, reason: Gap length; no core field.}
+- {native: genome_stats.assembly_stats.spanned_gaps, reason: Gap count; no core field.}
+- {native: genome_stats.assembly_stats.toplevel_sequences, reason: 709 for human matches neither the 706-sequence
+    FASTA nor the 194 REST regions.}
+- {native: genome_stats.assembly_stats.component_sequences, reason: Component count; no core field.}
+- {native: genome_stats.coding_stats.coding_genes, reason: 'Annotation, variation or regulation statistic; out of
+    scope.'}
+- {native: genome_stats.coding_stats.average_genomic_span, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.average_sequence_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.average_cds_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.shortest_gene_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.longest_gene_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.total_transcripts, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.coding_transcripts, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.transcripts_per_gene, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.coding_transcripts_per_gene, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.total_exons, reason: 'Annotation, variation or regulation statistic; out of
+    scope.'}
+- {native: genome_stats.coding_stats.total_coding_exons, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.average_exon_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.average_coding_exon_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.coding_stats.average_exons_per_transcript, reason: 'Annotation, variation or regulation
+    statistic; out of scope.'}
+- {native: genome_stats.coding_stats.average_coding_exons_per_coding_transcript, reason: 'Annotation, variation
+    or regulation statistic; out of scope.'}
+- {native: genome_stats.coding_stats.total_introns, reason: 'Annotation, variation or regulation statistic; out
+    of scope.'}
+- {native: genome_stats.coding_stats.average_intron_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.variation_stats.short_variants, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.variation_stats.structural_variants, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.variation_stats.short_variants_with_phenotype_assertions, reason: 'Annotation, variation
+    or regulation statistic; out of scope.'}
+- {native: genome_stats.variation_stats.short_variants_with_publications, reason: 'Annotation, variation or regulation
+    statistic; out of scope.'}
+- {native: genome_stats.variation_stats.short_variants_frequency_studies, reason: 'Annotation, variation or regulation
+    statistic; out of scope.'}
+- {native: genome_stats.variation_stats.structural_variants_with_phenotype_assertions, reason: 'Annotation, variation
+    or regulation statistic; out of scope.'}
+- {native: genome_stats.non_coding_stats.non_coding_genes, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.small_non_coding_genes, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.long_non_coding_genes, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.misc_non_coding_genes, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.average_genomic_span, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.average_sequence_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.shortest_gene_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.longest_gene_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.total_transcripts, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.transcripts_per_gene, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.total_exons, reason: 'Annotation, variation or regulation statistic; out
+    of scope.'}
+- {native: genome_stats.non_coding_stats.average_exon_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.average_exons_per_transcript, reason: 'Annotation, variation or regulation
+    statistic; out of scope.'}
+- {native: genome_stats.non_coding_stats.total_introns, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.non_coding_stats.average_intron_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.pseudogenes, reason: 'Annotation, variation or regulation statistic; out
+    of scope.'}
+- {native: genome_stats.pseudogene_stats.average_genomic_span, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.average_sequence_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.shortest_gene_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.longest_gene_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.total_transcripts, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.transcripts_per_gene, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.total_exons, reason: 'Annotation, variation or regulation statistic; out
+    of scope.'}
+- {native: genome_stats.pseudogene_stats.average_exon_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.average_exons_per_transcript, reason: 'Annotation, variation or regulation
+    statistic; out of scope.'}
+- {native: genome_stats.pseudogene_stats.total_introns, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.pseudogene_stats.average_intron_length, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.homology_stats.coverage, reason: 'Annotation, variation or regulation statistic; out of
+    scope.'}
+- {native: genome_stats.homology_stats.reference_species_name, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}
+- {native: genome_stats.regulation_stats.enhancers, reason: 'Annotation, variation or regulation statistic; out
+    of scope.'}
+- {native: genome_stats.regulation_stats.promoters, reason: 'Annotation, variation or regulation statistic; out
+    of scope.'}
+- {native: genome_stats.regulation_stats.ctcf_count, reason: 'Annotation, variation or regulation statistic; out
+    of scope.'}
+- {native: genome_stats.regulation_stats.tfbs_count, reason: 'Annotation, variation or regulation statistic; out
+    of scope.'}
+- {native: genome_stats.regulation_stats.open_chromatin_count, reason: 'Annotation, variation or regulation statistic;
+    out of scope.'}

@@ -1,0 +1,6 @@
+fasta,name,organism,source,genome_assembly,synonyms
+s3://ngi-igenomes/igenomes/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa,GRCh38-igenomes-ncbi,Homo sapiens,NCBI,GRCh38,Homo_sapiens/NCBI/GRCh38
+s3://ngi-igenomes/igenomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/genome.fa,hg38-igenomes-ucsc,Homo sapiens,UCSC,hg38,Homo_sapiens/UCSC/hg38
+s3://ngi-igenomes/igenomes/Saccharomyces_cerevisiae/Ensembl/R64-1-1/Sequence/WholeGenomeFasta/genome.fa,R64-1-1-igenomes-ensembl,Saccharomyces cerevisiae,Ensembl,R64-1-1,Saccharomyces_cerevisiae/Ensembl/R64-1-1
+s3://ngi-igenomes/igenomes/Saccharomyces_cerevisiae/NCBI/build3.1/Sequence/WholeGenomeFasta/genome.fa,saccharomyces_cerevisiae-build3.1-igenomes-ncbi,Saccharomyces cerevisiae,NCBI,R64-1-1,Saccharomyces_cerevisiae/NCBI/build3.1
+s3://ngi-igenomes/igenomes/Saccharomyces_cerevisiae/UCSC/sacCer3/Sequence/WholeGenomeFasta/genome.fa,sacCer3,Saccharomyces cerevisiae,UCSC,sacCer3,Saccharomyces_cerevisiae/UCSC/sacCer3

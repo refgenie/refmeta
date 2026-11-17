@@ -1,0 +1,95 @@
+# refmeta crosswalk: ncbi_datasets_sequence_report <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ncbi_datasets_sequence_report
+source: ncbi
+core: '0.1'
+subject: assembly
+description: 'NCBI Datasets v2 genome sequence report: one JSON object per top-level sequence of an assembly (chromosomes,
+  organelles, unlocalized/unplaced/alt/patch scaffolds). Served by GET /genome/accession/{accession}/sequence_reports,
+  and in data packages as ncbi_dataset/data/<accession>/sequence_report.jsonl (camelCase).'
+records:
+  mode: group
+  group_by: [assembly_accession]
+  rows: {target: sequences, key: null, explode: null}
+notes: The assembly's sequences. NCBI names live in aliases (assembly, insdc, refseq, ucsc); sequences[].name is
+  left empty because the report is not one FASTA's name list.
+constants: {}
+derive: []
+rules:
+- native: assembly_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.15
+    core: {namespace: insdc.gca, value: GCA_000001405.15}
+    file: examples/datasets_sequence_report_GCA_000001405.15.json
+- native: sequence_name
+  core: sequences[].aliases[namespace=assembly].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/datasets_sequence_report_GCA_000001405.15.json}
+- native: ucsc_style_name
+  core: sequences[].aliases[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/datasets_sequence_report_GCA_000001405.15.json}
+- native: refseq_accession
+  core: sequences[].aliases[namespace=refseq].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: NC_000001.11, core: NC_000001.11, file: examples/datasets_sequence_report_GCA_000001405.15.json}
+- native: genbank_accession
+  core: sequences[].aliases[namespace=insdc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: CM000663.2, core: CM000663.2, file: examples/datasets_sequence_report_GCA_000001405.15.json}
+- native: chr_name
+  core: sequences[].assignedMolecule
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/datasets_sequence_report_GCA_000001405.15.json}
+  note: Un means the chromosome is unknown (unplaced scaffolds).
+- native: assigned_molecule_location_type
+  core: sequences[].molecule
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Chromosome, core: Chromosome, file: examples/datasets_sequence_report_GCA_000001405.15.json}
+- native: assembly_unit
+  core: sequences[].assemblyUnit
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Primary Assembly, core: Primary Assembly, file: examples/datasets_sequence_report_GCA_000001405.15.json}
+- native: length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/datasets_sequence_report_GCA_000001405.15.json}
+- native: gc_percent
+  core: sequences[].gcPercent
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 41.5, core: 41.5, file: examples/datasets_sequence_report_GCA_000001405.15.json}
+- native: role
+  core: sequences[].role
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: assembled-molecule, core: assembled-molecule, file: examples/datasets_sequence_report_GCA_000001405.15.json}
+unmapped:
+- {native: sort_order, per: row, reason: Sort key; core keeps order as array order.}
+- {native: gc_count, per: row, reason: Base count; gcPercent holds the percent.}
+- {native: unlocalized_count, per: row, reason: Count of unlocalized scaffolds on a chromosome; derivable from the
+    rows.}
+- {native: assembly_unplaced_count, per: row, reason: Count of unplaced scaffolds; derivable from the rows.}

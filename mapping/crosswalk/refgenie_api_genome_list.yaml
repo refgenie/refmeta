@@ -1,0 +1,108 @@
+# refmeta crosswalk: refgenie_api_genome_list <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: refgenie_api_genome_list
+source: refgenie
+core: '0.1'
+subject: collection
+description: refgenie 1.x server genome listing, GET https://api.refgenie.org/v4/genomes?alias=... (OpenAPI schema
+  PageResponse[GenomeResponse]). One record per genome in 'results'; unlike the detail record it lists every alias
+  of the genome and an asset count, but has no FHR block.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: digest
+  core: collection.digest
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: EiFob05aCWgVU_B_Ae0cypnQut3cxUP1, core: EiFob05aCWgVU_B_Ae0cypnQut3cxUP1, file: examples/api_genomes_list_alias_hg38.json}
+- native: aliases
+  core: collection.aliases[namespace=refgenie].value
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [GRCh38, GRCh38-fasta-no-alt-analysis, GRCh38-igenomes-ncbi]
+    core: [GRCh38, GRCh38-fasta-no-alt-analysis, GRCh38-igenomes-ncbi]
+    file: examples/api_genomes_list_alias_hg38.json
+    truncated: true
+- native: description
+  core: collection.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'Homo sapiens GRCh38 no-alt analysis set (GCA_000001405.15, UCSC-style names), distributed by
+      NCBI GenBank and redistributed identically by Broad, iGenomes, a...', core: 'Homo sapiens GRCh38 no-alt analysis
+      set (GCA_000001405.15, UCSC-style names), distributed by NCBI GenBank and redistributed identically by Broad,
+      iGenomes, a...', file: examples/api_genomes_list_alias_hg38.json, truncated: true}
+- native: species_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/api_genomes_list_alias_hg38.json}
+- native: synonyms
+  core: collection.labels[namespace=refgenie.synonym].value
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id001 [GRCh38]
+    core: *id001
+    file: examples/api_genomes_list_alias_hg38.json
+- native: taxon_id
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/api_genomes_list_alias_hg38.json}
+- native: assembly_source
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: Values are not normalized (ncbi, Ensembl, UCSC).
+  example: {native: ncbi, core: ncbi, file: examples/api_genomes_list_alias_hg38.json}
+- native: assembly_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.15
+    core: {namespace: insdc.gca, value: GCA_000001405.15}
+    file: examples/api_genomes_list_alias_hg38.json
+- native: assembly_level
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/api_genomes_list_alias_hg38.json}
+- native: common_name
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: human, core: human, file: examples/api_genomes_list_alias_hg38.json}
+- native: species.taxon_id
+  core: assembly.taxon.speciesId
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/api_genomes_list_alias_hg38.json}
+- native: species.scientific_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/api_genomes_list_alias_hg38.json}
+- native: species.common_name
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: human, core: human, file: examples/api_genomes_list_alias_hg38.json}
+unmapped:
+- {native: asset_count, reason: How many assets this server built; a server statistic.}
+- {native: species.synonyms, reason: Other names of the species; core keeps one common name.}

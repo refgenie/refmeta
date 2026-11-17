@@ -1,0 +1,253 @@
+# refmeta namespace registry, version 1 (2026-11-17)
+#
+# Every name or identifier in a core record is {namespace, value}. This file lists
+# the official namespaces.
+#
+# - Official: listed here. A value must match `pattern` when one is given, and the
+#   namespace should appear only in the lists named under `lists`.
+# - Custom: any other lower-case id matching ^[a-z][a-z0-9_.-]*$ is allowed. The
+#   validator reports it as custom, not as an error. A custom namespace can later
+#   be listed here without renaming it, so no special prefix is needed.
+# - Never use a listed id to mean something else.
+#
+# `lists` names the core lists a namespace may appear in:
+#   assembly.accessions   identifiers an archive issued for this assembly version
+#   assembly.labels       names that may cover more than one assembly version
+#   collection.aliases    names that point to exactly one collection (within `scope`)
+#   collection.labels     names that may point to several collections
+#   sequences.aliases     other names of one sequence (the sequence-name map)
+# `scope` says where an alias is unique: global, one assembly, one server, ...
+# `bioregistry` is the matching Bioregistry prefix (https://bioregistry.io), if any.
+#
+# Order matters for assembly.accessions: the `accession` transform tries these
+# patterns in file order.
+
+version: 1
+custom_pattern: '^[a-z][a-z0-9_.-]*$'
+
+namespaces:
+
+# ---- assembly accessions
+
+- id: insdc.gca
+  lists: [assembly.accessions]
+  scope: global
+  pattern: '^GCA_[0-9]{9}(\.[0-9]+)?$'
+  bioregistry: insdc.gca
+  example: GCA_000001405.15
+  description: INSDC (GenBank, ENA, DDBJ) assembly accession. Unversioned (GCA_000001405) only where a source gives the version separately.
+
+- id: insdc.gcf
+  lists: [assembly.accessions]
+  scope: global
+  pattern: '^GCF_[0-9]{9}(\.[0-9]+)?$'
+  bioregistry: insdc.gcf
+  example: GCF_000001405.40
+  description: NCBI RefSeq assembly accession. Bioregistry lists insdc.gcf as non-canonical (it prefers ncbi.assembly for both GCA and GCF); refmeta keeps the two apart on purpose.
+
+# ---- assembly labels
+
+- id: ucsc
+  lists: [assembly.labels, collection.labels, sequences.aliases]
+  scope: one assembly (sequence names only)
+  example: hg38
+  description: UCSC Genome Browser names. As an assembly or collection name (hg38) it is a label, because UCSC's hg38 has held 455 and then 711 sequences. As a sequence name (chr1) it is an alias within one assembly.
+
+- id: ensembl
+  lists: [assembly.labels, sequences.aliases]
+  scope: one assembly (sequence names only)
+  example: GRCh38
+  description: Ensembl names. Assembly names (GRCh38, R64-1-1) are labels; sequence names (1, MT, Mito) are aliases within one assembly.
+
+- id: ucsc.assembly
+  lists: [assembly.labels]
+  example: GRCh38
+  description: Assembly name that UCSC gives in its dbDb description, e.g. "Dec. 2013 (GRCh38/hg38)".
+
+- id: ena.chain
+  lists: [assembly.labels]
+  pattern: '^GC[AF]_[0-9]{9}$'
+  example: GCA_000001405
+  description: An unversioned accession. It names every version of an assembly, so it is a label, not an accession.
+
+- id: sam.as
+  lists: [assembly.labels]
+  example: GRCh38
+  description: SAM @SQ AS (genome assembly identifier). Free text.
+
+- id: vcf.assembly
+  lists: [assembly.labels]
+  example: human_GRCh38_no_alt_analysis_set.fasta
+  description: VCF ##assembly or ##reference value when it is a name or file name, not a URL. Free text.
+
+- id: refgenie.genome_assembly
+  lists: [assembly.labels]
+  example: hg38
+  description: Assembly name in refgenie store source tables.
+
+# ---- collection aliases
+
+- id: refgenie
+  lists: [collection.aliases]
+  scope: one refgenie server
+  example: hg38
+  description: refgenie genome alias. Unique on one server, which points it to one seqcol digest.
+
+- id: refgenie.legacy_digest
+  lists: [collection.aliases]
+  scope: global
+  pattern: '^[0-9a-f]{48}$'
+  example: 2230c535660fb4774114bfa966a62f823fdb6d21acf138d4
+  description: refgenie 0.x genome digest.
+
+- id: galaxy.build_id
+  lists: [collection.aliases]
+  scope: one data table on one Galaxy server (not enforced by Galaxy)
+  example: hg38canon
+  description: Galaxy unique_build_id, the `value` column of a data table row.
+
+# ---- collection labels
+
+- id: galaxy.dbkey
+  lists: [collection.labels]
+  example: hg38
+  description: Galaxy dbkey. One dbkey covers several builds (hg38, hg38canon, hg38female).
+
+- id: galaxy.name
+  lists: [collection.labels]
+  example: 'Human (Homo sapiens) (b38): hg38 Canonical'
+  description: Galaxy display name. Free text, differs by server.
+
+- id: fhr.genome
+  lists: [collection.labels]
+  example: R64-1-1
+  description: FHR `genome` (the genome's name).
+
+- id: fhr.synonym
+  lists: [collection.labels]
+  example: saccharomyces_cerevisiae_ENSEMBL_release_81
+  description: FHR `genomeSynonym` entries.
+
+- id: refgenie.synonym
+  lists: [collection.labels]
+  example: GRCh38
+  description: Other names refgenie lists for a genome.
+
+- id: nfcore
+  lists: [collection.labels]
+  scope: one pipeline
+  example: GRCh38
+  description: nf-core `--genome` key.
+
+- id: igenomes
+  lists: [collection.labels]
+  example: GRCh38
+  description: Illumina iGenomes build name (the third part of the iGenomes path).
+
+- id: bioconductor
+  lists: [collection.labels]
+  example: hg38
+  description: Genome name in Bioconductor (BSgenome, GenomeInfoDb).
+
+- id: annotationhub
+  lists: [collection.labels]
+  example: hg38
+  description: AnnotationHub `genome` field. Free text.
+
+# ---- sequence aliases
+
+- id: insdc
+  lists: [sequences.aliases]
+  scope: global
+  pattern: '^([A-Z]{1,2}[0-9]{5,6}|[A-Z]{4,6}[0-9]{8,10})(\.[0-9]+)?$'
+  bioregistry: insdc
+  example: CM000663.2
+  description: INSDC sequence accession (GenBank, ENA, DDBJ).
+
+- id: refseq
+  lists: [sequences.aliases]
+  scope: global
+  pattern: '^[A-Z]{2}_[A-Z0-9]+(\.[0-9]+)?$'
+  bioregistry: refseq
+  example: NC_000001.11
+  description: NCBI RefSeq sequence accession.
+
+- id: gi
+  lists: [sequences.aliases]
+  scope: global
+  pattern: '^[0-9]+$'
+  example: '568336023'
+  description: NCBI GenInfo identifier (retired by NCBI, still in old files).
+
+- id: assembly
+  lists: [sequences.aliases]
+  scope: one assembly
+  example: '1'
+  description: The submitter's sequence name in NCBI assembly reports (Sequence-Name).
+
+- id: ncbi
+  lists: [sequences.aliases]
+  scope: one assembly
+  example: I
+  description: The `ncbi` column of UCSC chromAlias files.
+
+- id: dbsnp
+  lists: [sequences.aliases]
+  scope: one assembly
+  example: ch1
+  description: dbSNP chromosome names, from Bioconductor seqlevelsStyle tables.
+
+- id: veupathdb
+  lists: [sequences.aliases]
+  scope: one assembly
+  example: BK006935
+  description: VEuPathDB sequence names, from UCSC chromAlias files.
+
+- id: accession
+  lists: [sequences.aliases]
+  scope: global
+  example: NC_000001.11
+  description: A sequence accession whose authority (INSDC or RefSeq) is not stated. refgenie seqcol `accessions` attribute.
+
+- id: unspecified
+  lists: [assembly.accessions, sequences.aliases]
+  scope: one assembly (sequence names)
+  example: chrM
+  description: A name whose source gives no naming authority. Sequence names from SAM AN and VRS aliases; assembly accessions in FHR accessionID that match no official pattern.
+
+- id: md5
+  lists: [sequences.aliases]
+  scope: global
+  pattern: '^[0-9a-f]{32}$'
+  example: 6aef897c3d6ff0c78aff06ac189178dd
+  description: MD5 of the upper-cased sequence. SeqRepo alias.
+
+- id: ga4gh
+  lists: [sequences.aliases]
+  scope: global
+  pattern: '^SQ\.[A-Za-z0-9_-]{32}$'
+  example: SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO
+  description: GA4GH refget sequence digest with its type prefix. SeqRepo alias.
+
+- id: sha512t24u
+  lists: [sequences.aliases]
+  scope: global
+  pattern: '^[A-Za-z0-9_-]{32}$'
+  example: Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO
+  description: GA4GH sha512t24u sequence digest without prefix. SeqRepo alias.
+
+- id: sha1
+  lists: [sequences.aliases]
+  scope: global
+  pattern: '^[0-9a-f]{40}$'
+  description: SHA-1 of the sequence. SeqRepo alias.
+
+- id: vmc
+  lists: [sequences.aliases]
+  scope: global
+  description: VMC sequence digest (GS_...), the predecessor of GA4GH digests. SeqRepo alias.
+
+- id: seguid
+  lists: [sequences.aliases]
+  scope: global
+  description: SEGUID sequence checksum. SeqRepo alias.

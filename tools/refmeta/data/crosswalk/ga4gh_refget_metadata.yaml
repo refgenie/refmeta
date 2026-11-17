@@ -1,0 +1,58 @@
+# refmeta crosswalk: ga4gh_refget_metadata <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ga4gh_refget_metadata
+source: ga4gh
+core: '0.1'
+subject: sequence
+description: 'Refget sequences v2 metadata response for one sequence: GET /sequence/<id>/metadata. Digests, length,
+  and aliases tagged with a naming authority.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: metadata.md5
+  core: sequences[].md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 6aef897c3d6ff0c78aff06ac189178dd, core: 6aef897c3d6ff0c78aff06ac189178dd, file: examples/refget_metadata_ENA_insdc_CM000663.2.json}
+- native: metadata.ga4gh
+  core: sequences[].digest
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO, core: SQ.Ya6Rs7DHhDeg7YaOSg1EoNi3U_nQ9SvO, file: examples/refget_metadata_spec_example_chr1.json}
+- native: metadata.length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/refget_metadata_ENA_insdc_CM000663.2.json}
+- native: metadata.aliases[].alias
+  core: sequences[].aliases[].value
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id001 [CM000663.2]
+    core: *id001
+    file: examples/refget_metadata_ENA_insdc_CM000663.2.json
+- native: metadata.aliases[].naming_authority
+  core: sequences[].aliases[].namespace
+  direction: both
+  transform:
+    map:
+      values: {INSDC: insdc, RefSeq: refseq, UCSC: ucsc, Ensembl: ensembl}
+  lossy: Upper-case authority labels (ENA sends INSDC) are lower-cased; writing gives the lower-case form the refget
+    spec recommends.
+  example:
+    native: [INSDC]
+    core: [insdc]
+    file: examples/refget_metadata_ENA_insdc_CM000663.2.json
+unmapped:
+- {native: metadata.id, per: row, reason: 'Echo of the identifier the client asked for, not a fact about the sequence.'}
+- {native: metadata.trunc512, per: row, reason: 'Deprecated hex form of the same SHA-512 digest; equal to digest
+    after hex-to-base64url, which is not one of the fixed transforms.'}

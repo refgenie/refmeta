@@ -1,0 +1,78 @@
+# refmeta crosswalk: ucsc_api_findgenome <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_api_findgenome
+source: ucsc
+core: '0.1'
+subject: assembly
+description: 'REST API /findGenome: genome search; one record per match (hgcentral.assemblyList row), keyed by UCSC
+  database name or accession.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: name
+  core: collection.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/api_findGenome_q_hg38.json}
+- native: commonName
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human, core: Human, file: examples/api_findGenome_q_hg38.json}
+- native: scientificName
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/api_findGenome_q_hg38.json}
+- native: taxId
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  missing: 0
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/api_findGenome_q_hg38.json}
+- native: hubUrl
+  core: deployments[system=ucsc,table=genark].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GCF/000/146/045/GCF_000146045.2/hub.txt, core: GCF/000/146/045/GCF_000146045.2/hub.txt, file: examples/api_findGenome_q_GCF_000146045.2.json}
+- native: year
+  core: assembly.dateCreated
+  direction: both
+  transform:
+    cast: {to: string, from: integer}
+  missing: 0
+  lossy: Year only.
+  example: {native: 2013, core: '2013', file: examples/api_findGenome_q_hg38.json}
+- native: refSeqCategory
+  core: assembly.refseqCategory
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: reference, core: reference, file: examples/api_findGenome_q_sacCer3.json}
+- native: versionStatus
+  core: assembly.status
+  direction: both
+  transform:
+    map:
+      values: {latest: current}
+  lossy: null
+  example: {native: latest, core: current, file: examples/api_findGenome_q_sacCer3.json}
+- native: assemblyLevel
+  core: assembly.level
+  direction: both
+  transform:
+    map:
+      values: {complete: complete genome}
+  lossy: null
+  example: {native: complete, core: complete genome, file: examples/api_findGenome_q_sacCer3.json}
+unmapped:
+- {native: priority, reason: Search ranking.}
+- {native: clade, reason: Approximate clade.}
+- {native: description, reason: 'Free search text mixing names, accessions and dates.'}
+- {native: browserExists, reason: Whether UCSC shows the genome now.}

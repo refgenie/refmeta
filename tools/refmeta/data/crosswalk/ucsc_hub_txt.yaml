@@ -1,0 +1,30 @@
+# refmeta crosswalk: ucsc_hub_txt <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ucsc_hub_txt
+source: ucsc
+core: '0.1'
+subject: deployment
+description: 'Track/assembly hub hub.txt: the ''hub'' stanza (hub id, labels, contact, pointer to genomes.txt).
+  Track stanzas are not read.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: hub
+  core: deployments[system=ucsc,table=hub].key
+  direction: both
+  transform: null
+  lossy: The hub.txt URL, not this id, is the hub's real identity.
+  example: {native: GCF_000146045.2 genome assembly, core: GCF_000146045.2 genome assembly, file: examples/genark_GCF_000146045.2_hub.txt}
+- native: shortLabel
+  core: deployments[system=ucsc,table=hub].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: baker's yeast S288C (2014), core: baker's yeast S288C (2014), file: examples/genark_GCF_000146045.2_hub.txt}
+unmapped:
+- {native: longLabel, reason: Longer hub label.}
+- {native: useOneFile, reason: Hub layout setting.}
+- {native: email, reason: Hub contact.}
+- {native: descriptionUrl, reason: Hub description page.}
+- {native: genomesFile, reason: Path of genomes.txt; hub layout.}

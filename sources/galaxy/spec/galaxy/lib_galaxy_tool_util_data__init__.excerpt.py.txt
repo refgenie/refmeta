@@ -1,0 +1,479 @@
+# Excerpt (lines 243-720) of lib/galaxy/tool_util/data/__init__.py, galaxyproject/galaxy dev, 2026-11-17
+class ToolDataTable(Dictifiable):
+    type_key: str
+    columns: dict[str, int]
+    data: list[list[str]]
+    empty_field_value: str
+    empty_field_values: dict[str | None, str]
+    filenames: dict[str, FileNameInfoT]
+    # Whether user-defined tools may read this table. Tool Shed repositories can't set this.
+    user_accessible: bool = False
+    _load_info: LoadInfoT
+    _merged_load_info: list[tuple[type["ToolDataTable"], LoadInfoT]]
+
+    @classmethod
+    def from_dict(cls, d):
+        data_table_class = globals()[d["model_class"]]
+        data_table = data_table_class.__new__(data_table_class)
+        for attr, val in d.items():
+            if not attr == "model_class":
+                setattr(data_table, attr, val)
+        data_table._loaded_content_version = 1
+        return data_table
+
+    def __init__(
+        self,
+        config_element: Element,
+        tool_data_path: StrPath | None,
+        tool_data_path_files: ToolDataPathFiles,
+        from_shed_config: bool = False,
+        filename: StrPath | None = None,
+        other_config_dict: StoresConfigFilePaths | None = None,
+    ) -> None:
+        name = config_element.get("name")
+        assert name
+        self.name = name
+        self.empty_field_value = config_element.get("empty_field_value", "")
+        self.empty_field_values: dict[str, str] = {}
+        self.allow_duplicate_entries = util.asbool(config_element.get("allow_duplicate_entries", True))
+        self.user_accessible = util.asbool(config_element.get("user_accessible", False))
+        self.here = os.path.dirname(filename) if filename else None
+        self.filenames: dict[str, FileNameInfoT] = {}
+        self.tool_data_path = tool_data_path
+        self.tool_data_path_files = tool_data_path_files
+        self.other_config_dict = other_config_dict or {}
+        self.missing_index_file: str | None = None
+        # increment this variable any time a new entry is added, or when the table is totally reloaded
+        # This value has no external meaning, and does not represent an abstract version of the underlying data
+        self._loaded_content_version = 1
+        self._load_info = (
+            (config_element, tool_data_path),
+            {
+                "from_shed_config": from_shed_config,
+                "tool_data_path_files": self.tool_data_path_files,
+                "other_config_dict": other_config_dict,
+                "filename": filename,
+            },
+        )
+        self._merged_load_info: list[tuple[type[ToolDataTable], tuple[tuple[Element, StrPath], dict[str, Any]]]] = []
+
+    def config_filenames(self) -> list[StrPath]:
+        """Config files this table and its merged definitions were loaded from."""
+        load_infos = [self._load_info] + [load_info for _, load_info in self._merged_load_info]
+        return [load_info[1]["filename"] for load_info in load_infos if load_info[1]["filename"]]
+
+    def _update_version(self, version: int | None = None) -> int:
+        if version is not None:
+            self._loaded_content_version = version
+        else:
+            self._loaded_content_version += 1
+        return self._loaded_content_version
+
+    def _replace_with(self, other: "ToolDataTable") -> None:
+        """Adopt another table's type and state in place so held references see the rebuild."""
+        self.__class__ = type(other)
+        self.__dict__ = other.__dict__
+
+    def get_empty_field_by_name(self, name: str | None) -> str:
+        return self.empty_field_values.get(name, self.empty_field_value)
+
+    def _add_entry(
+        self,
+        entry: list[str] | dict[str, str],
+        allow_duplicates: bool = True,
+        persist: bool = False,
+        entry_source: EntrySource = None,
+        tool_data_file_path: str | None = None,
+        bundle_mode: bool = False,
+        **kwd,
+    ) -> None:
+        raise NotImplementedError("Abstract method")
+
+    def add_entry(
+        self,
+        entry: list[str] | dict[str, str],
+        allow_duplicates: bool = True,
+        persist: bool = False,
+        entry_source: EntrySource = None,
+        tool_data_file_path: str | None = None,
+        bundle_mode: bool = False,
+        **kwd,
+    ) -> int:
+        self._add_entry(
+            entry,
+            allow_duplicates=allow_duplicates,
+            persist=persist,
+            entry_source=entry_source,
+            tool_data_file_path=tool_data_file_path,
+            bundle_mode=bundle_mode,
+            **kwd,
+        )
+        return self._update_version()
+
+    def add_entries(
+        self,
+        entries: list[list[str]],
+        allow_duplicates: bool = True,
+        persist: bool = False,
+        entry_source: EntrySource = None,
+        **kwd,
+    ) -> int:
+        for entry in entries:
+            try:
+                self.add_entry(
+                    entry, allow_duplicates=allow_duplicates, persist=persist, entry_source=entry_source, **kwd
+                )
+            except MessageException as e:
+                if e.type == "warning":
+                    log.warning(str(e))
+                else:
+                    log.error(str(e))
+            except Exception as e:
+                log.error(str(e))
+        return self._loaded_content_version
+
+    def _remove_entry(self, values):
+        raise NotImplementedError("Abstract method")
+
+    def remove_entry(self, values):
+        self._remove_entry(values)
+        return self._update_version()
+
+    def is_current_version(self, other_version):
+        return self._loaded_content_version == other_version
+
+    def get_fields(self) -> list[list[str]]:
+        raise NotImplementedError("Abstract method")
+
+    def get_named_fields_list(self) -> list[dict[str | int, str]]:
+        raise NotImplementedError("Abstract method")
+
+    def merge_tool_data_table(
+        self,
+        other_table: "ToolDataTable",
+        allow_duplicates: bool = True,
+        persist: bool = False,
+        **kwd,
+    ) -> int:
+        raise NotImplementedError("Abstract method")
+
+    def reload_from_files(self) -> int:
+        new_version = self._update_version()
+        merged_info = self._merged_load_info
+        self.__init__(*self._load_info[0], **self._load_info[1])  # type: ignore[misc]
+        self._update_version(version=new_version)
+        for tool_data_table_class, load_info in merged_info:
+            self.merge_tool_data_table(tool_data_table_class(*load_info[0], **load_info[1]), allow_duplicates=False)
+        return self._update_version()
+
+
+class TabularToolDataTable(ToolDataTable):
+    """
+    Data stored in a tabular / separated value format on disk, allows multiple
+    files to be merged but all must have the same column definitions:
+
+    .. code-block:: xml
+
+        <table type="tabular" name="test">
+            <column name='...' index = '...' />
+            <file path="..." />
+            <file path="..." />
+        </table>
+
+    """
+
+    dict_collection_visible_keys = ["name"]
+    dict_element_visible_keys = ["name", "fields"]
+    dict_export_visible_keys = ["name", "data", "largest_index", "columns", "missing_index_file"]
+
+    type_key = "tabular"
+
+    def __init__(
+        self,
+        config_element: Element,
+        tool_data_path: StrPath | None,
+        tool_data_path_files: ToolDataPathFiles,
+        from_shed_config: bool = False,
+        filename: StrPath | None = None,
+        other_config_dict: StoresConfigFilePaths | None = None,
+    ) -> None:
+        super().__init__(
+            config_element,
+            tool_data_path,
+            tool_data_path_files,
+            from_shed_config,
+            filename,
+            other_config_dict=other_config_dict,
+        )
+        self.config_element = config_element
+        self.data = []
+        self.configure_and_load(config_element, tool_data_path, from_shed_config)
+
+    def configure_and_load(
+        self,
+        config_element: Element,
+        tool_data_path: StrPath | None,
+        from_shed_config: bool = False,
+        url_timeout: float = 10,
+    ) -> None:
+        """
+        Configure and load table from an XML element.
+        """
+        self.separator = config_element.get("separator", "\t")
+        self.comment_char = config_element.get("comment_char", "#")
+        # Configure columns
+        self.parse_column_spec(config_element)
+
+        # store repo info if available:
+        repo_info = _parse_tool_shed_repository(config_element)
+        # Read every file
+        for file_element in config_element.findall("file"):
+            tmp_file = None
+            filename = file_element.get("path", None)
+            if filename is None:
+                # Handle URLs as files
+                filename = file_element.get("url", None)
+                if filename:
+                    tmp_file = NamedTemporaryFile(prefix=f"TTDT_URL_{self.name}-", mode="w")
+                    try:
+                        tmp_file.write(requests.get(filename, timeout=url_timeout).text)
+                    except Exception as e:
+                        log.error('Error loading Data Table URL "%s": %s', filename, e)
+                        continue
+                    log.debug('Loading Data Table URL "%s" as filename "%s".', filename, tmp_file.name)
+                    filename = tmp_file.name
+                    tmp_file.flush()
+                else:
+                    # Pull the filename from a global config
+                    filename = file_element.get("from_config")
+                    if filename:
+                        filename = self.other_config_dict.get(filename, None)
+            if filename:
+                filename = _expand_here_template(filename, here=self.here)
+            found = False
+            if filename is None:
+                log.debug(
+                    "Encountered a file element (%s) that does not contain a path value when loading tool data table '%s'.",
+                    util.xml_to_string(file_element),
+                    self.name,
+                )
+                continue
+
+            # FIXME: splitting on and merging paths from a configuration file when loading is wonky
+            # Data should exist on disk in the state needed, i.e. the xml configuration should
+            # point directly to the desired file to load. Munging of the tool_data_tables_conf.xml.sample
+            # can be done during installing / testing / metadata resetting with the creation of a proper
+            # tool_data_tables_conf.xml file, containing correct <file path=> attributes. Allowing a
+            # path.join with a different root should be allowed, but splitting should not be necessary.
+            if tool_data_path and from_shed_config:
+                # Must identify with from_shed_config as well, because the
+                # regular galaxy app has and uses tool_data_path.
+                # We're loading a tool in the tool shed, so we cannot use the Galaxy tool-data
+                # directory which is hard-coded into the tool_data_table_conf.xml entries.
+                filename = os.path.split(filename)[1]
+                filename = os.path.join(tool_data_path, filename)
+            if self.tool_data_path_files.exists(filename):
+                found = True
+            elif not os.path.isabs(filename):
+                # Since the path attribute can include a hard-coded path to a specific directory
+                # (e.g., <file path="tool-data/cg_crr_files.loc" />) which may not be the same value
+                # as self.tool_data_path, we'll parse the path to get the filename and see if it is
+                # in self.tool_data_path.
+                file_path, file_name = os.path.split(filename)
+                if file_path != self.tool_data_path:
+                    assert self.tool_data_path
+                    corrected_filename = os.path.join(self.tool_data_path, file_name)
+                    if self.tool_data_path_files.exists(corrected_filename):
+                        filename = corrected_filename
+                        found = True
+                    elif not from_shed_config and self.tool_data_path_files.exists(f"{corrected_filename}.sample"):
+                        log.info(f"Could not find tool data {corrected_filename}, reading sample")
+                        filename = f"{corrected_filename}.sample"
+                        found = True
+
+            errors: ErrorListT = []
+            if found:
+                self.extend_data_with(filename, errors=errors)
+                self._update_version()
+            else:
+                self.missing_index_file = filename
+                # TODO: some data tables need to exist (even if they are empty)
+                # for tools to load. In an installed Galaxy environment and the
+                # default tool_data_table_conf.xml, this will emit spurious
+                # warnings about missing location files that would otherwise be
+                # empty and we don't care about unless the admin chooses to
+                # populate them.
+                log.warning(f"Cannot find index file '{filename}' for tool data table '{self.name}'")
+
+            if filename not in self.filenames or not self.filenames[filename]["found"]:
+                self.filenames[filename] = dict(
+                    found=found,
+                    filename=filename,
+                    from_shed_config=from_shed_config,
+                    tool_data_path=tool_data_path,
+                    config_element=config_element,
+                    tool_shed_repository=repo_info,
+                    errors=errors,
+                    transient=tmp_file is not None,
+                )
+            else:
+                log.debug(
+                    "Filename '%s' already exists in filenames (%s), not adding", filename, list(self.filenames.keys())
+                )
+            # Remove URL tmp file
+            if tmp_file is not None:
+                tmp_file.close()
+
+    def merge_tool_data_table(self, other_table, allow_duplicates=True, persist=False, **kwd):
+        if self.columns != other_table.columns:
+            raise DataTableColumnMismatch(self.name, self.columns, other_table.columns)
+        # merge filename info
+        for filename, info in other_table.filenames.items():
+            if filename not in self.filenames:
+                self.filenames[filename] = info
+        # save info about table
+        self._merged_load_info.append((other_table.__class__, other_table._load_info))
+        self.user_accessible = self.user_accessible or other_table.user_accessible
+        # If we are merging in a data table that does not allow duplicates, enforce that upon the data table
+        if self.allow_duplicate_entries and not other_table.allow_duplicate_entries:
+            log.debug(
+                'While attempting to merge tool data table "%s", the other instance of the table specified that duplicate entries are not allowed, now deduplicating all previous entries.',
+                self.name,
+            )
+            self.allow_duplicate_entries = False
+            self._deduplicate_data()
+        # Rows sharing a value can differ by version or other tool-specific filters.
+        # Let add_entries apply the duplicate policy to complete rows so those filters can run later.
+        return self.add_entries(other_table.data, allow_duplicates=allow_duplicates, persist=persist, **kwd)
+
+    def handle_found_index_file(self, filename):
+        self.missing_index_file = None
+        self.extend_data_with(filename)
+
+    # This method is used in tools, so need to keep its API stable
+    def get_fields(self) -> list[list[str]]:
+        return self.data.copy()
+
+    def get_field(self, value):
+        for i in self.get_named_fields_list():
+            if i["value"] == value:
+                return TabularToolDataField(i)
+        return None
+
+    # This method is used in tools, so need to keep its API stable
+    def get_named_fields_list(self) -> list[dict[str | int, str]]:
+        rval = []
+        named_columns = self.get_column_name_list()
+        for fields in self.get_fields():
+            field_dict = {}
+            for i, field in enumerate(fields):
+                if i == len(named_columns):
+                    break
+                field_name: str | int | None = named_columns[i]
+                if field_name is None:
+                    field_name = i  # check that this is supposed to be 0 based.
+                field_dict[field_name] = field
+            rval.append(field_dict)
+        return rval
+
+    def get_version_fields(self):
+        return (self._loaded_content_version, self.get_fields())
+
+    @staticmethod
+    def parse_column_spec_element(
+        config_element: Element,
+    ) -> tuple[dict[str, int], int, dict[str, str]]:
+        """
+        Parse column definitions into ``(columns, largest_index, empty_field_values)``.
+        Does not mutate or assert — callers layer their own validation.
+        """
+        columns: dict[str, int] = {}
+        empty_field_values: dict[str, str] = {}
+        largest_index = 0
+        if (columns_elem := config_element.find("columns")) is not None:
+            column_names = util.xml_text(columns_elem)
+            for index, name in enumerate(n.strip() for n in column_names.split(",")):
+                columns[name] = index
+                largest_index = index
+        else:
+            for column_elem in config_element.findall("column"):
+                name = column_elem.get("name")
+                index_attr = column_elem.get("index")
+                if name is None or index_attr is None:
+                    continue
+                index = int(index_attr)
+                columns[name] = index
+                if index > largest_index:
+                    largest_index = index
+                empty_field_value = column_elem.get("empty_field_value", None)
+                if empty_field_value is not None:
+                    empty_field_values[name] = empty_field_value
+        return columns, largest_index, empty_field_values
+
+    def parse_column_spec(self, config_element: Element) -> None:
+        """
+        Parse column definitions, which can either be a set of 'column' elements
+        with a name and index (as in dynamic options config), or a shorthand
+        comma separated list of names in order as the text of a 'column_names'
+        element.
+
+        A column named 'value' is required.
+        """
+        if config_element.find("columns") is None:
+            for column_elem in config_element.findall("column"):
+                assert column_elem.get("name") is not None, "Required 'name' attribute missing from column def"
+                assert column_elem.get("index") is not None, "Required 'index' attribute missing from column def"
+        self.columns, self.largest_index, parsed_empty_field_values = self.parse_column_spec_element(config_element)
+        self.empty_field_values.update(parsed_empty_field_values)
+        assert "value" in self.columns, "Required 'value' column missing from column def"
+
+    def extend_data_with(self, filename: str, errors: ErrorListT | None = None) -> None:
+        here = os.path.dirname(os.path.abspath(filename))
+        self.data.extend(self.parse_file_fields(filename, errors=errors, here=here))
+        if not self.allow_duplicate_entries:
+            self._deduplicate_data()
+
+    def parse_file_fields(
+        self, filename: str, errors: ErrorListT | None = None, here: str = "__HERE__"
+    ) -> list[list[str]]:
+        """
+        Parse separated lines from file and return a list of tuples.
+
+        TODO: Allow named access to fields using the column names.
+        """
+        separator_char = "<TAB>" if self.separator == "\t" else self.separator
+        rval = []
+        with open(filename) as fh:
+            for i, line in enumerate(fh):
+                if line.lstrip().startswith(self.comment_char):
+                    continue
+                line = line.rstrip("\n\r")
+                if line:
+                    line = _expand_here_template(line, here=here)
+                    fields = line.split(self.separator)
+                    if self.largest_index < len(fields):
+                        rval.append(fields)
+                    else:
+                        line_error = f"Line {i + 1} in tool data table '{self.name}' is invalid (HINT: '{separator_char}' characters must be used to separate fields):\n{line}"
+                        if errors is not None:
+                            errors.append(line_error)
+                        log.warning(line_error)
+        log.debug("Loaded %i lines from '%s' for '%s'", len(rval), filename, self.name)
+        return rval
+
+    # This method is used in tools, so need to keep its API stable
+    def get_column_name_list(self) -> list[str | None]:
+        rval: list[str | None] = []
+        for i in range(self.largest_index + 1):
+            found_column = False
+            for name, index in self.columns.items():
+                if index == i:
+                    if not found_column:
+                        rval.append(name)
+                    elif name == "value":
+                        # the column named 'value' always has priority over other named columns
+                        rval[-1] = name
+                    found_column = True
+            if not found_column:
+                rval.append(None)
+        return rval

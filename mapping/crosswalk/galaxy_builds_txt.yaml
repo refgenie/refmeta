@@ -1,0 +1,32 @@
+# refmeta crosswalk: galaxy_builds_txt <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_builds_txt
+source: galaxy
+core: '0.1'
+subject: deployment
+description: 'builds.txt: the static list of genome builds (dbkeys) Galaxy offers in its dbkey picker. Two TAB-separated
+  columns, no header.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: dbkey
+  core: deployments[system=galaxy,table=builds].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/builds.txt}
+- native: dbkey
+  core: collection.labels[namespace=galaxy.dbkey].value
+  direction: both
+  transform: null
+  lossy: A dbkey names a build, which can cover several sequence collections (hg38, hg38canon and hg38female all
+    have dbkey hg38).
+  example: {native: hg38, core: hg38, file: examples/builds.txt}
+- native: display_name
+  core: deployments[system=galaxy,table=builds].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human Dec. 2013 (GRCh38/hg38) (hg38), core: Human Dec. 2013 (GRCh38/hg38) (hg38), file: examples/builds.txt}
+unmapped: []

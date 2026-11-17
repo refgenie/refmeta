@@ -1,0 +1,29 @@
+schema: https://raw.githubusercontent.com/FFRGS/FFRGS-Specification/main/ffrgs.json
+schemaVersion: 1
+genome: Bombas huntii
+version: 0.0.1
+author:
+  name: Adam Wright
+  url: https://wormbase.org/resource/person/WBPerson30813
+assembler:
+  name: David Molik
+  url: https:/david.molik.co/person
+dateCreated: '2022-03-21'
+place:
+  name: PBARC
+  url: https://www.ars.usda.gov/pacific-west-area/hilo-hi/daniel-k-inouye-us-pacific-basin-agricultural-research-center/
+assemblySoftware: HiFiASM
+instrument:
+- Sequel IIe
+- Nanopore
+physicalSample: Located in Freezer 33, Drawer 137
+taxa: Bombas huntii
+scholarlyArticle: https://doi.org/10.1371/journal.pntd.0008755
+documentation: 'Built assembly from... '
+identifier:
+- gkx10242566416842
+relatedLink:
+- https/david.molik.co/genome
+funding: 'some'
+licence: 'public domain'
+checksum: 'md5:a3d5d9146c3992b7ed6724409ba28aa9'

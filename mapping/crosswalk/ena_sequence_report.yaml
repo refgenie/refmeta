@@ -1,0 +1,60 @@
+# refmeta crosswalk: ena_sequence_report <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ena_sequence_report
+source: ena
+core: '0.1'
+subject: assembly
+description: ENA FTP assembly sequence report, https://ftp.ebi.ac.uk/pub/databases/ena/assembly/GCA_xxx/GCA_xxxxxx/<GCA>_sequence_report.txt.
+  One row per sequence in the assembly.
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: accession
+  core: sequences[].aliases[namespace=insdc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: CM000663.2, core: CM000663.2, file: examples/sequence_report_GCA_000001405.15.txt}
+- native: sequence-name
+  core: sequences[].aliases[namespace=assembly].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/sequence_report_GCA_000001405.15.txt}
+- native: sequence-length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/sequence_report_GCA_000001405.15.txt}
+- native: sequence-role
+  core: sequences[].role
+  direction: both
+  transform:
+    map:
+      values: {unlocalised-scaffold: unlocalized-scaffold}
+  lossy: null
+  example: {native: unlocalised-scaffold, core: unlocalized-scaffold, file: examples/sequence_report_GCA_000001405.15.txt}
+- native: replicon-name
+  core: sequences[].assignedMolecule
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/sequence_report_GCA_000001405.15.txt}
+- native: replicon-type
+  core: sequences[].molecule
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Chromosome, core: Chromosome, file: examples/sequence_report_GCA_000001405.15.txt}
+- native: assembly-unit
+  core: sequences[].assemblyUnit
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Primary Assembly, core: Primary Assembly, file: examples/sequence_report_GCA_000001405.15.txt}
+unmapped: []

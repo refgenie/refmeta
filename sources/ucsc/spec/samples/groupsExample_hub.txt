@@ -1,0 +1,6 @@
+hub hubGroups
+shortLabel hub groups example
+longLabel An example of a track hub with groups
+genomesFile genomes.txt
+descriptionUrl hgwdev.gi.ucsc.edu.ucsc.edu/goldenPath/help/hgTrackHubHelp.html#Group
+email address@university.edu

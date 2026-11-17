@@ -1,0 +1,26 @@
+
+.resource_table <- function(x)
+{
+    query <- sprintf(
+        'SELECT %s FROM resources
+         WHERE resources.id IN (%s)',
+        .DB_RESOURCE_FIELDS, .id_as_single_string(x))
+    tbl <- .query_as_data.frame(x, query)
+    tbl[["tags"]] <- I(.collapse_as_list(x, .tags))
+    tbl[["rdataclass"]] <- .collapse_as_string(x, .rdataclass)
+    tbl[["rdatapath"]] <- .collapse_as_string(x, .rdatapath)
+    tbl[["sourceurl"]] <- .collapse_as_string(x, .sourceurl)
+    tbl[["sourcetype"]] <- .collapse_as_string(x, .sourcetype)
+    tbl
+}
+
+## Used in mcols()
+.DB_RESOURCE_FIELDS <- paste(sep=".", collapse=", ", "resources",
+    c("ah_id", "title", "dataprovider", "species", "taxonomyid", "genome",
+      "description", "coordinate_1_based", "maintainer",
+      "rdatadateadded", "preparerclass"))
+
+.id_as_single_string <- function(x)
+    paste(sprintf("'%s'", .db_uid(x)), collapse=", ")
+
+.query_as_data.frame <- function(x, query)

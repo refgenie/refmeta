@@ -1,0 +1,259 @@
+# refmeta crosswalk: ena_assembly_xml <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ena_assembly_xml
+source: ena
+core: '0.1'
+subject: assembly
+description: ENA Browser API assembly record as XML (ASSEMBLY_SET > ASSEMBLY), from https://www.ebi.ac.uk/ena/browser/api/xml/<GCA>.
+  Assembly facts plus a grouped chromosome list and assembly statistics.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: '@accession'
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.15
+    core: {namespace: insdc.gca, value: GCA_000001405.15}
+    file: examples/assembly_xml_GCA_000001405.15.xml
+- native: IDENTIFIERS/PRIMARY_ID
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.15
+    core: {namespace: insdc.gca, value: GCA_000001405.15}
+    file: examples/assembly_xml_GCA_000001405.15.xml
+- native: NAME
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: '@alias'
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/assembly_xml_GCA_000001405.15.xml}
+  note: Submitter's alias; equal to NAME in every collected record.
+- native: IDENTIFIERS/SUBMITTER_ID
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: '@center_name'
+  core: assembly.submitter
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium, core: Genome Reference Consortium, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: IDENTIFIERS/SUBMITTER_ID/@namespace
+  core: assembly.submitter
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium, core: Genome Reference Consortium, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: TITLE
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium Human Build 38, core: Genome Reference Consortium Human Build 38,
+    file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: DESCRIPTION
+  core: assembly.documentation
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: The human reference assembly defines a standard upon which other whole genome studies are based.
+      Providing the best representation of the human genome is ess..., core: The human reference assembly defines
+      a standard upon which other whole genome studies are based. Providing the best representation of the human
+      genome is ess..., file: examples/assembly_xml_GCA_000001405.15.xml, truncated: true}
+- native: ASSEMBLY_LEVEL
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: PLATFORM
+  core: assembly.instrument
+  direction: both
+  transform:
+    split: {sep: ', '}
+  lossy: null
+  example:
+    native: PacBio SEQUEL
+    core: [PacBio SEQUEL]
+    file: examples/other/assembly_xml_GCA_902167145.1.xml
+- native: PROGRAM
+  core: assembly.assemblySoftware[0].name
+  direction: both
+  transform: null
+  lossy: Name and version in one string (Canu 1.8).
+  example: {native: Canu 1.8, core: Canu 1.8, file: examples/other/assembly_xml_GCA_902167145.1.xml}
+- native: COVERAGE
+  core: assembly.vitalStats.coverage
+  direction: both
+  transform: null
+  missing: 0
+  lossy: null
+  example: {native: 83, core: 83, file: examples/other/assembly_xml_GCA_902167145.1.xml}
+  note: 0 means unknown.
+- native: GENOME_REPRESENTATION
+  core: assembly.representation
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: full, core: full, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: TAXON/TAXON_ID
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: TAXON/SCIENTIFIC_NAME
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Includes the strain for strain-level taxa.
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: TAXON/STRAIN
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: S288C, core: S288C, file: examples/assembly_xml_GCA_000146045.2.xml}
+- {native: TAXON/COMMON_NAME, core: assembly.taxon.commonName, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: SAMPLE_REF/IDENTIFIERS/PRIMARY_ID
+  core: assembly.biosample
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SAMEA5569141, core: SAMEA5569141, file: examples/other/assembly_xml_GCA_902167145.1.xml}
+- {native: SAMPLE_REF/@accession, core: assembly.biosample, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: STUDY_REF/IDENTIFIERS/PRIMARY_ID
+  core: assembly.bioproject
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: PRJNA31257, core: PRJNA31257, file: examples/assembly_xml_GCA_000001405.15.xml}
+- {native: STUDY_REF/@accession, core: assembly.bioproject, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: ASSEMBLY_ATTRIBUTES/total-length
+  core: assembly.vitalStats.totalBasePairs
+  direction: both
+  transform: null
+  lossy: 'Counts every sequence including alt loci (GRCh38: 3209286105); NCBI''s total excludes them (3099734149).'
+  example: {native: 3209286105, core: 3209286105, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/ungapped-length
+  core: assembly.vitalStats.ungappedLength
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 3049316098, core: 3049316098, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/n50
+  core: assembly.vitalStats.scaffoldN50
+  direction: both
+  transform: null
+  lossy: ENA does not say which N50 this is; it equals NCBI's scaffold N50 for GRCh38.
+  example: {native: 67794873, core: 67794873, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/scaffold-count
+  core: assembly.vitalStats.numberScaffolds
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 735, core: 735, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/count-contig
+  core: assembly.vitalStats.numberContigs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 1385, core: 1385, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/contig-n50
+  core: assembly.vitalStats.N50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 56413054, core: 56413054, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/contig-L50
+  core: assembly.vitalStats.L50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 19, core: 19, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/contig-n90
+  core: assembly.vitalStats.N90
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 7084842, core: 7084842, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/scaf-L50
+  core: assembly.vitalStats.scaffoldL50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 16, core: 16, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/scaf-n90
+  core: assembly.vitalStats.scaffoldN90
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 12943127, core: 12943127, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/replicon-count
+  core: assembly.vitalStats.numberChromosomes
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 25, core: 25, file: examples/assembly_xml_GCA_000001405.15.xml}
+- native: ASSEMBLY_ATTRIBUTES/ENA-LAST-UPDATED
+  core: provenance[0].recordDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2019-02-28', core: '2019-02-28', file: examples/assembly_xml_GCA_000001405.15.xml}
+unmapped:
+- {native: '@broker_name', reason: Submission broker.}
+- {native: IDENTIFIERS/SECONDARY_ID, reason: Secondary ids; no example.}
+- {native: IDENTIFIERS/EXTERNAL_ID, reason: External ids; no example.}
+- {native: IDENTIFIERS/UUID, reason: UUIDs; no example.}
+- {native: ASSEMBLY_TYPE, reason: '''clone or isolate'', ''primary metagenome'': a different vocabulary from NCBI''s
+    assembly type (haploid ...).'}
+- {native: WGS_SET, reason: WGS contig sets; no core field.}
+- {native: WGS_SET/PREFIX, reason: WGS contig set prefix.}
+- {native: WGS_SET/VERSION, reason: WGS contig set version.}
+- {native: CHROMOSOMES/CHROMOSOME, reason: Chromosome list with unlocalized scaffolds collapsed into accession ranges;
+    use the sequence report for sequences.}
+- {native: CHROMOSOMES/CHROMOSOME/@accession, reason: Part of the collapsed chromosome list.}
+- {native: CHROMOSOMES/CHROMOSOME/NAME, reason: Part of the collapsed chromosome list.}
+- {native: CHROMOSOMES/CHROMOSOME/TYPE, reason: Part of the collapsed chromosome list.}
+- {native: ASSEMBLY_LINKS/ASSEMBLY_LINK, reason: Links to WGS set files.}
+- {native: ASSEMBLY_LINKS/ASSEMBLY_LINK/URL_LINK/LABEL, reason: Link label.}
+- {native: ASSEMBLY_LINKS/ASSEMBLY_LINK/URL_LINK/URL, reason: Link URL.}
+- {native: ASSEMBLY_LINKS/ASSEMBLY_LINK/XREF_LINK/DB, reason: Cross-reference; no example.}
+- {native: ASSEMBLY_LINKS/ASSEMBLY_LINK/XREF_LINK/ID, reason: Cross-reference; no example.}
+- {native: ASSEMBLY_ATTRIBUTES/spanned-gaps, reason: 'Assembly statistic with no FHR or core field (gap counts,
+    N75, alt-loci and region counts).'}
+- {native: ASSEMBLY_ATTRIBUTES/unspanned-gaps, reason: 'Assembly statistic with no FHR or core field (gap counts,
+    N75, alt-loci and region counts).'}
+- {native: ASSEMBLY_ATTRIBUTES/contig-n75, reason: 'Assembly statistic with no FHR or core field (gap counts, N75,
+    alt-loci and region counts).'}
+- {native: ASSEMBLY_ATTRIBUTES/scaf-n75, reason: 'Assembly statistic with no FHR or core field (gap counts, N75,
+    alt-loci and region counts).'}
+- {native: ASSEMBLY_ATTRIBUTES/count-non-chromosome-replicon, reason: 'Assembly statistic with no FHR or core field
+    (gap counts, N75, alt-loci and region counts).'}
+- {native: ASSEMBLY_ATTRIBUTES/count-alt-loci-units, reason: 'Assembly statistic with no FHR or core field (gap
+    counts, N75, alt-loci and region counts).'}
+- {native: ASSEMBLY_ATTRIBUTES/count-regions, reason: 'Assembly statistic with no FHR or core field (gap counts,
+    N75, alt-loci and region counts).'}
+- {native: ASSEMBLY_ATTRIBUTES/count-patches, reason: 'Assembly statistic with no FHR or core field (gap counts,
+    N75, alt-loci and region counts).'}

@@ -1,0 +1,52 @@
+# refmeta crosswalk: bioconductor_seqlevels_style <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_seqlevels_style
+source: bioconductor
+core: '0.1'
+subject: sequence
+description: GenomeInfoDb naming-style table used by seqlevelsStyle() and mapSeqlevels() (GenomeInfoDb/inst/extdata/dataFiles/<Genus_species>.txt).
+  One record per chromosome, giving its name in each naming style plus circular/autosome/sex flags. Only main chromosomes
+  are listed, no scaffolds.
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: 'A per-organism naming table, not tied to one assembly: each row is one chromosome''s name in each style.
+  It is the closest thing in Bioconductor to refmeta''s sequence-name map.'
+constants: {}
+derive: []
+rules:
+- native: NCBI
+  core: sequences[].aliases[namespace=assembly].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/seqlevels_style_Homo_sapiens.txt}
+  note: Bioconductor's NCBI style is NCBI's submitter Sequence-Name (1, MT).
+- native: UCSC
+  core: sequences[].aliases[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/seqlevels_style_Homo_sapiens.txt}
+- native: Ensembl
+  core: sequences[].aliases[namespace=ensembl].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/seqlevels_style_Homo_sapiens.txt}
+- native: dbSNP
+  core: sequences[].aliases[namespace=dbsnp].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: ch1, core: ch1, file: examples/seqlevels_style_Homo_sapiens.txt}
+- native: circular
+  core: sequences[].circular
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: false, core: false, file: examples/seqlevels_style_Homo_sapiens.txt}
+unmapped:
+- {native: auto, per: row, reason: Autosome flag; no core field.}
+- {native: sex, per: row, reason: Sex-chromosome flag; no core field.}

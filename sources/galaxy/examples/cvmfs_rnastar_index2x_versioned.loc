@@ -1,0 +1,6 @@
+# from /cvmfs/data.galaxyproject.org/managed/location/rnastar_index2x_versioned.loc (table rnastar_index2x_versioned, listed in /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml)
+hg38	hg38	Human (Homo sapiens) (b38): hg38	/cvmfs/data.galaxyproject.org/managed/rnastar/2.7.4a/hg38/hg38/dataset_fdfceb86-2b00-45f3-a3f4-63794ea8182d_files	0	2.7.4a
+sacCer3	sacCer3	Yeast (Saccharomyces cerevisiae): sacCer3	/cvmfs/data.galaxyproject.org/managed/rnastar/2.7.4a/sacCer3/sacCer3/dataset_ee6db620-7c48-4da0-8451-017d274c97ca_files	0	2.7.4a
+# from /cvmfs/brc.galaxyproject.org/config/rnastar_index2x_versioned.loc (table rnastar_index2x_versioned, listed in /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml)
+GCF_000146045.2	GCF_000146045.2	Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)	/cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/rnastar_index/v2.7.4a/GCF_000146045.2	0	2.7.4a
+GCF_000001405.40	GCF_000001405.40	Homo sapiens (GCF_000001405.40)	/cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/rnastar_index/v2.7.4a/GCF_000001405.40	0	2.7.4a

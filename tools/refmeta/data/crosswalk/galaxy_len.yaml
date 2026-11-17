@@ -1,0 +1,29 @@
+# refmeta crosswalk: galaxy_len <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: galaxy_len
+source: galaxy
+core: '0.1'
+subject: collection
+description: '.len file: one line per sequence, name TAB length. The __dbkeys__ table points to it (len_path); /api/genomes/{id}
+  reads it.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: A .len file describes a dbkey's coordinate system, not one FASTA file; the order is the file's order.
+constants: {}
+derive: [counts]
+rules:
+- native: chrom
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chrI, core: chrI, file: examples/constructed/sacCer3.len}
+- native: len
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 230218, core: 230218, file: examples/constructed/sacCer3.len}
+unmapped: []

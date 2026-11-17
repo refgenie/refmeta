@@ -1,0 +1,55 @@
+# refmeta crosswalk: bioconductor_registered_ncbi <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_registered_ncbi
+source: bioconductor
+core: '0.1'
+subject: assembly
+description: 'GenomeInfoDb registration file for NCBI assemblies (inst/registered/NCBI_assemblies/<Genus_species>.R):
+  an R script that assigns ORGANISM and ASSEMBLIES (a list with one list per assembly). Read by registered_NCBI_assemblies()
+  and getChromInfoFromNCBI(). One record per assembly; ORGANISM is copied onto every record.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: assembly_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCF_000001405.8
+    core: {namespace: insdc.gcf, value: GCF_000001405.8}
+    file: examples/registered_ncbi_Homo_sapiens.R
+- native: assembly
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: NCBI33, core: NCBI33, file: examples/registered_ncbi_Homo_sapiens.R}
+- native: ORGANISM
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/registered_ncbi_Homo_sapiens.R}
+- native: assembly_level
+  core: assembly.level
+  direction: both
+  transform:
+    map:
+      values: {Chromosome: chromosome, Complete Genome: complete genome, Scaffold: scaffold, Contig: contig}
+  lossy: null
+  example: {native: Chromosome, core: chromosome, file: examples/registered_ncbi_Homo_sapiens.R}
+- native: date
+  core: assembly.releaseDate
+  direction: both
+  transform:
+    date: {format: '%Y/%m/%d'}
+  lossy: null
+  example: {native: 2003/04/12, core: '2003-04-12', file: examples/registered_ncbi_Homo_sapiens.R}
+unmapped:
+- {native: extra_info, reason: 'Named tags (strain=S288C); an object, not one field.'}
+- {native: circ_seqs, reason: NCBI names of the circular sequences; marking them needs the sequence list.}
+- {native: NCBI2Ensembl_special_mappings, reason: NCBI to Ensembl name exceptions (MT -> Mito); a partial name map
+    without the other sequences.}

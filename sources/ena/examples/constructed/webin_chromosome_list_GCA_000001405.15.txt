@@ -1,0 +1,25 @@
+1	1	linear-chromosome
+2	2	linear-chromosome
+3	3	linear-chromosome
+4	4	linear-chromosome
+5	5	linear-chromosome
+6	6	linear-chromosome
+7	7	linear-chromosome
+8	8	linear-chromosome
+9	9	linear-chromosome
+10	10	linear-chromosome
+11	11	linear-chromosome
+12	12	linear-chromosome
+13	13	linear-chromosome
+14	14	linear-chromosome
+15	15	linear-chromosome
+16	16	linear-chromosome
+17	17	linear-chromosome
+18	18	linear-chromosome
+19	19	linear-chromosome
+20	20	linear-chromosome
+21	21	linear-chromosome
+22	22	linear-chromosome
+X	X	linear-chromosome
+Y	Y	linear-chromosome
+MT	MT	circular-chromosome	Mitochondrion

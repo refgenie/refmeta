@@ -1,0 +1,107 @@
+
+
+##############################################
+#
+# More helper functions
+#
+##############################################
+
+def clean_hash(arr)
+    arr = arr.map{|i|i.to_hash}
+    for item in arr
+        item.delete :id
+        item.delete :resource_id
+    end
+    arr
+end
+
+def formatId(r, associations)
+    h = r.to_hash
+    location_prefix = r.location_prefix
+    h.delete :location_prefix_id
+    h[:location_prefix] = location_prefix[:location_prefix]
+    recipe = r.recipe
+    h[:recipe] = recipe[:recipe]
+    h[:recipe_package] = recipe[:package]
+    h.delete :record_id
+    h.delete :status_id
+    h.delete :recipe_id
+    for association in associations
+        h[association] = clean_hash(r.send(association.to_s))
+    end
+    h[:tags] = h[:tags].map{|i|i[:tag]}
+    h[:biocversions] = h[:biocversions].map{|i|i[:biocversion]}
+    h
+end
+
+def formatOutput(r)
+    out = []
+    for row in r
+        v = row.values
+        v2 = {}
+        v2[:ah_id] = v[:ah_id]
+        v2[:title] = v[:title]
+        v2[:description] = v[:description].force_encoding("utf-8")
+        rp = Rdatapath.find(:resource_id=> v[:id])
+        path = rp.rdatapath
+        resource = rp.resource
+        prefix = resource.location_prefix.location_prefix
+        url = prefix + path
+        v2[:download] = url
+        out.push v2
+    end
+    out
+end
+
+def getcols()
+    #cols = Resource.columns + Rdatapath.columns + InputSource.columns
+    cols = ["title", "dataprovider", "species", "taxonomyid", "genome",
+            "description", "newerthan", "rdataclass", "sourceurl",
+            "sourceversion", "sourcetype"]
+    cols
+end
+
+def whichtable(vl)
+    h = {}
+    h[:title] = "Resource"
+    h[:dataprovider] = "Resource"
+    h[:species] = "Resource"
+    h[:taxonomyid] = "Resource"
+    h[:genome] = "Resource"
+    h[:description] = "Resource"
+    h[:newerthan] = "Resource"
+    h[:rdataclass] = "Rdatapath"
+    h[:sourceurl ] = "InputSource"
+    h[:sourceversion] = "InputSource"
+    h[:sourcetype] = "InputSource"
+get '/metadata/database_timestamp' do
+    content_type "text/plain"
+    DB[:timestamp].first[:timestamp].to_s
+end
+
+get '/metadata/highest_id' do
+    content_type "text/plain"
+    DB[:resources].max(:id).to_s
+end
+
+get "/id/:id" do
+    content_type "text/plain"
+    associations = [:rdatapaths, :input_sources, :tags, :biocversions]
+    r = Resource.filter(:id => params[:id]).eager(associations).all.first
+    h = formatId(r, associations)
+    JSON.pretty_generate h
+end
+
+get "/ahid/:id" do
+    content_type "text/plain"
+    associations = [:rdatapaths, :input_sources, :tags, :biocversions]
+    id = params[:id]
+    if (id[0..1].upcase.start_with?("AH"))
+        id = id.sub(/^../, "AH")
+    elsif
+        id = "AH" + id
+    end
+    r = Resource.filter(:ah_id => "#{id}").eager(associations).all.first
+    h = formatId(r, associations)
+    JSON.pretty_generate h
+end

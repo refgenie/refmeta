@@ -1,0 +1,15 @@
+% EXCERPT of VCFv4.3.tex from https://github.com/samtools/hts-specs (master @ 510c107ba89aa13113818c9e4fa3071283cb7f7b), retrieved 2026-11-17.
+% Kept: lines 880-892, the start of the structural-variant example, which shows ##reference as a bare name and ##assembly as a breakpoint-assembly URL.
+
+\pagebreak
+\footnotesize
+\begin{landscape}
+\begin{verbatim}
+VCF STRUCTURAL VARIANT EXAMPLE
+
+##fileformat=VCFv4.3
+##fileDate=20100501
+##reference=1000GenomesPilot-NCBI36
+##assembly=ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/sv/breakpoint_assemblies.fasta
+##INFO=<ID=BKPTID,Number=.,Type=String,Description="ID of the assembled alternate allele in the assembly file">
+##INFO=<ID=CIEND,Number=2,Type=Integer,Description="Confidence interval around END for imprecise variants">

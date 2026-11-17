@@ -1,0 +1,325 @@
+# refmeta crosswalk: nfcore_references_datasheet <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: nfcore_references_datasheet
+source: nfcore
+core: '0.1'
+subject: collection
+description: 'nf-core/references asset datasheet: a YAML list, one entry per genome, listing the files (and a few
+  tool values) available for it. Published in nf-core/references-datasheets (igenomes/, genomes/, genomes_source/)
+  and validated by schema_references.json in the nf-core/references pipeline.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: genome
+  core: deployments[system=nfcore_references].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: genome
+  core: collection.labels[namespace=nfcore].value
+  direction: both
+  transform: null
+  lossy: A build name, not unique on its own (species + source + genome is).
+  example: {native: GRCh38, core: GRCh38, file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: species
+  core: assembly.taxon.name
+  direction: both
+  transform:
+    replace: {old: _, new: ' '}
+  lossy: null
+  example: {native: Homo_sapiens, core: Homo sapiens, file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: reference_source
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: NCBI, core: NCBI, file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: source
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: nf-core/references, core: nf-core/references, file: examples/datasheet_legacy_nf-core_references_main_test_default_extended.yml}
+  note: Older name of reference_source.
+- native: reference_version
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: Seen once (GCF_000001635.27 for mm39).
+  example:
+    native: GCF_000001635.27
+    core: {namespace: insdc.gcf, value: GCF_000001635.27}
+    file: examples/datasheet_nonanchor_genomes_source_NCBI_mm39.yml
+- native: fasta
+  core: copies[kind=fasta].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa',
+    core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa', file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: fasta_fai
+  core: copies[kind=fai].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa.fai',
+    core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.fa.fai', file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: fasta_dict
+  core: copies[kind=dict].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.dict',
+    core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/genome.dict', file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: fasta_sizes
+  core: copies[kind=chrom_sizes].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://raw.githubusercontent.com/nf-core/test-datasets/references/references/GRCh38_chr21/GRCh38_chr21.fa.sizes',
+    core: 'https://raw.githubusercontent.com/nf-core/test-datasets/references/references/GRCh38_chr21/GRCh38_chr21.fa.sizes',
+    file: examples/datasheet_genomes_nf-core_GRCh38_chr21.yml}
+- native: chrom_info
+  core: copies[kind=chrom_info].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Saccharomyces_cerevisiae/UCSC/sacCer3/Annotation/Genes/ChromInfo.txt',
+    core: '${params.references_base_path}/Saccharomyces_cerevisiae/UCSC/sacCer3/Annotation/Genes/ChromInfo.txt',
+    file: examples/datasheet_igenomes_UCSC_sacCer3.yml}
+- native: genome_size_xml
+  core: copies[kind=genome_size_xml].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/GenomeSize.xml',
+    core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/WholeGenomeFasta/GenomeSize.xml', file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: chromosomes_fasta
+  core: copies[kind=chromosome_fasta_dir].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/Chromosomes/', core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/Chromosomes/',
+    file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: chr_dir
+  core: copies[kind=chromosome_fasta_dir].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/chromosomes.tar.gz',
+    core: 'https://raw.githubusercontent.com/nf-core/test-datasets/modules/data/genomics/homo_sapiens/genome/chr21/sequence/chromosomes.tar.gz',
+    file: examples/datasheet_genomes_source_nf-core_GRCh38_chr22.yml}
+- native: bowtie1_index
+  core: copies[kind=bowtie_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/BowtieIndex/', core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/BowtieIndex/',
+    file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: bowtie2_index
+  core: copies[kind=bowtie2_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/Bowtie2Index/', core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/Bowtie2Index/',
+    file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: bwamem1_index
+  core: copies[kind=bwa_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/BWAIndex/version0.6.0/', core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/BWAIndex/version0.6.0/',
+    file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: bwamem2_index
+  core: copies[kind=bwamem2_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/GATK/GRCh38/Sequence/BWAmem2Index/', core: '${params.references_base_path}/Homo_sapiens/GATK/GRCh38/Sequence/BWAmem2Index/',
+    file: examples/datasheet_igenomes_GATK_GRCh38.yml}
+- native: bismark_index
+  core: copies[kind=bismark_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/BismarkIndex/', core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/BismarkIndex/',
+    file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: star_index
+  core: copies[kind=star_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/STARIndex/', core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Sequence/STARIndex/',
+    file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: hisat2_index
+  core: copies[kind=hisat2_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/genomes/Caenorhabditis_elegans/NCBI/WBcel235/Sequence/Hisat2Index/GCF_000002985.6/version2.2.1/',
+    core: '${params.references_base_path}/genomes/Caenorhabditis_elegans/NCBI/WBcel235/Sequence/Hisat2Index/GCF_000002985.6/version2.2.1/',
+    file: examples/datasheet_nonanchor_genomes_NCBI_WBcel235.yml}
+- native: salmon_index
+  core: copies[kind=salmon_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/genomes/Caenorhabditis_elegans/NCBI/WBcel235/Sequence/SalmonIndex/GCF_000002985.6/version1.10.3/',
+    core: '${params.references_base_path}/genomes/Caenorhabditis_elegans/NCBI/WBcel235/Sequence/SalmonIndex/GCF_000002985.6/version1.10.3/',
+    file: examples/datasheet_nonanchor_genomes_NCBI_WBcel235.yml}
+- native: kallisto_index
+  core: copies[kind=kallisto_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/genomes/Caenorhabditis_elegans/NCBI/WBcel235/Sequence/KallistoIndex/GCF_000002985.6/version0.51.1/kallisto',
+    core: '${params.references_base_path}/genomes/Caenorhabditis_elegans/NCBI/WBcel235/Sequence/KallistoIndex/GCF_000002985.6/version0.51.1/kallisto',
+    file: examples/datasheet_nonanchor_genomes_NCBI_WBcel235.yml}
+- native: rsem_index
+  core: copies[kind=rsem_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/genomes/Caenorhabditis_elegans/NCBI/WBcel235/Sequence/RSEMIndex/GCF_000002985.6/version1.3.1/',
+    core: '${params.references_base_path}/genomes/Caenorhabditis_elegans/NCBI/WBcel235/Sequence/RSEMIndex/GCF_000002985.6/version1.3.1/',
+    file: examples/datasheet_nonanchor_genomes_NCBI_WBcel235.yml}
+- native: dragmap_hashtable
+  core: copies[kind=dragmap_index].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/GATK/GRCh38/Sequence/dragmap/', core: '${params.references_base_path}/Homo_sapiens/GATK/GRCh38/Sequence/dragmap/',
+    file: examples/datasheet_igenomes_GATK_GRCh38.yml}
+- native: gtf
+  core: copies[kind=gtf].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf', core: '${params.references_base_path}/Homo_sapiens/NCBI/GRCh38/Annotation/Genes/genes.gtf',
+    file: examples/datasheet_igenomes_NCBI_GRCh38.yml}
+- native: gff
+  core: copies[kind=gff].location
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_genomic.gff.gz',
+    core: 'https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/GCF_000001405.40_GRCh38.p14_genomic.gff.gz',
+    file: examples/datasheet_genomes_source_NCBI_GRCh38.p14.yml}
+- native: mito_name
+  core: sequences[molecule=Mitochondrion].name
+  direction: both
+  transform: null
+  lossy: Some sheets carry a copy-paste error (MT for a chrM-named FASTA).
+  example: {native: MT, core: MT, file: examples/datasheet_genomes_source_NCBI_GRCh38.p14.yml}
+unmapped:
+- {native: genes_bed, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: abundantsequences_fasta, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: genes_refflat, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: hairpin_fasta, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: mature_fasta, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: genes_refgene, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: cf_chrom_len, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: intervals_bed, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: vcf_dbsnp_vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: vcf_dbsnp_vcf_tbi, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: vcf_dbsnp_vcf_vqsr, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: vcf_dbsnp_vcf_source, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: vcf_germline_resource_vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: vcf_germline_resource_vcf_tbi, reason: 'Pipeline resource that is not the genome itself (annotation,
+    variant sets, intervals, model files, tool parameters).'}
+- {native: vcf_germline_resource_vcf_source, reason: 'Pipeline resource that is not the genome itself (annotation,
+    variant sets, intervals, model files, tool parameters).'}
+- {native: vcf_known_indels_vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: vcf_known_indels_vcf_tbi, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: vcf_known_indels_vcf_vqsr, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: vcf_known_indels_vcf_source, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: vcf_known_snps_vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: vcf_known_snps_vcf_tbi, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: vcf_known_snps_vcf_vqsr, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: vcf_known_snps_vcf_source, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: vcf_pon_vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: vcf_pon_vcf_tbi, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: vcf_pon_vcf_source, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: mappability, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: msisensor2_models, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: msisensorpro_scan, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: ngscheckmate_bed, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: sentieon_dnascope_model, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: ascat_alleles, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: ascat_genome, reason: Tool parameter.}
+- {native: ascat_loci, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: ascat_loci_gc, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: ascat_loci_rt, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: snpeff_db, reason: Tool parameter.}
+- {native: vep_cache_version, reason: Tool parameter.}
+- {native: vep_genome, reason: Tool parameter.}
+- {native: vep_species, reason: Tool parameter.}
+- {native: vcf_other_vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: vcf_other_vcf_tbi, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: vcf_hapmap_vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: vcf_hapmap_vcf_tbi, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: readme, reason: README of the build.}
+- {native: annotation_version, reason: 'Annotation version, but it holds GCF assembly accessions in practice; ambiguous.'}
+- {native: site, reason: Website of the provider.}
+- {native: splice_sites, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: transcript_fasta, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: contig_ploidy_priors_tsv, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: exclude_bed, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: star_sjdbOverhang, reason: STAR build parameter.}
+- {native: star_genomeSAindexNbases, reason: STAR build parameter.}
+- {native: vcf_hapmap_vcf_source, reason: 'Pipeline resource that is not the genome itself (annotation, variant
+    sets, intervals, model files, tool parameters).'}
+- {native: source_version, reason: Older name of annotation_version.}
+- {native: source_vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: vcf, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model
+    files, tool parameters).'}
+- {native: msisensorpro_list, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets,
+    intervals, model files, tool parameters).'}
+- {native: bed12, reason: 'Pipeline resource that is not the genome itself (annotation, variant sets, intervals,
+    model files, tool parameters).'}
+- {native: macs_gsize, reason: Tool parameter.}

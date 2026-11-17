@@ -1,0 +1,43 @@
+# refmeta crosswalk: bioconductor_seqinfo <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_seqinfo
+source: bioconductor
+core: '0.1'
+subject: collection
+description: 'Seqinfo object (Seqinfo package, formerly GenomeInfoDb) written as a table: the columns of as.data.frame(<Seqinfo>).
+  One record per sequence. Seqinfo is an in-memory R object with no official file format; the adapter also reads
+  the text that show(<Seqinfo>) prints.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: Seqinfo has no file format; the examples are tables of as.data.frame(Seqinfo) built from GenomeInfoDb's UCSC
+  chrominfo. genome is a per-sequence label in Seqinfo; refmeta keeps one label per record.
+constants: {}
+derive: [counts]
+rules:
+- native: seqnames
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/constructed/seqinfo_hg38.tsv}
+- native: seqlengths
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/constructed/seqinfo_hg38.tsv}
+- native: isCircular
+  core: sequences[].circular
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: false, core: false, file: examples/constructed/seqinfo_hg38.tsv}
+- native: genome
+  core: collection.labels[namespace=bioconductor].value
+  direction: both
+  transform: null
+  lossy: Per sequence in Seqinfo; a Seqinfo mixing genomes keeps the first and lists the rest in conflicts.
+  example: {native: hg38, core: hg38, file: examples/constructed/seqinfo_hg38.tsv}
+unmapped: []

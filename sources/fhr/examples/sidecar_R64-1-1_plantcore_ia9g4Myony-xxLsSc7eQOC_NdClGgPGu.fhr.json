@@ -1,0 +1,20 @@
+{
+  "schema": "https://raw.githubusercontent.com/FAIR-bioHeaders/FHR-Specification/main/fhr.json",
+  "schemaVersion": 1.0,
+  "genome": "R64-1-1",
+  "taxon": {
+    "name": "Saccharomyces cerevisiae",
+    "uri": "https://identifiers.org/taxonomy:4932"
+  },
+  "version": "2",
+  "genomeSynonym": [
+    "saccharomyces_cerevisiae_ENSEMBL_release_81"
+  ],
+  "accessionID": {
+    "name": "GCA_000146045.2",
+    "url": "https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_000146045.2/"
+  },
+  "documentation": "Saccharomyces cerevisiae strain S288C reference genome, assembly R64-1-1, from\nEnsembl release 81. Chromosomes are named I to XVI and Mito. The same 17\nsequences, in the same order, as sacCer3, which uses UCSC names (chrI, chrM).\n",
+  "assemblySource": "Ensembl",
+  "assemblyLevel": "chromosome"
+}

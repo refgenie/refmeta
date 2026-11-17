@@ -1,0 +1,31 @@
+# refmeta crosswalk: nfcore_igenomes_fai <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: nfcore_igenomes_fai
+source: nfcore
+core: '0.1'
+subject: collection
+description: 'FASTA index served with each iGenomes FASTA (genome.fa.fai): samtools/htslib faidx format, 5 tab-separated
+  columns, no header. One record per sequence. Column names are the ones htslib''s faidx(5) man page uses.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: [counts]
+rules:
+- native: NAME
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/igenomes_fai_Homo_sapiens_NCBI_GRCh38.fa.fai}
+- native: LENGTH
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/igenomes_fai_Homo_sapiens_NCBI_GRCh38.fa.fai}
+unmapped:
+- {native: OFFSET, per: row, reason: 'Byte offset in one FASTA file: a fact about the copy''s layout, per sequence.'}
+- {native: LINEBASES, per: row, reason: 'FASTA line width of the copy; differs between copies (50, 60, 70, 100).'}
+- {native: LINEWIDTH, per: row, reason: 'FASTA line width in bytes, per copy.'}

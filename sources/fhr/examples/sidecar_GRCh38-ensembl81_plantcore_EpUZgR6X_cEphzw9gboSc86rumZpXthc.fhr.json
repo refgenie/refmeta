@@ -1,0 +1,14 @@
+{
+  "schema": "https://raw.githubusercontent.com/FAIR-bioHeaders/FHR-Specification/main/fhr.json",
+  "schemaVersion": 1.0,
+  "genome": "homo_sapiens_ENSEMBL_release_81",
+  "taxon": {
+    "name": "Homo sapiens",
+    "uri": "https://identifiers.org/taxonomy:9606"
+  },
+  "genomeSynonym": [
+    "GRCh38-81-ensembl"
+  ],
+  "documentation": "GRCh38 from Ensembl release 81, all 493 top-level sequences: chromosomes 1-22,\nX, Y and MT, 169 unplaced and unlocalized scaffolds, and 299 haplotype and\npatch sequences (named like CHR_HG126_PATCH). Chromosome Y is 54,106,423 bp,\nshorter than the 57,227,415 bp of other GRCh38 copies.\n",
+  "assemblySource": "Ensembl"
+}

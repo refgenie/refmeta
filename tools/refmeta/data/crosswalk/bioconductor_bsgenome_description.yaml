@@ -1,0 +1,88 @@
+# refmeta crosswalk: bioconductor_bsgenome_description <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_bsgenome_description
+source: bioconductor
+core: '0.1'
+subject: deployment
+description: DESCRIPTION file (DCF) of a built BSgenome data package, as shipped in the source tarball on bioconductor.org.
+  Holds the standard R package fields plus the seed's genome fields (organism, common_name or species, genome or
+  provider_version, provider, release_date, source_url).
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: Package
+  core: deployments[system=bioconductor].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: BSgenome.Hsapiens.UCSC.hg38, core: BSgenome.Hsapiens.UCSC.hg38, file: examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5}
+- native: organism
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5}
+- native: common_name
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human, core: Human, file: examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5}
+- native: species
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: Older packages put the common name (Yeast) in a field called species.
+  example: {native: Yeast, core: Yeast, file: examples/bsgenome_DESCRIPTION_BSgenome.Scerevisiae.UCSC.sacCer3_1.4.0}
+- native: genome
+  core: collection.labels[namespace=bioconductor].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38, core: hg38, file: examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5}
+- native: provider_version
+  core: collection.labels[namespace=bioconductor].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: sacCer3, core: sacCer3, file: examples/bsgenome_DESCRIPTION_BSgenome.Scerevisiae.UCSC.sacCer3_1.4.0}
+- native: provider
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: UCSC, core: UCSC, file: examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5}
+- native: release_date
+  core: assembly.releaseDate
+  direction: both
+  transform:
+    date: {format: '%Y/%m/%d'}
+  lossy: Free text; only YYYY/MM/DD values convert. Others stay in extras.
+  example: {native: 2023/01/31, core: '2023-01-31', file: examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5}
+- native: release_name
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SGD April 2011 sequence, core: SGD April 2011 sequence, file: examples/bsgenome_DESCRIPTION_BSgenome.Scerevisiae.UCSC.sacCer3_1.4.0}
+- native: source_url
+  core: copies[0].location
+  direction: both
+  transform: null
+  lossy: Often a download directory, not one file.
+  example: {native: 'https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/p14/', core: 'https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/p14/',
+    file: examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5}
+unmapped:
+- {native: Title, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: Description, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: Version, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: Author, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: Maintainer, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: Depends, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: Imports, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: Suggests, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: License, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: biocViews, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: NeedsCompilation, reason: 'R package field (title, version, authors, dependencies, license of the package).'}
+- {native: Packaged, reason: 'R package field (title, version, authors, dependencies, license of the package).'}

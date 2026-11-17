@@ -1,0 +1,29 @@
+# refmeta crosswalk: ena_webin_unlocalised_list <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ena_webin_unlocalised_list
+source: ena
+core: '0.1'
+subject: assembly
+description: 'Webin-CLI genome submission unlocalised list file (submitter input). Two columns, no header: sequence
+  name and the chromosome it belongs to.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: Every row is an unlocalized scaffold, but there is no per-row constant mechanism, so role is not set.
+constants: {}
+derive: []
+rules:
+- native: OBJECT_NAME
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: HSCHR1_CTG1_UNLOCALIZED, core: HSCHR1_CTG1_UNLOCALIZED, file: examples/constructed/webin_unlocalised_list_GCA_000001405.15.txt}
+- native: CHROMOSOME_NAME
+  core: sequences[].assignedMolecule
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/constructed/webin_unlocalised_list_GCA_000001405.15.txt}
+unmapped: []

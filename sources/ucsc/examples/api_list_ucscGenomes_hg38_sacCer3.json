@@ -1,0 +1,38 @@
+{
+ "downloadTime": "2026:11:17T15:57:55Z",
+ "downloadTimeStamp": 1794931075,
+ "dataTime": "2026-10-15T02:17:27",
+ "dataTimeStamp": 1792055847,
+ "ucscGenomes": {
+  "hg38": {
+   "description": "Dec. 2013 (GRCh38/hg38)",
+   "nibPath": "/gbdb/hg38",
+   "organism": "Human",
+   "defaultPos": "chr7:155799529-155812871",
+   "active": 1,
+   "orderKey": 50,
+   "genome": "Human",
+   "scientificName": "Homo sapiens",
+   "htmlPath": "/gbdb/hg38/html/description.html",
+   "hgNearOk": 1,
+   "hgPbOk": 0,
+   "sourceName": "GRCh38 Genome Reference Consortium Human Reference 38 (GCA_000001405.15)",
+   "taxId": 9606
+  },
+  "sacCer3": {
+   "description": "Apr. 2011 (SacCer_Apr2011/sacCer3)",
+   "nibPath": "/gbdb/sacCer3",
+   "organism": "S. cerevisiae",
+   "defaultPos": "chrIV:765966-775965",
+   "active": 1,
+   "orderKey": 19013,
+   "genome": "S. cerevisiae",
+   "scientificName": "Saccharomyces cerevisiae",
+   "htmlPath": "/gbdb/sacCer3/html/description.html",
+   "hgNearOk": 1,
+   "hgPbOk": 0,
+   "sourceName": "Saccharomyces cerevisiae S288c assembly from Saccharomyces Genome Database (GCA_000146045.2)",
+   "taxId": 559292
+  }
+ }
+}

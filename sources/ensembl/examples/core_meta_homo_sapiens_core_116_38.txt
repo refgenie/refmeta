@@ -1,0 +1,235 @@
+1	\N	schema_type	core
+2	\N	schema_version	116
+3	\N	patch	patch_73_74_a.sql|schema_version
+4	\N	patch	patch_73_74_b.sql|remove_dnac
+5	\N	patch	patch_73_74_c.sql|remove_unconventional_transcript_association
+6	\N	patch	patch_73_74_d.sql|remove_qtl
+7	\N	patch	patch_73_74_e.sql|remove_canonical_annotation
+8	\N	patch	patch_73_74_f.sql|remove_pair_dna_align
+9	\N	patch	patch_73_74_g.sql|add_transcript_idx_tise
+10	\N	patch	patch_73_74_h.sql|alt_allele_unique_gene_idx
+17	1	genebuild.id	39
+12	1	assembly.mapping	scaffold:GRCh38#contig
+13	1	assembly.mapping	chromosome:GRCh38#contig
+14	1	assembly.mapping	chromosome:GRCh38|scaffold:GRCh38
+6621	1	species.taxonomy_id	9606
+16	1	genebuild.last_geneset_update	2025-11
+19	1	assembly.coverage_depth	high
+20	1	assembly.date	2013-12
+21	1	assembly.name	GRCh38.p14
+22	1	assembly.default	GRCh38
+23	1	assembly.accession	GCA_000001405.29
+24	1	assembly.web_accession_source	NCBI
+25	1	assembly.web_accession_type	GenBank Assembly ID
+26	1	genebuild.start_date	2014-01-Ensembl
+27	1	genebuild.initial_release_date	2014-07
+300	1	gencode.version	GENCODE 50
+30	1	assembly.long_name	Genome Reference Consortium Human Build 38
+31	1	genebuild.method	full_genebuild
+5842	1	species.common_name	human
+6652	1	species.display_name	Human
+6651	1	species.production_name	homo_sapiens
+6664	1	species.scientific_name	Homo sapiens
+5840	1	species.stable_id_prefix	ENS
+6663	1	species.url	Homo_sapiens
+78	1	assembly.mapping	clone|contig
+79	1	assembly.mapping	chromosome:GRCh38#contig|clone
+80	1	assembly.mapping	scaffold:GRCh38#contig|clone
+87	1	repeat.analysis	repeatmask_repbase_human
+88	1	repeat.analysis	dust
+89	1	repeat.analysis	trf
+6614	1	repeat_featurebuild.level	toplevel
+6617	1	simple_featurebuild.level	toplevel
+6618	1	prediction_transcriptbuild.level	toplevel
+6619	1	prediction_exonbuild.level	toplevel
+197	1	genebuild.havana_datafreeze_date	05-08-2025
+245	\N	patch	patch_74_75_a.sql|schema_version
+246	\N	patch	patch_74_75_b.sql|transcript_source
+247	\N	patch	patch_74_75_c.sql|add_genome_statistics
+248	\N	patch	patch_74_75_d.sql|default_transcript_source
+249	\N	patch	patch_74_75_e.sql|unique_attrib_key
+250	\N	patch	patch_74_75_f.sql|longer_code
+251	\N	patch	patch_75_76_a.sql|schema_version
+252	\N	patch	patch_75_76_b.sql|allow_null_karyotype
+253	\N	patch	patch_75_76_c.sql|remove_alternative_splicing
+311	1	liftover.mapping	chromosome:GRCh38#chromosome:GRCh37
+312	1	liftover.mapping	chromosome:GRCh38#chromosome:NCBI36
+313	1	liftover.mapping	chromosome:GRCh38#chromosome:NCBI35
+314	1	liftover.mapping	chromosome:GRCh38#chromosome:NCBI34
+315	1	assembly.mapping	chromosome:GRCh38#chromosome:GRCh37
+316	1	assembly.mapping	chromosome:GRCh38#chromosome:NCBI36
+317	1	assembly.mapping	chromosome:GRCh38#chromosome:NCBI35
+318	1	assembly.mapping	chromosome:GRCh38#chromosome:NCBI34
+334	1	lrg	lrg
+335	1	assembly.mapping	chromosome:GRCh38#lrg
+336	1	assembly.mapping	lrg#contig
+6620	1	xref.timestamp	2025-08-15 20:08:36
+351	\N	patch	patch_76_77_a.sql|schema_version
+402	\N	patch	patch_77_78_a.sql|schema_version
+403	\N	patch	patch_77_78_b.sql|source_column_increase
+451	1	assembly.ucsc_alias	hg38
+453	\N	patch	patch_77_78_c.sql|Change unmapped_reason_id from smallint to int
+513	\N	patch	patch_78_79_a.sql|schema_version
+561	1	assembly.mapping	chromosome:GRCh37#contig
+562	1	assembly.mapping	chromosome:NCBI36#contig
+563	1	assembly.mapping	chromosome:NCBI35#contig
+564	1	assembly.mapping	chromosome:NCBI34#contig
+565	1	assembly.mapping	chromosome:GRCh37#chromosome:NCBI36
+566	1	assembly.mapping	chromosome:GRCh37#chromosome:NCBI35
+567	1	assembly.mapping	chromosome:GRCh37#chromosome:NCBI34
+568	1	assembly.mapping	chromosome:NCBI36#chromosome:NCBI35
+569	\N	patch	patch_78_79_b.sql|bamcov support
+570	\N	patch	patch_79_80_a.sql|schema_version
+572	\N	patch	patch_79_80_b.sql|xref_dbprimary_acc_longer
+573	\N	patch	patch_79_80_c.sql|seq_region_synonym_longer
+621	\N	patch	patch_79_80_d.sql|genome_statistics_value_longer
+658	\N	patch	patch_80_81_a.sql|schema_version
+706	\N	patch	patch_81_82_a.sql|schema_version
+707	\N	patch	patch_81_82_b.sql|xref_width
+708	\N	patch	patch_81_82_c.sql|seq_synonym_key
+5874	1	species.division	EnsemblVertebrates
+781	\N	patch	patch_82_83_a.sql|schema_version
+839	\N	patch	patch_83_84_a.sql|schema_version
+840	\N	patch	patch_83_84_b.sql|xref.version_default
+841	\N	patch	patch_83_84_c.sql|protein_feature_unique
+842	\N	patch	patch_83_84_d.sql|longer_synonym
+890	\N	patch	patch_83_84_e.sql|nullable_versions
+922	\N	patch	patch_84_85_a.sql|schema_version
+923	\N	patch	patch_84_85_b.sql|remove_duplicated_key
+1036	\N	patch	patch_85_86_a.sql|schema_version
+1130	\N	patch	patch_85_86_b.sql|add dna_align_feature_attrib table
+1131	\N	patch	patch_85_86_c.sql|meta_case_insensitive
+1132	\N	patch	patch_86_87_a.sql|schema_version
+1133	\N	patch	patch_86_87_b.sql|meta_value_NOT_NULL
+1134	\N	patch	patch_86_87_c.sql|datetime_default_NULL
+1213	\N	patch	patch_87_88_a.sql|schema_version
+1214	\N	patch	patch_87_88_b.sql|seq_region_name_255
+1262	\N	patch	patch_87_88_c.sql|protein_featue_uniqueness
+2064	\N	patch	patch_88_89_a.sql|schema_version
+2973	\N	patch	patch_89_90_a.sql|schema_version
+2974	\N	patch	patch_89_90_b.sql|remove_status
+3354	\N	patch	patch_89_90_c.sql|pf_hit_name_case_sensitive
+3966	\N	patch	patch_90_91_a.sql|schema_version
+3967	\N	patch	patch_90_91_b.sql|align_type
+3968	\N	patch	patch_90_91_c.sql|protein_align_type
+3969	\N	patch	patch_90_91_d.sql|remove_external_data
+6656	1	species.alias	homo
+5745	\N	patch	patch_80_81_b.sql|xref_width
+5746	\N	patch	patch_91_92_a.sql|schema_version
+5747	\N	patch	patch_91_92_b.sql|add_cigar_line_align_type
+5760	\N	patch	patch_92_93_a.sql|schema_version
+5761	\N	patch	patch_92_93_b.sql|biotype_table
+5762	\N	patch	patch_92_93_c.sql|collate_index_interpro
+5775	\N	patch	patch_93_94_a.sql|schema_version
+5825	\N	patch	patch_93_94_c.sql|default_aln_type
+5777	\N	patch	patch_93_94_b.sql|nullable_ox_analysis
+5827	\N	patch	patch_94_95_a.sql|schema_version
+5828	\N	patch	patch_94_95_b.sql|vertebrate_division_rename
+6643	1	species.classification	Craniata
+5877	1	liftover.mapping	chromosome:GRCh37#chromosome:NCBI36
+5878	1	liftover.mapping	chromosome:GRCh37#chromosome:NCBI35
+5879	1	liftover.mapping	chromosome:GRCh37#chromosome:NCBI34
+5880	1	liftover.mapping	chromosome:NCBI36#chromosome:NCBI35
+5891	\N	patch	patch_95_96_a.sql|schema_version
+5901	\N	patch	patch_96_97_a.sql|schema_version
+5902	\N	patch	patch_96_97_b.sql|biotype_so_term
+5903	\N	patch	patch_96_97_c.sql|rnaproduct_tables
+5904	\N	patch	patch_96_97_d.sql|add_object_type_rnaproduct
+5905	\N	patch	patch_96_97_e.sql|add_stable_id_event_type_rnaproduct
+6622	1	species.classification	Homo sapiens
+5970	\N	patch	patch_97_98_a.sql|schema_version
+5971	\N	patch	patch_98_99_a.sql|schema_version
+5983	\N	patch	patch_99_100_a.sql|schema_version
+5984	\N	patch	patch_99_100_b.sql|alter_externaldb_type_notnull
+5985	\N	patch	patch_99_100_c.sql|alter_mapping_session_assembly_length
+6169	1	sample.location_param	17:63992802-64038237
+6170	1	sample.location_text	17:63992802-64038237
+6171	1	sample.gene_param	ENSG00000139618
+6172	1	sample.gene_text	BRCA2
+6173	1	sample.transcript_param	ENST00000403559
+6174	1	sample.transcript_text	FOXP2-203
+6001	1	sample.search_text	osteoarthritis
+6011	1	annotation.provider_name	Ensembl
+6012	1	annotation.provider_url	https://www.ensembl.org
+6013	1	assembly.provider_name	Genome Reference Consortium
+6014	1	assembly.provider_url	https://www.ncbi.nlm.nih.gov/grc
+6016	\N	patch	patch_100_101_a.sql|schema_version
+6017	1	repeat.analysis	centromere_repeat
+6018	1	repeat.analysis	repeatmask_repbase_human_low
+6029	\N	patch	patch_101_102_a.sql|schema_version
+6030	\N	patch	patch_102_103_a.sql|schema_version
+6050	\N	patch	patch_103_104_a.sql|schema_version
+6070	\N	patch	patch_104_105_a.sql|schema_version
+6109	\N	patch	patch_105_106_a.sql|schema_version
+6638	1	species.classification	Sarcopterygii
+6639	1	species.classification	Euteleostomi
+6164	1	sample.vep_hgvs	ENST00000308647.8:c.4T>G\\nENST00000272065.10:c.43+16C>T\\nENST00000256509.7:c.5del
+6165	1	sample.vep_id	rs1156485833\\nrs1258750482\\nrs867704559
+6166	1	sample.vep_vcf	1 1471888 . T G . . .\\n2 265023 . C T . . .\\n3 319780 . GA G . . .
+6167	1	sample.vep_spdi	NC_000001.11:1471887:T:G\\nNC_000002.12:265022:C:T\\nNC_000003.12:319780:A:
+6168	1	sample.vep_ensembl	1 1471888 1471888 T/G 1\\n2 265023 265023 C/T 1\\n3 319781 319781 A/- 1
+6175	\N	patch	patch_106_107_a.sql|schema_version
+6176	\N	patch	patch_106_107_b.sql|Added index for seq_region_mapping
+6197	\N	patch	patch_107_108_a.sql|schema_version
+6657	1	species.alias	homo sapiens
+6624	1	species.classification	Hominidae
+6625	1	species.classification	Hominoidea
+6611	1	genebuild.level	toplevel
+6612	1	transcriptbuild.level	toplevel
+6613	1	exonbuild.level	toplevel
+6255	\N	patch	patch_108_109_a.sql|schema_version
+6256	\N	patch	patch_108_109_b.sql|Added xref source GeneCards into external_db
+6265	\N	patch	patch_109_110_a.sql|schema_version
+6266	\N	patch	patch_109_110_b.sql|Add IS_PAR relationship to link X- and Y-PAR genes
+6267	\N	patch	patch_109_110_c.sql|Allow gene id to belong to multiple alt allele groups
+6615	1	dna_align_featurebuild.level	toplevel
+6616	1	protein_align_featurebuild.level	toplevel
+6289	\N	patch	patch_110_111_a.sql|schema_version
+6629	1	species.classification	Primates
+6334	1	sample.gene_keep	1
+6335	1	sample.vep_keep	1
+6336	\N	patch	patch_111_112_a.sql|schema_version
+6337	\N	patch	patch_111_112_b.sql|Allow meta_value to be null
+6348	1	mane.version	MANE v1.5
+6659	1	species.alias	homsap
+6637	1	species.classification	Dipnotetrapodomorpha
+6630	1	species.classification	Euarchontoglires
+6631	1	species.classification	Boreoeutheria
+6393	\N	patch	patch_112_113_a.sql|schema_version
+6394	\N	patch	patch_112_113_b.sql|Ensure meta_value is not null
+6404	\N	patch	patch_111_112_c.sql|Extend meta_key length to 64
+6406	1	organism.biosample_id	SAMN12121739
+6407	1	organism.taxonomy_id	9606
+6408	1	organism.species_taxonomy_id	9606
+6409	1	organism.scientific_name	Homo sapiens
+6410	1	genebuild.version	GENCODE50
+6658	1	species.alias	homo_sapiens
+6636	1	species.classification	Tetrapoda
+6634	1	species.classification	Mammalia
+6635	1	species.classification	Amniota
+6628	1	species.classification	Haplorrhini
+6499	\N	patch	patch_113_114_a.sql|schema_version
+6626	1	species.classification	Catarrhini
+6627	1	species.classification	Simiiformes
+6623	1	species.classification	Homininae
+6653	1	species.alias	9606
+6554	\N	patch	patch_111_112_c.sql|Extend meta_key length to 64
+6564	\N	patch	patch_114_115_a.sql|schema_version
+6642	1	species.classification	Vertebrata
+6640	1	species.classification	Teleostomi
+6641	1	species.classification	Gnathostomata
+6633	1	species.classification	Theria
+6632	1	species.classification	Eutheria
+6655	1	species.alias	h_sapiens
+6654	1	species.alias	enshs
+6610	\N	patch	patch_115_116_a.sql|schema_version
+6644	1	species.classification	Chordata
+6645	1	species.classification	Deuterostomia
+6646	1	species.classification	Bilateria
+6647	1	species.classification	Eumetazoa
+6648	1	species.classification	Metazoa
+6649	1	species.classification	Opisthokonta
+6650	1	species.classification	Eukaryota
+6660	1	species.alias	hsap
+6661	1	species.alias	hsapiens
+6662	1	species.alias	human

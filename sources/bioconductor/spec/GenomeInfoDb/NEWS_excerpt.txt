@@ -1,0 +1,90 @@
+CHANGES IN VERSION 1.48.0
+-------------------------
+
+NEW FEATURES
+
+    o Register the following NCBI assemblies for Heterocephalus glaber (naked
+      mole-rat):
+
+      - HetGla_1.0:
+          https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000230445.1/
+
+      - HetGla_female_1.0:
+          https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000247695.1/
+
+      - Naked mole-rat maternal:
+          https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_944319715.1/
+
+      - Naked mole-rat paternal:
+          https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_944319725.1/
+
+      as well as the following UCSC genomes assemblies:
+
+      - hetGla1 (based on HetGla_1.0):
+          https://genome.ucsc.edu/cgi-bin/hgGateway?db=hetGla1
+
+      - hetGla2 (based on HetGla_female_1.0):
+          https://genome.ucsc.edu/cgi-bin/hgGateway?db=hetGla2
+
+BUG FIXES
+
+    o Make sure list_ftp_dir() works on an empty FTP dir.
+
+
+CHANGES IN VERSION 1.46.0
+-------------------------
+
+NEW FEATURES
+
+    o Started to include a small "chrominfo db" in the package with chromosome
+      info for the most commonly used NCBI and UCSC genome assemblies e.g.
+      GRCh38.p14, GRCh38.p13, GRCm39, hg38, mm39, etc...
+      This makes calls like getChromInfoFromNCBI("GRCh38.p14") or
+      getChromInfoFromUCSC("hg38") work offline, plus now they are fast
+      and reliable.
+
+SIGNIFICANT USER-VISIBLE CHANGES
+
+    o The Seqinfo class was moved from the GenomeInfoDb package to the
+      new Seqinfo package.
+
+      IMPORTANT WARNING: This means that:
+
+      - Seqinfo-holding S4 objects that were serialized before this change
+        (i.e. prior to Bioconductor 3.22) are no longer valid objects in
+        Bioconductor >= 3.22. However they can be fixed with updateObject().
+
+      - This also means that Seqinfo-holding S4 objects serialized with
+        Bioconductor >= 3.22 are no longer valid objects in Bioconductor
+        < 3.22. These objects can **not** be fixed with updateObject().
+
+    o The GenomeDescription class was also moved from the GenomeInfoDb
+      package to the new Seqinfo package.
+
+    o The following functions have moved to the new Seqinfo package:
+       - constructor functions Seqinfo() and GenomeDescription()
+       - seqinfo(), seqnames(), seqlevels(), seqlevels0()
+       - seqlengths()
+       - isCircular()
+       - genome()
+       - orderSeqlevels(), rankSeqlevels()
+       - restoreSeqlevels()
+       - sortSeqlevels(), seqlevelsInUse()
+       - commonName(), provider(), providerVersion()
+       - releaseDate(), bsgenomeName()
+
+    o The GenomeInfoDb package now depends on new Seqinfo package.
+
+    o GenomeInfoDbData was moved from Imports to Suggests (the package is
+      only used by the loadTaxonomyDb() function).
+
+BUG FIXES
+
+    o Fix mapping between UCSC genome dm3 and NCBI genome assembly for
+      Drosophila melanogaster Release 5. See commit 3775ca4.
+
+    o Fix getChromInfoFromNCBI("Pan_troglodytes-2.1.4"). See commit 4f3c737.
+
+
+CHANGES IN VERSION 1.44.0
+-------------------------

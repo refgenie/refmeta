@@ -1,0 +1,130 @@
+# schema.org export of FAIR-bioHeaders metadata
+
+The schema.org export is a **one-way** projection of an FHR record to a schema.org graph, for
+search engines, validator.schema.org and Bioschemas tools. It is separate from the
+[canonical JSON-LD form](JSONLD.md), which round-trips exactly and stays the default. The export
+splits the record into the entities it describes:
+- the assembly;
+- the metadata record;
+- the assembly activity;
+- the statistics;
+- the grant and the article.
+
+The design is [specs/013-schemaorg-export](../specs/013-schemaorg-export/spec.md), from David
+Molik's proposals on [#56](https://github.com/FAIR-bioHeaders/FAIR-bioHeaders-Specification/issues/56). The
+profile is **provisional** until #56 publishes its own export documents.
+
+- Field-by-field table: [`mappings/fhr-schemaorg-export.yml`](../mappings/fhr-schemaorg-export.yml).
+- Example: [`examples/example.fhr.export.jsonld`](../examples/example.fhr.export.jsonld).
+- Fixtures, one per proposal: [`tests/fixtures/schemaorg-export/`](../tests/fixtures/schemaorg-export/).
+- Toolkit: `bioheaders convert x.fhr.json x.jsonld --jsonld-profile export [--export-context FILE]`.
+
+## Rules
+
+The bracketed ids are stable labels used by the tests.
+
+1. **[X1] Separate and one-way.**
+   - The export is written only on request.
+   - It never replaces the canonical form, and it cannot be read back as FHR metadata. Readers
+     refuse it.
+   - The canonical context and examples do not change.
+   - The export terms `@id`, `keywords`, `url` and `conformsTo` are not FHR fields. In the
+     canonical form they are set aside with a warning (J1); in any other JSON-LD form they are
+     unknown terms and the document is invalid (J4). That difference is intended: the canonical
+     form is writer output with a documented place for export annotations, while an expanded or
+     compacted document is read generically. See
+     [JSONLD.md](JSONLD.md#export-terms-in-the-canonical-form-and-in-other-forms).
+2. **[X2] Shape.**
+   - The document is `{"@context": {"@vocab": "http://schema.org/", "fhr": ..., "dct": ...},
+     "@graph": [...]}`. That is a JSON-LD 1.0 context with no scoped contexts and no coercions, so
+     JSON-LD 1.0 tools read it.
+   - The graph holds, in order: the assembly (`Dataset`), the metadata record (`CreativeWork`),
+     the assembly activity (`CreateAction`, only when it has content), and one `Observation` per
+     numeric statistic.
+   - The assembly's `@id` is the export context's `id`, or else the blank node `_:assembly`.
+3. **[X3] Each statement on its own subject.**
+   - The metadata record is `about` the assembly. It carries `metadataAuthor` as `creator`, the
+     schema URL as `schemaVersion` and FHR's `schemaVersion` as `fhr:schemaVersion`.
+   - The assembly carries `assemblyAuthor` as `creator`, plus `version` and `dateCreated`.
+   - Authors are typed as in the canonical form: an explicit `nameType` (v0.4) decides first
+     (`Personal` gives `Person`, `Organizational` gives `Organization`); otherwise ORCID gives `Person`, ROR gives `Organization`,
+     and an author with neither stays `fhr:Agent`. `fhr:Agent` is outside `creator`'s expected
+     range, but classifying the author would invent metadata. A `nameType` that contradicts the
+     identifier, such as `Organizational` with an ORCID, is accepted by `fhr.json` 2.0 and is
+     typed by `nameType` here and in the canonical writer; the contradiction is a known accepted
+     combination, and rejecting it needs the next major `schemaVersion`
+     ([JSONLD.md](JSONLD.md#what-the-document-contains)).
+4. **[X4] Statistics are observations of the assembly.**
+   - Each numeric `vitalStats` value becomes an `Observation` with:
+     - `observationAbout` → the assembly;
+     - `measuredProperty` → the FHR term (`fhr:N50`, …);
+     - `value`, `unitCode` (Units Ontology) and `unitText`.
+   - Units: base pair (`UO_0000244`) for N50, N90, scaffoldN50, scaffoldN90 and totalBasePairs;
+     count unit (`UO_0000189`) for L50, L90, scaffoldL50, scaffoldL90, numberContigs and
+     numberScaffolds; percent (`UO_0000187`) for gcContent.
+   - No observation date is written.
+   - The statistics are not `variableMeasured` of the dataset, because they describe the
+     assembly, not variables measured within its sequence data.
+   - `readTechnology` is text, so it stays canonical.
+5. **[X5] Values are copied, never extended.**
+   - Every value comes from the record or the export context, or is a fixed constant of the
+     profile.
+   - `funding` becomes a `Grant` whose `description` is the unchanged text. No funder, award
+     number or amount is extracted.
+   - `reuseConditions` and `documentation` become IRIs only when they are absolute `http`,
+     `https` or `ftp` URLs, as in the canonical form ([JSONLD.md](JSONLD.md#what-the-document-contains)).
+     Otherwise they stay text: other documentation is `description`, and a URL is `subjectOf`.
+     Text with another scheme, such as `file:///…` or `javascript:…`, stays text.
+   - The IRI-valued fields (`schema`, `relatedLink`, `assemblyProtocol`, the taxon and author
+     `uri`, the accession `url`, a software `uri`) are written as IRIs, so a writer refuses a
+     record in which one of them has no accepted link scheme ([FORMAT.md](FORMAT.md) R14). The
+     export context's `id` and `url` must be `http`, `https` or `ftp` URLs.
+   - A licence that is text is kept as text, and validator.schema.org reports it. Use a licence
+     URL.
+6. **[X6] Identifiers keep their scope.**
+   - The assembly's `identifier` lists `identifier[]`, then `accessionID` as a `PropertyValue`
+     (`name`, `url`).
+   - Then it lists `seqcol_id` as `{"@type": "PropertyValue", "propertyID": "GA4GH refget sequence
+     collection", "value": <digest>}`.
+   - No resolver URL is written for the SeqCol digest.
+   - The file checksum stays `fhr:checksum`, and the metadata record has no identifier.
+7. **[X7] The article.**
+   - A `scholarlyArticle` that matches `^10\.[0-9]{4,9}/\S+$` becomes `subjectOf` → a
+     `ScholarlyArticle`, whose `@id` is `https://doi.org/<DOI>` and whose `identifier` is a
+     `PropertyValue` holding the DOI.
+   - Any other value stays `citation` text.
+   - The article DOI is never an identifier of the assembly.
+8. **[X8] Assembly provenance.**
+   - `assemblySoftware` becomes a `CreateAction`, whose `result` is the assembly and whose
+     `instrument` is one `SoftwareApplication` per item. A legacy software string becomes one
+     `SoftwareApplication` with that `name`.
+   - Command-line options keep their order (`@list`).
+   - `assemblyProtocol` is `actionProcess` → `HowTo` only when the export context sets
+     `"assemblyProtocolHowTo": true`. Otherwise it stays `fhr:assemblyProtocol`.
+   - The sequencing `instrument` stays `fhr:instrument`, because it may belong to an upstream
+     sequencing activity.
+   - No times or agents are written.
+9. **[X9] Bioschemas and unmapped keys.**
+   - The assembly claims `dct:conformsTo` Bioschemas Dataset 1.0-RELEASE only when every Dataset
+     minimum property is present, as in the canonical form.
+   - Keys that FHR's nested objects do not define are left out and reported, never projected under
+     `@vocab`.
+   - Extension fields (top-level `x-` keys, [FORMAT.md](FORMAT.md) R15) are left out and reported
+     in the same way, as in the canonical form (J9).
+
+## Export context
+
+The export context is a small JSON or YAML file, the same format as for the canonical form: `id`,
+`url` and `keywords`. It may also contain `"assemblyProtocolHowTo": true` (X8). That key is
+ignored by the canonical writer.
+
+## What the export loses
+
+The export is not a substitute for the canonical form. It drops:
+- the record's key order and shape;
+- keys that FHR's nested objects do not define;
+- extension fields (`x-` keys);
+- the canonical `vitalStats` object, except `readTechnology`.
+
+It also asserts the article's resource type from the FHR field definition rather than checking it.
+Use the canonical form, or FHR's JSON or YAML, to exchange or archive metadata.

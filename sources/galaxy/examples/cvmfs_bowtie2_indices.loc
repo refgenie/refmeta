@@ -1,0 +1,9 @@
+# from /cvmfs/data.galaxyproject.org/byhand/location/bowtie2_indices.loc (table bowtie2_indexes, listed in /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml)
+hg38female	hg38	Human (Homo sapiens) (b38): hg38 Canonical Female	/cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bowtie2_index/hg38female
+hg38canon	hg38	Human (Homo sapiens) (b38): hg38 Canonical	/cvmfs/data.galaxyproject.org/byhand/hg38/hg38canon/bowtie2_index/hg38canon
+hg38	hg38	Human (Homo sapiens) (b38): hg38	/cvmfs/data.galaxyproject.org/byhand/hg38/hg38full/bowtie2_index/hg38full
+# from /cvmfs/data.galaxyproject.org/managed/location/bowtie2_indices.loc (table bowtie2_indexes, listed in /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml)
+sacCer3	sacCer3	Yeast (Saccharomyces cerevisiae): sacCer3	/cvmfs/data.galaxyproject.org/managed/bowtie2_index/sacCer3/sacCer3
+# from /cvmfs/brc.galaxyproject.org/config/bowtie2_indices.loc (table bowtie2_indexes, listed in /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml)
+GCF_000146045.2	GCF_000146045.2	Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)	/cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/bowtie_index/v2/GCF_000146045.2/GCF_000146045.2
+GCF_000001405.40	GCF_000001405.40	Homo sapiens (GCF_000001405.40)	/cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/bowtie_index/v2/GCF_000001405.40/GCF_000001405.40

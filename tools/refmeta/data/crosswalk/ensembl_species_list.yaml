@@ -1,0 +1,62 @@
+# refmeta crosswalk: ensembl_species_list <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_species_list
+source: ensembl
+core: '0.1'
+subject: assembly
+description: Per-release species list on the FTP root (release-116/species_EnsemblVertebrates.txt). Tab-separated
+  with a '#name' header row; every data row ends with an extra tab.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: assembly_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_002109545.1
+    core: {namespace: insdc.gca, value: GCA_002109545.1}
+    file: examples/species_EnsemblVertebrates_release116_excerpt.txt
+- native: assembly
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: ASM210954v1, core: ASM210954v1, file: examples/species_EnsemblVertebrates_release116_excerpt.txt}
+- native: taxonomy_id
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 80966, core: 80966, file: examples/species_EnsemblVertebrates_release116_excerpt.txt}
+- native: '#name'
+  core: deployments[system=ensembl].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Spiny chromis, core: Spiny chromis, file: examples/species_EnsemblVertebrates_release116_excerpt.txt}
+- native: species
+  core: deployments[system=ensembl].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: acanthochromis_polyacanthus, core: acanthochromis_polyacanthus, file: examples/species_EnsemblVertebrates_release116_excerpt.txt}
+- native: division
+  core: deployments[system=ensembl].scope
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: EnsemblVertebrates, core: EnsemblVertebrates, file: examples/species_EnsemblVertebrates_release116_excerpt.txt}
+unmapped:
+- {native: genebuild, reason: Gene annotation label.}
+- {native: variation, reason: Data availability flag.}
+- {native: microarray, reason: Data availability flag.}
+- {native: pan_compara, reason: Data availability flag.}
+- {native: peptide_compara, reason: Data availability flag.}
+- {native: genome_alignments, reason: Data availability flag.}
+- {native: other_alignments, reason: Data availability flag.}
+- {native: core_db, reason: Core database name.}
+- {native: species_id, reason: Species id inside the core database.}

@@ -1,0 +1,49 @@
+# refmeta crosswalk: ga4gh_seqcol_level1 <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ga4gh_seqcol_level1
+source: ga4gh
+core: '0.1'
+subject: collection
+description: 'Refget sequence collection, level 1 representation: one JSON object mapping each attribute name to
+  the digest of its level 2 array. Served by GET /collection/<digest>?level=1.'
+records: {mode: each}
+constants: {}
+derive: [seqcol_digests]
+rules:
+- native: names
+  core: collection.level1.names
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 98mmhMJEAlnJt8y1kHS-uFl10dOMDK5e, core: 98mmhMJEAlnJt8y1kHS-uFl10dOMDK5e, file: examples/seqcol_level1_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: lengths
+  core: collection.level1.lengths
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: W1ebzJPljxcH18TSc-q_hrsYxR8UBfwu, core: W1ebzJPljxcH18TSc-q_hrsYxR8UBfwu, file: examples/seqcol_level1_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: sequences
+  core: collection.level1.sequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: FYgTyuFCAC7bTk6rX8DgMbbYVzqYLI9C, core: FYgTyuFCAC7bTk6rX8DgMbbYVzqYLI9C, file: examples/seqcol_level1_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: name_length_pairs
+  core: collection.level1.name_length_pairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Yyz0Expaluj09xdDYg2Y6VOApvjg05Hf, core: Yyz0Expaluj09xdDYg2Y6VOApvjg05Hf, file: examples/seqcol_level1_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: sorted_name_length_pairs
+  core: collection.level1.sorted_name_length_pairs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: _dMQ5dPUNVx4OGQnDAPmGMkVRWWcYV99, core: _dMQ5dPUNVx4OGQnDAPmGMkVRWWcYV99, file: examples/seqcol_level1_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+- native: sorted_sequences
+  core: collection.level1.sorted_sequences
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: t92G_9TEqI1b0mV996IAku5_cEEYmlVx, core: t92G_9TEqI1b0mV996IAku5_cEEYmlVx, file: examples/seqcol_level1_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json}
+unmapped: []

@@ -1,0 +1,192 @@
+# refmeta crosswalk: ena_browser_summary <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ena_browser_summary
+source: ena
+core: '0.1'
+subject: assembly
+description: ENA Browser API /summary/<GCA> JSON. Same content as the XML in a different shape, plus newAccession
+  (latest version of the chain).
+records: {mode: each}
+notes: accession is the unversioned chain (GCA_000001405); the accession_version derivation joins it with version.
+  On write, the version is cut off again.
+constants: {}
+derive: [accession_version]
+rules:
+- native: accession
+  core: assembly.accessions
+  direction: to_core
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405
+    core: {namespace: insdc.gca, value: GCA_000001405}
+    file: examples/browser_summary_GCA_000001405.15.json
+- native: accession
+  core: assembly.accessions[0].value
+  direction: from_core
+  transform:
+    regex: {pattern: '^(GC[AF]_\d{9})'}
+  lossy: null
+  example: {native: GCA_000001405, core: null, file: examples/browser_summary_GCA_000001405.15.json}
+- native: version
+  core: assembly.version
+  direction: both
+  transform:
+    cast: {to: string, from: integer}
+  lossy: null
+  example: {native: 15, core: '15', file: examples/browser_summary_GCA_000001405.15.json}
+- native: title
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium Human Build 38, core: Genome Reference Consortium Human Build 38,
+    file: examples/browser_summary_GCA_000001405.15.json}
+- native: description
+  core: assembly.documentation
+  direction: both
+  transform: null
+  lossy: Holds HTML markup in some records; kept as text.
+  example: {native: The human reference assembly defines a standard upon which other whole genome studies are based.
+      Providing the best representation of the human genome is ess..., core: The human reference assembly defines
+      a standard upon which other whole genome studies are based. Providing the best representation of the human
+      genome is ess..., file: examples/browser_summary_GCA_000001405.15.json, truncated: true}
+- native: name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/browser_summary_GCA_000001405.15.json}
+- native: assemblyLevel
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/browser_summary_GCA_000001405.15.json}
+- native: platform
+  core: assembly.instrument
+  direction: both
+  transform:
+    split: {sep: ', '}
+  lossy: null
+  example:
+    native: PacBio SEQUEL
+    core: [PacBio SEQUEL]
+    file: examples/other/browser_summary_GCA_902167145.1.json
+- native: program
+  core: assembly.assemblySoftware[0].name
+  direction: both
+  transform: null
+  lossy: Name and version in one string.
+  example: {native: Canu 1.8, core: Canu 1.8, file: examples/other/browser_summary_GCA_902167145.1.json}
+- native: assemblyCoverage
+  core: assembly.vitalStats.coverage
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 83, core: 83, file: examples/other/browser_summary_GCA_902167145.1.json}
+- native: attributes.total-length
+  core: assembly.vitalStats.totalBasePairs
+  direction: both
+  transform: null
+  lossy: Counts every sequence including alt loci; NCBI's total excludes them.
+  example: {native: 3209286105, core: 3209286105, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.ungapped-length
+  core: assembly.vitalStats.ungappedLength
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 3049316098, core: 3049316098, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.n50
+  core: assembly.vitalStats.scaffoldN50
+  direction: both
+  transform: null
+  lossy: ENA does not say which N50 this is; it equals NCBI's scaffold N50 for GRCh38.
+  example: {native: 67794873, core: 67794873, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.scaffold-count
+  core: assembly.vitalStats.numberScaffolds
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 735, core: 735, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.count-contig
+  core: assembly.vitalStats.numberContigs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 1385, core: 1385, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.contig-n50
+  core: assembly.vitalStats.N50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 56413054, core: 56413054, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.contig-L50
+  core: assembly.vitalStats.L50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 19, core: 19, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.contig-n90
+  core: assembly.vitalStats.N90
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 7084842, core: 7084842, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.scaf-L50
+  core: assembly.vitalStats.scaffoldL50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 16, core: 16, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.scaf-n90
+  core: assembly.vitalStats.scaffoldN90
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 12943127, core: 12943127, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.replicon-count
+  core: assembly.vitalStats.numberChromosomes
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 25, core: 25, file: examples/browser_summary_GCA_000001405.15.json}
+- native: attributes.ENA-LAST-UPDATED
+  core: provenance[0].recordDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2019-02-28', core: '2019-02-28', file: examples/browser_summary_GCA_000001405.15.json}
+unmapped:
+- {native: dataType, reason: Record type (ASSEMBLY).}
+- {native: status, reason: Numeric public status.}
+- {native: statusDescription, reason: Status text.}
+- {native: assemblyType, reason: '''clone or isolate''; a different vocabulary from NCBI''s assembly type.'}
+- {native: wgsSet, reason: WGS contig set.}
+- {native: newAccession, reason: Newest version of the chain; the core does not model relations between assembly
+    versions.}
+- {native: chromosomes, reason: Collapsed chromosome list; use the sequence report.}
+- {native: chromosomes.accession, reason: Part of the collapsed chromosome list.}
+- {native: chromosomes.name, reason: Part of the collapsed chromosome list.}
+- {native: chromosomes.type, reason: Part of the collapsed chromosome list.}
+- {native: chromosomes.count, reason: Part of the collapsed chromosome list.}
+- {native: links, reason: Links to WGS set files.}
+- {native: links.label, reason: Link label.}
+- {native: links.url, reason: Link URL.}
+- {native: attributes.spanned-gaps, reason: 'Assembly statistic with no FHR or core field (gap counts, N75, alt-loci
+    and region counts).'}
+- {native: attributes.unspanned-gaps, reason: 'Assembly statistic with no FHR or core field (gap counts, N75, alt-loci
+    and region counts).'}
+- {native: attributes.contig-n75, reason: 'Assembly statistic with no FHR or core field (gap counts, N75, alt-loci
+    and region counts).'}
+- {native: attributes.scaf-n75, reason: 'Assembly statistic with no FHR or core field (gap counts, N75, alt-loci
+    and region counts).'}
+- {native: attributes.count-non-chromosome-replicon, reason: 'Assembly statistic with no FHR or core field (gap
+    counts, N75, alt-loci and region counts).'}
+- {native: attributes.count-alt-loci-units, reason: 'Assembly statistic with no FHR or core field (gap counts, N75,
+    alt-loci and region counts).'}
+- {native: attributes.count-regions, reason: 'Assembly statistic with no FHR or core field (gap counts, N75, alt-loci
+    and region counts).'}
+- {native: attributes.count-patches, reason: 'Assembly statistic with no FHR or core field (gap counts, N75, alt-loci
+    and region counts).'}

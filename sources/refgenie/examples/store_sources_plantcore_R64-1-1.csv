@@ -1,0 +1,2 @@
+fasta,name,organism,source,genome_assembly,accession,group,pep_sample_name
+saccharomyces_cerevisiae_strain_s288c/ensembl/ENSEMBL_release_81.fa.gz,R64-1-1,Saccharomyces cerevisiae strain S288C,Ensembl,ENSEMBL_release_81,,saccharomyces_cerevisiae_strain_s288c,saccharomyces_cerevisiae_ENSEMBL_release_81

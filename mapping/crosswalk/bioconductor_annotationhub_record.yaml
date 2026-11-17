@@ -1,0 +1,121 @@
+# refmeta crosswalk: bioconductor_annotationhub_record <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: bioconductor_annotationhub_record
+source: bioconductor
+core: '0.1'
+subject: copy
+description: One AnnotationHub resource as returned by https://annotationhub.bioconductor.org/ahid/<AH id> (pretty-printed
+  JSON from AnnotationHubServer3.0 formatId()). The same data lives in the hub's annotationhub.sqlite3 and is what
+  mcols(<AnnotationHub>) shows in R. Array members (rdatapaths, input_sources) are flattened to 'array[].field'
+  keys whose values are lists, one item per array member.
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: ah_id
+  core: deployments[system=annotationhub].key
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: AH13963, core: AH13963, file: examples/annotationhub_AH13963.json}
+- native: title
+  core: deployments[system=annotationhub].displayName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: hg38.2bit, core: hg38.2bit, file: examples/annotationhub_AH13963.json}
+- native: genome
+  core: collection.labels[namespace=annotationhub].value
+  direction: both
+  transform: null
+  lossy: Free text mixing UCSC names (hg38) and assembly names (GRCh38.p13).
+  example: {native: hg38, core: hg38, file: examples/annotationhub_AH13963.json}
+- native: species
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Case is not normalized (homo sapiens).
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/annotationhub_AH13963.json}
+- native: taxonomyid
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/annotationhub_AH13963.json}
+- native: dataprovider
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: UCSC, core: UCSC, file: examples/annotationhub_AH13963.json}
+- native: rdatapaths[].rdatapath
+  core: copies[].location
+  direction: both
+  transform: null
+  lossy: Relative to location_prefix, which is not joined in.
+  example:
+    native: &id001 [goldenPath/hg38/bigZips/hg38.2bit]
+    core: *id001
+    file: examples/annotationhub_AH13963.json
+- native: input_sources[].sourceurl
+  core: copies[kind=source].location
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id002 ['http://hgdownload.cse.ucsc.edu/goldenpath/hg38/bigZips/hg38.2bit']
+    core: *id002
+    file: examples/annotationhub_AH13963.json
+- native: input_sources[].sourcesize
+  core: copies[kind=source].size
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example:
+    native: ['1035015944']
+    core: [1035015944]
+    file: examples/annotationhub_AH49186.json
+- native: input_sources[].sourcemd5
+  core: copies[kind=source].checksums.md5
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id003 [null]
+    core: *id003
+    file: examples/annotationhub_AH13963.json
+- native: input_sources[].sourcelastmodifieddate
+  core: copies[kind=source].modified
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id004 [null]
+    core: *id004
+    file: examples/annotationhub_AH13963.json
+- native: input_sources[].sourceversion
+  core: collection.providerVersion
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id005 ['2014-01-09_22:14:50']
+    core: *id005
+    file: examples/annotationhub_AH13963.json
+unmapped:
+- {native: id, reason: Internal row id.}
+- {native: description, reason: Free text.}
+- {native: coordinate_1_based, reason: Coordinate base of the resource.}
+- {native: maintainer, reason: Resource maintainer.}
+- {native: rdatadateadded, reason: When the hub added it.}
+- {native: rdatadateremoved, reason: When the hub removed it.}
+- {native: preparerclass, reason: Hub recipe class.}
+- {native: location_prefix, reason: Base URL for rdatapath; joining it needs two fields.}
+- {native: recipe, reason: Hub recipe.}
+- {native: recipe_package, reason: Hub recipe package.}
+- {native: 'rdatapaths[].rdataclass', reason: R class of the file.}
+- {native: 'rdatapaths[].dispatchclass', reason: How the hub loads the file.}
+- {native: 'input_sources[].sourcetype', reason: 'Format of the source (FASTA, TwoBit).'}
+- {native: tags, reason: Search tags.}
+- {native: biocversions, reason: Bioconductor versions that list the resource.}

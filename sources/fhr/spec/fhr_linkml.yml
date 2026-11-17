@@ -1,0 +1,219 @@
+id: https://w3id.org/fhr
+name: FHRLinkMLMapping
+description: >-
+  FHR metadata and partial MIxS/MIGS crosswalks. The FHR class imports the
+  FAIR-bioHeaders shared core (schemas/core.yaml) and adds FHR-only slots.
+prefixes:
+  linkml: https://w3id.org/linkml/
+  MIXS: https://w3id.org/mixs/
+  # JSON-LD term IRIs (specs/011-jsonld-mapping research R-05, R-08); slots
+  # without a slot_uri get an fhr: term.
+  sdo: http://schema.org/
+  fhr: https://w3id.org/fair-bioheaders/terms#
+default_prefix: fhr
+default_range: string
+imports:
+- linkml:types
+- schemas/core
+slots:
+  genome:
+    description: Name of the genome
+    slot_uri: sdo:name
+    required: true
+  genomeSynonym:
+    description: Other common names of the genome
+    slot_uri: sdo:alternateName
+    multivalued: true
+  assemblyAuthor:
+    description: Assemblers of the genome
+    slot_uri: sdo:creator
+    range: Author
+    multivalued: true
+    inlined_as_list: true
+    required: true
+  instrument:
+    description: Physical tools and instruments used in the creation of the genome
+      assembly
+    multivalued: true
+  masking:
+    description: Masking applied to the genome assembly
+    pattern: ^(not-masked|hard-masked|soft-masked|repeat-masked|unknown)$
+    required: true
+  vitalStats:
+    description: General statistics about the genome assembly
+    range: VitalStats
+    inlined: true
+  assemblyProtocol:
+    broad_mappings:
+    - MIXS:0000090
+    range: uri
+    description: Assembly protocol or workflow reference URI.
+  assemblySoftware:
+    related_mappings:
+    - MIXS:0000058
+    description: Assembly software provenance or a legacy name.
+    any_of:
+    - range: string
+    - range: AssemblySoftware
+      multivalued: true
+      inlined_as_list: true
+classes:
+  FHR:
+    description: Metadata for reference genome assemblies.
+    class_uri: sdo:Dataset
+    tree_root: true
+    # Order follows the published fhr.json. derivedFrom is deliberately not
+    # listed: FHR schemaVersion 1 does not include it.
+    slots:
+    - schema
+    - schemaVersion
+    - genome
+    - genomeSynonym
+    - taxon
+    - version
+    - metadataAuthor
+    - assemblyAuthor
+    - dateCreated
+    - voucherSpecimen
+    - accessionID
+    - instrument
+    - scholarlyArticle
+    - documentation
+    - identifier
+    - relatedLink
+    - funding
+    - masking
+    - vitalStats
+    - checksum
+    - reuseConditions
+    - assemblyProtocol
+    - seqcol_id
+    - assemblySoftware
+    slot_usage:
+      schemaVersion:
+        description: Version of the FHR schema contract ("MAJOR.MINOR"); 2.0 from v0.4,
+          2.1 (extension fields) from v0.5
+        equals_string_in:
+        - "2.0"
+        - "2.1"
+      version:
+        description: Version number of the genome
+      metadataAuthor:
+        description: Authors of the FHR instance
+      dateCreated:
+        description: Date the genome assembly was created
+      accessionID:
+        description: Genome assembly accession
+      scholarlyArticle:
+        description: Scholarly article where the genome was published
+      documentation:
+        description: Documentation about the genome
+      identifier:
+        description: Identifiers of the genome
+      relatedLink:
+        description: Related URLs to the genome
+      reuseConditions:
+        description: Reuse conditions or license for the genome
+  VitalStats:
+    description: >-
+      General statistics about the genome assembly. N50, N90, L50 and L90 are
+      contig statistics; the scaffold* variants are the scaffold statistics.
+    class_uri: fhr:VitalStats
+    annotations:
+      vocabulary_subclass_of: sdo:StructuredValue
+    attributes:
+      L50:
+        description: Contig L50, the smallest number of contigs whose lengths sum
+          to at least 50 percent of the assembly length
+        range: integer
+        minimum_value: 0
+      N50:
+        description: Contig N50, the contig length in base pairs at 50 percent of
+          the assembly length
+        range: integer
+        minimum_value: 0
+      L90:
+        description: Contig L90, the smallest number of contigs whose lengths sum
+          to at least 90 percent of the assembly length
+        range: integer
+        minimum_value: 0
+      totalBasePairs:
+        description: Total base pairs of the genome assembly
+        range: integer
+        minimum_value: 0
+      numberContigs:
+        exact_mappings:
+        - MIXS:0000060
+        description: Number of contigs of the genome assembly
+        range: integer
+        minimum_value: 0
+      numberScaffolds:
+        description: Number of scaffolds of the genome assembly
+        range: integer
+        minimum_value: 0
+      readTechnology:
+        description: Read technology of the genome assembly
+      N90:
+        description: Contig N90, the contig length in base pairs at 90 percent of
+          the assembly length
+        range: integer
+        minimum_value: 0
+      scaffoldN50:
+        description: Scaffold N50, the scaffold length in base pairs at 50 percent
+          of the assembly length
+        range: integer
+        minimum_value: 0
+      scaffoldN90:
+        description: Scaffold N90, the scaffold length in base pairs at 90 percent
+          of the assembly length
+        range: integer
+        minimum_value: 0
+      scaffoldL50:
+        description: Scaffold L50, the smallest number of scaffolds whose lengths
+          sum to at least 50 percent of the assembly length
+        range: integer
+        minimum_value: 0
+      scaffoldL90:
+        description: Scaffold L90, the smallest number of scaffolds whose lengths
+          sum to at least 90 percent of the assembly length
+        range: integer
+        minimum_value: 0
+      gcContent:
+        description: >-
+          GC content as a percentage from 0 to 100, not a fraction (write 42.0
+          for 42 percent; 0.42 means 0.42 percent)
+        range: float
+        minimum_value: 0
+        maximum_value: 100
+  AssemblySoftware:
+    description: Software used to assemble the genome, with its version and options.
+    class_uri: sdo:SoftwareApplication
+    attributes:
+      name:
+        description: Name of the assembly software
+        slot_uri: sdo:name
+        required: true
+      uri:
+        description: URI of the assembly software
+        slot_uri: sdo:url
+        range: uri
+      version:
+        description: Version of the assembly software
+        slot_uri: sdo:softwareVersion
+      commandLineOption:
+        description: Command-line options given to the assembly software, in order
+        multivalued: true
+        list_elements_ordered: true
+  MIGSProjection:
+    description: Partial MIxS/MIGS projection; not a complete checklist record.
+    attributes:
+      number_contig:
+        range: integer
+        slot_uri: MIXS:0000060
+      assembly_software:
+        range: string
+        slot_uri: MIXS:0000058
+      sop:
+        range: uri
+        slot_uri: MIXS:0000090
+        multivalued: true

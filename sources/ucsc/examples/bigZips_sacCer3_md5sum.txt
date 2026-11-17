@@ -1,0 +1,8 @@
+880201a7d1ec95c0185b0b4783c80411  sacCer3.2bit
+dddf03230699280e9bf7075b8c7345d6  chromAgp.tar.gz
+08ac8cc0d3005d068049dffa9be22bc4  chromFa.tar.gz
+6c2f9c92e8eedb53e6a1b1ccf1ad3edb  chromFaMasked.tar.gz
+19c0f01dfeba7e08aa8103020f375dfa  chromTrf.tar.gz
+639d452fcf0b92d7599126af2ba7d65a  sacCer3.gc5Base.wigVarStep.gz
+fbc3b761cb9501eab5df4e0949d41341  sacCer3.gc5Base.wib
+e302be0d5164770ec138901365dd7bd6  sacCer3.gc5Base.wig.gz

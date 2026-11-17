@@ -1,0 +1,46 @@
+{
+  "id": 14104,
+  "ah_id": "AH14104",
+  "title": "sacCer3.2bit",
+  "dataprovider": "UCSC",
+  "species": "Saccharomyces cerevisiae",
+  "taxonomyid": 4932,
+  "genome": "sacCer3",
+  "description": "UCSC 2 bit file for sacCer3 ",
+  "coordinate_1_based": false,
+  "maintainer": "Bioconductor Maintainer <maintainer@bioconductor.org>",
+  "rdatadateadded": "2014-12-15",
+  "rdatadateremoved": null,
+  "preparerclass": "UCSC2BitPreparer",
+  "location_prefix": "http://hgdownload.cse.ucsc.edu/",
+  "recipe": null,
+  "recipe_package": null,
+  "rdatapaths": [
+    {
+      "rdatapath": "goldenPath/sacCer3/bigZips/sacCer3.2bit",
+      "rdataclass": "TwoBitFile",
+      "dispatchclass": "TwoBitFile"
+    }
+  ],
+  "input_sources": [
+    {
+      "sourcesize": null,
+      "sourceurl": "http://hgdownload.cse.ucsc.edu/goldenpath/sacCer3/bigZips/sacCer3.2bit",
+      "sourceversion": "2011-08-24_18:55:42",
+      "sourcemd5": null,
+      "sourcelastmodifieddate": null,
+      "sourcetype": "TwoBit"
+    }
+  ],
+  "tags": [
+    "2bit",
+    "UCSC",
+    "genome"
+  ],
+  "biocversions": [
+    "3.1",
+    "3.2",
+    "3.3",
+    "3.4"
+  ]
+}

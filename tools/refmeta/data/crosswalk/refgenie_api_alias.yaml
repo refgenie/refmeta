@@ -1,0 +1,210 @@
+# refmeta crosswalk: refgenie_api_alias <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: refgenie_api_alias
+source: refgenie
+core: '0.1'
+subject: collection
+description: 'refgenie 1.x server alias resolution, GET https://api.refgenie.org/v4/aliases/{name} (OpenAPI schema
+  AliasResponse): the alias, its genome digest, the seqcol level-2 arrays (names, lengths, sequences) and the FHR
+  sidecar.'
+records: {mode: each}
+constants: {}
+derive: [seqcol_digests, counts]
+rules:
+- native: alias
+  core: collection.aliases[namespace=refgenie].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: R64-1-1, core: R64-1-1, file: examples/api_alias_R64-1-1.json}
+- native: digest
+  core: collection.digest
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: ia9g4Myony-xxLsSc7eQOC_NdClGgPGu, core: ia9g4Myony-xxLsSc7eQOC_NdClGgPGu, file: examples/api_alias_R64-1-1.json}
+- native: collection.names
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [I, II, III]
+    core: [I, II, III]
+    file: examples/api_alias_R64-1-1.json
+    truncated: true
+- native: collection.lengths
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [230218, 813184, 316620]
+    core: [230218, 813184, 316620]
+    file: examples/api_alias_R64-1-1.json
+    truncated: true
+- native: collection.sequences
+  core: sequences[].digest
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: [SQ.lZyxiD_ByprhOUzrR1o1bq0ezO_1gkrn, SQ.vw8jTiV5SAPDH4TEIZhNGylzNsQM4NC9, SQ.A_i2Id0FjBI-tQyU4ZaCEdxRzQheDevn]
+    core: [SQ.lZyxiD_ByprhOUzrR1o1bq0ezO_1gkrn, SQ.vw8jTiV5SAPDH4TEIZhNGylzNsQM4NC9, SQ.A_i2Id0FjBI-tQyU4ZaCEdxRzQheDevn]
+    file: examples/api_alias_R64-1-1.json
+    truncated: true
+- native: fhr.genome
+  core: collection.labels[namespace=fhr.genome].value
+  direction: both
+  transform: null
+  fallback: ['collection.aliases[namespace=refgenie].value', assembly.name]
+  lossy: FHR calls this the name of the genome. refgenie writes its collection name (hg38), the upstream examples
+    an assembly name. Kept as a non-unique label on the collection; on write, falls back to the refgenie alias,
+    then the assembly name.
+  example: {native: R64-1-1, core: R64-1-1, file: examples/api_alias_R64-1-1.json}
+- native: fhr.genomeSynonym
+  core: collection.labels[namespace=fhr.synonym].value
+  direction: both
+  transform: null
+  fallback: ['collection.labels[namespace=refgenie.synonym].value']
+  lossy: 'Level is unclear: refgenie writes collection aliases here (GRCh38 for hg38). Kept as non-unique labels
+    on the collection.'
+  example:
+    native: &id001 [saccharomyces_cerevisiae_ENSEMBL_release_81]
+    core: *id001
+    file: examples/api_alias_R64-1-1.json
+- native: fhr.taxon.name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Saccharomyces cerevisiae, core: Saccharomyces cerevisiae, file: examples/api_alias_R64-1-1.json}
+- native: fhr.taxon.uri
+  core: assembly.taxon.id
+  direction: both
+  transform:
+    regex: {pattern: 'taxonomy:(\d+)$', as: integer, template: 'https://identifiers.org/taxonomy:{}'}
+  lossy: Only identifiers.org taxonomy URIs give a number; on write the URI is rebuilt in that form.
+  example: {native: 'https://identifiers.org/taxonomy:4932', core: 4932, file: examples/api_alias_R64-1-1.json}
+- native: fhr.version
+  core: assembly.version
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2', core: '2', file: examples/api_alias_R64-1-1.json}
+- {native: 'fhr.metadataAuthor[].name', core: 'provenance[0].authors[].name', direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- {native: 'fhr.metadataAuthor[].uri', core: 'provenance[0].authors[].uri', direction: both, transform: null, lossy: null,
+  example: null, note: No example file sets this field.}
+- {native: 'fhr.assemblyAuthor[].name', core: 'assembly.assemblyAuthor[].name', direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- {native: 'fhr.assemblyAuthor[].uri', core: 'assembly.assemblyAuthor[].uri', direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- native: fhr.dateCreated
+  core: assembly.dateCreated
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2023-08-24', core: '2023-08-24', file: examples/api_alias_rAllMis1.json}
+- {native: fhr.voucherSpecimen, core: assembly.voucherSpecimen, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: fhr.accessionID.name
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {other: unspecified}
+  lossy: FHR accessionID is any archive's id (the upstream example has PBARC, inherited from the 2022 field 'place');
+    refmeta treats it as the assembly accession.
+  example:
+    native: GCA_000146045.2
+    core: {namespace: insdc.gca, value: GCA_000146045.2}
+    file: examples/api_alias_R64-1-1.json
+- native: fhr.accessionID.url
+  core: assembly.accessions[0].url
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_000146045.2/', core: 'https://www.ncbi.nlm.nih.gov/datasets/genome/GCA_000146045.2/',
+    file: examples/api_alias_R64-1-1.json}
+- {native: fhr.instrument, core: assembly.instrument, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- {native: fhr.scholarlyArticle, core: assembly.scholarlyArticle, direction: both, transform: null, lossy: null,
+  example: null, note: No example file sets this field.}
+- native: fhr.documentation
+  core: assembly.documentation
+  direction: both
+  transform: null
+  fallback: [collection.description, assembly.description]
+  lossy: null
+  example: {native: 'Saccharomyces cerevisiae strain S288C reference genome, assembly R64-1-1, from
+
+      Ensembl release 81. Chromosomes are named I to XVI and Mito. The same 17
+
+      seque...', core: 'Saccharomyces cerevisiae strain S288C reference genome, assembly R64-1-1, from
+
+      Ensembl release 81. Chromosomes are named I to XVI and Mito. The same 17
+
+      seque...', file: examples/api_alias_R64-1-1.json, truncated: true}
+- native: fhr.identifier
+  core: assembly.identifier
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id002 ['bioproject:PRJNA1006701', 'biosample:SAMN37045233']
+    core: *id002
+    file: examples/api_alias_rAllMis1.json
+- native: fhr.relatedLink
+  core: assembly.relatedLink
+  direction: both
+  transform: null
+  lossy: null
+  example:
+    native: &id003 ['https://lh3.github.io/2017/11/13/which-human-reference-genome-to-use', 'ftp://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/GCA_000001405.15_GRCh38_no_alt_analysis_set.fna.gz']
+    core: *id003
+    file: examples/api_alias_hg38.json
+- {native: fhr.funding, core: assembly.funding, direction: both, transform: null, lossy: null, example: null, note: No
+    example file sets this field.}
+- {native: fhr.license, core: assembly.reuseConditions, direction: both, transform: null, lossy: 'gtars/refgenie
+    field, not FHR. Shares the core field with FHR reuseConditions (an SPDX id there, free text in FHR).', example: null,
+  note: No example file sets this field.}
+- {native: fhr.masking, core: 'copies[kind=fasta].masking', direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- {native: fhr.vitalStats.totalBasePairs, core: assembly.vitalStats.totalBasePairs, direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- {native: fhr.vitalStats.N50, core: assembly.vitalStats.N50, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- {native: fhr.vitalStats.L50, core: assembly.vitalStats.L50, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- {native: fhr.vitalStats.L90, core: assembly.vitalStats.L90, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- {native: fhr.vitalStats.numberContigs, core: assembly.vitalStats.numberContigs, direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- {native: fhr.vitalStats.numberScaffolds, core: assembly.vitalStats.numberScaffolds, direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- {native: fhr.vitalStats.readTechnology, core: assembly.vitalStats.readTechnology, direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- native: fhr.checksum
+  core: copies[kind=fasta].uncompressedChecksums.sha256
+  direction: both
+  transform:
+    prefix: {strip: 'sha256:'}
+  lossy: null
+  example: null
+  note: refgenie writes 'sha256:<hex>' of the uncompressed FASTA here, not the FHR SHA-512/256 form.
+- native: fhr.assemblySource
+  core: collection.provider
+  direction: both
+  transform: null
+  lossy: Values are not normalized (ncbi, NCBI, Ensembl, UCSC).
+  example: {native: Ensembl, core: Ensembl, file: examples/api_alias_R64-1-1.json}
+- native: fhr.assemblyLevel
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/api_alias_R64-1-1.json}
+unmapped:
+- {native: source, reason: Where the alias was resolved; always 'server'.}
+- {native: fhr.schema, reason: FHR schema URL written by the exporter.}
+- {native: fhr.schemaVersion, reason: FHR version written by the exporter (the number 1.0).}

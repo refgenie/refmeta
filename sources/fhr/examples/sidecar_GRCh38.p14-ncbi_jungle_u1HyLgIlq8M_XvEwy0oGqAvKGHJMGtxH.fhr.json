@@ -1,0 +1,21 @@
+{
+  "schema": "https://raw.githubusercontent.com/FAIR-bioHeaders/FHR-Specification/main/fhr.json",
+  "schemaVersion": 1.0,
+  "genome": "hg38_p14_genomic",
+  "taxon": {
+    "name": "Homo sapiens",
+    "uri": "https://identifiers.org/taxonomy:9606"
+  },
+  "version": "40",
+  "genomeSynonym": [
+    "GRCh38.p14-fasta-genomic",
+    "GRCh38.p14-fasta-genomic"
+  ],
+  "accessionID": {
+    "name": "GCF_000001405.40",
+    "url": "https://www.ncbi.nlm.nih.gov/datasets/genome/GCF_000001405.40/"
+  },
+  "documentation": "GCF_000001405.40_GRCh38.p14_genomic from NCBI\n",
+  "assemblySource": "NCBI",
+  "assemblyLevel": "chromosome"
+}

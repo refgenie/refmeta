@@ -1,0 +1,467 @@
+# refmeta crosswalk: ncbi_datasets_assembly_report <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ncbi_datasets_assembly_report
+source: ncbi
+core: '0.1'
+subject: assembly
+description: 'NCBI Datasets v2 genome assembly data report: one JSON object per assembly. Served by GET /genome/accession/{accessions}/dataset_report
+  as a page {reports:[...], total_count}, and inside downloaded data packages as ncbi_dataset/data/assembly_data_report.jsonl
+  (JSON Lines, camelCase keys). Native records here flatten nested objects to dotted snake_case paths; arrays stay
+  whole.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.15
+    core: {namespace: insdc.gca, value: GCA_000001405.15}
+    file: examples/datasets_dataset_report_GCA_000001405.15.json
+- native: paired_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession:
+      namespaces: [insdc.gca, insdc.gcf]
+      index: 1
+  lossy: null
+  example:
+    native: GCF_000001405.26
+    core: {namespace: insdc.gcf, value: GCF_000001405.26}
+    file: examples/datasets_dataset_report_GCA_000001405.15.json
+  note: 'The other member of the GenBank/RefSeq pair: the second GCA_/GCF_ item of assembly.accessions (index 1).
+    Pairing is version to version: GCF_000001405.40 pairs with GCA_000001405.29, not .15.'
+- native: assembly_info.paired_assembly.accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession:
+      namespaces: [insdc.gca, insdc.gcf]
+      index: 1
+  lossy: null
+  example:
+    native: GCF_000001405.26
+    core: {namespace: insdc.gcf, value: GCF_000001405.26}
+    file: examples/datasets_dataset_report_GCA_000001405.15.json
+  note: 'The other member of the GenBank/RefSeq pair: the second GCA_/GCF_ item of assembly.accessions (index 1).'
+- native: organism.tax_id
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- {native: organism.sci_name, core: assembly.taxon.name, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: organism.organism_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Includes the strain for strain-level taxa (Saccharomyces cerevisiae S288C).
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: organism.common_name
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: human, core: human, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- {native: organism.strain, core: assembly.taxon.strain, direction: both, transform: null, lossy: null, example: null,
+  note: No example file sets this field.}
+- native: organism.infraspecific_names.strain
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: S288C, core: S288C, file: examples/datasets_dataset_report_GCA_000146045.2.json}
+- native: organism.infraspecific_names.isolate
+  core: assembly.taxon.strain
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: CHM13, core: CHM13, file: examples/datasets_dataset_report_GCF_009914755.1.json}
+- {native: organism.infraspecific_names.breed, core: assembly.taxon.strain, direction: both, transform: null, lossy: null,
+  example: null, note: No example file sets this field.}
+- {native: organism.infraspecific_names.cultivar, core: assembly.taxon.strain, direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- {native: organism.infraspecific_names.ecotype, core: assembly.taxon.strain, direction: both, transform: null,
+  lossy: null, example: null, note: No example file sets this field.}
+- native: assembly_info.assembly_level
+  core: assembly.level
+  direction: both
+  transform:
+    map:
+      values: {Chromosome: chromosome, Complete Genome: complete genome, Scaffold: scaffold, Contig: contig}
+  lossy: null
+  example: {native: Chromosome, core: chromosome, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.assembly_status
+  core: assembly.status
+  direction: both
+  transform:
+    map:
+      values: {previous: replaced}
+  lossy: null
+  example: {native: previous, core: replaced, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.assembly_name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.assembly_type
+  core: assembly.type
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: haploid-with-alt-loci, core: haploid-with-alt-loci, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.bioproject_accession
+  core: assembly.bioproject
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: PRJNA31257, core: PRJNA31257, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.release_date
+  core: assembly.releaseDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2013-12-17', core: '2013-12-17', file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.description
+  core: assembly.description
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium Human Build 38, core: Genome Reference Consortium Human Build 38,
+    file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.submitter
+  core: assembly.submitter
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Genome Reference Consortium, core: Genome Reference Consortium, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.refseq_category
+  core: assembly.refseqCategory
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: reference genome, core: reference genome, file: examples/datasets_dataset_report_GCA_000001405.29.json}
+- native: assembly_info.synonym
+  core: assembly.labels[namespace=ucsc].value
+  direction: both
+  transform: null
+  lossy: UCSC's name for the assembly. NCBI puts hg38 on all four GRCh38 accessions, so it is a label, not an id.
+  example: {native: hg38, core: hg38, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_info.sequencing_tech
+  core: assembly.instrument
+  direction: both
+  transform:
+    split: {sep: '; '}
+  lossy: null
+  example:
+    native: PacBio Sequel II HiFi; Oxford Nanopore MinION; Illumina NovaSeq
+    core: [PacBio Sequel II HiFi, Oxford Nanopore MinION, Illumina NovaSeq]
+    file: examples/datasets_dataset_report_GCF_009914755.1.json
+- native: assembly_info.assembly_method
+  core: assembly.assemblySoftware[0].name
+  direction: both
+  transform: null
+  lossy: Free text; versions and notes stay in the name.
+  example: {native: T2T assembly pipeline + rDNA (see manuscript for details) v. 04/23/2021, core: T2T assembly
+      pipeline + rDNA (see manuscript for details) v. 04/23/2021, file: examples/datasets_dataset_report_GCF_009914755.1.json}
+- native: assembly_info.biosample.accession
+  core: assembly.biosample
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: SAMN03255769, core: SAMN03255769, file: examples/datasets_dataset_report_GCF_009914755.1.json}
+- native: assembly_info.comments
+  core: assembly.documentation
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 'The DNA sequence is composed of genomic sequence, primarily finished clones that were sequenced
+      as part of the Human Genome Project. PCR products and WGS sho...', core: 'The DNA sequence is composed of
+      genomic sequence, primarily finished clones that were sequenced as part of the Human Genome Project. PCR products
+      and WGS sho...', file: examples/datasets_dataset_report_GCA_000001405.15.json, truncated: true}
+- native: assembly_stats.total_number_of_chromosomes
+  core: assembly.vitalStats.numberChromosomes
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 24, core: 24, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.total_sequence_length
+  core: assembly.vitalStats.totalBasePairs
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example: {native: '3099734149', core: 3099734149, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+  note: All top-level sequences of the nuclear genome plus unplaced and unlocalized; ENA's total-length also counts
+    alt loci.
+- native: assembly_stats.total_ungapped_length
+  core: assembly.vitalStats.ungappedLength
+  direction: both
+  transform:
+    cast: {to: integer, from: string}
+  lossy: null
+  example: {native: '2948611470', core: 2948611470, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.number_of_contigs
+  core: assembly.vitalStats.numberContigs
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 999, core: 999, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.contig_n50
+  core: assembly.vitalStats.N50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 57879411, core: 57879411, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.contig_l50
+  core: assembly.vitalStats.L50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 18, core: 18, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.number_of_scaffolds
+  core: assembly.vitalStats.numberScaffolds
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 473, core: 473, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.scaffold_n50
+  core: assembly.vitalStats.scaffoldN50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 67794873, core: 67794873, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.scaffold_l50
+  core: assembly.vitalStats.scaffoldL50
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 16, core: 16, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.gc_percent
+  core: assembly.vitalStats.gcContent
+  direction: both
+  transform: null
+  lossy: Rounded to the nearest 0.5 percent.
+  example: {native: 41, core: 41, file: examples/datasets_dataset_report_GCA_000001405.15.json}
+- native: assembly_stats.genome_coverage
+  core: assembly.vitalStats.coverage
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '30', core: '30', file: examples/datasets_dataset_report_GCF_009914755.1.json}
+unmapped:
+- {native: current_accession, reason: 'Newest version of the accession chain: a relation between assembly versions,
+    which the core does not model.'}
+- {native: source_database, reason: GenBank or RefSeq; implied by the accession prefix.}
+- {native: organism.lineage, reason: Lineage list; no core field.}
+- {native: organism.pangolin_classification, reason: Virus lineage; no core field.}
+- {native: organism.infraspecific_names.sex, reason: Sex of the sample; sample metadata.}
+- {native: assembly_info.paired_assembly.status, reason: 'How the GenBank and RefSeq members differ (only_genbank,
+    only_refseq, differences). Core has no relation between assemblies yet; see the open questions.'}
+- {native: assembly_info.paired_assembly.annotation_name, reason: 'How the GenBank and RefSeq members differ (only_genbank,
+    only_refseq, differences). Core has no relation between assemblies yet; see the open questions.'}
+- {native: assembly_info.paired_assembly.only_genbank, reason: 'How the GenBank and RefSeq members differ (only_genbank,
+    only_refseq, differences). Core has no relation between assemblies yet; see the open questions.'}
+- {native: assembly_info.paired_assembly.only_refseq, reason: 'How the GenBank and RefSeq members differ (only_genbank,
+    only_refseq, differences). Core has no relation between assemblies yet; see the open questions.'}
+- {native: assembly_info.paired_assembly.changed, reason: 'How the GenBank and RefSeq members differ (only_genbank,
+    only_refseq, differences). Core has no relation between assemblies yet; see the open questions.'}
+- {native: assembly_info.paired_assembly.manual_diff, reason: 'How the GenBank and RefSeq members differ (only_genbank,
+    only_refseq, differences). Core has no relation between assemblies yet; see the open questions.'}
+- {native: assembly_info.paired_assembly.refseq_genbank_are_different, reason: 'How the GenBank and RefSeq members
+    differ (only_genbank, only_refseq, differences). Core has no relation between assemblies yet; see the open questions.'}
+- {native: assembly_info.paired_assembly.differences, reason: 'How the GenBank and RefSeq members differ (only_genbank,
+    only_refseq, differences). Core has no relation between assemblies yet; see the open questions.'}
+- {native: assembly_info.assembly_long_name, reason: No example; long name.}
+- {native: assembly_info.bioproject_lineage, reason: Parent BioProjects; the core keeps the assembly's own BioProject.}
+- {native: assembly_info.submission_date, reason: Submission date; core keeps the release date.}
+- {native: assembly_info.linked_assembly, reason: Linked assembly (e.g. other haplotype); no core relation between
+    assemblies.}
+- {native: assembly_info.linked_assemblies, reason: Linked assemblies; no core relation between assemblies.}
+- {native: assembly_info.atypical.is_atypical, reason: Atypical-assembly warnings; no core field.}
+- {native: assembly_info.atypical.warnings, reason: Atypical-assembly warnings; no core field.}
+- {native: assembly_info.genome_notes, reason: Notes; no example.}
+- {native: assembly_info.grouping_method, reason: Virus segment grouping.}
+- {native: assembly_info.biosample.last_updated, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.publication_date, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.submission_date, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.sample_ids, reason: BioSample details beyond the accession; sample metadata is
+    out of scope.}
+- {native: assembly_info.biosample.description.title, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.description.organism.tax_id, reason: BioSample details beyond the accession;
+    sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.sci_name, reason: BioSample details beyond the accession;
+    sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.organism_name, reason: BioSample details beyond the accession;
+    sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.common_name, reason: BioSample details beyond the accession;
+    sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.lineage, reason: BioSample details beyond the accession;
+    sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.strain, reason: BioSample details beyond the accession;
+    sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.pangolin_classification, reason: BioSample details beyond
+    the accession; sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.infraspecific_names.breed, reason: BioSample details beyond
+    the accession; sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.infraspecific_names.cultivar, reason: BioSample details
+    beyond the accession; sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.infraspecific_names.ecotype, reason: BioSample details beyond
+    the accession; sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.infraspecific_names.isolate, reason: BioSample details beyond
+    the accession; sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.infraspecific_names.sex, reason: BioSample details beyond
+    the accession; sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.organism.infraspecific_names.strain, reason: BioSample details beyond
+    the accession; sample metadata is out of scope.}
+- {native: assembly_info.biosample.description.comment, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.owner.name, reason: BioSample details beyond the accession; sample metadata is
+    out of scope.}
+- {native: assembly_info.biosample.owner.contacts, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.models, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.bioprojects, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.package, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.attributes, reason: BioSample details beyond the accession; sample metadata is
+    out of scope.}
+- {native: assembly_info.biosample.status.status, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.status.when, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.age, reason: BioSample details beyond the accession; sample metadata is out of
+    scope.}
+- {native: assembly_info.biosample.biomaterial_provider, reason: BioSample details beyond the accession; sample
+    metadata is out of scope.}
+- {native: assembly_info.biosample.breed, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.collected_by, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.collection_date, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.cultivar, reason: BioSample details beyond the accession; sample metadata is
+    out of scope.}
+- {native: assembly_info.biosample.dev_stage, reason: BioSample details beyond the accession; sample metadata is
+    out of scope.}
+- {native: assembly_info.biosample.ecotype, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.geo_loc_name, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.host, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.host_disease, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.identified_by, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.ifsac_category, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.isolate, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.isolate_name_alias, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.isolation_source, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.lat_lon, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.project_name, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.sample_name, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.serovar, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.sex, reason: BioSample details beyond the accession; sample metadata is out of
+    scope.}
+- {native: assembly_info.biosample.source_type, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.strain, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.sub_species, reason: BioSample details beyond the accession; sample metadata
+    is out of scope.}
+- {native: assembly_info.biosample.tissue, reason: BioSample details beyond the accession; sample metadata is out
+    of scope.}
+- {native: assembly_info.biosample.serotype, reason: BioSample details beyond the accession; sample metadata is
+    out of scope.}
+- {native: assembly_info.blast_url, reason: BLAST page link.}
+- {native: assembly_info.suppression_reason, reason: No core field.}
+- {native: assembly_info.diploid_role, reason: No core field.}
+- {native: assembly_stats.gaps_between_scaffolds_count, reason: Gap count; no core field.}
+- {native: assembly_stats.number_of_component_sequences, reason: Component count; no core field.}
+- {native: assembly_stats.atgc_count, reason: Base counts; no core field.}
+- {native: assembly_stats.gc_count, reason: Base counts; gcContent holds the percent.}
+- {native: assembly_stats.number_of_organelles, reason: Count of organelles; no core field.}
+- {native: organelle_info, reason: Organelle summaries; per-sequence facts are in the sequence report.}
+- {native: additional_submitters, reason: Who submitted organelle sequences; no core field.}
+- {native: annotation_info.name, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.provider, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.release_date, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.report_url, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.stats.gene_counts.total, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.stats.gene_counts.protein_coding, reason: 'Gene annotation; refmeta covers sequences,
+    not annotation.'}
+- {native: annotation_info.stats.gene_counts.non_coding, reason: 'Gene annotation; refmeta covers sequences, not
+    annotation.'}
+- {native: annotation_info.stats.gene_counts.pseudogene, reason: 'Gene annotation; refmeta covers sequences, not
+    annotation.'}
+- {native: annotation_info.stats.gene_counts.other, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.busco.busco_lineage, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.busco.busco_ver, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.busco.complete, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.busco.single_copy, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.busco.duplicated, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.busco.fragmented, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.busco.missing, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.busco.total_count, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.method, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.pipeline, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.software_version, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.status, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: annotation_info.release_version, reason: 'Gene annotation; refmeta covers sequences, not annotation.'}
+- {native: wgs_info.wgs_project_accession, reason: WGS project links; no core field.}
+- {native: wgs_info.master_wgs_url, reason: WGS project links; no core field.}
+- {native: wgs_info.wgs_contigs_url, reason: WGS project links; no core field.}
+- {native: type_material.type_label, reason: Type material; no core field.}
+- {native: type_material.type_display_text, reason: Type material; no core field.}
+- {native: checkm_info.checkm_marker_set, reason: CheckM completeness (prokaryotes); no core field.}
+- {native: checkm_info.checkm_species_tax_id, reason: CheckM completeness (prokaryotes); no core field.}
+- {native: checkm_info.checkm_marker_set_rank, reason: CheckM completeness (prokaryotes); no core field.}
+- {native: checkm_info.checkm_version, reason: CheckM completeness (prokaryotes); no core field.}
+- {native: checkm_info.completeness, reason: CheckM completeness (prokaryotes); no core field.}
+- {native: checkm_info.contamination, reason: CheckM completeness (prokaryotes); no core field.}
+- {native: checkm_info.completeness_percentile, reason: CheckM completeness (prokaryotes); no core field.}
+- {native: average_nucleotide_identity.taxonomy_check_status, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.match_status, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.submitted_organism, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.submitted_species, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.category, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.submitted_ani_match.assembly, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.submitted_ani_match.organism_name, reason: Taxonomy check results; no core
+    field.}
+- {native: average_nucleotide_identity.submitted_ani_match.category, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.submitted_ani_match.ani, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.submitted_ani_match.assembly_coverage, reason: Taxonomy check results; no
+    core field.}
+- {native: average_nucleotide_identity.submitted_ani_match.type_assembly_coverage, reason: Taxonomy check results;
+    no core field.}
+- {native: average_nucleotide_identity.best_ani_match.assembly, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.best_ani_match.organism_name, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.best_ani_match.category, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.best_ani_match.ani, reason: Taxonomy check results; no core field.}
+- {native: average_nucleotide_identity.best_ani_match.assembly_coverage, reason: Taxonomy check results; no core
+    field.}
+- {native: average_nucleotide_identity.best_ani_match.type_assembly_coverage, reason: Taxonomy check results; no
+    core field.}
+- {native: average_nucleotide_identity.comment, reason: Taxonomy check results; no core field.}

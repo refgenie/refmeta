@@ -1,0 +1,2393 @@
+{
+ "source": "galaxy",
+ "title": "Galaxy reference data (builds, data tables, .loc files, data managers, IDC)",
+ "maintainer": "Galaxy Project (galaxyproject/galaxy), the IUC (galaxyproject/tools-iuc data managers) and the Intergalactic Data Commission (galaxyproject/idc)",
+ "retrieved": "2026-11-17",
+ "formats": [
+  {
+   "id": "galaxy_builds_txt",
+   "description": "builds.txt: the static list of genome builds (dbkeys) Galaxy offers in its dbkey picker. Two TAB-separated columns, no header.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".txt"
+   ],
+   "spec_files": [
+    "spec/galaxy/builds.txt.sample",
+    "spec/galaxy/manual_builds.txt.sample",
+    "spec/galaxy/lib_galaxy_managers_dbkeys.py.txt"
+   ],
+   "example_files": [
+    "examples/builds.txt"
+   ],
+   "record_key": "dbkey (not unique: a dbkey may repeat with another display_name)",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_len",
+   "description": ".len file: one line per sequence, name TAB length. The __dbkeys__ table points to it (len_path); /api/genomes/{id} reads it.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".len"
+   ],
+   "spec_files": [
+    "spec/galaxy/lib_galaxy_visualization_genomes.py.txt",
+    "spec/galaxy/dbkeys.loc.test"
+   ],
+   "example_files": [
+    "examples/constructed/sacCer3.len",
+    "examples/constructed/hg38.len",
+    "examples/constructed/GCF_000146045.2.len",
+    "examples/constructed/GCF_000001405.40.len"
+   ],
+   "record_key": "chrom (unique within one file)",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_api_genomes",
+   "description": "GET /api/genomes on a Galaxy server: JSON array of [display name, dbkey] pairs for every known build.",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/galaxy/lib_galaxy_webapps_galaxy_api_genomes.py.txt",
+    "spec/galaxy/lib_galaxy_managers_dbkeys.py.txt"
+   ],
+   "example_files": [
+    "examples/usegalaxy_org_api_genomes.excerpt.json"
+   ],
+   "record_key": "[1] (dbkey; may repeat)",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_api_genome",
+   "description": "GET /api/genomes/{dbkey} on a Galaxy server: the build's sequence names and lengths (from its .len file).",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/galaxy/lib_galaxy_visualization_genomes.py.txt",
+    "spec/galaxy/lib_galaxy_webapps_galaxy_api_genomes.py.txt"
+   ],
+   "example_files": [
+    "examples/usegalaxy_org_api_genomes_sacCer3.json",
+    "examples/usegalaxy_org_api_genomes_hg38.json",
+    "examples/usegalaxy_org_api_genomes_GCF_000146045.2.json",
+    "examples/usegalaxy_org_api_genomes_GCF_000001405.40.json"
+   ],
+   "record_key": "id",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_api_tool_data",
+   "description": "GET /api/tool_data/{table} on a Galaxy server: one data table's column names and all its rows (merged from every .loc file). One native record per row.",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/galaxy/lib_galaxy_webapps_galaxy_api_tool_data.py.txt",
+    "spec/galaxy/lib_galaxy_managers_tool_data.py.txt"
+   ],
+   "example_files": [
+    "examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json",
+    "examples/usegalaxy_org_api_tool_data_fasta_indexes.excerpt.json",
+    "examples/usegalaxy_org_api_tool_data_bwa_mem_indexes.excerpt.json",
+    "examples/usegalaxy_org_api_tool_data_bowtie2_indexes.excerpt.json",
+    "examples/usegalaxy_org_api_tool_data_rnastar_index2x_versioned.excerpt.json",
+    "examples/usegalaxy_org_api_tool_data___dbkeys__.excerpt.json",
+    "examples/usegalaxy_eu_api_tool_data_all_fasta.excerpt.json",
+    "examples/usegalaxy_eu_api_tool_data___dbkeys__.excerpt.json"
+   ],
+   "record_key": "name + fields[].value (value is meant to be unique per table, but duplicates are served)",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_tool_data_table_conf",
+   "description": "tool_data_table_conf.xml: declares each data table (name, column names, comment character, the .loc files or refgenie config that fill it). One native record per <table>.",
+   "media_type": "application/xml",
+   "extensions": [
+    ".xml"
+   ],
+   "spec_files": [
+    "spec/galaxy/tool_data_table_conf.xml.sample",
+    "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt",
+    "spec/galaxy/lib_galaxy_tools_data__init__.py.txt"
+   ],
+   "example_files": [
+    "examples/galaxy_tool_data_table_conf.xml.sample",
+    "examples/idc_tool_data_table_conf.xml"
+   ],
+   "record_key": "name (the same name may appear in several conf files; Galaxy merges them if the columns match)",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_loc_all_fasta",
+   "description": "Galaxy all_fasta.loc: one FASTA file per row (data table all_fasta). TAB-separated, '#' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".loc"
+   ],
+   "spec_files": [
+    "spec/galaxy/all_fasta.loc.sample",
+    "spec/galaxy/tool_data_table_conf.xml.sample",
+    "spec/tools-iuc/data_manager_fetch_genome_dbkeys_all_fasta/tool-data/all_fasta.loc.sample",
+    "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
+   ],
+   "example_files": [
+    "examples/cvmfs_all_fasta.loc"
+   ],
+   "record_key": "value (unique_build_id) within this table on one server",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_loc_fasta_indexes",
+   "description": "Galaxy fasta_indexes.loc: samtools faidx-indexed FASTA per row (data table fasta_indexes). TAB-separated, '#' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".loc"
+   ],
+   "spec_files": [
+    "spec/tools-iuc/data_manager_sam_fasta_index_builder/tool-data/fasta_indexes.loc.sample",
+    "spec/tools-iuc/data_manager_sam_fasta_index_builder/tool_data_table_conf.xml.sample",
+    "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
+   ],
+   "example_files": [
+    "examples/cvmfs_fasta_indexes.loc"
+   ],
+   "record_key": "value (unique_build_id) within this table on one server",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_loc_bwa_mem_indexes",
+   "description": "Galaxy bwa_mem_index.loc: BWA (0.6+/MEM) index prefix per row (data table bwa_mem_indexes). TAB-separated, '#' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".loc"
+   ],
+   "spec_files": [
+    "spec/tools-iuc/data_manager_bwa_mem_index_builder/tool-data/bwa_mem_index.loc.sample",
+    "spec/tools-iuc/data_manager_bwa_mem_index_builder/tool_data_table_conf.xml.sample",
+    "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
+   ],
+   "example_files": [
+    "examples/cvmfs_bwa_mem_index.loc"
+   ],
+   "record_key": "value (unique_build_id) within this table on one server",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_loc_bowtie2_indexes",
+   "description": "Galaxy bowtie2_indices.loc: Bowtie2 index basename per row (data table bowtie2_indexes). TAB-separated, '#' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".loc"
+   ],
+   "spec_files": [
+    "spec/tools-iuc/data_manager_bowtie2_index_builder/tool-data/bowtie2_indices.loc.sample",
+    "spec/tools-iuc/data_manager_bowtie2_index_builder/tool_data_table_conf.xml.sample",
+    "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
+   ],
+   "example_files": [
+    "examples/cvmfs_bowtie2_indices.loc"
+   ],
+   "record_key": "value (unique_build_id) within this table on one server",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_loc_rnastar_index2x_versioned",
+   "description": "Galaxy rnastar_index2x_versioned.loc: STAR index directory per row. TAB-separated, '#' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path, with_gene_model, version.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".loc"
+   ],
+   "spec_files": [
+    "spec/tools-iuc/data_manager_star_index_builder/tool-data/rnastar_index2x_versioned.loc.sample",
+    "spec/tools-iuc/data_manager_star_index_builder/tool_data_table_conf.xml.sample",
+    "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
+   ],
+   "example_files": [
+    "examples/cvmfs_rnastar_index2x_versioned.loc"
+   ],
+   "record_key": "value (unique_build_id) within this table on one server",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_loc_dbkeys",
+   "description": "Galaxy dbkeys.loc (data table __dbkeys__): one dbkey per row with its .len file. TAB-separated, '#' comments, no header; column names come from tool_data_table_conf.xml: value, name, len_path.",
+   "media_type": "text/tab-separated-values",
+   "extensions": [
+    ".loc"
+   ],
+   "spec_files": [
+    "spec/tools-iuc/data_manager_fetch_genome_dbkeys_all_fasta/tool-data/dbkeys.loc.sample",
+    "spec/galaxy/dbkeys.loc.test",
+    "spec/tools-iuc/data_manager_fetch_genome_dbkeys_all_fasta/tool_data_table_conf.xml.sample",
+    "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
+   ],
+   "example_files": [
+    "examples/cvmfs_dbkeys.loc"
+   ],
+   "record_key": "value (unique_build_id) within this table on one server",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_data_manager_json",
+   "description": "Data manager output JSON: what a data manager tool writes so Galaxy can add rows to data tables. Paths are relative here; data_manager_conf.xml moves the files and rewrites them to absolute paths. One native record per entry.",
+   "media_type": "application/json",
+   "extensions": [
+    ".json",
+    ".data_manager_json"
+   ],
+   "spec_files": [
+    "spec/tools-iuc/data_manager_fetch_genome_dbkeys_all_fasta/data_manager_conf.xml",
+    "spec/tools-iuc/data_manager_fetch_genome_dbkeys_all_fasta/data_manager/data_manager_fetch_genome_all_fasta_dbkeys.py.txt",
+    "spec/tools-iuc/data_manager_sam_fasta_index_builder/data_manager_conf.xml",
+    "spec/tools-iuc/data_manager_bwa_mem_index_builder/data_manager_conf.xml",
+    "spec/tools-iuc/data_manager_bowtie2_index_builder/data_manager_conf.xml",
+    "spec/tools-iuc/data_manager_star_index_builder/data_manager_conf.xml"
+   ],
+   "example_files": [
+    "examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json",
+    "examples/constructed/dm_fetch_genome_all_fasta_sacCer3.data_manager_json",
+    "examples/dm_fetch_genome_all_fasta_phiX174.data_manager_json",
+    "examples/dm_fetch_genome_all_fasta_phiX174Variant1.data_manager_json",
+    "examples/dm_sam_fasta_index_phiX174.json",
+    "examples/dm_bwa_mem_index_phiX174.json",
+    "examples/dm_bowtie2_index_phiX174.json",
+    "examples/dm_rnastar_index_phiX174.data_manager_json"
+   ],
+   "record_key": "data_table + value",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_refgenie_table",
+   "description": "RefgenieToolDataTable (lib/galaxy/tools/data/__init__.py): a data table with type=\"refgenie\" is filled from a refgenie config instead of a .loc file. Each <field> is a Cheetah template over these variables. Prose/code only: there is no file of these records.",
+   "media_type": "text/x-python",
+   "extensions": [],
+   "spec_files": [
+    "spec/galaxy/lib_galaxy_tools_data__init__.py.txt",
+    "spec/galaxy/tool_data_table_conf.xml.sample",
+    "spec/galaxy/test_unit_app_tools_test_refgenie_data_table.py.txt",
+    "spec/galaxy/test_integration_refgenie.yml"
+   ],
+   "example_files": [],
+   "record_key": "__REFGENIE_UUID__ (refgenie:<genome>/<asset>:<tag>@<digest>)",
+   "adapter": false
+  },
+  {
+   "id": "galaxy_idc_genomes",
+   "description": "IDC genomes.yml (older pipeline): genomes to fetch and the indexers to run. cvmfs_current_managed/cvmfs_managed_genomes.yml uses the same entries inside a list of {genomes: [...]} blocks.",
+   "media_type": "application/yaml",
+   "extensions": [
+    ".yml",
+    ".yaml"
+   ],
+   "spec_files": [
+    "spec/idc/README.md",
+    "spec/idc/genomes.yml",
+    "spec/idc/cvmfs_current_managed/cvmfs_managed_genomes.yml",
+    "spec/idc/docs/genome-indexing.md"
+   ],
+   "example_files": [
+    "examples/idc_genomes_sacCer3.excerpt.yml",
+    "examples/idc_cvmfs_managed_genomes_hg38_sacCer3.excerpt.yml"
+   ],
+   "record_key": "id",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_idc_data_managers",
+   "description": "IDC data_managers.yml (older pipeline): data manager short name to Tool Shed tool id, tags that genomes.yml indexers refer to, and fixed parameters.",
+   "media_type": "application/yaml",
+   "extensions": [
+    ".yml",
+    ".yaml"
+   ],
+   "spec_files": [
+    "spec/idc/README.md",
+    "spec/idc/data_managers.yml",
+    "spec/idc/cvmfs_current_managed/cvmfs_data_managers.yml",
+    "spec/idc/schemas/data_managers.yml"
+   ],
+   "example_files": [
+    "examples/idc_data_managers.yml"
+   ],
+   "record_key": "data_manager",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_idc_request",
+   "description": "IDC request file data-managers/<data_table>/<version>.yaml (current pipeline): one data manager run that builds one data table entry. Validated by schemas/request.schema.json.",
+   "media_type": "application/yaml",
+   "extensions": [
+    ".yml",
+    ".yaml"
+   ],
+   "spec_files": [
+    "spec/idc/schemas/request.schema.excerpt.json",
+    "spec/idc/docs/requesting-reference-data.md",
+    "spec/idc/docs/genome-indexing.md",
+    "spec/idc/schemas/data_managers.yml"
+   ],
+   "example_files": [
+    "examples/idc_request_all_fasta_hg38canon.yaml",
+    "examples/idc_request_fasta_indexes_hg38canon.yaml",
+    "examples/idc_request_rnastar_index2x_versioned_hg38canon.yaml",
+    "examples/constructed/idc_request_all_fasta_sacCer3.yaml",
+    "examples/constructed/idc_request_all_fasta_GCF_000001405.40.from_docs.yaml"
+   ],
+   "record_key": "file path data-managers/<data_table>/<version>.yaml (not inside the file)",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_idc_all_tables",
+   "description": "IDC PR #88 all_tables YAML (sync/tool_data_table_conf_to_yaml.py): every row of every data table on a server, keyed by table, with the .loc and conf file it came from. One native record per row.",
+   "media_type": "application/yaml",
+   "extensions": [
+    ".yml",
+    ".yaml"
+   ],
+   "spec_files": [
+    "spec/idc_pr88/sync/README.md",
+    "spec/idc_pr88/sync/tool_data_table_conf_to_yaml.py.txt"
+   ],
+   "example_files": [
+    "examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml"
+   ],
+   "record_key": "table + value + loc_file",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_idc_refget_json",
+   "description": "IDC PR #88 json/<unique_build_id>.json (sync/all_fasta_files_to_refget_store.py): seqcol level 0/1/2 digests of one all_fasta FASTA plus its Galaxy aliases.",
+   "media_type": "application/json",
+   "extensions": [
+    ".json"
+   ],
+   "spec_files": [
+    "spec/idc_pr88/sync/README.md",
+    "spec/idc_pr88/sync/all_fasta_files_to_refget_store.py.txt"
+   ],
+   "example_files": [
+    "examples/constructed/idc_pr88_json_hg38canon.json",
+    "examples/constructed/idc_pr88_json_sacCer3.json",
+    "examples/idc_pr88_test_dig_json_phiX174.json"
+   ],
+   "record_key": "level_0 (seqcol digest) or aliases.galaxy_unique_build_id",
+   "adapter": true
+  },
+  {
+   "id": "galaxy_idc_refget_yaml",
+   "description": "IDC PR #88 yaml/all_fasta.yml: the same digests for every processed FASTA in one file, keyed by unique_build_id, with a peek at the first sequence instead of the full level 2 arrays.",
+   "media_type": "application/yaml",
+   "extensions": [
+    ".yml",
+    ".yaml"
+   ],
+   "spec_files": [
+    "spec/idc_pr88/sync/README.md",
+    "spec/idc_pr88/sync/all_fasta_files_to_refget_store.py.txt"
+   ],
+   "example_files": [
+    "examples/constructed/idc_pr88_yaml_all_fasta.yml",
+    "examples/idc_pr88_test_dig_yaml_all_fasta.yml"
+   ],
+   "record_key": "unique_build_id (the YAML mapping key)",
+   "adapter": true
+  }
+ ],
+ "fields": [
+  {
+   "format": "galaxy_builds_txt",
+   "path": "dbkey",
+   "type": "string",
+   "description": "Build key (first column). Stored on every dataset as its 'dbkey'.",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Not a header name: the file has no header; name taken from Galaxy's dbkeys.loc sample header '<dbkey>'. read_dbnames() treats an all-digit dbkey as a 'manual' (microbial) build and '?' as 'unspecified'. Lines starting with '#' are skipped."
+  },
+  {
+   "format": "galaxy_builds_txt",
+   "path": "display_name",
+   "type": "string",
+   "description": "Label shown in the build picker (second column).",
+   "example": "Human Dec. 2013 (GRCh38/hg38) (hg38)",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "UCSC-harvested labels follow 'Species Mon. YYYY (AssemblyName/dbkey) (dbkey)', e.g. 'Human Dec. 2013 (GRCh38/hg38) (hg38)'; this is the only place builds.txt carries the assembly name. Columns after the second are ignored (manual_builds.txt.sample has a third column of name=length pairs)."
+  },
+  {
+   "format": "galaxy_len",
+   "path": "chrom",
+   "type": "string",
+   "description": "Sequence name.",
+   "example": "chrI",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Unique within one .len file. Naming follows the build: UCSC style for UCSC dbkeys (chr1, chr1_KI270706v1_random); RefSeq accessions for the BRC GCF_000146045.2 (NC_001133.9). The BRC GCF_000001405.40 .len uses UCSC-style names (455 sequences), unlike its accession."
+  },
+  {
+   "format": "galaxy_len",
+   "path": "len",
+   "type": "integer",
+   "description": "Sequence length in bases.",
+   "example": 230218,
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_api_genomes",
+   "path": "[0]",
+   "type": "string",
+   "description": "Display name of the build (first item of each pair).",
+   "example": "Human Dec. 2013 (GRCh38/hg38) (hg38)",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Same text as builds.txt display_name or the __dbkeys__ name. Custom user builds get ' [Custom]' and history .len datasets get ' [History]' appended."
+  },
+  {
+   "format": "galaxy_api_genomes",
+   "path": "[1]",
+   "type": "string",
+   "description": "dbkey (second item of each pair).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "The list merges builds.txt, the __dbkeys__ table, user custom builds and history .len files, so a dbkey can appear more than once. The first pair is always ['unspecified (?)', '?']."
+  },
+  {
+   "format": "galaxy_api_genome",
+   "path": "id",
+   "type": "string",
+   "description": "The dbkey asked for.",
+   "example": "sacCer3",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_api_genome",
+   "path": "reference",
+   "type": "boolean",
+   "description": "True when the server has reference sequence for this dbkey (a twobit table entry), so sequence can be served.",
+   "example": true,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_api_genome",
+   "path": "chrom_info",
+   "type": "array",
+   "description": "Sequence names and lengths: array of {chrom, len} read from the dbkey's .len file.",
+   "example": [
+    {
+     "chrom": "chrI",
+     "len": 230218
+    },
+    {
+     "chrom": "chrII",
+     "len": 813184
+    },
+    {
+     "chrom": "chrIII",
+     "len": 316620
+    },
+    {
+     "chrom": "chrIV",
+     "len": 1531933
+    },
+    {
+     "chrom": "chrIX",
+     "len": 439888
+    },
+    {
+     "chrom": "chrM",
+     "len": 85779
+    },
+    {
+     "chrom": "chrV",
+     "len": 576874
+    },
+    {
+     "chrom": "chrVI",
+     "len": 270161
+    },
+    {
+     "chrom": "chrVII",
+     "len": 1090940
+    },
+    {
+     "chrom": "chrVIII",
+     "len": 562643
+    },
+    {
+     "chrom": "chrX",
+     "len": 745751
+    },
+    {
+     "chrom": "chrXI",
+     "len": 666816
+    },
+    {
+     "chrom": "chrXII",
+     "len": 1078177
+    },
+    {
+     "chrom": "chrXIII",
+     "len": 924431
+    },
+    {
+     "chrom": "chrXIV",
+     "len": 784333
+    },
+    {
+     "chrom": "chrXV",
+     "len": 1091291
+    },
+    {
+     "chrom": "chrXVI",
+     "len": 948066
+    }
+   ],
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Sorted by Galaxy with a natural sort on the name (split_by_number), NOT in .len or FASTA order, so it cannot give seqcol 'names' order. Paged with query parameters num/chrom/low; the whole list comes back when num is not given. The .len may not match any one FASTA under the same dbkey (hg38 .len lists 711 sequences incl. patches; hg38canon has 25)."
+  },
+  {
+   "format": "galaxy_api_genome",
+   "path": "prev_chroms",
+   "type": "boolean",
+   "description": "Paging flag: sequences exist before this page.",
+   "example": false,
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Paging only."
+  },
+  {
+   "format": "galaxy_api_genome",
+   "path": "next_chroms",
+   "type": "boolean",
+   "description": "Paging flag: sequences exist after this page.",
+   "example": false,
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Paging only."
+  },
+  {
+   "format": "galaxy_api_genome",
+   "path": "start_index",
+   "type": "integer",
+   "description": "Paging: line index in the .len file where this page starts.",
+   "example": 0,
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Paging only."
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "name",
+   "type": "string",
+   "description": "Data table name (e.g. all_fasta, __dbkeys__).",
+   "example": "all_fasta",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Top-level key of the response, repeated on every native record. Do not confuse with fields[].name (the row's display name)."
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "model_class",
+   "type": "string",
+   "description": "Python class of the table (TabularToolDataTable, RefgenieToolDataTable).",
+   "example": "TabularToolDataTable",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "columns",
+   "type": "array",
+   "description": "Column names of the table, in order; each row in 'fields' is a list in this order.",
+   "example": [
+    "value",
+    "name",
+    "len_path"
+   ],
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "fields[].value",
+   "type": "string",
+   "description": "Row's unique_build_id (column 'value').",
+   "example": "hg38female",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Meant to be unique within a data table on one server (tools store it in workflows), but not enforced: usegalaxy.org serves all_fasta 'hg38canon' twice and usegalaxy.eu serves 'hg38canon' twice with different names. Index tables usually reuse the all_fasta value, but not always (all_fasta 'hg38' points to hg38.fa while bwa_mem and bowtie2 'hg38' point to hg38full)."
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "fields[].dbkey",
+   "type": "string",
+   "description": "Row's dbkey (column 'dbkey'; absent in __dbkeys__, where value is the dbkey).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "fields[].name",
+   "type": "string",
+   "description": "Row's display name (column 'name').",
+   "example": "Human (Homo sapiens) (b38): hg38 Canonical Female",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "fields[].path",
+   "type": "string",
+   "description": "Row's file path (column 'path'), cut to the file name for non-admin callers.",
+   "example": "hg38female.fa",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Galaxy strips the directory of the column named 'path' for non-admins (managers/tool_data.py), so this is 'hg38canon.fa', not the CVMFS path. For index tables it is the index file prefix or directory, not a FASTA."
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "fields[].len_path",
+   "type": "string",
+   "description": "__dbkeys__ only: path of the .len file.",
+   "example": "/cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Not stripped (only a column literally named 'path' is), so the full server path shows."
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "fields[].with_gene_model",
+   "type": "string",
+   "description": "rnastar_index2x_versioned only: '1' if the index was built with a GTF, else '0'.",
+   "example": "0",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_api_tool_data",
+   "path": "fields[].version",
+   "type": "string",
+   "description": "rnastar_index2x_versioned only: oldest STAR version that can read the index.",
+   "example": "2.7.4a",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "name",
+   "type": "string",
+   "description": "Data table name (<table name=...>). Tools refer to tables by this name.",
+   "example": "all_fasta",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Several conf files (Galaxy's own, the shed conf, CVMFS byhand/managed/brc/vgp) may each declare the same table; Galaxy merges them if the columns are identical."
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "comment_char",
+   "type": "string",
+   "description": "Lines whose first non-blank character is this are skipped in the .loc files. Default '#'.",
+   "example": "#",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "allow_duplicate_entries",
+   "type": "string",
+   "description": "'False' makes Galaxy drop rows that exactly repeat another row. Default true.",
+   "example": "False",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "String in XML; Galaxy reads it with asbool. It removes exact duplicate rows only; two rows with the same value but different names both stay."
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "type",
+   "type": "string",
+   "description": "Table type: 'tabular' (default, .loc files) or 'refgenie' (filled from a refgenie config).",
+   "example": "refgenie",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "asset",
+   "type": "string",
+   "description": "type=refgenie only: refgenie asset whose entries fill the table (fasta, bowtie2_index, ...).",
+   "example": "fasta",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "separator",
+   "type": "string",
+   "description": "Field separator in the .loc files. Default TAB.",
+   "example": null,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Not used by any table in the collected files."
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "empty_field_value",
+   "type": "string",
+   "description": "Value written for missing fields. Default ''.",
+   "example": null,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Not used by any table in the collected files."
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "user_accessible",
+   "type": "string",
+   "description": "'true' lets user-defined tools read the table.",
+   "example": null,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Only mentioned in a comment of the Galaxy sample; no table in the collected files sets it."
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "columns",
+   "type": "array",
+   "description": "Column names in file order (<columns>value, dbkey, name, path</columns>, split on commas).",
+   "example": [
+    "value",
+    "path"
+   ],
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "A column named 'value' is required. The .loc files themselves carry no column names; this is the only place they are declared."
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "column",
+   "type": "array",
+   "description": "Alternative to <columns>: list of <column name= index= [empty_field_value=]/> attributes.",
+   "example": null,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Not used in the collected files."
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "file",
+   "type": "array",
+   "description": "List of <file> attributes: path (a .loc file, relative to tool_data_path, may use ${__HERE__}), url (fetched at start-up), or from_config (name of a Galaxy config option, e.g. refgenie_config_file).",
+   "example": [
+    {
+     "path": "twobit.loc"
+    }
+   ],
+   "level": "deployment",
+   "cardinality": "many",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_tool_data_table_conf",
+   "path": "field",
+   "type": "array",
+   "description": "type=refgenie only: list of <field name= template= [strip=] [column_index=]> with the template text as 'text'.",
+   "example": [
+    {
+     "name": "value",
+     "template": "true",
+     "text": "${__REFGENIE_GENOME__}"
+    },
+    {
+     "name": "name",
+     "template": "true",
+     "text": "${__REFGENIE_DISPLAY_NAME__}"
+    },
+    {
+     "name": "len_path",
+     "template": "true",
+     "text": "${__REFGENIE_SEEK_KEY__('chrom_sizes')}"
+    }
+   ],
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Templates use the variables of format galaxy_refgenie_table, e.g. ${__REFGENIE_UUID__}."
+  },
+  {
+   "format": "galaxy_loc_all_fasta",
+   "path": "value",
+   "type": "string",
+   "description": "unique_build_id: the identifier tools store in workflows and jobs (column 1).",
+   "example": "hg38female",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Meant to be unique within a data table on one server (tools store it in workflows), but not enforced: usegalaxy.org serves all_fasta 'hg38canon' twice and usegalaxy.eu serves 'hg38canon' twice with different names. Index tables usually reuse the all_fasta value, but not always (all_fasta 'hg38' points to hg38.fa while bwa_mem and bowtie2 'hg38' point to hg38full)."
+  },
+  {
+   "format": "galaxy_loc_all_fasta",
+   "path": "dbkey",
+   "type": "string",
+   "description": "Build key this entry belongs to (column 2).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_loc_all_fasta",
+   "path": "name",
+   "type": "string",
+   "description": "Display name shown in tool forms (column 3).",
+   "example": "Human (Homo sapiens) (b38): hg38 Canonical Female",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_loc_all_fasta",
+   "path": "path",
+   "type": "string",
+   "description": "Absolute path of the FASTA file (column 4).",
+   "example": "/cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38female.fa",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Server-specific (CVMFS paths here). Data managers write genomes/<dbkey>/<index_type>/<version>/<value>/...; older byhand entries use other layouts. Can contain ${__HERE__}. This is the copy of the sequence collection; the only Galaxy field that points at actual sequence."
+  },
+  {
+   "format": "galaxy_loc_fasta_indexes",
+   "path": "value",
+   "type": "string",
+   "description": "unique_build_id: the identifier tools store in workflows and jobs (column 1).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Meant to be unique within a data table on one server (tools store it in workflows), but not enforced: usegalaxy.org serves all_fasta 'hg38canon' twice and usegalaxy.eu serves 'hg38canon' twice with different names. Index tables usually reuse the all_fasta value, but not always (all_fasta 'hg38' points to hg38.fa while bwa_mem and bowtie2 'hg38' point to hg38full)."
+  },
+  {
+   "format": "galaxy_loc_fasta_indexes",
+   "path": "dbkey",
+   "type": "string",
+   "description": "Build key this entry belongs to (column 2).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_loc_fasta_indexes",
+   "path": "name",
+   "type": "string",
+   "description": "Display name shown in tool forms (column 3).",
+   "example": "Human (Homo sapiens): hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_loc_fasta_indexes",
+   "path": "path",
+   "type": "string",
+   "description": "Absolute path of the FASTA file next to its .fai (tools add .fai) (column 4).",
+   "example": "/cvmfs/data.galaxyproject.org/byhand/hg38/sam_index/hg38.fa",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Server-specific (CVMFS paths here). Data managers write genomes/<dbkey>/<index_type>/<version>/<value>/...; older byhand entries use other layouts. Can contain ${__HERE__}. Points at a derived index, not a FASTA; which FASTA it was built from is not recorded."
+  },
+  {
+   "format": "galaxy_loc_bwa_mem_indexes",
+   "path": "value",
+   "type": "string",
+   "description": "unique_build_id: the identifier tools store in workflows and jobs (column 1).",
+   "example": "hg38female",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Meant to be unique within a data table on one server (tools store it in workflows), but not enforced: usegalaxy.org serves all_fasta 'hg38canon' twice and usegalaxy.eu serves 'hg38canon' twice with different names. Index tables usually reuse the all_fasta value, but not always (all_fasta 'hg38' points to hg38.fa while bwa_mem and bowtie2 'hg38' point to hg38full)."
+  },
+  {
+   "format": "galaxy_loc_bwa_mem_indexes",
+   "path": "dbkey",
+   "type": "string",
+   "description": "Build key this entry belongs to (column 2).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_loc_bwa_mem_indexes",
+   "path": "name",
+   "type": "string",
+   "description": "Display name shown in tool forms (column 3).",
+   "example": "Human (Homo sapiens) (b38): hg38 Canonical Female",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_loc_bwa_mem_indexes",
+   "path": "path",
+   "type": "string",
+   "description": "Absolute path of the BWA index prefix (a .fa name; .amb/.ann/.bwt/... files share it) (column 4).",
+   "example": "/cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bwa_index_v0.7.10-r789/hg38female.fa",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Server-specific (CVMFS paths here). Data managers write genomes/<dbkey>/<index_type>/<version>/<value>/...; older byhand entries use other layouts. Can contain ${__HERE__}. Points at a derived index, not a FASTA; which FASTA it was built from is not recorded."
+  },
+  {
+   "format": "galaxy_loc_bowtie2_indexes",
+   "path": "value",
+   "type": "string",
+   "description": "unique_build_id: the identifier tools store in workflows and jobs (column 1).",
+   "example": "hg38female",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Meant to be unique within a data table on one server (tools store it in workflows), but not enforced: usegalaxy.org serves all_fasta 'hg38canon' twice and usegalaxy.eu serves 'hg38canon' twice with different names. Index tables usually reuse the all_fasta value, but not always (all_fasta 'hg38' points to hg38.fa while bwa_mem and bowtie2 'hg38' point to hg38full)."
+  },
+  {
+   "format": "galaxy_loc_bowtie2_indexes",
+   "path": "dbkey",
+   "type": "string",
+   "description": "Build key this entry belongs to (column 2).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_loc_bowtie2_indexes",
+   "path": "name",
+   "type": "string",
+   "description": "Display name shown in tool forms (column 3).",
+   "example": "Human (Homo sapiens) (b38): hg38 Canonical Female",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_loc_bowtie2_indexes",
+   "path": "path",
+   "type": "string",
+   "description": "Absolute path of the Bowtie2 index basename (files <path>.1.bt2 ...) (column 4).",
+   "example": "/cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bowtie2_index/hg38female",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Server-specific (CVMFS paths here). Data managers write genomes/<dbkey>/<index_type>/<version>/<value>/...; older byhand entries use other layouts. Can contain ${__HERE__}. Points at a derived index, not a FASTA; which FASTA it was built from is not recorded."
+  },
+  {
+   "format": "galaxy_loc_rnastar_index2x_versioned",
+   "path": "value",
+   "type": "string",
+   "description": "unique_build_id: the identifier tools store in workflows and jobs (column 1).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Meant to be unique within a data table on one server (tools store it in workflows), but not enforced: usegalaxy.org serves all_fasta 'hg38canon' twice and usegalaxy.eu serves 'hg38canon' twice with different names. Index tables usually reuse the all_fasta value, but not always (all_fasta 'hg38' points to hg38.fa while bwa_mem and bowtie2 'hg38' point to hg38full)."
+  },
+  {
+   "format": "galaxy_loc_rnastar_index2x_versioned",
+   "path": "dbkey",
+   "type": "string",
+   "description": "Build key this entry belongs to (column 2).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_loc_rnastar_index2x_versioned",
+   "path": "name",
+   "type": "string",
+   "description": "Display name shown in tool forms (column 3).",
+   "example": "Human (Homo sapiens) (b38): hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_loc_rnastar_index2x_versioned",
+   "path": "path",
+   "type": "string",
+   "description": "Absolute path of the STAR index directory (column 4).",
+   "example": "/cvmfs/data.galaxyproject.org/managed/rnastar/2.7.4a/hg38/hg38/dataset_fdfceb86-2b00-45f3-a3f4-63794ea8182d_files",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Server-specific (CVMFS paths here). Data managers write genomes/<dbkey>/<index_type>/<version>/<value>/...; older byhand entries use other layouts. Can contain ${__HERE__}. Points at a derived index, not a FASTA; which FASTA it was built from is not recorded."
+  },
+  {
+   "format": "galaxy_loc_rnastar_index2x_versioned",
+   "path": "with_gene_model",
+   "type": "string",
+   "description": "'1' if built with annotations (--sjdbGTFfile), '0' if not (column 5).",
+   "example": "0",
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Index build parameter."
+  },
+  {
+   "format": "galaxy_loc_rnastar_index2x_versioned",
+   "path": "version",
+   "type": "string",
+   "description": "STAR version that introduced this index format, i.e. the oldest STAR that can use it (column 6).",
+   "example": "2.7.4a",
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Index build parameter, e.g. 2.7.4a."
+  },
+  {
+   "format": "galaxy_loc_dbkeys",
+   "path": "value",
+   "type": "string",
+   "description": "dbkey being defined (column 1).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "In this table value IS the dbkey; there is no dbkey column. Several .loc files fill it (CVMFS managed dbkeys.loc and dbkeys_ucsc.loc, brc, vgp), so one dbkey can be listed by more than one file."
+  },
+  {
+   "format": "galaxy_loc_dbkeys",
+   "path": "name",
+   "type": "string",
+   "description": "Display name of the dbkey (column 2).",
+   "example": "Human Dec. 2013 (GRCh38/hg38) (hg38)",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "UCSC-derived entries copy the builds.txt label ('Human Dec. 2013 (GRCh38/hg38) (hg38)'); RefSeq-based entries look like 'Homo sapiens (GCF_000001405.40)'."
+  },
+  {
+   "format": "galaxy_loc_dbkeys",
+   "path": "len_path",
+   "type": "string",
+   "description": "Absolute path of the .len chromosome-length file (column 3).",
+   "example": "/cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len",
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Defines the coordinate system Galaxy shows for the dbkey. The data manager writes it under genomes/<dbkey>/len/. Can contain ${__HERE__}."
+  },
+  {
+   "format": "galaxy_data_manager_json",
+   "path": "data_table",
+   "type": "string",
+   "description": "Data table the entry is for: the key under 'data_tables'.",
+   "example": "all_fasta",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Not a literal key inside the entry; the enclosing object key. One output can fill several tables (fetch genome writes all_fasta and __dbkeys__)."
+  },
+  {
+   "format": "galaxy_data_manager_json",
+   "path": "value",
+   "type": "string",
+   "description": "unique_build_id of the new entry (all_fasta: the sequence_id parameter).",
+   "example": "hg38canon",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Index data managers default it to the input FASTA's value or dbkey depending on tool version (sam_fasta_index_builder 1.21+galaxy0 defaults to the dbkey), so it can silently differ from the all_fasta value."
+  },
+  {
+   "format": "galaxy_data_manager_json",
+   "path": "dbkey",
+   "type": "string",
+   "description": "Build key. Present even in __dbkeys__ entries, where the table has no dbkey column (used only for the target path).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_data_manager_json",
+   "path": "name",
+   "type": "string",
+   "description": "Display name.",
+   "example": "Human (Homo sapiens) (b38): hg38 Canonical",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_data_manager_json",
+   "path": "path",
+   "type": "string",
+   "description": "File name or relative path inside the job's output directory.",
+   "example": "hg38canon.fa",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Relative here; data_manager_conf.xml moves it to ${GALAXY_DATA_MANAGER_DATA_PATH}/genomes/${dbkey}/seq/${path} (all_fasta) or genomes/${dbkey}/<index>/<v>/${value}/ and writes that absolute path into the .loc."
+  },
+  {
+   "format": "galaxy_data_manager_json",
+   "path": "len_path",
+   "type": "string",
+   "description": "__dbkeys__ entries: .len file name, later moved to genomes/${dbkey}/len/.",
+   "example": "phiX174.len",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_data_manager_json",
+   "path": "with_gene_model",
+   "type": "string",
+   "description": "rnastar entries: '1' if built with a GTF, else '0'.",
+   "example": "0",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_data_manager_json",
+   "path": "version",
+   "type": "string",
+   "description": "rnastar entries: STAR index format version.",
+   "example": "2.7.4a",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_UUID__",
+   "type": "string",
+   "description": "Identifier Galaxy builds for one refgenie asset: refgenie:<genome>/<asset>:<tag>@<digest>. The sample conf puts it in column 'value'.",
+   "example": null,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": "Pattern from code: f\"refgenie:{genome}/{self.rg_asset}:{tag}@{digest}\". No real record collected."
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_GENOME__",
+   "type": "string",
+   "description": "refgenie genome name (alias), e.g. hg38. The sample conf puts it in 'dbkey' (and in __dbkeys__ 'value').",
+   "example": null,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "No real record collected."
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_TAG__",
+   "type": "string",
+   "description": "refgenie asset tag (e.g. default).",
+   "example": null,
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "No real record collected."
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_DISPLAY_NAME__",
+   "type": "string",
+   "description": "'<genome_description> (refgenie: <genome>@<digest>)' when the genome has a description, else '<genome>/<asset>:<tag>@<digest>'. Goes in 'name'.",
+   "example": null,
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "No real record collected."
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_ASSET__",
+   "type": "string",
+   "description": "Local path of the asset (rgc.seek(genome, asset, tag)). Goes in 'path'.",
+   "example": null,
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "No real record collected."
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_ASSET_NAME__",
+   "type": "string",
+   "description": "Asset name (the table's asset= attribute, e.g. fasta).",
+   "example": null,
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "No real record collected."
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_DIGEST__",
+   "type": "string",
+   "description": "refgenie asset digest: rgc.id(genome, asset, tag).",
+   "example": null,
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": "A refgenie asset digest, not a seqcol or refget digest. No real record collected."
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_GENOME_ATTRIBUTES__",
+   "type": "object",
+   "description": "All genome attributes from the refgenie config (includes genome_description).",
+   "example": null,
+   "level": "other",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "No real record collected."
+  },
+  {
+   "format": "galaxy_refgenie_table",
+   "path": "__REFGENIE_SEEK_KEY__",
+   "type": "string",
+   "description": "Function: __REFGENIE_SEEK_KEY__('chrom_sizes') returns the path of another seek key of the same asset; the sample conf uses it for __dbkeys__ len_path.",
+   "example": null,
+   "level": "copy",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "A callable, not a value. No real record collected."
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "dbkey",
+   "type": "string",
+   "description": "dbkey of the data.",
+   "example": "sacCer3",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "description",
+   "type": "string",
+   "description": "Description incl. taxonomy, version and date (README); becomes the display name.",
+   "example": "Yeast (Saccharomyces cerevisiae): sacCer3",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Empty with comment '# set from UCSC' for UCSC genomes in genomes.yml."
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "id",
+   "type": "string",
+   "description": "Unique id of the data in Galaxy (becomes the all_fasta value / unique_build_id).",
+   "example": "sacCer3",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "source",
+   "type": "string",
+   "description": "Where to fetch the FASTA: 'ucsc', an NCBI accession, or a URL.",
+   "example": "ucsc",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Mixed kinds: 'ucsc' means fetch by dbkey from UCSC; NC_021902 is a single-sequence accession, not an assembly accession; URLs are copies."
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "doi",
+   "type": "string",
+   "description": "Any DOI for the data.",
+   "example": null,
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Empty in every entry collected."
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "version",
+   "type": "string",
+   "description": "Any version information for the data.",
+   "example": null,
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Empty in every entry collected."
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "checksum",
+   "type": "string",
+   "description": "SHA256 of the original downloaded file.",
+   "example": "1d769fcb47f631c359e0b9407155e34325b223fba4d1f208f7ad8c353f5ab560",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Empty for UCSC entries; set for URL/accession entries in genomes.yml. Example taken from a file under spec/ (spec/idc/genomes.yml, spec/idc/cvmfs_current_managed/cvmfs_managed_genomes.yml)."
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "blob",
+   "type": "string",
+   "description": "Free text for other information.",
+   "example": "Extra information for this genome is at: https://www.ncbi.nlm.nih.gov/genome/152?genome_assembly_id=299243",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Example taken from a file under spec/ (spec/idc/genomes.yml, spec/idc/cvmfs_current_managed/cvmfs_managed_genomes.yml)."
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "indexers",
+   "type": "array",
+   "description": "Data managers (or tags) to run on this genome.",
+   "example": [
+    "data_manager_hisat2_index_builder"
+   ],
+   "level": "deployment",
+   "cardinality": "many",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_genomes",
+   "path": "skiplist",
+   "type": "array",
+   "description": "Data manager tags not to run.",
+   "example": [
+    "bfast"
+   ],
+   "level": "deployment",
+   "cardinality": "many",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_data_managers",
+   "path": "data_manager",
+   "type": "string",
+   "description": "Short name of the data manager (the YAML mapping key), e.g. data_manager_bwa_mem_index_builder.",
+   "example": "data_manager_fetch_genome_dbkeys_all_fasta",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Mapping key, not a literal field. genomes.yml 'indexers' lists these names."
+  },
+  {
+   "format": "galaxy_idc_data_managers",
+   "path": "tool_id",
+   "type": "string",
+   "description": "Tool Shed GUID of the data manager tool incl. version.",
+   "example": "toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_dbkeys_all_fasta/data_manager_fetch_genome_all_fasta_dbkey/0.0.4",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_data_managers",
+   "path": "tags",
+   "type": "array",
+   "description": "Tags (genome, fetch_source, ...) used to select data managers.",
+   "example": [
+    "genome"
+   ],
+   "level": "deployment",
+   "cardinality": "many",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_data_managers",
+   "path": "parameters",
+   "type": "object",
+   "description": "Fixed tool parameters for every run; may contain Jinja like '{{ item.id }}'.",
+   "example": {
+    "index_algorithm": "bwtsw"
+   },
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "tool_id",
+   "type": "string",
+   "description": "Version-pinned Tool Shed GUID of the data manager.",
+   "example": "toolshed.g2.bx.psu.edu/repos/devteam/data_manager_fetch_genome_dbkeys_all_fasta/data_manager_fetch_genome_all_fasta_dbkey/0.0.6",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Pattern toolshed.g2.bx.psu.edu/repos/<owner>/<repo>/<tool id>/<version>."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "data_tables",
+   "type": "array",
+   "description": "Data tables the data manager writes; the request's directory must be one of them.",
+   "example": [
+    "all_fasta"
+   ],
+   "level": "deployment",
+   "cardinality": "many",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.dbkey_source.dbkey_source_selector",
+   "type": "string",
+   "description": "'existing' (dbkey already defined) or 'new' (also write a __dbkeys__ entry).",
+   "example": "existing",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.dbkey_source.dbkey",
+   "type": "string",
+   "description": "dbkey the new FASTA belongs to.",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.dbkey_source.dbkey_name",
+   "type": "string",
+   "description": "Display name for a new dbkey.",
+   "example": "Homo sapiens (GRCh38.p14)",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Only with dbkey_source_selector: new."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.reference_source.reference_source_selector",
+   "type": "string",
+   "description": "Where to fetch the sequence: ucsc, ncbi, url, (history, directory).",
+   "example": "ucsc",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Provenance of the copy. Example comment in the docs lists ucsc, ncbi, url."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.reference_source.requested_dbkey",
+   "type": "string",
+   "description": "UCSC genome database to download (ucsc source).",
+   "example": "hg38",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "A UCSC database name (hg38). The data manager fetches <db>.chromFa.tar.gz (or similar) from hgdownload; it says which UCSC release, i.e. assembly plus UCSC naming."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.reference_source.requested_identifier",
+   "type": "string",
+   "description": "NCBI identifier to download (ncbi source).",
+   "example": "GCF_000001405.40",
+   "level": "assembly",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "An assembly accession in the IDC docs example (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.sequence_id",
+   "type": "string",
+   "description": "unique_build_id to write (all_fasta value; also used by index builders to set their output value).",
+   "example": "hg38canon",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "namespace",
+   "notes": "Leaving it empty lets the tool pick a default (dbkey or input value) - a known source of mismatched values."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.sequence_name",
+   "type": "string",
+   "description": "Display name to write.",
+   "example": "Human (Homo sapiens) (b38): hg38 Canonical",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.sorting.sort_selector",
+   "type": "string",
+   "description": "How to order sequences: as_is, lexicographical, gatk, custom.",
+   "example": "custom",
+   "level": "collection",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Changes sequence order and therefore the seqcol digest of the written FASTA."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.sorting.sequence_identifiers",
+   "type": "array",
+   "description": "custom sort: ordered list of {identifier: <sequence name>}.",
+   "example": [
+    {
+     "identifier": "chr1"
+    },
+    {
+     "identifier": "chr2"
+    },
+    {
+     "identifier": "chr3"
+    },
+    {
+     "identifier": "chr4"
+    },
+    {
+     "identifier": "chr5"
+    },
+    {
+     "identifier": "chr6"
+    },
+    {
+     "identifier": "chr7"
+    },
+    {
+     "identifier": "chr8"
+    },
+    {
+     "identifier": "chr9"
+    },
+    {
+     "identifier": "chr10"
+    },
+    {
+     "identifier": "chr11"
+    },
+    {
+     "identifier": "chr12"
+    },
+    {
+     "identifier": "chr13"
+    },
+    {
+     "identifier": "chr14"
+    },
+    {
+     "identifier": "chr15"
+    },
+    {
+     "identifier": "chr16"
+    },
+    {
+     "identifier": "chr17"
+    },
+    {
+     "identifier": "chr18"
+    },
+    {
+     "identifier": "chr19"
+    },
+    {
+     "identifier": "chr20"
+    },
+    {
+     "identifier": "chr21"
+    },
+    {
+     "identifier": "chr22"
+    },
+    {
+     "identifier": "chrX"
+    },
+    {
+     "identifier": "chrY"
+    },
+    {
+     "identifier": "chrM"
+    }
+   ],
+   "level": "collection",
+   "cardinality": "many",
+   "required": false,
+   "unique": "none",
+   "notes": "With handle_not_listed_selector: discard this also chooses WHICH sequences are kept, i.e. defines the collection (hg38canon = chr1-22, X, Y, M)."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "params.sorting.handle_not_listed_selector",
+   "type": "string",
+   "description": "custom sort: what to do with sequences not listed (discard, keep_append, keep_prepend).",
+   "example": "discard",
+   "level": "collection",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "sha256",
+   "type": "object",
+   "description": "Expected SHA-256 per file name, as Galaxy lists the entry's files.",
+   "example": {
+    "hg38canon.fa": "87b0ea46eefe6158fcdb7343980c5c9ea31f681c99a9c96bf2f6cbc64b86b335"
+   },
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Map {file name: sha256}. File-level checksum of the copy; depends on line width and header text, unlike a seqcol digest. Verified for hg38canon.fa: rebuilding from UCSC hg38.chromFa.tar.gz gives this exact sha256."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "description",
+   "type": "string",
+   "description": "What the data is, for reviewers.",
+   "example": "Human hg38 (UCSC), canonical chromosomes chr1-22, X, Y, M only",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "doi",
+   "type": "string",
+   "description": "DOI of the publication or dataset the data comes from.",
+   "example": null,
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "In the schema; not set in any collected request."
+  },
+  {
+   "format": "galaxy_idc_request",
+   "path": "depends_on.all_fasta",
+   "type": "string",
+   "description": "For index builds: the all_fasta request (file stem = value) this build uses as input.",
+   "example": "hg38canon",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Wires the input only; does not set the output value (docs/genome-indexing.md). Other upstream tables appear as depends_on.<table>."
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "table",
+   "type": "string",
+   "description": "Data table name (the YAML key the row is listed under).",
+   "example": "__dbkeys__",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Enclosing key, not a literal field."
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "value",
+   "type": "string",
+   "description": "Row's value column (unique_build_id; in __dbkeys__ the dbkey; in twobit the dbkey).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Meant to be unique within a data table on one server (tools store it in workflows), but not enforced: usegalaxy.org serves all_fasta 'hg38canon' twice and usegalaxy.eu serves 'hg38canon' twice with different names. Index tables usually reuse the all_fasta value, but not always (all_fasta 'hg38' points to hg38.fa while bwa_mem and bowtie2 'hg38' point to hg38full)."
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "dbkey",
+   "type": "string",
+   "description": "Row's dbkey column (absent for __dbkeys__, twobit, sam_fa_indexes).",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Build key: groups several entries (e.g. hg38, hg38canon, hg38female all have dbkey hg38). Not unique. Galaxy uses it to mark datasets as compatible and to link to UCSC. Mostly UCSC database names; newer BRC/VGP entries use RefSeq/GenBank assembly accessions (GCF_000001405.40)."
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "name",
+   "type": "string",
+   "description": "Row's name column.",
+   "example": "Human Dec. 2013 (GRCh38/hg38) (hg38)",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Free-text display label. Often embeds species, assembly name and a subset hint ('Canonical', 'Female', 'full'), but is not parsed by Galaxy and differs between servers for the same value."
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "path",
+   "type": "string",
+   "description": "Row's path column (full server path).",
+   "example": "/cvmfs/data.galaxyproject.org/byhand/hg38/seq/hg38female.fa",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Unlike the public API, full paths."
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "len_path",
+   "type": "string",
+   "description": "__dbkeys__ rows: .len file path.",
+   "example": "/cvmfs/data.galaxyproject.org/managed/len/ucsc/hg38.len",
+   "level": "copy",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "with_gene_model",
+   "type": "string",
+   "description": "rnastar rows: '1' or '0'.",
+   "example": "0",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "version",
+   "type": "string",
+   "description": "rnastar rows: STAR index version.",
+   "example": "2.7.4a",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "line_type",
+   "type": "string",
+   "description": "sam_fa_indexes rows: always 'index' in practice.",
+   "example": "index",
+   "level": "other",
+   "cardinality": "one",
+   "required": false,
+   "unique": "none",
+   "notes": "Legacy table used by htseq_count and bamtools (PR #88 README)."
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "loc_file",
+   "type": "string",
+   "description": "The .loc file this row was read from (added by the script).",
+   "example": "/cvmfs/data.galaxyproject.org/managed/location/dbkeys_ucsc.loc",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Shows which repository serves the row (byhand, managed, brc, vgp on CVMFS)."
+  },
+  {
+   "format": "galaxy_idc_all_tables",
+   "path": "xml_file",
+   "type": "string",
+   "description": "The tool_data_table_conf.xml that declared the .loc file (added by the script).",
+   "example": "/cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_0",
+   "type": "string",
+   "description": "seqcol top-level digest of the FASTA's sequence collection (gtars RefgetStore).",
+   "example": "nDnCavW_mjqY22G9AfLUaY0diIFApk_O",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": "Computed from names and sequences only (lengths are not inherent in the current seqcol schema): checked by recomputing phiX174. Same FASTA content and order give the same digest on any server."
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_1.names",
+   "type": "string",
+   "description": "seqcol level 1: digest of the names array.",
+   "example": "QwbBGcx3jlPGQbh9YyMAklU4TqjMIN_g",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_1.lengths",
+   "type": "string",
+   "description": "seqcol level 1: digest of the lengths array.",
+   "example": "iUV7eKYYzNONUVjb4iinQ0NCyx6_nP_Y",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_1.sequences",
+   "type": "string",
+   "description": "seqcol level 1: digest of the sequences array (SQ.-prefixed refget digests).",
+   "example": "T4sofxM5XgnGbXDVz2F6vfsw9tebmzd9",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_1.name_length_pairs",
+   "type": "string",
+   "description": "seqcol level 1: digest of the array of {length, name} objects.",
+   "example": "15886uBC-UhFTgRAxgW2fcQFck2lZdt2",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_1.sorted_name_length_pairs",
+   "type": "string",
+   "description": "seqcol level 1: digest of the sorted array of digests of each {length, name} pair (order-free coordinate system id).",
+   "example": "9rs5ZWHsSaT_D7nJOSChpFR3Q2ZHRDI6",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_1.sorted_sequences",
+   "type": "string",
+   "description": "seqcol level 1: digest of the sorted sequences array (order-free content id).",
+   "example": "IPR_3KMc1Z0UMDczv96ckuYOG_TIiRcZ",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_2.names",
+   "type": "array",
+   "description": "Sequence names in FASTA order (first word of each header).",
+   "example": [
+    "phiX174"
+   ],
+   "level": "sequence",
+   "cardinality": "many",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_2.lengths",
+   "type": "array",
+   "description": "Sequence lengths, same order.",
+   "example": [
+    5386
+   ],
+   "level": "sequence",
+   "cardinality": "many",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "level_2.sequences",
+   "type": "array",
+   "description": "GA4GH refget sequence digests ('SQ.' + sha512t24u of the uppercased sequence), same order.",
+   "example": [
+    "SQ.414RmJfE6fEfwXkr8RDUa_FvQrh3H5Vb"
+   ],
+   "level": "sequence",
+   "cardinality": "many",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "aliases.galaxy_unique_build_id",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_unique_build_id': all_fasta value of the FASTA.",
+   "example": "hg38canon",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "aliases.galaxy_dbkey",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_dbkey': all_fasta dbkey.",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "aliases.galaxy_name",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_name': all_fasta display name.",
+   "example": "Human (Homo sapiens) (b38): hg38 Canonical",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "aliases.galaxy_loc_file",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_loc_file': The .loc file the row came from.",
+   "example": "!cvmfs!data.galaxyproject.org!byhand!location!all_fasta.loc",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_json",
+   "path": "aliases.galaxy_tool_data_table_conf",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_tool_data_table_conf': The tool_data_table_conf.xml that declared the .loc.",
+   "example": "!cvmfs!data.galaxyproject.org!byhand!location!tool_data_table_conf.xml",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "unique_build_id",
+   "type": "string",
+   "description": "all_fasta value of the FASTA (the YAML mapping key).",
+   "example": "hg38canon",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Mapping key, not a literal field. Equals aliases.galaxy_unique_build_id; a repeated value overwrites the earlier entry."
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_0",
+   "type": "string",
+   "description": "seqcol top-level digest of the FASTA's sequence collection (gtars RefgetStore).",
+   "example": "nDnCavW_mjqY22G9AfLUaY0diIFApk_O",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": "Computed from names and sequences only (lengths are not inherent in the current seqcol schema): checked by recomputing phiX174. Same FASTA content and order give the same digest on any server."
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_1.names",
+   "type": "string",
+   "description": "seqcol level 1: digest of the names array.",
+   "example": "QwbBGcx3jlPGQbh9YyMAklU4TqjMIN_g",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_1.lengths",
+   "type": "string",
+   "description": "seqcol level 1: digest of the lengths array.",
+   "example": "iUV7eKYYzNONUVjb4iinQ0NCyx6_nP_Y",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_1.sequences",
+   "type": "string",
+   "description": "seqcol level 1: digest of the sequences array (SQ.-prefixed refget digests).",
+   "example": "T4sofxM5XgnGbXDVz2F6vfsw9tebmzd9",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_1.name_length_pairs",
+   "type": "string",
+   "description": "seqcol level 1: digest of the array of {length, name} objects.",
+   "example": "15886uBC-UhFTgRAxgW2fcQFck2lZdt2",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_1.sorted_name_length_pairs",
+   "type": "string",
+   "description": "seqcol level 1: digest of the sorted array of digests of each {length, name} pair (order-free coordinate system id).",
+   "example": "9rs5ZWHsSaT_D7nJOSChpFR3Q2ZHRDI6",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_1.sorted_sequences",
+   "type": "string",
+   "description": "seqcol level 1: digest of the sorted sequences array (order-free content id).",
+   "example": "IPR_3KMc1Z0UMDczv96ckuYOG_TIiRcZ",
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_2_peek.sequence_count",
+   "type": "integer",
+   "description": "Number of sequences.",
+   "example": 25,
+   "level": "collection",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_2_peek.first_name",
+   "type": "string",
+   "description": "Name of the first sequence.",
+   "example": "chr1",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_2_peek.first_length",
+   "type": "integer",
+   "description": "Length of the first sequence.",
+   "example": 248956422,
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "level_2_peek.first_sequence",
+   "type": "string",
+   "description": "refget digest of the first sequence.",
+   "example": "SQ.2YnepKM7OkBoOrKmvHbGqguVfF9amCST",
+   "level": "sequence",
+   "cardinality": "one",
+   "required": true,
+   "unique": "global",
+   "notes": ""
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "aliases.galaxy_unique_build_id",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_unique_build_id': all_fasta value of the FASTA.",
+   "example": "hg38canon",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "namespace",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "aliases.galaxy_dbkey",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_dbkey': all_fasta dbkey.",
+   "example": "hg38",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "aliases.galaxy_name",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_name': all_fasta display name.",
+   "example": "Human (Homo sapiens) (b38): hg38 Canonical",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "aliases.galaxy_loc_file",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_loc_file': The .loc file the row came from.",
+   "example": "!cvmfs!data.galaxyproject.org!byhand!location!all_fasta.loc",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  },
+  {
+   "format": "galaxy_idc_refget_yaml",
+   "path": "aliases.galaxy_tool_data_table_conf",
+   "type": "string",
+   "description": "RefgetStore collection alias in namespace 'galaxy_tool_data_table_conf': The tool_data_table_conf.xml that declared the .loc.",
+   "example": "!cvmfs!data.galaxyproject.org!byhand!location!tool_data_table_conf.xml",
+   "level": "deployment",
+   "cardinality": "one",
+   "required": true,
+   "unique": "none",
+   "notes": "Every '/' is replaced by '!' so the value can sit in a seqcol API URL; this also changes display names (e.g. 'Amel_4.5!apiMel4')."
+  }
+ ]
+}

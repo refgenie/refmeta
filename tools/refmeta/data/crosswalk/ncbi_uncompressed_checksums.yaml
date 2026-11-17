@@ -1,0 +1,42 @@
+# refmeta crosswalk: ncbi_uncompressed_checksums <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ncbi_uncompressed_checksums
+source: ncbi
+core: '0.1'
+subject: copy
+description: 'FTP uncompressed_checksums.txt in each assembly directory: md5, crc32 and byte size of each file after
+  decompression. Not described in the FTP README; columns come from the file''s own header line.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: copies, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: file
+  core: copies[].location
+  direction: both
+  transform:
+    prefix: {strip: ./}
+  lossy: null
+  example: {native: ./GCA_000001405.15_GRCh38_assembly_report.txt, core: GCA_000001405.15_GRCh38_assembly_report.txt,
+    file: examples/ftp_GCA_000001405.15_GRCh38_uncompressed_checksums.toplevel.txt}
+- native: md5sum
+  core: copies[].uncompressedChecksums.md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 99b5029c02ec5fe6c732061ded4d9ddb, core: 99b5029c02ec5fe6c732061ded4d9ddb, file: examples/ftp_GCA_000001405.15_GRCh38_uncompressed_checksums.toplevel.txt}
+- native: crc32
+  core: copies[].uncompressedChecksums.crc32
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 889b01ce, core: 889b01ce, file: examples/ftp_GCA_000001405.15_GRCh38_uncompressed_checksums.toplevel.txt}
+- native: size
+  core: copies[].uncompressedSize
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 54101, core: 54101, file: examples/ftp_GCA_000001405.15_GRCh38_uncompressed_checksums.toplevel.txt}
+unmapped: []

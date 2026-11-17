@@ -1,0 +1,9 @@
+# from /cvmfs/data.galaxyproject.org/byhand/location/bwa_mem_index.loc (table bwa_mem_indexes, listed in /cvmfs/data.galaxyproject.org/byhand/location/tool_data_table_conf.xml)
+hg38female	hg38	Human (Homo sapiens) (b38): hg38 Canonical Female	/cvmfs/data.galaxyproject.org/byhand/hg38/hg38female/bwa_index_v0.7.10-r789/hg38female.fa
+hg38canon	hg38	Human (Homo sapiens) (b38): hg38 Canonical	/cvmfs/data.galaxyproject.org/byhand/hg38/hg38canon/bwa_index_v0.7.10-r789/hg38canon.fa
+hg38	hg38	Human (Homo sapiens) (b38): hg38	/cvmfs/data.galaxyproject.org/byhand/hg38/hg38full/bwa_index_v0.7.10-r789/hg38full.fa
+# from /cvmfs/data.galaxyproject.org/managed/location/bwa_mem_index.loc (table bwa_mem_indexes, listed in /cvmfs/data.galaxyproject.org/managed/location/tool_data_table_conf.xml)
+sacCer3	sacCer3	Yeast (Saccharomyces cerevisiae): sacCer3	/cvmfs/data.galaxyproject.org/managed/bwa_mem_index/sacCer3/sacCer3.fa
+# from /cvmfs/brc.galaxyproject.org/config/bwa_mem_index.loc (table bwa_mem_indexes, listed in /cvmfs/brc.galaxyproject.org/config/tool_data_table_conf.xml)
+GCF_000146045.2	GCF_000146045.2	Saccharomyces cerevisiae S288C (GCF_000146045.2_R64)	/cvmfs/brc.galaxyproject.org/data/genomes/GCF_000146045.2/bwa_mem_index/v1/GCF_000146045.2/GCF_000146045.2.fa
+GCF_000001405.40	GCF_000001405.40	Homo sapiens (GCF_000001405.40)	/cvmfs/brc.galaxyproject.org/data/genomes/GCF_000001405.40/bwa_mem_index/v1/GCF_000001405.40/GCF_000001405.40.fa

@@ -1,0 +1,51 @@
+# refmeta crosswalk: ensembl_rest_toplevel_region <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_rest_toplevel_region
+source: ensembl
+core: '0.1'
+subject: collection
+description: Rows of top_level_region inside the REST /info/assembly/:species response; one record per toplevel
+  sequence of the primary assembly (no alt/patch scaffolds, no LRGs). synonyms present only with ?synonyms=1.
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: The 194 REST toplevel sequences (no alt or patch scaffolds, no LRGs). This is a different sequence set from
+  the 706-sequence toplevel FASTA.
+constants: {collection.namingAuthority: ensembl, collection.provider: Ensembl}
+derive: [counts]
+rules:
+- native: name
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: KI270757.1, core: KI270757.1, file: examples/rest_info_assembly_homo_sapiens.json}
+- native: length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 71251, core: 71251, file: examples/rest_info_assembly_homo_sapiens.json}
+- native: synonyms
+  core: sequences[].aliases
+  direction: both
+  transform:
+    rekey:
+      keys: {dbname: namespace, name: value}
+      values:
+        namespace: {UCSC: ucsc, INSDC: insdc, RefSeq_genomic: refseq}
+  lossy: Ensembl external_db names become refmeta namespaces (RefSeq_genomic -> refseq). No INSDC synonym exists
+    when the Ensembl name already is the accession. One served RefSeq synonym is the text 'na' (KI270721.1); it
+    passes through.
+  example:
+    native:
+    - {dbname: UCSC, name: chrUn_KI270757v1}
+    - {name: NT_187512.1, dbname: RefSeq_genomic}
+    core:
+    - {namespace: ucsc, value: chrUn_KI270757v1}
+    - {value: NT_187512.1, namespace: refseq}
+    file: examples/rest_info_assembly_homo_sapiens.json
+unmapped:
+- {native: coord_system, per: row, reason: 'chromosome or scaffold: Ensembl''s coordinate system, not a sequence
+    role.'}

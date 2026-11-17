@@ -1,0 +1,14 @@
+{
+  "schema": "https://raw.githubusercontent.com/FAIR-bioHeaders/FHR-Specification/main/fhr.json",
+  "schemaVersion": 1.0,
+  "genome": "saccharomyces_cerevisiae-build3.1-igenomes-ncbi",
+  "taxon": {
+    "name": "Saccharomyces cerevisiae",
+    "uri": "https://identifiers.org/taxonomy:4932"
+  },
+  "genomeSynonym": [
+    "Saccharomyces_cerevisiae/NCBI/build3.1"
+  ],
+  "documentation": "Saccharomyces cerevisiae genome saccharomyces_cerevisiae-build3.1-igenomes-ncbi (R64-1-1), distributed by NCBI.",
+  "assemblySource": "NCBI"
+}

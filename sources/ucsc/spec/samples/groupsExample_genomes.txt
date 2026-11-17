@@ -1,0 +1,14 @@
+genome hg38
+trackDb hg38/trackDb.txt
+groups groups.txt
+
+genome GCF_000951035.1
+trackDb GCF_000951035.1/trackDb.txt
+groups groups.txt
+
+genome araTha1
+trackDb araTha1/trackDb.txt
+groups groups.txt
+twoBitPath araTha1.2bit
+organism Arabidopsis thaliana
+defaultPos chr1:1000000-2000000

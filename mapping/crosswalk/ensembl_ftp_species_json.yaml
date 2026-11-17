@@ -1,0 +1,76 @@
+# refmeta crosswalk: ensembl_ftp_species_json <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_ftp_species_json
+source: ensembl
+core: '0.1'
+subject: assembly
+description: 'ensemblorganisms FTP root species.json: catalog of every genome on the new FTP, keyed by species name
+  then assembly accession. One record per species x assembly. ''{species}'' and ''{accession}'' in a path stand
+  for those map keys; the field with the placeholder as its last part holds the key itself.'
+records: {mode: each}
+constants: {}
+derive: []
+rules:
+- native: species.{species}.assemblies.{accession}
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.29
+    core: {namespace: insdc.gca, value: GCA_000001405.29}
+    file: examples/ftp_species_json_excerpt.json
+- native: species.{species}.assemblies.{accession}.name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38.p14, core: GRCh38.p14, file: examples/ftp_species_json_excerpt.json}
+- native: species.{species}.assemblies.{accession}.level
+  core: assembly.level
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chromosome, core: chromosome, file: examples/ftp_species_json_excerpt.json}
+- native: species.{species}.taxid
+  core: assembly.taxon.id
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/ftp_species_json_excerpt.json}
+- native: species.{species}.species_taxonomy_id
+  core: assembly.taxon.speciesId
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 9606, core: 9606, file: examples/ftp_species_json_excerpt.json}
+- native: species.{species}.scientific_name
+  core: assembly.taxon.name
+  direction: both
+  transform: null
+  lossy: Includes the strain for yeast.
+  example: {native: Homo sapiens, core: Homo sapiens, file: examples/ftp_species_json_excerpt.json}
+- native: species.{species}.common_name
+  core: assembly.taxon.commonName
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Human, core: Human, file: examples/ftp_species_json_excerpt.json}
+- native: last_updated
+  core: provenance[0].recordDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '2026-11-02T09:20:16.065847', core: '2026-11-02T09:20:16.065847', file: examples/ftp_species_json_excerpt.json}
+unmapped:
+- {native: 'species.{species}', reason: Species key of the file (Homo_sapiens).}
+- {native: 'species.{species}.strain', reason: 'Species-level value; for human it is one pangenome sample (HG03540),
+    not GRCh38''s.'}
+- {native: 'species.{species}.strain_type', reason: Kind of the species-level strain value.}
+- {native: 'species.{species}.biosample_id', reason: 'Species-level value; for human it belongs to one pangenome
+    sample, not GRCh38.'}
+- {native: 'species.{species}.assemblies.{accession}.genebuild_providers', reason: Gene annotation releases; out
+    of scope.}
+- {native: 'species.{species}.assemblies.{accession}.assembly', reason: 'Tree of files on the FTP; paths only, no
+    checksums.'}

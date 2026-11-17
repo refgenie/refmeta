@@ -1,0 +1,98 @@
+# refmeta crosswalk: ncbi_analysis_set_defline <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ncbi_analysis_set_defline
+source: ncbi
+core: '0.1'
+subject: collection
+description: 'FASTA definition lines of NCBI''s GRCh38 analysis sets (GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/*_analysis_set.fna.gz):
+  UCSC-style name then space-separated TAG:value pairs. The example holds only the ''>'' lines of the full_analysis_set
+  FASTA.'
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: 'The analysis sets are derived collections of GCA_000001405.15: UCSC-style names, chrEBV added, chrY PARs
+  and centromere copies hard-masked. M5 is the masked sequence''s MD5.'
+constants: {collection.namingAuthority: ucsc, collection.provider: NCBI}
+derive: [counts]
+rules:
+- native: name
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: chr1, core: chr1, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: AC
+  core: sequences[].aliases[namespace=insdc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: CM000663.2, core: CM000663.2, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: gi
+  core: sequences[].aliases[namespace=gi].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '568336023', core: '568336023', file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: LN
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: rl
+  core: sequences[].role
+  direction: both
+  transform:
+    map:
+      values: {Chromosome: assembled-molecule, Mitochondrion: assembled-molecule, unlocalized: unlocalized-scaffold,
+        unplaced: unplaced-scaffold}
+  lossy: rl mixes role and molecule type; Chromosome and Mitochondrion both become assembled-molecule (written back
+    as Chromosome). alt-scaffold and decoy pass through unchanged.
+  example: {native: Chromosome, core: assembled-molecule, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: rl
+  core: sequences[].molecule
+  direction: to_core
+  transform:
+    map:
+      values: {Chromosome: Chromosome, Mitochondrion: Mitochondrion}
+      other: drop
+  lossy: null
+  example: {native: Chromosome, core: Chromosome, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: M5
+  core: sequences[].md5
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 6aef897c3d6ff0c78aff06ac189178dd, core: 6aef897c3d6ff0c78aff06ac189178dd, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: AS
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: tp
+  core: sequences[].circular
+  direction: both
+  transform:
+    map:
+      values: {circular: true}
+  lossy: Linear sequences have no tp tag; false is not written back.
+  example: {native: circular, core: true, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: rg
+  core: sequences[].placement.chromosome
+  direction: to_core
+  transform:
+    regex: {pattern: '^([^:]+)'}
+  lossy: null
+  example: {native: 'chr1:2448811-2791270', core: chr1, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+- native: rg
+  core: sequences[].placement.range
+  direction: to_core
+  transform:
+    regex: {pattern: ':(\d+-\d+)$'}
+  lossy: null
+  example: {native: 'chr1:2448811-2791270', core: 2448811-2791270, file: examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt}
+unmapped:
+- {native: hm, per: row, reason: Hard-masked spans; core has masking only per file.}
+- {native: SP, per: row, reason: Species of a non-human sequence (chrEBV); core has one taxon per record.}

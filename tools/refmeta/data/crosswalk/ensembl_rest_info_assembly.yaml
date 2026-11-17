@@ -1,0 +1,57 @@
+# refmeta crosswalk: ensembl_rest_info_assembly <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_rest_info_assembly
+source: ensembl
+core: '0.1'
+subject: assembly
+description: REST GET /info/assembly/:species (legacy Ensembl release, rest.ensembl.org). Assembly-level keys of
+  the response; the top_level_region array is split out as ensembl_rest_toplevel_region.
+records: {mode: each}
+notes: Human here is GCA_000001405.29 (GRCh38.p14), not .15. The species is only in the request URL.
+constants: {}
+derive: []
+rules:
+- native: assembly_accession
+  core: assembly.accessions
+  direction: both
+  transform:
+    accession: {}
+  lossy: null
+  example:
+    native: GCA_000001405.29
+    core: {namespace: insdc.gca, value: GCA_000001405.29}
+    file: examples/rest_info_assembly_homo_sapiens.json
+- native: assembly_name
+  core: assembly.name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38.p14, core: GRCh38.p14, file: examples/rest_info_assembly_homo_sapiens.json}
+- native: default_coord_system_version
+  core: assembly.labels[namespace=ensembl].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: GRCh38, core: GRCh38, file: examples/rest_info_assembly_homo_sapiens.json}
+  note: The label Ensembl uses in coordinates and FASTA headers (GRCh38, R64-1-1).
+- native: golden_path
+  core: assembly.vitalStats.totalBasePairs
+  direction: both
+  transform: null
+  lossy: Length of the 194 primary toplevel sequences, MT included; NCBI's total for .29 is 16569 bp (the MT) shorter.
+  example: {native: 3099750718, core: 3099750718, file: examples/rest_info_assembly_homo_sapiens.json}
+- native: assembly_date
+  core: assembly.releaseDate
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 2013-12, core: 2013-12, file: examples/rest_info_assembly_homo_sapiens.json}
+  note: Year and month only (2013-12).
+unmapped:
+- {native: genebuild_initial_release_date, reason: Gene annotation; out of scope.}
+- {native: genebuild_start_date, reason: Gene annotation; out of scope.}
+- {native: coord_system_versions, reason: 'Every coordinate system version in the database (GRCh37, NCBI36 ...);
+    history, not this assembly.'}
+- {native: genebuild_last_geneset_update, reason: Gene annotation; out of scope.}
+- {native: karyotype, reason: 'Names of the karyotype sequences only, a subset; split out per region in ensembl_rest_toplevel_region.'}
+- {native: genebuild_method, reason: Gene annotation; out of scope.}

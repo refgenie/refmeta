@@ -1,0 +1,28 @@
+- genomes:
+    - dbkey: sacCer3
+      description: 'Yeast (Saccharomyces cerevisiae): sacCer3'
+      id: sacCer3
+      indexers:
+      - data_manager_bowtie2_index_builder
+      - data_manager_bwa_mem_index_builder
+      - data_manager_hisat2_index_builder
+      - data_manager_star_index_builder
+
+    - dbkey: hg38
+      description: 'Human (Homo sapiens) (b38): hg38 Canonical Female'
+      id: hg38female
+      indexers:
+      - data_manager_hisat2_index_builder
+
+    - dbkey: hg38
+      description: 'Human (Homo sapiens) (b38): hg38 Canonical'
+      id: hg38canon
+      indexers:
+      - data_manager_hisat2_index_builder
+
+    - dbkey: hg38
+      description: 'Human (Homo sapiens) (b38): hg38'
+      id: hg38
+      indexers:
+      - data_manager_hisat2_index_builder
+      - data_manager_star_index_builder

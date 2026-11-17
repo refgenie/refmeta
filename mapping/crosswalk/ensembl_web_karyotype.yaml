@@ -1,0 +1,36 @@
+# refmeta crosswalk: ensembl_web_karyotype <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ensembl_web_karyotype
+source: ensembl
+core: '0.1'
+subject: collection
+description: New Ensembl metadata API /api/metadata/genome/{genome_id}/karyotype; one record per karyotype region.
+  /top-regions returns the same shape (identical for the two anchor genomes).
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+notes: Karyotype sequences only, a subset of the collection.
+constants: {collection.namingAuthority: ensembl}
+derive: []
+rules:
+- native: name
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/web_karyotype_GCA_000001405.29.json}
+- native: length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 248956422, core: 248956422, file: examples/web_karyotype_GCA_000001405.29.json}
+- native: is_circular
+  core: sequences[].circular
+  direction: both
+  transform: null
+  lossy: The new API says yeast Mito is not circular; legacy REST and the core database say it is.
+  example: {native: false, core: false, file: examples/web_karyotype_GCA_000001405.29.json}
+unmapped:
+- {native: type, per: row, reason: Always 'chromosome' (also for MT); not a molecule type.}

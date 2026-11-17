@@ -1,0 +1,45 @@
+# refmeta crosswalk: ena_webin_chromosome_list <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ena_webin_chromosome_list
+source: ena
+core: '0.1'
+subject: assembly
+description: Webin-CLI genome submission chromosome list file (submitter input, not served back). Tab or whitespace
+  separated, no header, 3-4 columns.
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: OBJECT_NAME
+  core: sequences[].name
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/constructed/webin_chromosome_list_GCA_000001405.15.txt}
+  note: The name in the submitted FASTA or flat file.
+- native: CHROMOSOME_NAME
+  core: sequences[].assignedMolecule
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/constructed/webin_chromosome_list_GCA_000001405.15.txt}
+- native: TOPOLOGY
+  core: sequences[].circular
+  direction: both
+  transform:
+    map:
+      values: {circular: true, linear: false}
+  lossy: null
+  example: {native: linear, core: false, file: examples/constructed/webin_chromosome_list_GCA_000001405.15.txt}
+- native: CHROMOSOME_LOCATION
+  core: sequences[].molecule
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: Mitochondrion, core: Mitochondrion, file: examples/constructed/webin_chromosome_list_GCA_000001405.15.txt}
+unmapped:
+- {native: CHROMOSOME_TYPE, per: row, reason: 'chromosome, plasmid, linkage_group ...: Webin''s own vocabulary,
+    which overlaps CHROMOSOME_LOCATION in sequences[].molecule.'}

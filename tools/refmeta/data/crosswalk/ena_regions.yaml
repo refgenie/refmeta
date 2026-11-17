@@ -1,0 +1,49 @@
+# refmeta crosswalk: ena_regions <-> core 0.1. Format: mapping/CROSSWALK_FORMAT.md
+crosswalk: 1
+format: ena_regions
+source: ena
+core: '0.1'
+subject: assembly
+description: ENA FTP assembly regions file, <GCA>_regions.txt. One row per alternate-locus scaffold and where it
+  sits on a chromosome. Only exists for assemblies with alt loci (human, not yeast).
+records:
+  mode: group
+  group_by: []
+  rows: {target: sequences, key: null, explode: null}
+constants: {}
+derive: []
+rules:
+- native: region
+  core: sequences[].placement.region
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: REGION109, core: REGION109, file: examples/regions_GCA_000001405.15.txt}
+- native: accession
+  core: sequences[].aliases[namespace=insdc].value
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: KI270760.1, core: KI270760.1, file: examples/regions_GCA_000001405.15.txt}
+- native: sequence-length
+  core: sequences[].length
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 109528, core: 109528, file: examples/regions_GCA_000001405.15.txt}
+- native: replicon
+  core: sequences[].placement.chromosome
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: '1', core: '1', file: examples/regions_GCA_000001405.15.txt}
+  note: INSDC chromosome name (6), not a UCSC name.
+- native: replicon-range
+  core: sequences[].placement.range
+  direction: both
+  transform: null
+  lossy: null
+  example: {native: 30352191-30456601, core: 30352191-30456601, file: examples/regions_GCA_000001405.15.txt}
+unmapped:
+- {native: sequence-range, per: row, reason: Part of the alt scaffold covered by the placement; core has only the
+    chromosome range.}

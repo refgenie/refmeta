@@ -1,0 +1,43 @@
+# aws_igenomes manifest — captured before deletion
+# source tree: /project/shefflab/brickyard/sandbox/deploy/aws_igenomes
+# registry equivalent: refgenie-registry stores/igenomes/sources.csv (123 FASTAs, s3://ngi-igenomes/)
+
+# --- EXCERPT (refmeta, 2026-11-17): human and yeast lines only; DATA DIGESTS and ARCHIVE DIGESTS sections omitted ---
+
+## ALIASES (excerpt)
+homo_sapiens-ensembl-grch37
+homo_sapiens-ncbi-build363
+homo_sapiens-ncbi-build371
+homo_sapiens-ncbi-build372
+homo_sapiens-ncbi-grch38
+homo_sapiens-ncbi-grch38decoy
+homo_sapiens-ucsc-hg18
+homo_sapiens-ucsc-hg19
+homo_sapiens-ucsc-hg38
+saccharomyces_cerevisiae-ensembl-ef2
+saccharomyces_cerevisiae-ensembl-ef3
+saccharomyces_cerevisiae-ensembl-ef4
+saccharomyces_cerevisiae-ensembl-r64-1-1
+saccharomyces_cerevisiae-ncbi-build21
+saccharomyces_cerevisiae-ncbi-build31
+saccharomyces_cerevisiae-ucsc-saccer2
+saccharomyces_cerevisiae-ucsc-saccer3
+
+## ALIAS -> ASSET TYPES (excerpt)
+homo_sapiens-ensembl-grch37: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+homo_sapiens-ncbi-build363: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+homo_sapiens-ncbi-build371: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+homo_sapiens-ncbi-build372: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+homo_sapiens-ncbi-grch38: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+homo_sapiens-ncbi-grch38decoy: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+homo_sapiens-ucsc-hg18: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+homo_sapiens-ucsc-hg19: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+homo_sapiens-ucsc-hg38: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+saccharomyces_cerevisiae-ensembl-ef2: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+saccharomyces_cerevisiae-ensembl-ef3: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+saccharomyces_cerevisiae-ensembl-ef4: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+saccharomyces_cerevisiae-ensembl-r64-1-1: fasta 
+saccharomyces_cerevisiae-ncbi-build21: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+saccharomyces_cerevisiae-ncbi-build31: fasta 
+saccharomyces_cerevisiae-ucsc-saccer2: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 
+saccharomyces_cerevisiae-ucsc-saccer3: abundant_sequences bismark_bt2_index bowtie1_index bowtie2_index bwa_index fasta small_rna star_index 

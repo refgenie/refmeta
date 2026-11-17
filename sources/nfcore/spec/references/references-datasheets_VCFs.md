@@ -1,0 +1,178 @@
+# Properly dealing with vcf files
+
+## Datasheets with vcf files
+
+These are the datasheets that have vcf files.
+
+- igenomes/Ensembl/UMD3.1.yml
+- igenomes/Ensembl/GRCh37.yml
+- igenomes/GATK/b37.yml
+- igenomes/GATK/GRCh37decoy.yml
+- igenomes/GATK/GRCh38.yml
+- igenomes/GATK/hg19.yml
+- igenomes/GATK/hg38.yml
+- igenomes/UCSC/hg19.yml
+- igenomes/Ensembl/GRCm38.yml
+- igenomes/Ensembl/Rnor_5.0.yml
+- igenomes/Ensembl/Rnor_6.0.yml
+- igenomes/Ensembl/Sscrofa10.2.yml
+
+Before [#5](https://github.com/nf-core/references-datasheets/pull/5), VCFs were only stored in these assets as a single vcf entry for the same genome key, but as a separate instance for each genome key.
+
+The idea, listing all the VCFs and categorize them into group under the same genome key, that are ready to use for the pipelines.
+
+### VCF files
+
+The following vcf files are categorized into the following groups:
+
+#### dbsnp
+
+One per build, since dbsnp is single-file for its consumers. See "Dropping these
+files" for the superseded versions that are not catalogued.
+
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/dbsnp_138.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/dbsnp_146.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/dbsnp_138.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/dbsnp_138.hg19.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/dbsnp_146.hg38.vcf.gz
+
+#### known_indels
+
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/1000G_phase1.indels.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/Mills_and_1000G_gold_standard.indels.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/beta/Homo_sapiens_assembly38.known_indels.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/1000G_phase1.indels.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/Mills_and_1000G_gold_standard.indels.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/1000G_phase1.indels.hg19.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/Mills_and_1000G_gold_standard.indels.hg19.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/beta/Homo_sapiens_assembly38.known_indels.vcf.gz
+s3://ngi-igenomes/igenomes/Mus_musculus/Ensembl/GRCm38/MouseGenomeProject/mgp.v5.merged.indels.dbSNP142.normed.vcf.gz
+
+#### known_snps
+
+s3://ngi-igenomes/igenomes/Bos_taurus/Ensembl/UMD3.1/Annotation/Variation/Bos_taurus.vcf
+s3://ngi-igenomes/igenomes/Homo_sapiens/Ensembl/GRCh37/Annotation/Variation/Homo_sapiens.vcf
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/1000G_omni2.5.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/1000G_phase1.snps.high_confidence.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/1000G_phase3_v4_20130502.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000G_omni2.5.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000G_phase1.snps.high_confidence.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/1000G_omni2.5.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/1000G_phase1.snps.high_confidence.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/1000G_phase3_v4_20130502.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/1000G_omni2.5.hg19.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/1000G_phase1.snps.high_confidence.hg19.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/1000G_omni2.5.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/1000G_phase1.snps.high_confidence.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/UCSC/hg19/Annotation/Variation/snp142.vcf
+s3://ngi-igenomes/igenomes/Mus_musculus/Ensembl/GRCm38/Annotation/Variation/Mus_musculus.vcf
+s3://ngi-igenomes/igenomes/Mus_musculus/Ensembl/GRCm38/MouseGenomeProject/mgp.v5.merged.snps_all.dbSNP142.vcf.gz
+s3://ngi-igenomes/igenomes/Rattus_norvegicus/Ensembl/Rnor_5.0/Annotation/Variation/Rattus_norvegicus.vcf
+s3://ngi-igenomes/igenomes/Rattus_norvegicus/Ensembl/Rnor_6.0/Annotation/Variation/Rattus_norvegicus.vcf
+s3://ngi-igenomes/igenomes/Sus_scrofa/Ensembl/Sscrofa10.2/Annotation/Variation/Sus_scrofa.vcf
+
+#### germline_resource
+
+One per build, since Mutect2 takes a single germline resource. See "Dropping these
+files" for the gnomAD versions that are not catalogued.
+
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/af-only-gnomad.raw.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/af-only-gnomad.hg38.vcf.gz
+
+#### hapmap
+
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/hapmap_3.3.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/hapmap_3.3.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/hapmap_3.3_grch38_pop_stratified_af.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/hapmap_3.3.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/hapmap_3.3_b37_pop_stratified_af.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/hapmap_3.3.hg19.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/hapmap_3.3_hg19_pop_stratified_af.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/hapmap_3.3.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/hapmap_3.3_grch38_pop_stratified_af.vcf.gz
+
+#### pon
+
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GermlineResource/dummy_PON.gnomAD.GRCh37.WGS.AF.GT.01.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/1000g_pon.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GermlineResource/dummy_PON.gnomAD.GRCh38.WGS.AF.GT.01.vcf.gz
+
+#### Other
+
+No idea yet on how to categorize these files.
+
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/CEUTrio.HiSeq.WGS.b37.NA12878.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/CEUTrio.HiSeq.WGS.b37.bestPractices.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/NA12878.HiSeq.WGS.bwa.cleaned.raw.subset.b37.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/NA12878.HiSeq.WGS.bwa.cleaned.raw.subset.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/NA12878.knowledgebase.snapshot.20131119.b37.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/beta/Homo_sapiens_assembly38.variantEvalGoldStandard.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/beta/NISTIntegratedCalls.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/CEUTrio.HiSeq.WGS.b37.bestPractices.hg19.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/NA12878.HiSeq.WGS.bwa.cleaned.raw.subset.hg19.sites.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/NA12878.HiSeq.WGS.bwa.cleaned.raw.subset.hg19.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/NA12878.knowledgebase.snapshot.20131119.hg19.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/Axiom_Exome_Plus.genotypes.all_populations.poly.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/beta/Homo_sapiens_assembly38.variantEvalGoldStandard.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/beta/NISTIntegratedCalls.hg38.vcf.gz
+
+#### Dropping these files
+
+Uncompressed duplicates, already present as vcf.gz:
+
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/dbsnp_138.b37.vcf
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/1000G_phase1.indels.b37.vcf
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GATKBundle/Mills_and_1000G_gold_standard.indels.b37.vcf
+
+Superseded versions of a category whose consumer takes a single file, so the
+datasheet keeps only the one the pipelines use:
+
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh37/Annotation/GermlineResource/gnomAD.r2.1.1.GRCh37.PASS.AC.AF.only.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/beta/Homo_sapiens_assembly38.dbsnp.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/beta/Homo_sapiens_assembly38.dbsnp138.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/dbsnp_138.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GATKBundle/dbsnp_144.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/GRCh38/Annotation/GermlineResource/gnomAD.r2.1.1.GRCh38.PASS.AC.AF.only.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/b37/dbsnp_138.b37.excluding_sites_after_129.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg19/dbsnp_138.hg19.excluding_sites_after_129.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/beta/Homo_sapiens_assembly38.dbsnp.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/beta/Homo_sapiens_assembly38.dbsnp138.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/dbsnp_138.hg38.vcf.gz
+s3://ngi-igenomes/igenomes/Homo_sapiens/GATK/hg38/dbsnp_144.hg38.vcf.gz
+
+All of these are listed in `a_skip` in the generator, so regenerating does not
+bring them back.
+
+### Assets with malformed vcf entries
+
+The generator wrote one `vcf_<category>_vcf` line per file, so a category holding several
+files repeated the same key. A standard YAML parser keeps only the last value, so every
+earlier file in that category was lost on load.
+
+These files were affected. Each repeated key is now a single key holding a list, with the
+files in the order they first appeared. A category with one file keeps a plain string, so
+string-typed consumers are unaffected.
+
+- igenomes/GATK/b37.yml
+- igenomes/GATK/GRCh37decoy.yml
+- igenomes/GATK/GRCh38.yml
+- igenomes/GATK/hg19.yml
+- igenomes/GATK/hg38.yml
+- igenomes/Ensembl/GRCm38.yml
+
+Where a `_tbi` key exists, it holds one entry per file in the same order. Some files in
+the bundle have no index, and those positions are `null`. A category whose files have no
+index at all gets no `_tbi` key, rather than a list of nulls.
+
+`vcf_dbsnp_vcf` and `vcf_germline_resource_vcf` stay a single string, keeping only the
+file the pipelines use. Their consumers take one file each (GenotypeGVCFs a single
+`--dbsnp`, Mutect2 a single `--germline-resource`), so a list would not validate. The
+superseded versions are listed in `a_skip` in the generator so regenerating does not
+bring them back.
+
+`bin/generate_datasheet.sh` writes this form now, so regenerating the assets no longer
+reintroduces repeated keys. `prek.toml` no longer excludes `igenomes/`, so yamllint's
+`key-duplicates` rule covers these files in CI.
