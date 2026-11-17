@@ -17,6 +17,7 @@
         "spec/datasets_docs_genome_assembly_report.md",
         "spec/datasets_docs_dataformat_tsv_genome.md"
       ],
+      "docs_url": "https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-reports/genome-assembly/",
       "example_files": [
         "examples/datasets_dataset_report_GCA_000001405.15.json",
         "examples/datasets_dataset_report_GCA_000001405.29.json",
@@ -42,6 +43,7 @@
         "spec/datasets_docs_genome_sequence_report.md",
         "spec/datasets_docs_dataformat_tsv_genome-seq.md"
       ],
+      "docs_url": "https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-reports/genome-sequence/",
       "example_files": [
         "examples/datasets_sequence_report_GCA_000001405.15.json",
         "examples/datasets_sequence_report_GCA_000146045.2.json",
@@ -61,6 +63,7 @@
       "spec_files": [
         "spec/ftp_genomes_all_README.txt"
       ],
+      "docs_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/README.txt",
       "example_files": [
         "examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt",
         "examples/ftp_GCA_000146045.2_R64_assembly_report.txt",
@@ -81,6 +84,7 @@
       "spec_files": [
         "spec/ftp_genomes_all_README.txt"
       ],
+      "docs_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/README.txt",
       "example_files": [
         "examples/ftp_GCA_000001405.15_GRCh38_assembly_report.txt",
         "examples/ftp_GCA_000146045.2_R64_assembly_report.txt",
@@ -101,6 +105,7 @@
       "spec_files": [
         "spec/ftp_README_assembly_summary.txt"
       ],
+      "docs_url": "https://ftp.ncbi.nlm.nih.gov/genomes/README_assembly_summary.txt",
       "example_files": [
         "examples/ftp_assembly_summary_genbank.anchors.txt",
         "examples/ftp_assembly_summary_genbank_historical.anchors.txt",
@@ -120,6 +125,7 @@
       "spec_files": [
         "spec/ftp_genomes_all_README.txt"
       ],
+      "docs_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/README.txt",
       "example_files": [
         "examples/ftp_GCA_000001405.15_GRCh38_analysis_set_md5checksums.txt",
         "examples/ftp_GCA_000001405.15_GRCh38_md5checksums.toplevel.txt",
@@ -138,6 +144,7 @@
         ".txt"
       ],
       "spec_files": [],
+      "docs_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCF/000/001/405/GCF_000001405.40_GRCh38.p14/uncompressed_checksums.txt",
       "example_files": [
         "examples/ftp_GCA_000001405.15_GRCh38_uncompressed_checksums.toplevel.txt",
         "examples/ftp_GCA_000146045.2_R64_uncompressed_checksums.txt",
@@ -160,6 +167,7 @@
       "spec_files": [
         "spec/ftp_GRCh38_README_analysis_sets.txt"
       ],
+      "docs_url": "https://ftp.ncbi.nlm.nih.gov/genomes/all/GCA/000/001/405/GCA_000001405.15_GRCh38/seqs_for_alignment_pipelines.ucsc_ids/README_analysis_sets.txt",
       "example_files": [
         "examples/ftp_GCA_000001405.15_GRCh38_full_analysis_set.deflines.txt"
       ],

@@ -16,6 +16,7 @@
     "spec/galaxy/manual_builds.txt.sample",
     "spec/galaxy/lib_galaxy_managers_dbkeys.py.txt"
    ],
+   "docs_url": "https://galaxyproject.org/admin/data-integration/#add-new-genome-as-galaxy-build",
    "example_files": [
     "examples/builds.txt"
    ],
@@ -33,6 +34,7 @@
     "spec/galaxy/lib_galaxy_visualization_genomes.py.txt",
     "spec/galaxy/dbkeys.loc.test"
    ],
+   "docs_url": "https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/datatypes/chrominfo.py",
    "example_files": [
     "examples/constructed/sacCer3.len",
     "examples/constructed/hg38.len",
@@ -53,6 +55,7 @@
     "spec/galaxy/lib_galaxy_webapps_galaxy_api_genomes.py.txt",
     "spec/galaxy/lib_galaxy_managers_dbkeys.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/webapps/galaxy/api/genomes.py",
    "example_files": [
     "examples/usegalaxy_org_api_genomes.excerpt.json"
    ],
@@ -70,6 +73,7 @@
     "spec/galaxy/lib_galaxy_visualization_genomes.py.txt",
     "spec/galaxy/lib_galaxy_webapps_galaxy_api_genomes.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/visualization/genomes.py",
    "example_files": [
     "examples/usegalaxy_org_api_genomes_sacCer3.json",
     "examples/usegalaxy_org_api_genomes_hg38.json",
@@ -90,6 +94,7 @@
     "spec/galaxy/lib_galaxy_webapps_galaxy_api_tool_data.py.txt",
     "spec/galaxy/lib_galaxy_managers_tool_data.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/tool_util/data/_schema.py",
    "example_files": [
     "examples/usegalaxy_org_api_tool_data_all_fasta.excerpt.json",
     "examples/usegalaxy_org_api_tool_data_fasta_indexes.excerpt.json",
@@ -115,6 +120,7 @@
     "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt",
     "spec/galaxy/lib_galaxy_tools_data__init__.py.txt"
    ],
+   "docs_url": "https://docs.galaxyproject.org/en/latest/admin/data_tables.html#tool-data-tables",
    "example_files": [
     "examples/galaxy_tool_data_table_conf.xml.sample",
     "examples/idc_tool_data_table_conf.xml"
@@ -135,6 +141,7 @@
     "spec/tools-iuc/data_manager_fetch_genome_dbkeys_all_fasta/tool-data/all_fasta.loc.sample",
     "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/galaxy/blob/dev/tool-data/all_fasta.loc.sample",
    "example_files": [
     "examples/cvmfs_all_fasta.loc"
    ],
@@ -153,6 +160,7 @@
     "spec/tools-iuc/data_manager_sam_fasta_index_builder/tool_data_table_conf.xml.sample",
     "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/tools-iuc/blob/main/data_managers/data_manager_sam_fasta_index_builder/tool-data/fasta_indexes.loc.sample",
    "example_files": [
     "examples/cvmfs_fasta_indexes.loc"
    ],
@@ -171,6 +179,7 @@
     "spec/tools-iuc/data_manager_bwa_mem_index_builder/tool_data_table_conf.xml.sample",
     "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/tools-iuc/blob/main/data_managers/data_manager_bwa_mem_index_builder/tool-data/bwa_mem_index.loc.sample",
    "example_files": [
     "examples/cvmfs_bwa_mem_index.loc"
    ],
@@ -189,6 +198,7 @@
     "spec/tools-iuc/data_manager_bowtie2_index_builder/tool_data_table_conf.xml.sample",
     "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/tools-iuc/blob/main/data_managers/data_manager_bowtie2_index_builder/tool-data/bowtie2_indices.loc.sample",
    "example_files": [
     "examples/cvmfs_bowtie2_indices.loc"
    ],
@@ -207,6 +217,7 @@
     "spec/tools-iuc/data_manager_star_index_builder/tool_data_table_conf.xml.sample",
     "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/tools-iuc/blob/main/data_managers/data_manager_star_index_builder/tool-data/rnastar_index2x_versioned.loc.sample",
    "example_files": [
     "examples/cvmfs_rnastar_index2x_versioned.loc"
    ],
@@ -226,6 +237,7 @@
     "spec/tools-iuc/data_manager_fetch_genome_dbkeys_all_fasta/tool_data_table_conf.xml.sample",
     "spec/galaxy/lib_galaxy_tool_util_data__init__.excerpt.py.txt"
    ],
+   "docs_url": "https://github.com/galaxyproject/tools-iuc/blob/main/data_managers/data_manager_fetch_genome_dbkeys_all_fasta/tool-data/dbkeys.loc.sample",
    "example_files": [
     "examples/cvmfs_dbkeys.loc"
    ],
@@ -248,6 +260,7 @@
     "spec/tools-iuc/data_manager_bowtie2_index_builder/data_manager_conf.xml",
     "spec/tools-iuc/data_manager_star_index_builder/data_manager_conf.xml"
    ],
+   "docs_url": "https://galaxyproject.org/admin/tools/data-managers/how-to/define/#example-json-output-from-tool-to-galaxy-dbkey-is-saccer2",
    "example_files": [
     "examples/constructed/dm_fetch_genome_all_fasta_hg38canon.data_manager_json",
     "examples/constructed/dm_fetch_genome_all_fasta_sacCer3.data_manager_json",
@@ -272,6 +285,7 @@
     "spec/galaxy/test_unit_app_tools_test_refgenie_data_table.py.txt",
     "spec/galaxy/test_integration_refgenie.yml"
    ],
+   "docs_url": "https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/tools/data/__init__.py",
    "example_files": [],
    "record_key": "__REFGENIE_UUID__ (refgenie:<genome>/<asset>:<tag>@<digest>)",
    "adapter": false
@@ -290,6 +304,7 @@
     "spec/idc/cvmfs_current_managed/cvmfs_managed_genomes.yml",
     "spec/idc/docs/genome-indexing.md"
    ],
+   "docs_url": "https://github.com/galaxyproject/idc/blob/main/README.md#genomesyml",
    "example_files": [
     "examples/idc_genomes_sacCer3.excerpt.yml",
     "examples/idc_cvmfs_managed_genomes_hg38_sacCer3.excerpt.yml"
@@ -311,6 +326,7 @@
     "spec/idc/cvmfs_current_managed/cvmfs_data_managers.yml",
     "spec/idc/schemas/data_managers.yml"
    ],
+   "docs_url": "https://github.com/galaxyproject/idc/blob/main/README.md#data_managersyml",
    "example_files": [
     "examples/idc_data_managers.yml"
    ],
@@ -331,6 +347,7 @@
     "spec/idc/docs/genome-indexing.md",
     "spec/idc/schemas/data_managers.yml"
    ],
+   "docs_url": "https://galaxyproject.github.io/idc/requesting-reference-data/",
    "example_files": [
     "examples/idc_request_all_fasta_hg38canon.yaml",
     "examples/idc_request_fasta_indexes_hg38canon.yaml",
@@ -353,6 +370,7 @@
     "spec/idc_pr88/sync/README.md",
     "spec/idc_pr88/sync/tool_data_table_conf_to_yaml.py.txt"
    ],
+   "docs_url": "https://github.com/lldelisle/idc/blob/245c1a9de5e054c7dcede5f6435ef5dfb63b6414/sync/README.md#generate-a-big-yaml-per-table-from-tool_data_table_conf",
    "example_files": [
     "examples/idc_pr88_cvmfs_20260715_all_tables.excerpt.yml"
    ],
@@ -370,6 +388,7 @@
     "spec/idc_pr88/sync/README.md",
     "spec/idc_pr88/sync/all_fasta_files_to_refget_store.py.txt"
    ],
+   "docs_url": "https://github.com/lldelisle/idc/blob/245c1a9de5e054c7dcede5f6435ef5dfb63b6414/sync/README.md#json-file",
    "example_files": [
     "examples/constructed/idc_pr88_json_hg38canon.json",
     "examples/constructed/idc_pr88_json_sacCer3.json",
@@ -390,6 +409,7 @@
     "spec/idc_pr88/sync/README.md",
     "spec/idc_pr88/sync/all_fasta_files_to_refget_store.py.txt"
    ],
+   "docs_url": "https://github.com/lldelisle/idc/blob/245c1a9de5e054c7dcede5f6435ef5dfb63b6414/sync/README.md#yaml-file",
    "example_files": [
     "examples/constructed/idc_pr88_yaml_all_fasta.yml",
     "examples/idc_pr88_test_dig_yaml_all_fasta.yml"

@@ -18,6 +18,7 @@
         "spec/nfcore_docs/reference-genomes.md",
         "spec/nfcore_docs/ReferencesExtension.md"
       ],
+      "docs_url": "https://nf-co.re/docs/running/reference-genomes#aws-igenomes",
       "example_files": [
         "examples/igenomes_config_rnaseq_anchors.config",
         "examples/igenomes_config_sarek_anchors.config",
@@ -46,6 +47,7 @@
         "spec/references/references-datasheets_path_placeholders_AGENTS.md",
         "spec/references/references-datasheets_VCFs.md"
       ],
+      "docs_url": "https://nf-co.re/references/dev/docs/usage#asset-input",
       "example_files": [
         "examples/datasheet_igenomes_NCBI_GRCh38.yml",
         "examples/datasheet_igenomes_UCSC_hg38.yml",
@@ -77,6 +79,7 @@
       "spec_files": [
         "spec/aws_igenomes/AWS-iGenomes_README.md"
       ],
+      "docs_url": "https://github.com/ewels/AWS-iGenomes",
       "example_files": [
         "examples/igenomes_manifest_anchors_excerpt.txt"
       ],
@@ -93,6 +96,7 @@
       "spec_files": [
         "spec/aws_igenomes/AWS-iGenomes_README.md"
       ],
+      "docs_url": "https://ngi-igenomes.s3.amazonaws.com/igenomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/GenomeSize.xml",
       "example_files": [
         "examples/igenomes_GenomeSize_Homo_sapiens_NCBI_GRCh38.xml",
         "examples/igenomes_GenomeSize_Homo_sapiens_UCSC_hg38.xml",
@@ -112,6 +116,7 @@
       "spec_files": [
         "spec/hts_formats/SAMv1_header_SQ_excerpt.tex"
       ],
+      "docs_url": "https://samtools.github.io/hts-specs/SAMv1.pdf",
       "example_files": [
         "examples/igenomes_dict_Homo_sapiens_NCBI_GRCh38.dict",
         "examples/igenomes_dict_Homo_sapiens_UCSC_hg38.dict",
@@ -132,6 +137,7 @@
       "spec_files": [
         "spec/hts_formats/htslib_faidx.5"
       ],
+      "docs_url": "https://www.htslib.org/doc/faidx.html",
       "example_files": [
         "examples/igenomes_fai_Homo_sapiens_NCBI_GRCh38.fa.fai",
         "examples/igenomes_fai_Homo_sapiens_UCSC_hg38.fa.fai",
@@ -152,6 +158,7 @@
       "spec_files": [
         "spec/nfcore_docs/reference-genomes.md"
       ],
+      "docs_url": "https://nf-co.re/docs/running/reference-genomes#check-annotation-versions",
       "example_files": [
         "examples/igenomes_README_Saccharomyces_cerevisiae_UCSC_sacCer3_Annotation.txt"
       ],

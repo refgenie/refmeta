@@ -18,6 +18,7 @@
         "spec/registry/CONTRIBUTING_adding_a_genome.md",
         "spec/registry/genome_to_fhr.py.txt"
       ],
+      "docs_url": "https://github.com/refgenie/refgenie-registry/blob/master/schema/genome.schema.yaml",
       "example_files": [
         "examples/registry_genome_hg38.yaml",
         "examples/registry_genome_R64-1-1.yaml",
@@ -39,6 +40,7 @@
         "spec/stores/sources_schema.json",
         "spec/stores/stores_README.md"
       ],
+      "docs_url": "https://github.com/refgenie/refgenie-registry/blob/master/stores/sources_schema.json",
       "example_files": [
         "examples/store_sources_legacy_hg38.csv",
         "examples/store_sources_plantcore_R64-1-1.csv",
@@ -63,6 +65,7 @@
         "spec/api/tables_genome_excerpt.py.txt",
         "spec/api/genome_manager_apply_fhr_excerpt.py.txt"
       ],
+      "docs_url": "https://api.refgenie.org/docs#/Version%204/get_genome_v4_genomes__digest__get",
       "example_files": [
         "examples/api_genome_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json",
         "examples/api_genome_R64-1-1_ia9g4Myony-xxLsSc7eQOC_NdClGgPGu.json",
@@ -82,6 +85,7 @@
       "spec_files": [
         "spec/api/openapi.json"
       ],
+      "docs_url": "https://api.refgenie.org/docs#/Version%204/list_genomes_v4_genomes_get",
       "example_files": [
         "examples/api_genomes_list_alias_hg38.json",
         "examples/api_genomes_list_alias_R64-1-1.json"
@@ -99,6 +103,7 @@
       "spec_files": [
         "spec/api/openapi.json"
       ],
+      "docs_url": "https://api.refgenie.org/docs#/Version%204/get_alias_v4_aliases__name__get",
       "example_files": [
         "examples/api_alias_R64-1-1.json",
         "examples/api_alias_hg38.json",
@@ -118,6 +123,7 @@
       "spec_files": [
         "spec/api/openapi.json"
       ],
+      "docs_url": "https://api.refgenie.org/docs#/Version%204/get_genome_sequences_v4_genomes__digest__sequences_get",
       "example_files": [
         "examples/api_sequences_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json",
         "examples/api_sequences_R64-1-1_ia9g4Myony-xxLsSc7eQOC_NdClGgPGu.json",
@@ -141,6 +147,7 @@
         "spec/legacy/refgenieserver_0.8.0_openapi.json",
         "spec/legacy/galaxy_RefgenieToolDataTable_excerpt.py.txt"
       ],
+      "docs_url": "https://docs.refgenie.org/legacy/genome_config/",
       "example_files": [
         "examples/legacy_genome_config_refgenomes.databio.org_hg38.yaml",
         "examples/legacy_server_genomes_dict_hg38.json"

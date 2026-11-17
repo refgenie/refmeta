@@ -21,6 +21,7 @@
         "spec/Seqinfo/DESCRIPTION",
         "spec/GenomeInfoDb/NEWS_excerpt.txt"
       ],
+      "docs_url": "https://github.com/Bioconductor/Seqinfo/blob/devel/man/Seqinfo-class.Rd",
       "example_files": [
         "examples/constructed/seqinfo_hg38.tsv",
         "examples/constructed/seqinfo_sacCer3.tsv"
@@ -40,6 +41,7 @@
         "spec/GenomeInfoDb/chrominfo_db_UCSC_README.TXT",
         "spec/GenomeInfoDb/UCSC_genomes_README.TXT"
       ],
+      "docs_url": "https://github.com/Bioconductor/GenomeInfoDb/blob/devel/man/getChromInfoFromUCSC.Rd",
       "example_files": [
         "examples/chrominfo_ucsc_hg38.tab",
         "examples/chrominfo_ucsc_sacCer3.tab"
@@ -59,6 +61,7 @@
         "spec/GenomeInfoDb/chrominfo_db_NCBI_README.TXT",
         "spec/GenomeInfoDb/getChromInfoFromNCBI_R_excerpt.txt"
       ],
+      "docs_url": "https://github.com/Bioconductor/GenomeInfoDb/blob/devel/man/getChromInfoFromNCBI.Rd",
       "example_files": [
         "examples/chrominfo_ncbi_GCF_000001405.40.tab",
         "examples/chrominfo_ncbi_GCA_000146045.2.tab"
@@ -77,6 +80,7 @@
         "spec/GenomeInfoDb/seqlevelsStyle.Rd",
         "spec/GenomeInfoDb/dataFiles_README.txt"
       ],
+      "docs_url": "https://github.com/Bioconductor/GenomeInfoDb/blob/devel/man/seqlevelsStyle.Rd",
       "example_files": [
         "examples/seqlevels_style_Homo_sapiens.txt",
         "examples/seqlevels_style_Saccharomyces_cerevisiae.txt"
@@ -94,6 +98,7 @@
       "spec_files": [
         "spec/GenomeInfoDb/mapGenomeBuilds.Rd"
       ],
+      "docs_url": "https://github.com/Bioconductor/GenomeInfoDb/blob/devel/man/mapGenomeBuilds.Rd",
       "example_files": [
         "examples/genome_mapping_tbl_human_yeast.csv"
       ],
@@ -111,6 +116,7 @@
         "spec/GenomeInfoDb/getChromInfoFromNCBI.Rd",
         "spec/GenomeInfoDb/getChromInfoFromNCBI_R_excerpt.txt"
       ],
+      "docs_url": "https://github.com/Bioconductor/GenomeInfoDb/blob/devel/R/getChromInfoFromNCBI.R",
       "example_files": [
         "examples/registered_ncbi_Homo_sapiens.R",
         "examples/registered_ncbi_Saccharomyces_cerevisiae.R"
@@ -129,6 +135,7 @@
         "spec/GenomeInfoDb/UCSC_genomes_README.TXT",
         "spec/GenomeInfoDb/getChromInfoFromUCSC.Rd"
       ],
+      "docs_url": "https://github.com/Bioconductor/GenomeInfoDb/blob/devel/inst/registered/UCSC_genomes/README.TXT",
       "example_files": [
         "examples/registered_ucsc_hg38.R",
         "examples/registered_ucsc_sacCer3.R"
@@ -150,6 +157,7 @@
         "spec/BSgenomeForge/BSgenomeDataPkgSeed_class_R_excerpt.txt",
         "spec/BSgenomeForge/DESCRIPTION"
       ],
+      "docs_url": "https://bioconductor.org/packages/release/bioc/vignettes/BSgenomeForge/inst/doc/AdvancedBSgenomeForge.pdf",
       "example_files": [
         "examples/bsgenome_seed_BSgenome.Hsapiens.UCSC.hg38-seed",
         "examples/bsgenome_seed_BSgenome.Scerevisiae.UCSC.sacCer3-seed",
@@ -171,6 +179,7 @@
         "spec/BSgenomeForge/AdvancedBSgenomeForge_seed_fields_excerpt.Rnw.txt",
         "spec/BSgenomeForge/BSgenome-class.Rd"
       ],
+      "docs_url": "https://bioconductor.org/packages/release/bioc/vignettes/BSgenomeForge/inst/doc/AdvancedBSgenomeForge.pdf",
       "example_files": [
         "examples/bsgenome_DESCRIPTION_BSgenome.Hsapiens.UCSC.hg38_1.4.5",
         "examples/bsgenome_DESCRIPTION_BSgenome.Scerevisiae.UCSC.sacCer3_1.4.0"
@@ -192,6 +201,7 @@
         "spec/AnnotationHub/AnnotationHub_mcols_sql-utils_R_excerpt.txt",
         "spec/AnnotationHub/AnnotationHubMetadata-class.Rd"
       ],
+      "docs_url": "https://github.com/Bioconductor/AnnotationHubServer3.0/blob/master/app.rb",
       "example_files": [
         "examples/annotationhub_AH13963.json",
         "examples/annotationhub_AH106283.json",
@@ -212,6 +222,7 @@
       "spec_files": [
         "spec/AnnotationHub/makeAnnotationHubMetadata.Rd"
       ],
+      "docs_url": "https://bioconductor.org/packages/release/bioc/vignettes/HubPub/inst/doc/CreateAHubPackage.html#instextdata",
       "example_files": [
         "examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata-snoRNA-targets.csv",
         "examples/annotationhub_metadata_EpiTxDb.Hs.hg38_metadata.csv",

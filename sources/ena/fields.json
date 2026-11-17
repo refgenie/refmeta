@@ -18,6 +18,7 @@
         "spec/browser_api_openapi.json",
         "spec/docs_browser-api.rst.txt"
       ],
+      "docs_url": "https://github.com/enasequence/webin-xml/blob/master/src/main/resources/uk/ac/ebi/ena/sra/schema/ENA.assembly.xsd",
       "example_files": [
         "examples/assembly_xml_GCA_000001405.15.xml",
         "examples/assembly_xml_GCA_000146045.2.xml",
@@ -36,6 +37,7 @@
       "spec_files": [
         "spec/browser_api_openapi.json"
       ],
+      "docs_url": "https://www.ebi.ac.uk/ena/browser/api/",
       "example_files": [
         "examples/browser_summary_GCA_000001405.15.json",
         "examples/browser_summary_GCA_000146045.2.json",
@@ -56,6 +58,7 @@
         "spec/portal_returnFields_assembly.tsv",
         "spec/portal_api_openapi.json"
       ],
+      "docs_url": "https://www.ebi.ac.uk/ena/portal/api/returnFields?result=assembly",
       "example_files": [
         "examples/portal_assembly_GCA_000001405.15.json",
         "examples/portal_assembly_GCA_000001405.15.tsv",
@@ -78,6 +81,7 @@
         "spec/portal_returnFields_sequence.tsv",
         "spec/portal_api_openapi.json"
       ],
+      "docs_url": "https://www.ebi.ac.uk/ena/portal/api/returnFields?result=sequence",
       "example_files": [
         "examples/portal_sequence_GCA_000001405.15.tsv",
         "examples/portal_sequence_GCA_000146045.2.tsv"
@@ -95,6 +99,7 @@
       "spec_files": [
         "spec/docs_ena-ftp-structure.rst.txt"
       ],
+      "docs_url": "https://ena-docs.readthedocs.io/en/latest/retrieval/file-download/ena-ftp-structure.html",
       "example_files": [
         "examples/sequence_report_GCA_000001405.15.txt",
         "examples/sequence_report_GCA_000146045.2.txt"
@@ -112,6 +117,7 @@
       "spec_files": [
         "spec/docs_ena-ftp-structure.rst.txt"
       ],
+      "docs_url": "https://ena-docs.readthedocs.io/en/latest/retrieval/file-download/ena-ftp-structure.html",
       "example_files": [
         "examples/regions_GCA_000001405.15.txt"
       ],
@@ -129,6 +135,7 @@
       "spec_files": [
         "spec/cram_refget_service-info.json"
       ],
+      "docs_url": "https://www.ebi.ac.uk/ena/cram/",
       "example_files": [
         "examples/refget_metadata_GCA_000001405.15.jsonl",
         "examples/refget_metadata_GCA_000146045.2.jsonl"
@@ -147,6 +154,7 @@
         "spec/docs_webin_fileprep_assembly.rst.txt",
         "spec/docs_webin_genome_assembly.rst.txt"
       ],
+      "docs_url": "https://ena-docs.readthedocs.io/en/latest/submit/fileprep/assembly.html#chromosome-list-file",
       "example_files": [
         "examples/constructed/webin_chromosome_list_GCA_000001405.15.txt",
         "examples/constructed/webin_chromosome_list_GCA_000146045.2.txt"
@@ -164,6 +172,7 @@
       "spec_files": [
         "spec/docs_webin_fileprep_assembly.rst.txt"
       ],
+      "docs_url": "https://ena-docs.readthedocs.io/en/latest/submit/fileprep/assembly.html#unlocalised-list-file",
       "example_files": [
         "examples/constructed/webin_unlocalised_list_GCA_000001405.15.txt"
       ],

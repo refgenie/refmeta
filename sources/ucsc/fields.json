@@ -16,6 +16,7 @@
     "spec/kent/dbDb.as",
     "spec/kent/dbDb.sql"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/api.html#Endpoint",
    "example_files": [
     "examples/api_list_ucscGenomes_hg38_sacCer3.json"
    ],
@@ -35,6 +36,7 @@
     "spec/kent/chromInfo.sql",
     "spec/hg38_database_chromInfo.sql"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/api.html#Endpoint",
    "example_files": [
     "examples/api_list_chromosomes_hg38.json",
     "examples/api_list_chromosomes_sacCer3.json",
@@ -57,6 +59,7 @@
     "spec/sacCer3_bigZips_README.txt",
     "spec/assemblyHubHelp.md"
    ],
+   "docs_url": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/README.txt",
    "example_files": [
     "examples/bigZips_hg38.chrom.sizes",
     "examples/bigZips_latest_hg38.chrom.sizes",
@@ -79,6 +82,7 @@
     "spec/hg38_bigZips_README.txt",
     "spec/sacCer3_bigZips_README.txt"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/assemblyHubHelp.html#chromAlias",
    "example_files": [
     "examples/bigZips_latest_hg38.chromAlias.txt",
     "examples/bigZips_hg38.chromAlias.txt",
@@ -102,6 +106,7 @@
     "spec/hg38_database_chromAlias.sql",
     "spec/hg38_bigZips_README.txt"
    ],
+   "docs_url": "https://github.com/ucscGenomeBrowser/kent/blob/master/src/hg/lib/chromAlias.as",
    "example_files": [
     "examples/database_hg38_chromAlias.txt",
     "examples/database_sacCer3_chromAlias.txt"
@@ -127,6 +132,7 @@
     "spec/samples/singleFileHubExample.txt",
     "spec/samples/genArkTrackHub_hub.txt"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/trackDb/trackDbHub.html#hub_txt",
    "example_files": [
     "examples/genark_GCF_000146045.2_hub.txt",
     "spec/samples/plantAraTha1_hub.txt",
@@ -152,6 +158,7 @@
     "spec/samples/plantAraTha1_genomes.txt",
     "spec/samples/groupsExample_genomes.txt"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/trackDb/trackDbHub.html#genomes_txt",
    "example_files": [
     "examples/genark_GCF_000146045.2_hub.txt",
     "spec/samples/plantAraTha1_genomes.txt",
@@ -174,6 +181,7 @@
     "spec/kent/genark.sql",
     "spec/genark_hubs_index.md"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/api.html#Endpoint",
    "example_files": [
     "examples/api_list_genarkGenomes_GCF_000146045.2.json",
     "examples/api_list_genarkGenomes_first5.json"
@@ -192,6 +200,7 @@
     "spec/ucsc_rest_api_help.md",
     "spec/kent/assemblyList.as"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/api.html#Endpoint",
    "example_files": [
     "examples/api_findGenome_q_hg38.json",
     "examples/api_findGenome_q_sacCer3.json",
@@ -211,6 +220,7 @@
    "spec_files": [
     "spec/ucsc_rest_api_help.md"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/api.html#Endpoint",
    "example_files": [
     "examples/api_list_hubGenomes_GCF_000146045.2.json"
    ],
@@ -227,6 +237,7 @@
    "spec_files": [
     "spec/ucsc_rest_api_help.md"
    ],
+   "docs_url": "https://genome.ucsc.edu/goldenPath/help/api.html#Endpoint",
    "example_files": [
     "examples/api_list_files_hg38_bigZips_excerpt.json",
     "examples/api_list_files_sacCer3_bigZips_excerpt.json",
@@ -246,6 +257,7 @@
     "spec/hg38_bigZips_README.txt",
     "spec/sacCer3_bigZips_README.txt"
    ],
+   "docs_url": "https://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/README.txt",
    "example_files": [
     "examples/bigZips_hg38_md5sum.txt",
     "examples/bigZips_sacCer3_md5sum.txt",

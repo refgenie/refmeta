@@ -17,6 +17,7 @@
         "spec/refget/schemas_README.md",
         "spec/refget/api.refgenie.org_seqcol_service-info.json"
       ],
+      "docs_url": "https://ga4gh.github.io/refget/seqcols/#level-2",
       "example_files": [
         "examples/seqcol_level2_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json",
         "examples/seqcol_level2_R64-1-1_ia9g4Myony-xxLsSc7eQOC_NdClGgPGu.json"
@@ -34,6 +35,7 @@
         "spec/refget/seqcol_extended_v1.0.0.json",
         "spec/refget/api.refgenie.org_seqcol_service-info.json"
       ],
+      "docs_url": "https://ga4gh.github.io/refget/seqcols/#level-1",
       "example_files": [
         "examples/seqcol_level1_hg38_EiFob05aCWgVU_B_Ae0cypnQut3cxUP1.json",
         "examples/seqcol_level1_R64-1-1_ia9g4Myony-xxLsSc7eQOC_NdClGgPGu.json"
@@ -50,6 +52,7 @@
         "spec/refget/sequences_spec_v2.0.0.md",
         "spec/refget/refget-sequences-openapi.yaml"
       ],
+      "docs_url": "https://ga4gh.github.io/refget/sequences/#method-get-known-metadata-for-an-id",
       "example_files": [
         "examples/refget_metadata_ENA_insdc_CM000663.2.json",
         "examples/refget_metadata_ENA_md5_6aef897c3d6ff0c78aff06ac189178dd.json",
@@ -72,6 +75,7 @@
         "spec/seqrepo/seqaliasdb_migration_0001-initial.py.txt",
         "spec/seqrepo/translate.py.txt"
       ],
+      "docs_url": "https://github.com/biocommons/seqrepo-rest-service/blob/main/src/seqrepo_rest_service/seqrepo/openapi.yaml",
       "example_files": [
         "examples/seqrepo_metadata_refseq_NC_000001.11.json",
         "examples/seqrepo_metadata_refseq_NC_012920.1.json"
@@ -89,6 +93,7 @@
         "spec/vrs/SequenceReference.rst",
         "spec/vrs/SequenceLocation.json"
       ],
+      "docs_url": "https://vrs.ga4gh.org/en/2.1/model/LocationAndReference/SequenceReference.html",
       "example_files": [
         "examples/vrs_normalizer_response_NC_000001.11_g.11796321G_A.json",
         "examples/vrs_SequenceReference_spec_example_GRCh38_chr7.yaml",
@@ -105,6 +110,7 @@
       "spec_files": [
         "spec/hts-specs/SAMv1_header_SQ_excerpt.tex"
       ],
+      "docs_url": "https://samtools.github.io/hts-specs/SAMv1.pdf",
       "example_files": [
         "examples/sam_dict_broad_hg38_Homo_sapiens_assembly38.dict",
         "examples/sam_dict_1kg_GRCh38_full_analysis_set_plus_decoy_hla.excerpt.dict",
@@ -124,6 +130,7 @@
       "spec_files": [
         "spec/hts-specs/VCFv4.5_reference_contig_excerpt.tex"
       ],
+      "docs_url": "https://samtools.github.io/hts-specs/VCFv4.5.pdf",
       "example_files": [
         "examples/vcf_header_giab_HG002_GRCh38_v4.2.1.vcf",
         "examples/vcf_header_1kGP_high_coverage_chr22.vcf",
@@ -145,6 +152,7 @@
         "spec/hts-specs/VCFv4.5_reference_contig_excerpt.tex",
         "spec/hts-specs/VCFv4.3_sv_example_excerpt.tex"
       ],
+      "docs_url": "https://samtools.github.io/hts-specs/VCFv4.5.pdf",
       "example_files": [
         "examples/vcf_header_giab_HG002_GRCh38_v4.2.1.vcf",
         "examples/vcf_header_1kGP_high_coverage_chr22.vcf",

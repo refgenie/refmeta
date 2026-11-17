@@ -14,6 +14,7 @@
    "spec_files": [
     "spec/rest_info_assembly.md"
    ],
+   "docs_url": "https://rest.ensembl.org/documentation/info/assembly_info",
    "example_files": [
     "examples/rest_info_assembly_homo_sapiens.json",
     "examples/rest_info_assembly_saccharomyces_cerevisiae.json"
@@ -31,6 +32,7 @@
    "spec_files": [
     "spec/rest_info_assembly.md"
    ],
+   "docs_url": "https://rest.ensembl.org/documentation/info/assembly_info",
    "example_files": [
     "examples/rest_info_assembly_homo_sapiens.json",
     "examples/rest_info_assembly_saccharomyces_cerevisiae.json"
@@ -48,6 +50,7 @@
    "spec_files": [
     "spec/rest_info_assembly_region.md"
    ],
+   "docs_url": "https://rest.ensembl.org/documentation/info/assembly_stats",
    "example_files": [
     "examples/rest_info_assembly_region_homo_sapiens_1.json",
     "examples/rest_info_assembly_region_homo_sapiens_HG76_PATCH.json",
@@ -71,6 +74,7 @@
     "spec/rest_info_genomes.md",
     "spec/rest_info_genomes_assembly.md"
    ],
+   "docs_url": "https://rest.ensembl.org/documentation/info/info_genome",
    "example_files": [
     "examples/rest_info_genomes_homo_sapiens.json",
     "examples/rest_info_genomes_saccharomyces_cerevisiae.json"
@@ -91,6 +95,7 @@
     "spec/ensembl_production_116_meta_key.tsv",
     "spec/ensembl_production_116_meta_key_mvp.tsv"
    ],
+   "docs_url": "https://jun2026.archive.ensembl.org/info/docs/api/core/core_schema.html#meta",
    "example_files": [
     "examples/core_meta_homo_sapiens_core_116_38.txt",
     "examples/core_meta_saccharomyces_cerevisiae_core_63_116_4.txt"
@@ -108,6 +113,7 @@
    "spec_files": [
     "spec/ftp_release116_README.txt"
    ],
+   "docs_url": "https://ftp.ensembl.org/pub/release-116/README",
    "example_files": [
     "examples/species_EnsemblVertebrates_release116_excerpt.txt"
    ],
@@ -127,6 +133,7 @@
     "spec/ftp_release116_fasta_dna_README.txt",
     "spec/ftp_ensemblorganisms_README.md"
    ],
+   "docs_url": "https://ftp.ensembl.org/pub/release-116/fasta/homo_sapiens/dna/README",
    "example_files": [
     "examples/fasta_headers_Homo_sapiens.GRCh38.dna.toplevel.txt",
     "examples/fasta_headers_Saccharomyces_cerevisiae.R64-1-1.dna.toplevel.txt",
@@ -146,6 +153,7 @@
    "spec_files": [
     "spec/ftp_ensemblorganisms_README.md"
    ],
+   "docs_url": "https://ftp.ebi.ac.uk/pub/ensemblorganisms/README.md",
    "example_files": [
     "examples/ftp_chromosomes_GCA_000001405.29.tsv",
     "examples/ftp_chromosomes_GCA_000146045.2.tsv"
@@ -163,6 +171,7 @@
    "spec_files": [
     "spec/ensembl_web_metadata_api/APISpecification.yaml"
    ],
+   "docs_url": "https://github.com/Ensembl/ensembl-web-metadata-api/blob/main/docs/APISpecification.yaml",
    "example_files": [
     "examples/web_details_GCA_000001405.29.json",
     "examples/web_details_GCA_000146045.2.json",
@@ -186,6 +195,7 @@
    "spec_files": [
     "spec/ensembl_web_metadata_api/APISpecification.yaml"
    ],
+   "docs_url": "https://github.com/Ensembl/ensembl-web-metadata-api/blob/main/docs/APISpecification.yaml",
    "example_files": [
     "examples/web_karyotype_GCA_000001405.29.json",
     "examples/web_karyotype_GCA_000146045.2.json"
@@ -203,6 +213,7 @@
    "spec_files": [
     "spec/ensembl_web_metadata_api/APISpecification.yaml"
    ],
+   "docs_url": "https://github.com/Ensembl/ensembl-web-metadata-api/blob/main/docs/APISpecification.yaml",
    "example_files": [
     "examples/web_stats_GCA_000001405.29.json",
     "examples/web_stats_GCA_000146045.2.json"
@@ -220,6 +231,7 @@
    "spec_files": [
     "spec/ensembl_web_metadata_api/APISpecification.yaml"
    ],
+   "docs_url": "https://github.com/Ensembl/ensembl-web-metadata-api/blob/main/docs/APISpecification.yaml",
    "example_files": [
     "examples/web_ftplinks_GCA_000001405.29.json",
     "examples/web_ftplinks_GCA_000146045.2.json"
@@ -237,6 +249,7 @@
    "spec_files": [
     "spec/ftp_ensemblorganisms_README.md"
    ],
+   "docs_url": "https://ftp.ebi.ac.uk/pub/ensemblorganisms/README.md",
    "example_files": [
     "examples/ftp_species_json_excerpt.json"
    ],
@@ -251,6 +264,7 @@
    "spec_files": [
     "spec/ensembl_web_metadata_api/APISpecification.yaml"
    ],
+   "docs_url": "https://github.com/Ensembl/ensembl-web-metadata-api/blob/main/docs/APISpecification.yaml",
    "example_files": [
     "examples/web_checksum_responses_GCA_000001405.29.json",
     "examples/web_checksum_responses_GCA_000146045.2.json"
@@ -269,6 +283,7 @@
     "spec/core_schema_doc_excerpt.md",
     "spec/core_schema_116_excerpt.sql"
    ],
+   "docs_url": "https://jun2026.archive.ensembl.org/info/docs/api/core/core_schema.html#seq_region",
    "example_files": [
     "examples/derived/core_toplevel_seq_regions_homo_sapiens_core_116_38.tsv",
     "examples/derived/core_toplevel_seq_regions_saccharomyces_cerevisiae_core_63_116_4.tsv"
@@ -289,6 +304,7 @@
     "spec/ensembl_metadata_api/release.py.txt",
     "spec/ensembl_metadata_api/README.md"
    ],
+   "docs_url": "https://github.com/Ensembl/ensembl-metadata-api/tree/main/src/ensembl/production/metadata/api/models",
    "example_files": [
     "examples/web_genomeid_GCA_000001405.29.json",
     "examples/web_search_GCA_000001405.29.json",
