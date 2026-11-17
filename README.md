@@ -79,7 +79,7 @@ uv run python build_web.py     # web/refmeta_bundle.js (converter)
 uv run python build_terms.py   # web/terms_data.js (terms explorer)
 ```
 
-Each script has a `--check` mode, which CI runs. Pushing to `main` publishes the site.
+Each script has a `--check` mode, which CI runs. Pushing to `master` publishes the site.
 
 ## License
 

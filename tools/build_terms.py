@@ -35,7 +35,7 @@ MAPPING = TASK / "mapping"
 OUT = TASK / "web" / "terms_data.js"
 
 REPO = "https://github.com/refgenie/refmeta"
-BRANCH = "main"
+BRANCH = "master"
 
 NAME_LISTS = {"aliases", "labels", "accessions"}
 LEVEL_OF = {"assembly": "assembly", "collection": "collection", "sequences": "sequence",
