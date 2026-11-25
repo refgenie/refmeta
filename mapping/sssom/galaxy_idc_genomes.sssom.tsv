@@ -1,0 +1,30 @@
+#curie_map:
+#  galaxy_idc_genomes: https://refgenie.github.io/refmeta/sssom/galaxy_idc_genomes/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/galaxy_idc_genomes.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: galaxy_idc_genomes to refmeta core
+#mapping_set_description: 'IDC genomes.yml (older pipeline): genomes to fetch and the indexers to run. cvmfs_current_managed/cvmfs_managed_genomes.yml uses the same entries inside a list of {genomes: [...]} blocks.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:galaxy_idc_genomes
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/galaxyproject/idc/blob/main/README.md#genomesyml
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+galaxy_idc_genomes:dbkey	dbkey	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=galaxy.dbkey].value	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_genomes:description	description	skos:exactMatch	refmeta:deployments.displayName	deployments[system=galaxy,table=all_fasta].displayName	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_genomes:id	id	skos:exactMatch	refmeta:deployments.key	deployments[system=galaxy,table=all_fasta].key	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_genomes:checksum	checksum	skos:closeMatch	refmeta:copies.checksums.sha256	copies[kind=fasta].checksums.sha256	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: SHA-256 of the original download, which may be an archive rather than the FASTA Galaxy serves. No example file sets this field.
+galaxy_idc_genomes:doi	doi	skos:closeMatch	refmeta:assembly.scholarlyArticle	assembly.scholarlyArticle	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Any DOI for the data, not necessarily the assembly's article. No example file sets this field.
+galaxy_idc_genomes:source	source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Where to fetch the FASTA: 'ucsc', an NCBI accession or a URL; mixed kinds, so no single core field.
+galaxy_idc_genomes:version	version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Free-text version information.
+galaxy_idc_genomes:blob	blob	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Free text.
+galaxy_idc_genomes:indexers	indexers	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data managers to run: a build plan.
+galaxy_idc_genomes:skiplist	skiplist	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data managers to skip: a build plan.

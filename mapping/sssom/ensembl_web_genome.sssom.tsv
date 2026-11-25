@@ -1,0 +1,57 @@
+#curie_map:
+#  ensembl_web_genome: https://refgenie.github.io/refmeta/sssom/ensembl_web_genome/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ensembl_web_genome.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ensembl_web_genome to refmeta core
+#mapping_set_description: 'New Ensembl metadata API genome objects: /api/metadata/genome/{genome_id}/details, /explain (a subset of details), /api/search/genomes?query= (records = matches[]), and /api/metadata/genomeid?assembly_accession_id= (uses genome_uuid). Nested objects are flattened with ''.''.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ensembl_web_genome
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/Ensembl/ensembl-web-metadata-api/blob/main/docs/APISpecification.yaml
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ensembl_web_genome:assembly.accession_id	assembly.accession_id	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+ensembl_web_genome:assembly.name	assembly.name	skos:exactMatch	refmeta:assembly.name	assembly.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:assembly.url	assembly.url	skos:exactMatch	refmeta:assembly.accessions.url	assembly.accessions[0].url	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:assembly_level	assembly_level	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:assembly_date	assembly_date	skos:exactMatch	refmeta:assembly.releaseDate	assembly.releaseDate	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:assembly_provider.name	assembly_provider.name	skos:exactMatch	refmeta:assembly.submitter	assembly.submitter	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:scientific_name	scientific_name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:common_name	common_name	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:taxonomy_id	taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (cast).
+ensembl_web_genome:species_taxonomy_id	species_taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.speciesId	assembly.taxon.speciesId	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (cast).
+ensembl_web_genome:type.value	type.value	skos:exactMatch	refmeta:assembly.taxon.strain	assembly.taxon.strain	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:contig_n50	contig_n50	skos:exactMatch	refmeta:assembly.vitalStats.N50	assembly.vitalStats.N50	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:genome_id	genome_id	skos:exactMatch	refmeta:deployments.key	deployments[system=ensembl,table=genome].key	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:genome_uuid	genome_uuid	skos:exactMatch	refmeta:deployments.key	deployments[system=ensembl,table=genome].key	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:release.name	release.name	skos:exactMatch	refmeta:deployments.scope	deployments[system=ensembl,table=genome].scope	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:ftp_url	ftp_url	skos:exactMatch	refmeta:deployments.location	deployments[system=ensembl,table=genome].location	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_genome:genome_tag	genome_tag	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Readable genome alias; equals the accession for the anchors.
+ensembl_web_genome:type	type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Site field with no core home.
+ensembl_web_genome:is_reference	is_reference	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Whether the site treats it as its species' reference.
+ensembl_web_genome:is_suppressed	is_suppressed	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Site flag.
+ensembl_web_genome:suppression_details	suppression_details	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Site field with no core home.
+ensembl_web_genome:release.type	release.type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Site release type.
+ensembl_web_genome:assembly_provider.url	assembly_provider.url	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Provider web page.
+ensembl_web_genome:annotation_provider.name	annotation_provider.name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation; out of scope.
+ensembl_web_genome:annotation_provider.url	annotation_provider.url	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation; out of scope.
+ensembl_web_genome:annotation_method	annotation_method	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation; out of scope.
+ensembl_web_genome:annotation_version	annotation_version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation; out of scope.
+ensembl_web_genome:annotation_date	annotation_date	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation; out of scope.
+ensembl_web_genome:number_of_genomes_in_group	number_of_genomes_in_group	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Site statistic.
+ensembl_web_genome:type.kind	type.kind	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Kind of type.value (strain, breed ...); core keeps the value only.
+ensembl_web_genome:coding_genes_count	coding_genes_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation; out of scope.
+ensembl_web_genome:has_variation	has_variation	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_web_genome:has_regulation	has_regulation	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_web_genome:annotation_provider	annotation_provider	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation; out of scope.
+ensembl_web_genome:organism_id	organism_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Organism UUID in the site database.
+ensembl_web_genome:rank	rank	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Search rank.
+ensembl_web_genome:release_version	release_version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Metadata release version.

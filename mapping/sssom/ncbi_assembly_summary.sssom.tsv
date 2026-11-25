@@ -1,0 +1,58 @@
+#curie_map:
+#  ncbi_assembly_summary: https://refgenie.github.io/refmeta/sssom/ncbi_assembly_summary/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ncbi_assembly_summary.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ncbi_assembly_summary to refmeta core
+#mapping_set_description: FTP assembly_summary_refseq.txt / assembly_summary_genbank.txt (current assemblies) and their _historical twins (replaced and suppressed). One tab-separated row per assembly version, 38 columns.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ncbi_assembly_summary
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://ftp.ncbi.nlm.nih.gov/genomes/README_assembly_summary.txt
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ncbi_assembly_summary:assembly_accession	assembly_accession	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+ncbi_assembly_summary:bioproject	bioproject	skos:exactMatch	refmeta:assembly.bioproject	assembly.bioproject	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:biosample	biosample	skos:exactMatch	refmeta:assembly.biosample	assembly.biosample	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+ncbi_assembly_summary:refseq_category	refseq_category	skos:exactMatch	refmeta:assembly.refseqCategory	assembly.refseqCategory	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:taxid	taxid	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:species_taxid	species_taxid	skos:exactMatch	refmeta:assembly.taxon.speciesId	assembly.taxon.speciesId	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:organism_name	organism_name	skos:closeMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Includes the strain for strain-level taxa.
+ncbi_assembly_summary:infraspecific_name	infraspecific_name	skos:closeMatch	refmeta:assembly.taxon.strain	assembly.taxon.strain	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (regex). Lossy: Keeps the value after '='; on write the tag is always 'strain'.
+ncbi_assembly_summary:isolate	isolate	skos:exactMatch	refmeta:assembly.taxon.strain	assembly.taxon.strain	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+ncbi_assembly_summary:version_status	version_status	skos:exactMatch	refmeta:assembly.status	assembly.status	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).
+ncbi_assembly_summary:assembly_level	assembly_level	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).
+ncbi_assembly_summary:release_type	release_type	skos:exactMatch	refmeta:assembly.releaseType	assembly.releaseType	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).
+ncbi_assembly_summary:genome_rep	genome_rep	skos:exactMatch	refmeta:assembly.representation	assembly.representation	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).
+ncbi_assembly_summary:seq_rel_date	seq_rel_date	skos:exactMatch	refmeta:assembly.releaseDate	assembly.releaseDate	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:asm_name	asm_name	skos:exactMatch	refmeta:assembly.name	assembly.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:asm_submitter	asm_submitter	skos:exactMatch	refmeta:assembly.submitter	assembly.submitter	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:gbrs_paired_asm	gbrs_paired_asm	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession). The other member of the GenBank/RefSeq pair: the second GCA_/GCF_ item of assembly.accessions (index 1).
+ncbi_assembly_summary:ftp_path	ftp_path	skos:exactMatch	refmeta:copies.location	copies[kind=directory].location	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:assembly_type	assembly_type	skos:exactMatch	refmeta:assembly.type	assembly.type	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:genome_size	genome_size	skos:closeMatch	refmeta:assembly.vitalStats.totalBasePairs	assembly.vitalStats.totalBasePairs	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Primary assembly only, so it can differ from other sources' totals.
+ncbi_assembly_summary:genome_size_ungapped	genome_size_ungapped	skos:closeMatch	refmeta:assembly.vitalStats.ungappedLength	assembly.vitalStats.ungappedLength	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Primary assembly only.
+ncbi_assembly_summary:gc_percent	gc_percent	skos:exactMatch	refmeta:assembly.vitalStats.gcContent	assembly.vitalStats.gcContent	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:replicon_count	replicon_count	skos:exactMatch	refmeta:assembly.vitalStats.numberChromosomes	assembly.vitalStats.numberChromosomes	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:scaffold_count	scaffold_count	skos:exactMatch	refmeta:assembly.vitalStats.numberScaffolds	assembly.vitalStats.numberScaffolds	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:contig_count	contig_count	skos:exactMatch	refmeta:assembly.vitalStats.numberContigs	assembly.vitalStats.numberContigs	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_assembly_summary:wgs_master	wgs_master	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		WGS master record; no core field.
+ncbi_assembly_summary:paired_asm_comp	paired_asm_comp	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		identical/different comparison of the pair; no core relation between assemblies.
+ncbi_assembly_summary:excluded_from_refseq	excluded_from_refseq	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		RefSeq exclusion reasons.
+ncbi_assembly_summary:relation_to_type_material	relation_to_type_material	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Type material.
+ncbi_assembly_summary:asm_not_live_date	asm_not_live_date	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		When the version stopped being latest; core keeps status only.
+ncbi_assembly_summary:group	group	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Taxonomic group label.
+ncbi_assembly_summary:annotation_provider	annotation_provider	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Annotation; out of scope.
+ncbi_assembly_summary:annotation_name	annotation_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Annotation; out of scope.
+ncbi_assembly_summary:annotation_date	annotation_date	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Annotation; out of scope.
+ncbi_assembly_summary:total_gene_count	total_gene_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Annotation; out of scope.
+ncbi_assembly_summary:protein_coding_gene_count	protein_coding_gene_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Annotation; out of scope.
+ncbi_assembly_summary:non_coding_gene_count	non_coding_gene_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Annotation; out of scope.
+ncbi_assembly_summary:pubmed_id	pubmed_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		PubMed ids; core scholarlyArticle holds one DOI.

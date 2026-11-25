@@ -1,0 +1,25 @@
+#curie_map:
+#  ga4gh_seqcol_level1: https://refgenie.github.io/refmeta/sssom/ga4gh_seqcol_level1/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ga4gh_seqcol_level1.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ga4gh_seqcol_level1 to refmeta core
+#mapping_set_description: 'Refget sequence collection, level 1 representation: one JSON object mapping each attribute name to the digest of its level 2 array. Served by GET /collection/<digest>?level=1.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ga4gh_seqcol_level1
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://ga4gh.github.io/refget/seqcols/#level-1
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ga4gh_seqcol_level1:names	names	skos:exactMatch	refmeta:collection.level1.names	collection.level1.names	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_seqcol_level1:lengths	lengths	skos:exactMatch	refmeta:collection.level1.lengths	collection.level1.lengths	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_seqcol_level1:sequences	sequences	skos:exactMatch	refmeta:collection.level1.sequences	collection.level1.sequences	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_seqcol_level1:name_length_pairs	name_length_pairs	skos:exactMatch	refmeta:collection.level1.name_length_pairs	collection.level1.name_length_pairs	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_seqcol_level1:sorted_name_length_pairs	sorted_name_length_pairs	skos:exactMatch	refmeta:collection.level1.sorted_name_length_pairs	collection.level1.sorted_name_length_pairs	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_seqcol_level1:sorted_sequences	sorted_sequences	skos:exactMatch	refmeta:collection.level1.sorted_sequences	collection.level1.sorted_sequences	semapv:ManualMappingCuration	rdf property	rdf property	

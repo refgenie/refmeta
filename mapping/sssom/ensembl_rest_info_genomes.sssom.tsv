@@ -1,0 +1,48 @@
+#curie_map:
+#  ensembl_rest_info_genomes: https://refgenie.github.io/refmeta/sssom/ensembl_rest_info_genomes/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ensembl_rest_info_genomes.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ensembl_rest_info_genomes to refmeta core
+#mapping_set_description: REST GET /info/genomes/:genome_name (same object from /info/genomes/assembly/:accession). Built from the legacy ensembl_metadata database. Without expand=1; expand=1 adds large annotation/compara/variation blocks not covered here.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ensembl_rest_info_genomes
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://rest.ensembl.org/documentation/info/info_genome
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ensembl_rest_info_genomes:assembly_accession	assembly_accession	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+ensembl_rest_info_genomes:assembly_name	assembly_name	skos:exactMatch	refmeta:assembly.name	assembly.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:assembly_default	assembly_default	skos:exactMatch	refmeta:assembly.labels.value	assembly.labels[namespace=ensembl].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:assembly_ucsc	assembly_ucsc	skos:exactMatch	refmeta:assembly.labels.value	assembly.labels[namespace=ucsc].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:assembly_level	assembly_level	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:scientific_name	scientific_name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:taxonomy_id	taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:species_taxonomy_id	species_taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.speciesId	assembly.taxon.speciesId	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:strain	strain	skos:exactMatch	refmeta:assembly.taxon.strain	assembly.taxon.strain	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:name	name	skos:exactMatch	refmeta:deployments.key	deployments[system=ensembl].key	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:display_name	display_name	skos:exactMatch	refmeta:deployments.displayName	deployments[system=ensembl].displayName	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_info_genomes:division	division	skos:closeMatch	refmeta:deployments.scope	deployments[system=ensembl].scope	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Yeast is listed under EnsemblVertebrates here but EnsemblFungi in its own core database.
+ensembl_rest_info_genomes:has_genome_alignments	has_genome_alignments	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_rest_info_genomes:has_synteny	has_synteny	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_rest_info_genomes:has_microarray	has_microarray	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_rest_info_genomes:data_release_id	data_release_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Internal database row id.
+ensembl_rest_info_genomes:serotype	serotype	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Serotype; no example.
+ensembl_rest_info_genomes:has_other_alignments	has_other_alignments	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_rest_info_genomes:has_variations	has_variations	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_rest_info_genomes:assembly_id	assembly_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Internal database row id.
+ensembl_rest_info_genomes:reference	reference	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Name of the genome this one is a strain or variant of; a relation between assemblies the core does not model. No example.
+ensembl_rest_info_genomes:genebuild	genebuild	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation label; out of scope.
+ensembl_rest_info_genomes:url_name	url_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Website URL name.
+ensembl_rest_info_genomes:has_pan_compara	has_pan_compara	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_rest_info_genomes:base_count	base_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Length of all toplevel regions in the core database, LRGs included (3398673745 for human); matches no sequence set.
+ensembl_rest_info_genomes:has_peptide_compara	has_peptide_compara	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Data availability flag.
+ensembl_rest_info_genomes:website_packed	website_packed	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Website flag.
+ensembl_rest_info_genomes:organism_id	organism_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Internal database row id.

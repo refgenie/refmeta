@@ -1,0 +1,24 @@
+#curie_map:
+#  ensembl_rest_toplevel_region: https://refgenie.github.io/refmeta/sssom/ensembl_rest_toplevel_region/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ensembl_rest_toplevel_region.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ensembl_rest_toplevel_region to refmeta core
+#mapping_set_description: Rows of top_level_region inside the REST /info/assembly/:species response; one record per toplevel sequence of the primary assembly (no alt/patch scaffolds, no LRGs). synonyms present only with ?synonyms=1.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ensembl_rest_toplevel_region
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://rest.ensembl.org/documentation/info/assembly_info
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ensembl_rest_toplevel_region:name	name	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_toplevel_region:length	length	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_rest_toplevel_region:synonyms	synonyms	skos:closeMatch	refmeta:sequences.aliases	sequences[].aliases	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (rekey). Lossy: Ensembl external_db names become refmeta namespaces (RefSeq_genomic -> refseq). No INSDC synonym exists when the Ensembl name already is the accession. One served RefSeq synonym is the text 'na' (KI270721.1); it passes through.
+ensembl_rest_toplevel_region:coord_system	coord_system	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		chromosome or scaffold: Ensembl's coordinate system, not a sequence role.

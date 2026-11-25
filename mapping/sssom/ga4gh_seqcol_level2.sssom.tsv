@@ -1,0 +1,27 @@
+#curie_map:
+#  ga4gh_seqcol_level2: https://refgenie.github.io/refmeta/sssom/ga4gh_seqcol_level2/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ga4gh_seqcol_level2.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ga4gh_seqcol_level2 to refmeta core
+#mapping_set_description: 'Refget sequence collection, canonical level 2 representation: one JSON object of collated arrays (names, lengths, sequences) plus recommended ancillary attributes. Served by GET /collection/<digest>?level=2.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ga4gh_seqcol_level2
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://ga4gh.github.io/refget/seqcols/#level-2
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ga4gh_seqcol_level2:names	names	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_seqcol_level2:lengths	lengths	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_seqcol_level2:sequences	sequences	skos:exactMatch	refmeta:sequences.digest	sequences[].digest	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_seqcol_level2:accessions	accessions	skos:closeMatch	refmeta:sequences.aliases.value	sequences[].aliases[namespace=accession].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: refgenie custom attribute; the accession authority (insdc or refseq) is not stated, so the namespace is the generic 'accession'. No example file sets this field.
+ga4gh_seqcol_level2:name_length_pairs	name_length_pairs	skos:closeMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Used only from core. Computed on write (seqcol_name_length_pairs). Rebuilt on write; never read.
+ga4gh_seqcol_level2:sorted_name_length_pairs	sorted_name_length_pairs	skos:closeMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Used only from core. Computed on write (seqcol_sorted_name_length_pairs). Rebuilt on write; never read.
+ga4gh_seqcol_level2:sorted_sequences	sorted_sequences	skos:closeMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Used only from core. Computed on write (seqcol_sorted_sequences). Rebuilt on write; never read.

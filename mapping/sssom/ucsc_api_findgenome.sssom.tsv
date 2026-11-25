@@ -1,0 +1,33 @@
+#curie_map:
+#  ucsc_api_findgenome: https://refgenie.github.io/refmeta/sssom/ucsc_api_findgenome/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ucsc_api_findgenome.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ucsc_api_findgenome to refmeta core
+#mapping_set_description: 'REST API /findGenome: genome search; one record per match (hgcentral.assemblyList row), keyed by UCSC database name or accession.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ucsc_api_findgenome
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://genome.ucsc.edu/goldenPath/help/api.html#Endpoint
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ucsc_api_findgenome:name	name	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=ucsc].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_api_findgenome:commonName	commonName	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_api_findgenome:scientificName	scientificName	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_api_findgenome:taxId	taxId	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_api_findgenome:hubUrl	hubUrl	skos:exactMatch	refmeta:deployments.location	deployments[system=ucsc,table=genark].location	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_api_findgenome:year	year	skos:closeMatch	refmeta:assembly.dateCreated	assembly.dateCreated	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (cast). Lossy: Year only.
+ucsc_api_findgenome:refSeqCategory	refSeqCategory	skos:exactMatch	refmeta:assembly.refseqCategory	assembly.refseqCategory	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_api_findgenome:versionStatus	versionStatus	skos:exactMatch	refmeta:assembly.status	assembly.status	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).
+ucsc_api_findgenome:assemblyLevel	assemblyLevel	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).
+ucsc_api_findgenome:priority	priority	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Search ranking.
+ucsc_api_findgenome:clade	clade	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Approximate clade.
+ucsc_api_findgenome:description	description	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Free search text mixing names, accessions and dates.
+ucsc_api_findgenome:browserExists	browserExists	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Whether UCSC shows the genome now.

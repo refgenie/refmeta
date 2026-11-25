@@ -1,0 +1,47 @@
+#curie_map:
+#  bioconductor_annotationhub_record: https://refgenie.github.io/refmeta/sssom/bioconductor_annotationhub_record/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/bioconductor_annotationhub_record.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: bioconductor_annotationhub_record to refmeta core
+#mapping_set_description: One AnnotationHub resource as returned by https://annotationhub.bioconductor.org/ahid/<AH id> (pretty-printed JSON from AnnotationHubServer3.0 formatId()). The same data lives in the hub's annotationhub.sqlite3 and is what mcols(<AnnotationHub>) shows in R. Array members (rdatapaths, input_sources) are flattened to 'array[].field' keys whose values are lists, one item per array member.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:bioconductor_annotationhub_record
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/Bioconductor/AnnotationHubServer3.0/blob/master/app.rb
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+bioconductor_annotationhub_record:ah_id	ah_id	skos:exactMatch	refmeta:deployments.key	deployments[system=annotationhub].key	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_record:title	title	skos:exactMatch	refmeta:deployments.displayName	deployments[system=annotationhub].displayName	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_record:genome	genome	skos:closeMatch	refmeta:collection.labels.value	collection.labels[namespace=annotationhub].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Free text mixing UCSC names (hg38) and assembly names (GRCh38.p13).
+bioconductor_annotationhub_record:species	species	skos:closeMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Case is not normalized (homo sapiens).
+bioconductor_annotationhub_record:taxonomyid	taxonomyid	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_record:dataprovider	dataprovider	skos:exactMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_record:rdatapaths%5B%5D.rdatapath	rdatapaths[].rdatapath	skos:closeMatch	refmeta:copies.location	copies[].location	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Relative to location_prefix, which is not joined in.
+bioconductor_annotationhub_record:input_sources%5B%5D.sourceurl	input_sources[].sourceurl	skos:exactMatch	refmeta:copies.location	copies[kind=source].location	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_record:input_sources%5B%5D.sourcesize	input_sources[].sourcesize	skos:exactMatch	refmeta:copies.size	copies[kind=source].size	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (cast).
+bioconductor_annotationhub_record:input_sources%5B%5D.sourcemd5	input_sources[].sourcemd5	skos:exactMatch	refmeta:copies.checksums.md5	copies[kind=source].checksums.md5	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_record:input_sources%5B%5D.sourcelastmodifieddate	input_sources[].sourcelastmodifieddate	skos:exactMatch	refmeta:copies.modified	copies[kind=source].modified	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_record:input_sources%5B%5D.sourceversion	input_sources[].sourceversion	skos:exactMatch	refmeta:collection.providerVersion	collection.providerVersion	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_record:id	id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Internal row id.
+bioconductor_annotationhub_record:description	description	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Free text.
+bioconductor_annotationhub_record:coordinate_1_based	coordinate_1_based	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Coordinate base of the resource.
+bioconductor_annotationhub_record:maintainer	maintainer	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Resource maintainer.
+bioconductor_annotationhub_record:rdatadateadded	rdatadateadded	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		When the hub added it.
+bioconductor_annotationhub_record:rdatadateremoved	rdatadateremoved	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		When the hub removed it.
+bioconductor_annotationhub_record:preparerclass	preparerclass	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Hub recipe class.
+bioconductor_annotationhub_record:location_prefix	location_prefix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Base URL for rdatapath; joining it needs two fields.
+bioconductor_annotationhub_record:recipe	recipe	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Hub recipe.
+bioconductor_annotationhub_record:recipe_package	recipe_package	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Hub recipe package.
+bioconductor_annotationhub_record:rdatapaths%5B%5D.rdataclass	rdatapaths[].rdataclass	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R class of the file.
+bioconductor_annotationhub_record:rdatapaths%5B%5D.dispatchclass	rdatapaths[].dispatchclass	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		How the hub loads the file.
+bioconductor_annotationhub_record:input_sources%5B%5D.sourcetype	input_sources[].sourcetype	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Format of the source (FASTA, TwoBit).
+bioconductor_annotationhub_record:tags	tags	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Search tags.
+bioconductor_annotationhub_record:biocversions	biocversions	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Bioconductor versions that list the resource.

@@ -1,0 +1,96 @@
+#curie_map:
+#  ensembl_core_meta: https://refgenie.github.io/refmeta/sssom/ensembl_core_meta/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ensembl_core_meta.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ensembl_core_meta to refmeta core
+#mapping_set_description: 'Core database meta table as dumped on the release FTP (mysql/<db>/meta.txt.gz): tab-separated meta_id, species_id, meta_key, meta_value, MySQL escaping, \N = NULL. The adapter returns one record per species_id; database-wide rows (species_id NULL: schema_type, schema_version, patch) are copied into each record; repeated keys become lists.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ensembl_core_meta
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://jun2026.archive.ensembl.org/info/docs/api/core/core_schema.html#meta
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ensembl_core_meta:assembly.accession	assembly.accession	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+ensembl_core_meta:assembly.name	assembly.name	skos:exactMatch	refmeta:assembly.name	assembly.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:assembly.default	assembly.default	skos:exactMatch	refmeta:assembly.labels.value	assembly.labels[namespace=ensembl].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:assembly.ucsc_alias	assembly.ucsc_alias	skos:exactMatch	refmeta:assembly.labels.value	assembly.labels[namespace=ucsc].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:assembly.long_name	assembly.long_name	skos:exactMatch	refmeta:assembly.description	assembly.description	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:assembly.date	assembly.date	skos:exactMatch	refmeta:assembly.releaseDate	assembly.releaseDate	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:assembly.version	assembly.version	skos:exactMatch	refmeta:assembly.version	assembly.version	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:assembly.provider_name	assembly.provider_name	skos:exactMatch	refmeta:assembly.submitter	assembly.submitter	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:species.taxonomy_id	species.taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (cast).
+ensembl_core_meta:organism.taxonomy_id	organism.taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (cast).
+ensembl_core_meta:species.species_taxonomy_id	species.species_taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.speciesId	assembly.taxon.speciesId	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (cast).
+ensembl_core_meta:organism.species_taxonomy_id	organism.species_taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.speciesId	assembly.taxon.speciesId	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (cast).
+ensembl_core_meta:species.scientific_name	species.scientific_name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:organism.scientific_name	organism.scientific_name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:species.common_name	species.common_name	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:species.strain	species.strain	skos:exactMatch	refmeta:assembly.taxon.strain	assembly.taxon.strain	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:organism.biosample_id	organism.biosample_id	skos:exactMatch	refmeta:assembly.biosample	assembly.biosample	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:species.production_name	species.production_name	skos:exactMatch	refmeta:deployments.key	deployments[system=ensembl].key	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:species.display_name	species.display_name	skos:exactMatch	refmeta:deployments.displayName	deployments[system=ensembl].displayName	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:species.division	species.division	skos:exactMatch	refmeta:deployments.scope	deployments[system=ensembl].scope	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_core_meta:species_id	species_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:schema_type	schema_type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:schema_version	schema_version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:patch	patch	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:genebuild.id	genebuild.id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:assembly.mapping	assembly.mapping	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Coordinate system mappings inside the database.
+ensembl_core_meta:genebuild.last_geneset_update	genebuild.last_geneset_update	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:assembly.coverage_depth	assembly.coverage_depth	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Historical depth class (high/low).
+ensembl_core_meta:assembly.web_accession_source	assembly.web_accession_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Website link setting.
+ensembl_core_meta:assembly.web_accession_type	assembly.web_accession_type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Website link label.
+ensembl_core_meta:genebuild.start_date	genebuild.start_date	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:genebuild.initial_release_date	genebuild.initial_release_date	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:gencode.version	gencode.version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:genebuild.method	genebuild.method	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:species.stable_id_prefix	species.stable_id_prefix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:species.url	species.url	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:repeat.analysis	repeat.analysis	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:repeat_featurebuild.level	repeat_featurebuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:simple_featurebuild.level	simple_featurebuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:prediction_transcriptbuild.level	prediction_transcriptbuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:prediction_exonbuild.level	prediction_exonbuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:genebuild.havana_datafreeze_date	genebuild.havana_datafreeze_date	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:liftover.mapping	liftover.mapping	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:lrg	lrg	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:xref.timestamp	xref.timestamp	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:species.alias	species.alias	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Species aliases used by the website.
+ensembl_core_meta:species.classification	species.classification	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Lineage names.
+ensembl_core_meta:sample.location_param	sample.location_param	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.location_text	sample.location_text	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.gene_param	sample.gene_param	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.gene_text	sample.gene_text	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.transcript_param	sample.transcript_param	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.transcript_text	sample.transcript_text	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.search_text	sample.search_text	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:annotation.provider_name	annotation.provider_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:annotation.provider_url	annotation.provider_url	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:assembly.provider_url	assembly.provider_url	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Provider web page.
+ensembl_core_meta:sample.vep_hgvs	sample.vep_hgvs	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.vep_id	sample.vep_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.vep_vcf	sample.vep_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.vep_spdi	sample.vep_spdi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.vep_ensembl	sample.vep_ensembl	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:genebuild.level	genebuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:transcriptbuild.level	transcriptbuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:exonbuild.level	exonbuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:dna_align_featurebuild.level	dna_align_featurebuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:protein_align_featurebuild.level	protein_align_featurebuild.level	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.gene_keep	sample.gene_keep	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.vep_keep	sample.vep_keep	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:mane.version	mane.version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:genebuild.version	genebuild.version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.variation_param	sample.variation_param	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.variation_text	sample.variation_text	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:sample.vep_pileup	sample.vep_pileup	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.
+ensembl_core_meta:species.species_name	species.species_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Species name without strain; core keeps one name.
+ensembl_core_meta:species.wikipedia_url	species.wikipedia_url	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Database, annotation or website setting; no core field.

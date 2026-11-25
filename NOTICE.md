@@ -1,6 +1,6 @@
 # Third-party files
 
-The `spec/` and `examples/` folders under `sources/` hold copies of other projects'
+The `spec/` and `examples/` folders under `sources/`, and `references/rda-fair-mappings/`, hold copies of other projects'
 documentation, schemas and public metadata records. They are here so that anyone can
 check each mapping against the text it is based on, and so the tests can run on real
 records. Files under `examples/constructed/` were made by refmeta, and each folder's
@@ -22,6 +22,7 @@ it was retrieved.
 | `sources/nfcore/` | nf-core pipelines and nf-core/references, Illumina iGenomes |
 | `sources/refgenie/` | refgenie projects (refgenie, refgenie-registry, api.refgenie.org) |
 | `sources/ucsc/` | UCSC Genome Browser (downloads site and REST API) |
+| `references/rda-fair-mappings/` | RDA FAIR Mappings Working Group documentation (CC BY 4.0) |
 
 If you maintain one of these projects and want a file removed or credited differently,
 please open an issue.

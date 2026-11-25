@@ -1,0 +1,35 @@
+#curie_map:
+#  refgenie_api_genome_list: https://refgenie.github.io/refmeta/sssom/refgenie_api_genome_list/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/refgenie_api_genome_list.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: refgenie_api_genome_list to refmeta core
+#mapping_set_description: refgenie 1.x server genome listing, GET https://api.refgenie.org/v4/genomes?alias=... (OpenAPI schema PageResponse[GenomeResponse]). One record per genome in 'results'; unlike the detail record it lists every alias of the genome and an asset count, but has no FHR block.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:refgenie_api_genome_list
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://api.refgenie.org/docs#/Version%204/list_genomes_v4_genomes_get
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+refgenie_api_genome_list:digest	digest	skos:exactMatch	refmeta:collection.digest	collection.digest	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:aliases	aliases	skos:exactMatch	refmeta:collection.aliases.value	collection.aliases[namespace=refgenie].value	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:description	description	skos:exactMatch	refmeta:collection.description	collection.description	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:species_name	species_name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:synonyms	synonyms	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=refgenie.synonym].value	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:taxon_id	taxon_id	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:assembly_source	assembly_source	skos:closeMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Values are not normalized (ncbi, Ensembl, UCSC).
+refgenie_api_genome_list:assembly_accession	assembly_accession	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+refgenie_api_genome_list:assembly_level	assembly_level	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:common_name	common_name	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:species.taxon_id	species.taxon_id	skos:exactMatch	refmeta:assembly.taxon.speciesId	assembly.taxon.speciesId	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:species.scientific_name	species.scientific_name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:species.common_name	species.common_name	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_genome_list:asset_count	asset_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		How many assets this server built; a server statistic.
+refgenie_api_genome_list:species.synonyms	species.synonyms	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Other names of the species; core keeps one common name.

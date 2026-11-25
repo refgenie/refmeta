@@ -1,0 +1,42 @@
+#curie_map:
+#  bioconductor_bsgenome_description: https://refgenie.github.io/refmeta/sssom/bioconductor_bsgenome_description/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/bioconductor_bsgenome_description.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: bioconductor_bsgenome_description to refmeta core
+#mapping_set_description: DESCRIPTION file (DCF) of a built BSgenome data package, as shipped in the source tarball on bioconductor.org. Holds the standard R package fields plus the seed's genome fields (organism, common_name or species, genome or provider_version, provider, release_date, source_url).
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:bioconductor_bsgenome_description
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://bioconductor.org/packages/release/bioc/vignettes/BSgenomeForge/inst/doc/AdvancedBSgenomeForge.pdf
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+bioconductor_bsgenome_description:Package	Package	skos:exactMatch	refmeta:deployments.key	deployments[system=bioconductor].key	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_description:organism	organism	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_description:common_name	common_name	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_description:species	species	skos:closeMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Older packages put the common name (Yeast) in a field called species.
+bioconductor_bsgenome_description:genome	genome	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=bioconductor].value	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_description:provider_version	provider_version	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=bioconductor].value	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_description:provider	provider	skos:exactMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_description:release_date	release_date	skos:closeMatch	refmeta:assembly.releaseDate	assembly.releaseDate	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (date). Lossy: Free text; only YYYY/MM/DD values convert. Others stay in extras.
+bioconductor_bsgenome_description:release_name	release_name	skos:exactMatch	refmeta:assembly.description	assembly.description	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_description:source_url	source_url	skos:closeMatch	refmeta:copies.location	copies[0].location	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Often a download directory, not one file.
+bioconductor_bsgenome_description:Title	Title	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:Description	Description	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:Version	Version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:Author	Author	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:Maintainer	Maintainer	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:Depends	Depends	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:Imports	Imports	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:Suggests	Suggests	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:License	License	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:biocViews	biocViews	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:NeedsCompilation	NeedsCompilation	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).
+bioconductor_bsgenome_description:Packaged	Packaged	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R package field (title, version, authors, dependencies, license of the package).

@@ -1,0 +1,63 @@
+#curie_map:
+#  bioconductor_bsgenome_seed: https://refgenie.github.io/refmeta/sssom/bioconductor_bsgenome_seed/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/bioconductor_bsgenome_seed.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: bioconductor_bsgenome_seed to refmeta core
+#mapping_set_description: 'BSgenomeForge seed file: a DCF (Debian Control File) holding everything forgeBSgenomeDataPkg() needs to build a BSgenome data package. Bioconductor keeps its seeds in BSgenomeForge/inst/extdata/seeds/. Two classes share the format: BSgenomeDataPkgSeed (bare sequences) and MaskedBSgenomeDataPkgSeed (masked packages, with RefPkgname and *files_* fields).'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:bioconductor_bsgenome_seed
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://bioconductor.org/packages/release/bioc/vignettes/BSgenomeForge/inst/doc/AdvancedBSgenomeForge.pdf
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+bioconductor_bsgenome_seed:Package	Package	skos:exactMatch	refmeta:deployments.key	deployments[system=bioconductor].key	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_seed:organism	organism	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_seed:common_name	common_name	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_seed:genome	genome	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=bioconductor].value	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_seed:provider_version	provider_version	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=bioconductor].value	semapv:ManualMappingCuration	rdf property	rdf property	Deprecated name of genome.
+bioconductor_bsgenome_seed:provider	provider	skos:exactMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_seed:release_date	release_date	skos:closeMatch	refmeta:assembly.releaseDate	assembly.releaseDate	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (date). Lossy: Free text; only YYYY/MM/DD values convert. Others (April 2011, 2013-12-17) stay in extras.
+bioconductor_bsgenome_seed:release_name	release_name	skos:exactMatch	refmeta:assembly.description	assembly.description	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_bsgenome_seed:source_url	source_url	skos:closeMatch	refmeta:copies.location	copies[0].location	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Often a download directory, not one file.
+bioconductor_bsgenome_seed:Title	Title	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package title.
+bioconductor_bsgenome_seed:Description	Description	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package description.
+bioconductor_bsgenome_seed:Version	Version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package version.
+bioconductor_bsgenome_seed:Author	Author	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package author.
+bioconductor_bsgenome_seed:Maintainer	Maintainer	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package maintainer.
+bioconductor_bsgenome_seed:Suggests	Suggests	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package dependency.
+bioconductor_bsgenome_seed:License	License	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package license, not the genome's terms.
+bioconductor_bsgenome_seed:organism_biocview	organism_biocview	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		biocViews term.
+bioconductor_bsgenome_seed:BSgenomeObjname	BSgenomeObjname	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R object name.
+bioconductor_bsgenome_seed:seqnames	seqnames	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R expression for the sequence names.
+bioconductor_bsgenome_seed:circ_seqs	circ_seqs	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R expression for the circular sequences.
+bioconductor_bsgenome_seed:mseqnames	mseqnames	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R expression.
+bioconductor_bsgenome_seed:PkgDetails	PkgDetails	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Man page text.
+bioconductor_bsgenome_seed:SrcDataFiles	SrcDataFiles	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Free text naming the source files.
+bioconductor_bsgenome_seed:PkgExamples	PkgExamples	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R code.
+bioconductor_bsgenome_seed:seqs_srcdir	seqs_srcdir	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Local build folder.
+bioconductor_bsgenome_seed:seqfile_name	seqfile_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Source 2bit file name in the build folder.
+bioconductor_bsgenome_seed:seqfiles_prefix	seqfiles_prefix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:seqfiles_suffix	seqfiles_suffix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:ondisk_seq_format	ondisk_seq_format	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:citation_file	citation_file	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:RefPkgname	RefPkgname	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:nmask_per_seq	nmask_per_seq	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:masks_srcdir	masks_srcdir	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:AGAPSfiles_type	AGAPSfiles_type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:AGAPSfiles_name	AGAPSfiles_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:AGAPSfiles_prefix	AGAPSfiles_prefix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:AGAPSfiles_suffix	AGAPSfiles_suffix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:RMfiles_name	RMfiles_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:RMfiles_prefix	RMfiles_prefix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:RMfiles_suffix	RMfiles_suffix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:TRFfiles_name	TRFfiles_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:TRFfiles_prefix	TRFfiles_prefix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).
+bioconductor_bsgenome_seed:TRFfiles_suffix	TRFfiles_suffix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Package build setting (file name parts, mask sources).

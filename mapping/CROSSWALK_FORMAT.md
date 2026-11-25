@@ -68,6 +68,7 @@ the `native` of one or more rules, or in `unmapped`. A native path may appear in
 | `lossy` | no | Plain text saying what this rule loses or bends. `null` means a both-way rule round-trips exactly. |
 | `example` | yes | A real value from the format's example files and what the rule turns it into: `{native, core, file}`, where `file` is relative to `sources/<source>/`. `truncated: true` means a long list was cut to its first 3 items or a long string to 157 characters for display. For a `from_core` rule `core` is `null`. `example: null` only when no example file has a value; then `note` says so. |
 | `note` | no | Anything else a reader needs. |
+| `match` | no | How closely the native field matches the core field, for the SSSOM export (`mapping/sssom/`): `exact`, `close`, `broad` (the core field is broader), `narrow` (the core field is narrower) or `related`. Leave it out and the export uses `exact` for a `both` rule with `lossy: null` (the round-trip tests hold those to exact) and `close` for the rest. The engine ignores it. |
 
 Applying a rule:
 

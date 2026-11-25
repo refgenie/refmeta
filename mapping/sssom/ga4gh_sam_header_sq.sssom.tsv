@@ -1,0 +1,30 @@
+#curie_map:
+#  ga4gh_sam_header_sq: https://refgenie.github.io/refmeta/sssom/ga4gh_sam_header_sq/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ga4gh_sam_header_sq.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ga4gh_sam_header_sq to refmeta core
+#mapping_set_description: SAM header @SQ lines (reference sequence dictionary), as found in SAM/BAM/CRAM headers and Picard/GATK .dict files. One record per @SQ line; order of lines is meaningful.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ga4gh_sam_header_sq
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://samtools.github.io/hts-specs/SAMv1.pdf
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ga4gh_sam_header_sq:SN	SN	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_sam_header_sq:LN	LN	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_sam_header_sq:M5	M5	skos:exactMatch	refmeta:sequences.md5	sequences[].md5	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_sam_header_sq:AN	AN	skos:closeMatch	refmeta:sequences.aliases.value	sequences[].aliases[namespace=unspecified].value	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (split). Lossy: Alternative names carry no authority, so they land in namespace 'unspecified'.
+ga4gh_sam_header_sq:AH	AH	skos:closeMatch	refmeta:sequences.placement.chromosome	sequences[].placement.chromosome	semapv:ManualMappingCuration	rdf property	rdf property	Used only to core. Value transformed (regex). Lossy: AH '*' (alt locus, placement unknown) gives no value. No example file sets this field.
+ga4gh_sam_header_sq:AH	AH	skos:closeMatch	refmeta:sequences.placement.range	sequences[].placement.range	semapv:ManualMappingCuration	rdf property	rdf property	Used only to core. Value transformed (regex). No example file sets this field.
+ga4gh_sam_header_sq:DS	DS	skos:exactMatch	refmeta:sequences.description	sequences[].description	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_sam_header_sq:TP	TP	skos:exactMatch	refmeta:sequences.circular	sequences[].circular	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).
+ga4gh_sam_header_sq:UR	UR	skos:closeMatch	refmeta:copies.location	copies[kind=fasta].location	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: UR is per sequence; one location per record is kept (the first), others go to conflicts.
+ga4gh_sam_header_sq:AS	AS	skos:closeMatch	refmeta:assembly.labels.value	assembly.labels[namespace=sam.as].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Free text with no fixed meaning (GRCh38 in one file, 38 in another).
+ga4gh_sam_header_sq:SP	SP	skos:closeMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Free text: sometimes a common name (Human) instead of a scientific name.

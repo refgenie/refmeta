@@ -1,0 +1,37 @@
+#curie_map:
+#  bioconductor_annotationhub_metadata_csv: https://refgenie.github.io/refmeta/sssom/bioconductor_annotationhub_metadata_csv/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/bioconductor_annotationhub_metadata_csv.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: bioconductor_annotationhub_metadata_csv to refmeta core
+#mapping_set_description: 'AnnotationHub contributor metadata file: a CSV in inst/extdata/ of a hub package, one row per hub resource, read by AnnotationHubData::makeAnnotationHubMetadata() and loaded into the hub database.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:bioconductor_annotationhub_metadata_csv
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://bioconductor.org/packages/release/bioc/vignettes/HubPub/inst/doc/CreateAHubPackage.html#instextdata
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+bioconductor_annotationhub_metadata_csv:Title	Title	skos:exactMatch	refmeta:deployments.displayName	deployments[system=annotationhub].displayName	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_metadata_csv:Genome	Genome	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=annotationhub].value	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_metadata_csv:Species	Species	skos:closeMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Validated against GenomeInfoDbData; may include the strain.
+bioconductor_annotationhub_metadata_csv:TaxonomyId	TaxonomyId	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_metadata_csv:DataProvider	DataProvider	skos:exactMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_metadata_csv:SourceUrl	SourceUrl	skos:exactMatch	refmeta:copies.location	copies[kind=source].location	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_annotationhub_metadata_csv:RDataPath	RDataPath	skos:closeMatch	refmeta:deployments.location	deployments[system=annotationhub].location	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Relative to the hub bucket (or Location_Prefix).
+bioconductor_annotationhub_metadata_csv:Description	Description	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Free text.
+bioconductor_annotationhub_metadata_csv:BiocVersion	BiocVersion	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		First Bioconductor version.
+bioconductor_annotationhub_metadata_csv:SourceType	SourceType	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Format of the source.
+bioconductor_annotationhub_metadata_csv:SourceVersion	SourceVersion	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Version of the source data.
+bioconductor_annotationhub_metadata_csv:Coordinate_1_based	Coordinate_1_based	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Coordinate base.
+bioconductor_annotationhub_metadata_csv:Maintainer	Maintainer	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Maintainer.
+bioconductor_annotationhub_metadata_csv:RDataClass	RDataClass	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		R class.
+bioconductor_annotationhub_metadata_csv:DispatchClass	DispatchClass	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Loader.
+bioconductor_annotationhub_metadata_csv:Location_Prefix	Location_Prefix	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Base URL.
+bioconductor_annotationhub_metadata_csv:Tags	Tags	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Search tags.

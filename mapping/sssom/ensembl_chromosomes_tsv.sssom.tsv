@@ -1,0 +1,21 @@
+#curie_map:
+#  ensembl_chromosomes_tsv: https://refgenie.github.io/refmeta/sssom/ensembl_chromosomes_tsv/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ensembl_chromosomes_tsv.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ensembl_chromosomes_tsv to refmeta core
+#mapping_set_description: 'ensemblorganisms FTP <assembly path>/<provider>/<genebuild date>/genome/chromosomes.tsv.gz: two columns, sequence name and length, no header, sorted by length (longest first). Column names here are chosen; the file has none.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ensembl_chromosomes_tsv
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://ftp.ebi.ac.uk/pub/ensemblorganisms/README.md
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ensembl_chromosomes_tsv:name	name	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_chromosomes_tsv:length	length	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	

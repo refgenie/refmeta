@@ -1,0 +1,24 @@
+#curie_map:
+#  ensembl_web_karyotype: https://refgenie.github.io/refmeta/sssom/ensembl_web_karyotype/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ensembl_web_karyotype.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ensembl_web_karyotype to refmeta core
+#mapping_set_description: New Ensembl metadata API /api/metadata/genome/{genome_id}/karyotype; one record per karyotype region. /top-regions returns the same shape (identical for the two anchor genomes).
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ensembl_web_karyotype
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/Ensembl/ensembl-web-metadata-api/blob/main/docs/APISpecification.yaml
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ensembl_web_karyotype:name	name	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_karyotype:length	length	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_web_karyotype:is_circular	is_circular	skos:closeMatch	refmeta:sequences.circular	sequences[].circular	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: The new API says yeast Mito is not circular; legacy REST and the core database say it is.
+ensembl_web_karyotype:type	type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Always 'chromosome' (also for MT); not a molecule type.

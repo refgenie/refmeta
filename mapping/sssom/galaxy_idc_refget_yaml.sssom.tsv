@@ -1,0 +1,37 @@
+#curie_map:
+#  galaxy_idc_refget_yaml: https://refgenie.github.io/refmeta/sssom/galaxy_idc_refget_yaml/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/galaxy_idc_refget_yaml.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: galaxy_idc_refget_yaml to refmeta core
+#mapping_set_description: 'IDC PR #88 yaml/all_fasta.yml: the same digests for every processed FASTA in one file, keyed by unique_build_id, with a peek at the first sequence instead of the full level 2 arrays.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:galaxy_idc_refget_yaml
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/lldelisle/idc/blob/245c1a9de5e054c7dcede5f6435ef5dfb63b6414/sync/README.md#yaml-file
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+galaxy_idc_refget_yaml:unique_build_id	unique_build_id	skos:exactMatch	refmeta:collection.aliases.value	collection.aliases[namespace=galaxy.build_id].value	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_0	level_0	skos:exactMatch	refmeta:collection.digest	collection.digest	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_1.names	level_1.names	skos:exactMatch	refmeta:collection.level1.names	collection.level1.names	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_1.lengths	level_1.lengths	skos:exactMatch	refmeta:collection.level1.lengths	collection.level1.lengths	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_1.sequences	level_1.sequences	skos:exactMatch	refmeta:collection.level1.sequences	collection.level1.sequences	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_1.name_length_pairs	level_1.name_length_pairs	skos:exactMatch	refmeta:collection.level1.name_length_pairs	collection.level1.name_length_pairs	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_1.sorted_name_length_pairs	level_1.sorted_name_length_pairs	skos:exactMatch	refmeta:collection.level1.sorted_name_length_pairs	collection.level1.sorted_name_length_pairs	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_1.sorted_sequences	level_1.sorted_sequences	skos:exactMatch	refmeta:collection.level1.sorted_sequences	collection.level1.sorted_sequences	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_2_peek.sequence_count	level_2_peek.sequence_count	skos:exactMatch	refmeta:collection.nSequences	collection.nSequences	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_2_peek.first_name	level_2_peek.first_name	skos:exactMatch	refmeta:sequences.name	sequences[0].name	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_2_peek.first_length	level_2_peek.first_length	skos:exactMatch	refmeta:sequences.length	sequences[0].length	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:level_2_peek.first_sequence	level_2_peek.first_sequence	skos:exactMatch	refmeta:sequences.digest	sequences[0].digest	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:aliases.galaxy_unique_build_id	aliases.galaxy_unique_build_id	skos:exactMatch	refmeta:collection.aliases.value	collection.aliases[namespace=galaxy.build_id].value	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:aliases.galaxy_dbkey	aliases.galaxy_dbkey	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=galaxy.dbkey].value	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:aliases.galaxy_name	aliases.galaxy_name	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=galaxy.name].value	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_idc_refget_yaml:aliases.galaxy_loc_file	aliases.galaxy_loc_file	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		The .loc file the row came from, with '/' written as '!'; server configuration.
+galaxy_idc_refget_yaml:aliases.galaxy_tool_data_table_conf	aliases.galaxy_tool_data_table_conf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		The tool_data_table_conf.xml, with '/' written as '!'; server configuration.

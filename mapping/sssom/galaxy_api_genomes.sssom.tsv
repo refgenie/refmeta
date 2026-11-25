@@ -1,0 +1,22 @@
+#curie_map:
+#  galaxy_api_genomes: https://refgenie.github.io/refmeta/sssom/galaxy_api_genomes/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/galaxy_api_genomes.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: galaxy_api_genomes to refmeta core
+#mapping_set_description: 'GET /api/genomes on a Galaxy server: JSON array of [display name, dbkey] pairs for every known build.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:galaxy_api_genomes
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/webapps/galaxy/api/genomes.py
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+galaxy_api_genomes:%5B1%5D	[1]	skos:exactMatch	refmeta:deployments.key	deployments[system=galaxy,table=builds].key	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_api_genomes:%5B1%5D	[1]	skos:closeMatch	refmeta:collection.labels.value	collection.labels[namespace=galaxy.dbkey].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: A dbkey can cover several sequence collections.
+galaxy_api_genomes:%5B0%5D	[0]	skos:exactMatch	refmeta:deployments.displayName	deployments[system=galaxy,table=builds].displayName	semapv:ManualMappingCuration	rdf property	rdf property	

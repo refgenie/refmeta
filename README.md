@@ -6,12 +6,12 @@ ENA, Ensembl, UCSC, nf-core, Bioconductor and GA4GH.
 
 **Explore it in your browser:** <https://refgenie.github.io/refmeta/>
 
-- [Terms](https://refgenie.github.io/refmeta/): about 2,100 terms from 106 formats, side
-  by side, each with its definition, an example, the shared field it maps to, and a link to
-  the original documentation.
-- [Namespaces](https://refgenie.github.io/refmeta/#namespaces): the official namespaces for
-  names and identifiers.
-- [Converter](https://refgenie.github.io/refmeta/convert.html): drop a file in one format
+- [Browse](https://refgenie.github.io/refmeta/): the 112 core fields and 106 formats as
+  tables. Each core field and each format has its own page listing every native term, its
+  definition, an example, how it maps, and a link to the original documentation.
+- [Model](https://refgenie.github.io/refmeta/#model): the five levels, the words the site
+  uses, and the official namespaces for names and identifiers.
+- [Convert](https://refgenie.github.io/refmeta/convert.html): drop a file in one format
   and get it back in any other. It runs in the browser; nothing is uploaded.
 
 This is a draft for discussion. [REVIEW.md](REVIEW.md) lists what works, what loses
@@ -43,11 +43,14 @@ format to another and say what it lost on the way.
 | [`mapping/crosswalk/`](mapping/crosswalk/) | One mapping file per format (100 formats) |
 | [`mapping/CROSSWALK_FORMAT.md`](mapping/CROSSWALK_FORMAT.md) | How a mapping file works |
 | [`mapping/coverage.md`](mapping/coverage.md) | What each format fills, and what it leaves out |
+| [`mapping/sssom/`](mapping/sssom/) | The crosswalks as SSSOM mapping sets, generated (which native field matches which core field, and how closely) |
+| [`mapping/STANDARDS.md`](mapping/STANDARDS.md) | Why refmeta keeps its own crosswalk format, and how it relates to SSSOM, LinkML-Map and the RDA FAIR Mappings recommendations |
 | [`sources/`](sources/) | One folder per source: where it came from (`README.md`), its terms (`fields.json`), copies of its specs (`spec/`) and real records (`examples/`) |
 | [`sources/CANDIDATES.md`](sources/CANDIDATES.md) | Other sources worth adding |
 | [`tools/`](tools/) | The `refmeta` Python package: readers and writers for each format, the converter, a command line, and tests |
 | [`web/`](web/) | The website (terms explorer and converter) |
 | [`REVIEW.md`](REVIEW.md) | An independent check of all of the above |
+| [`references/`](references/) | Copies of outside documents refmeta follows: the RDA FAIR Mappings recommendations, and a LinkML-Map trial |
 
 The examples cover two genomes in every source that has them, so conversions can be
 checked across sources: human GRCh38 (GCA_000001405.15, GCF_000001405.40, UCSC hg38) and
@@ -77,6 +80,7 @@ cd tools
 uv run python sync_data.py     # copy mapping files into the package
 uv run python build_web.py     # web/refmeta_bundle.js (converter)
 uv run python build_terms.py   # web/terms_data.js (terms explorer)
+uv run python build_sssom.py   # mapping/sssom/*.sssom.tsv (SSSOM export)
 ```
 
 Each script has a `--check` mode, which CI runs. Pushing to `master` publishes the site.

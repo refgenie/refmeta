@@ -1,0 +1,23 @@
+#curie_map:
+#  bioconductor_seqinfo: https://refgenie.github.io/refmeta/sssom/bioconductor_seqinfo/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/bioconductor_seqinfo.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: bioconductor_seqinfo to refmeta core
+#mapping_set_description: 'Seqinfo object (Seqinfo package, formerly GenomeInfoDb) written as a table: the columns of as.data.frame(<Seqinfo>). One record per sequence. Seqinfo is an in-memory R object with no official file format; the adapter also reads the text that show(<Seqinfo>) prints.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:bioconductor_seqinfo
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/Bioconductor/Seqinfo/blob/devel/man/Seqinfo-class.Rd
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+bioconductor_seqinfo:seqnames	seqnames	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_seqinfo:seqlengths	seqlengths	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_seqinfo:isCircular	isCircular	skos:exactMatch	refmeta:sequences.circular	sequences[].circular	semapv:ManualMappingCuration	rdf property	rdf property	
+bioconductor_seqinfo:genome	genome	skos:closeMatch	refmeta:collection.labels.value	collection.labels[namespace=bioconductor].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Per sequence in Seqinfo; a Seqinfo mixing genomes keeps the first and lists the rest in conflicts.

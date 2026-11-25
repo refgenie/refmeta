@@ -88,7 +88,7 @@ code, pre, .mono { font-family: var(--mono); font-size: 0.9em; }
 
 /* site nav (shared with index.html) */
 .site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; padding: 14px 0 0; font-size: 0.92rem; }
-.site-nav .brand { font-weight: 700; color: var(--text); text-decoration: none; margin-right: 6px; }
+.site-nav .brand { font-weight: 700; margin-right: 6px; }
 .site-nav a { text-decoration: none; }
 .site-nav a:hover { text-decoration: underline; }
 .site-nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
@@ -210,6 +210,8 @@ input[type=text], select { font: inherit; color: var(--text); background: var(--
 dl.kv { display: grid; grid-template-columns: minmax(90px, max-content) minmax(0, 1fr); gap: 3px 14px; margin: 0; font-size: 0.9rem; }
 dl.kv > dt { color: var(--muted); overflow-wrap: anywhere; }
 dl.kv > dt[title] { text-decoration: underline dotted var(--border-strong); text-underline-offset: 3px; cursor: help; }
+a.fieldlink { color: inherit; text-decoration: underline dotted var(--border-strong); text-underline-offset: 3px; }
+a.fieldlink:hover { color: var(--accent); text-decoration-color: var(--accent); }
 dl.kv > dd { margin: 0; min-width: 0; overflow-wrap: anywhere; }
 dl.kv dl.kv { font-size: 0.86rem; }
 @media (max-width: 520px) {
@@ -269,15 +271,15 @@ footer p { margin: 4px 0; }
 <header class="top">
   <div class="wrap">
     <nav class="site-nav" aria-label="Site">
-      <a class="brand" href="index.html">refmeta</a>
-      <a href="index.html#fields">Terms</a>
-      <a href="index.html#namespaces">Namespaces</a>
-      <a href="convert.html" aria-current="page">Converter</a>
+      <span class="brand">refmeta</span>
+      <a href="index.html#fields">Browse</a>
+      <a href="convert.html" aria-current="page">Convert</a>
+      <a href="index.html#model">Model</a>
       <a href="https://github.com/refgenie/refmeta">GitHub</a>
     </nav>
     <h1>refmeta converter</h1>
     <p class="lede">Drop a reference genome metadata file. refmeta reads it into one shared record, then writes
-      that record in any of 100 formats from 10 sources. Everything runs in this browser tab; your file is not uploaded.</p>
+      that record in any of the 100 formats that have a <a href="index.html#model">mapping</a>. Everything runs in this browser tab; your file is not uploaded.</p>
     <div id="status" class="status busy" role="status" aria-live="polite"><span class="dot"></span><span id="status-text">Starting…</span></div>
   </div>
 </header>
@@ -368,8 +370,8 @@ footer p { margin: 4px 0; }
 </main>
 
 <footer class="wrap">
-  <p>refmeta maps each format onto five levels (assembly, collection, sequences, copies, deployments) and keeps native
-    fields it cannot place as extras, so writing back to the same format loses nothing.</p>
+  <p>refmeta maps each format onto <a href="index.html#model">five levels</a> and keeps native terms it cannot place
+    as extras, so writing back to the same format loses nothing.</p>
   <p id="foot-version">Runs the refmeta Python package with Pyodide 0.26.4.</p>
 </footer>
 
@@ -394,9 +396,9 @@ const DEFAULT_TARGETS = ["ucsc_chrom_sizes", "fhr_yaml", "ga4gh_seqcol_level2", 
 const LEVELS = [
   {key: "assembly", subject: "assembly", title: "Assembly", def: "Assembly", what: "what an archive registered, named by an accession"},
   {key: "collection", subject: "collection", title: "Collection", def: "Collection", what: "one exact list of named sequences, named by a seqcol digest"},
-  {key: "sequences", subject: "sequence", title: "Sequences", def: "Sequence", what: "each sequence, with its names in other styles"},
-  {key: "copies", subject: "copy", title: "Copies", def: "Copy", what: "files holding the sequences: a location plus checksums"},
-  {key: "deployments", subject: "deployment", title: "Deployments", def: "Deployment", what: "entries in a system that uses the files"},
+  {key: "sequences", subject: "sequence", title: "Sequence", def: "Sequence", what: "each sequence, with its names in other styles"},
+  {key: "copies", subject: "copy", title: "Copy", def: "Copy", what: "files holding the sequences: a location plus checksums"},
+  {key: "deployments", subject: "deployment", title: "Deployment", def: "Deployment", what: "entries in a system that uses the files"},
 ];
 
 const S = {
@@ -448,7 +450,7 @@ function setStatus(kind, text) {
 
 function readyText() {
   const n = S.catalog ? S.catalog.formats.length : 100;
-  return `Ready: reads and writes ${n} formats`;
+  return `Ready: reads and writes ${n} formats` + (S.userTarget && !S.analysis ? ` · will write ${fmtLabel(S.userTarget)}` : "");
 }
 
 function fatal(title, detail) {
@@ -487,7 +489,14 @@ function fmtLabel(id) {
   return f ? `${f.label}` : id;
 }
 function fmtNode(id) {
-  return h("span", null, h("strong", null, fmtLabel(id)), " ", h("code", null, id));
+  if (!fmt(id)) return h("strong", null, fmtLabel(id));
+  return h("a", {href: browseFormat(id), title: `${id}: see its terms and mapping`}, h("strong", null, fmtLabel(id)));
+}
+const browseFormat = (id) => "index.html#format/" + encodeURIComponent(id);
+const browseField = (path) => "index.html#field/" + encodeURIComponent(path);
+// a core field name that links to its page in the browser
+function fieldName(key, path, doc) {
+  return path ? h("a", {class: "fieldlink", href: browseField(path), title: doc || null}, key) : key;
 }
 
 function bySource(list) {
@@ -549,7 +558,7 @@ function describeTarget() {
   }
   const f = fmt(id);
   if (!f) { put(box); return; }
-  put(box, h("code", null, id), ` · ${f.sourceName} · `, f.description);
+  put(box, h("a", {href: browseFormat(id)}, "Terms and mapping"), ` · ${f.sourceName} · `, f.description);
 }
 
 function fillNames(a) {
@@ -606,6 +615,8 @@ async function boot() {
     fatal("Python did not start.", `${pyMessage(e)}. Check the internet connection (Pyodide and pyyaml come from cdn.jsdelivr.net), then reload.`);
     return;
   }
+  const want = new URLSearchParams(location.hash.slice(1)).get("to");
+  if (want && fmt(want) && fmt(want).write) S.userTarget = want;
   setStatus("ready", readyText());
   if (S.pending) {
     S.pending = false;
@@ -775,11 +786,10 @@ function renderReadMsg(a) {
     put(box, ...parts);
     return;
   }
-  const best = (a.detected || []).find(([id]) => id === a.format);
   parts.push(h("p", {class: "detect-line"},
     "Read as ", fmtNode(a.format), " ",
     a.format === "core" ? h("span", {class: "badge accent"}, "core record")
-      : a.auto ? h("span", {class: "badge ok", title: "Detector score, 0 to 1"}, `detected${best ? ", score " + best[1].toFixed(2) : ""}`)
+      : a.auto ? h("span", {class: "badge ok"}, "detected automatically")
         : h("span", {class: "badge accent"}, "chosen by you"),
   ));
   if (a.alsoRead && a.alsoRead.length) {
@@ -793,7 +803,7 @@ function renderReadMsg(a) {
   for (const [id, score] of a.ambiguous || []) {
     parts.push(h("div", {class: "alert warn"},
       h("strong", null, "This file also fits another format."),
-      h("p", null, "It could also be ", fmtNode(id), ` (score ${score.toFixed(2)}). If that is what it is, read it that way.`),
+      h("p", null, "It could also be ", fmtNode(id), ". If that is what it is, read it that way."),
       h("div", {class: "row", style: "margin-top:8px"}, readAsButton(id))));
   }
   for (const note of a.notes || []) {
@@ -839,7 +849,7 @@ function nameChips(list, isLabel) {
   }, h("span", {class: "ns"}, n.namespace), h("span", {class: "v"}, n.value))));
 }
 
-function renderValue(v, key, defName) {
+function renderValue(v, key, defName, path) {
   if (v === null || v === undefined) return h("span", {class: "muted"}, "none");
   if (typeof v === "boolean") return v ? "yes" : "no";
   if (typeof v === "number") return NUMERIC_KEY.test(key) ? fmtInt(v) : String(v);
@@ -855,18 +865,20 @@ function renderValue(v, key, defName) {
     }
     const sub = refOf(defName, key);
     return h("div", {class: "objlist"}, v.map((x) => h("div", null,
-      x && typeof x === "object" && !Array.isArray(x) ? kvList(x, sub) : renderValue(x, key, defName))));
+      x && typeof x === "object" && !Array.isArray(x) ? kvList(x, sub, null, path) : renderValue(x, key, defName, path))));
   }
-  if (typeof v === "object") return kvList(v, refOf(defName, key));
+  if (typeof v === "object") return kvList(v, refOf(defName, key), null, path);
   return String(v);
 }
 
-function kvList(obj, defName, skip) {
+function kvList(obj, defName, skip, prefix) {
   const dl = h("dl", {class: "kv"});
   for (const k of orderedKeys(obj, defName)) {
     if ((skip && skip.includes(k)) || obj[k] === null || obj[k] === undefined) continue;
     const doc = docOf(defName, k);
-    dl.append(h("dt", doc ? {title: doc} : null, k), h("dd", null, renderValue(obj[k], k, defName)));
+    const path = prefix && defName && k in defProps(defName) ? `${prefix}.${k}` : null;
+    dl.append(h("dt", doc && !path ? {title: doc} : null, fieldName(k, path, doc)),
+      h("dd", null, renderValue(obj[k], k, defName, path)));
   }
   return dl;
 }
@@ -901,14 +913,14 @@ function assemblyCard(level, a) {
   const acc = (a.accessions || [])[0];
   const ident = (acc && acc.value) || a.name || "";
   return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
-    levelHeader(level, ident), kvList(a, level.def, ["extras"]));
+    levelHeader(level, ident), kvList(a, level.def, ["extras"], "assembly"));
 }
 
 function collectionCard(level, c) {
   const ident = c.digest ? c.digest : "";
   const extra = c.digest ? null : h("span", {class: "badge"}, "no seqcol digest");
   return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
-    levelHeader(level, ident, extra), kvList(c, level.def, ["extras"]));
+    levelHeader(level, ident, extra), kvList(c, level.def, ["extras"], "collection"));
 }
 
 // The name map: one column per alias namespace, most common first.
@@ -955,7 +967,7 @@ function sequencesCard(level, seqs) {
   const table = h("table", {class: "seq-table"},
     h("thead", null, h("tr", null, cols.map((c) => c.ns
       ? h("th", {class: "alias-col", scope: "col", title: `Alias: this sequence's name in the ${c.ns} namespace`}, c.ns)
-      : h("th", {title: docOf("Sequence", c.k) || null, scope: "col"}, c.k)))),
+      : h("th", {scope: "col"}, fieldName(c.k, c.k in defProps("Sequence") ? `sequences.${c.k}` : null, docOf("Sequence", c.k)))))),
     h("tbody", null, shown.map((s) => h("tr", null, cols.map((c) => (c.ns ? aliasCell(s, c.ns) : cell(s, c.k)))))));
   const lengths = seqs.map((s) => s.length);
   const total = lengths.every((x) => typeof x === "number") ? lengths.reduce((x, y) => x + y, 0) : null;
@@ -979,7 +991,7 @@ function sequencesCard(level, seqs) {
 // Few items read best as key/value blocks; many as a table (long locations wrap, other cells stay on one line).
 const ITEMS_AS_BLOCKS = 3;
 
-function itemsTable(items, defName, first) {
+function itemsTable(items, defName, first, prefix) {
   const keys = [];
   for (const it of items) for (const k of Object.keys(it)) if (k !== "extras" && !keys.includes(k)) keys.push(k);
   const order = [...first, ...Object.keys(defProps(defName))];
@@ -995,26 +1007,27 @@ function itemsTable(items, defName, first) {
     return h("td", {class: MONO_KEY.test(k) ? "mono" : null}, String(v));
   };
   return h("div", {class: "table-wrap"}, h("table", {class: "items-table"},
-    h("thead", null, h("tr", null, keys.map((k) => h("th", {title: docOf(defName, k) || null, scope: "col"}, k)))),
+    h("thead", null, h("tr", null, keys.map((k) => h("th", {scope: "col"},
+      fieldName(k, k in defProps(defName) ? `${prefix}.${k}` : null, docOf(defName, k)))))),
     h("tbody", null, items.map((it) => h("tr", null, keys.map((k) => cell(it[k], k)))))));
 }
 
-function itemBlocks(items, defName) {
+function itemBlocks(items, defName, prefix) {
   return items.map((c) => h("div", {class: "copy-item"},
     c.location ? h("div", {class: "copy-loc"}, renderValue(c.location, "location", defName)) : null,
-    kvList(c, defName, ["location", "extras"])));
+    kvList(c, defName, ["location", "extras"], prefix)));
 }
 
 function copiesCard(level, copies) {
   return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
     levelHeader(level, "", h("span", {class: "badge"}, plural(copies.length, "file"))),
-    copies.length > ITEMS_AS_BLOCKS ? itemsTable(copies, "Copy", ["kind", "location"]) : itemBlocks(copies, "Copy"));
+    copies.length > ITEMS_AS_BLOCKS ? itemsTable(copies, "Copy", ["kind", "location"], "copies") : itemBlocks(copies, "Copy", "copies"));
 }
 
 function deploymentsCard(level, deps) {
   return h("section", {class: `level-card lv-${level.key}`, id: `lv-${level.key}`},
     levelHeader(level, "", h("span", {class: "badge"}, plural(deps.length, "entry", "entries"))),
-    deps.length > ITEMS_AS_BLOCKS ? itemsTable(deps, "Deployment", ["system", "table", "key"]) : itemBlocks(deps, "Deployment"));
+    deps.length > ITEMS_AS_BLOCKS ? itemsTable(deps, "Deployment", ["system", "table", "key"], "deployments") : itemBlocks(deps, "Deployment", "deployments"));
 }
 
 function renderCore() {

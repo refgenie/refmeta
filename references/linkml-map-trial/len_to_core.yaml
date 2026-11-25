@@ -1,0 +1,14 @@
+source_schema: {name: len_src.yaml}
+target_schema: {name: core_tgt.yaml}
+class_derivations:
+  Record:
+    populated_from: LenFile
+    slot_derivations:
+      subject: {value: collection}
+      sequences:
+        populated_from: rows
+  Sequence:
+    populated_from: LenRow
+    slot_derivations:
+      name: {populated_from: chrom}
+      length: {populated_from: len}

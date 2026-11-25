@@ -1,0 +1,40 @@
+id: https://example.org/refmeta_core
+name: refmeta_core
+prefixes: {linkml: https://w3id.org/linkml/}
+imports: [linkml:types]
+default_range: string
+classes:
+  Record:
+    tree_root: true
+    attributes:
+      subject: {}
+      assembly: {range: Assembly, inlined: true}
+      collection: {range: Collection, inlined: true}
+      sequences: {range: Sequence, multivalued: true, inlined_as_list: true}
+  Assembly:
+    attributes:
+      taxon: {range: Taxon, inlined: true}
+      version: {}
+      level: {range: LevelEnum}
+      accessions: {range: Accession, multivalued: true, inlined_as_list: true}
+  Taxon:
+    attributes: {name: {}, id: {range: integer}}
+  Accession:
+    attributes: {namespace: {}, value: {}, url: {}}
+  Name:
+    attributes: {namespace: {}, value: {}}
+  Collection:
+    attributes:
+      digest: {}
+      provider: {}
+      aliases: {range: Name, multivalued: true, inlined_as_list: true}
+      labels: {range: Name, multivalued: true, inlined_as_list: true}
+  Sequence:
+    attributes: {name: {}, length: {range: integer}, digest: {}}
+enums:
+  LevelEnum:
+    permissible_values:
+      complete genome: {}
+      chromosome: {aliases: [Chromosome]}
+      scaffold: {}
+      contig: {}

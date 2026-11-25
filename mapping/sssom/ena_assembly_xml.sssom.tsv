@@ -1,0 +1,79 @@
+#curie_map:
+#  ena_assembly_xml: https://refgenie.github.io/refmeta/sssom/ena_assembly_xml/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ena_assembly_xml.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ena_assembly_xml to refmeta core
+#mapping_set_description: ENA Browser API assembly record as XML (ASSEMBLY_SET > ASSEMBLY), from https://www.ebi.ac.uk/ena/browser/api/xml/<GCA>. Assembly facts plus a grouped chromosome list and assembly statistics.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ena_assembly_xml
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/enasequence/webin-xml/blob/master/src/main/resources/uk/ac/ebi/ena/sra/schema/ENA.assembly.xsd
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ena_assembly_xml:%40accession	@accession	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+ena_assembly_xml:IDENTIFIERS%2FPRIMARY_ID	IDENTIFIERS/PRIMARY_ID	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+ena_assembly_xml:NAME	NAME	skos:exactMatch	refmeta:assembly.name	assembly.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:%40alias	@alias	skos:exactMatch	refmeta:assembly.name	assembly.name	semapv:ManualMappingCuration	rdf property	rdf property	Submitter's alias; equal to NAME in every collected record.
+ena_assembly_xml:IDENTIFIERS%2FSUBMITTER_ID	IDENTIFIERS/SUBMITTER_ID	skos:exactMatch	refmeta:assembly.name	assembly.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:%40center_name	@center_name	skos:exactMatch	refmeta:assembly.submitter	assembly.submitter	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:IDENTIFIERS%2FSUBMITTER_ID%2F%40namespace	IDENTIFIERS/SUBMITTER_ID/@namespace	skos:exactMatch	refmeta:assembly.submitter	assembly.submitter	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:TITLE	TITLE	skos:exactMatch	refmeta:assembly.description	assembly.description	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:DESCRIPTION	DESCRIPTION	skos:exactMatch	refmeta:assembly.documentation	assembly.documentation	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_LEVEL	ASSEMBLY_LEVEL	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:PLATFORM	PLATFORM	skos:exactMatch	refmeta:assembly.instrument	assembly.instrument	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (split).
+ena_assembly_xml:PROGRAM	PROGRAM	skos:closeMatch	refmeta:assembly.assemblySoftware.name	assembly.assemblySoftware[0].name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Name and version in one string (Canu 1.8).
+ena_assembly_xml:COVERAGE	COVERAGE	skos:exactMatch	refmeta:assembly.vitalStats.coverage	assembly.vitalStats.coverage	semapv:ManualMappingCuration	rdf property	rdf property	0 means unknown.
+ena_assembly_xml:GENOME_REPRESENTATION	GENOME_REPRESENTATION	skos:exactMatch	refmeta:assembly.representation	assembly.representation	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:TAXON%2FTAXON_ID	TAXON/TAXON_ID	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:TAXON%2FSCIENTIFIC_NAME	TAXON/SCIENTIFIC_NAME	skos:closeMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Includes the strain for strain-level taxa.
+ena_assembly_xml:TAXON%2FSTRAIN	TAXON/STRAIN	skos:exactMatch	refmeta:assembly.taxon.strain	assembly.taxon.strain	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:TAXON%2FCOMMON_NAME	TAXON/COMMON_NAME	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+ena_assembly_xml:SAMPLE_REF%2FIDENTIFIERS%2FPRIMARY_ID	SAMPLE_REF/IDENTIFIERS/PRIMARY_ID	skos:exactMatch	refmeta:assembly.biosample	assembly.biosample	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:SAMPLE_REF%2F%40accession	SAMPLE_REF/@accession	skos:exactMatch	refmeta:assembly.biosample	assembly.biosample	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+ena_assembly_xml:STUDY_REF%2FIDENTIFIERS%2FPRIMARY_ID	STUDY_REF/IDENTIFIERS/PRIMARY_ID	skos:exactMatch	refmeta:assembly.bioproject	assembly.bioproject	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:STUDY_REF%2F%40accession	STUDY_REF/@accession	skos:exactMatch	refmeta:assembly.bioproject	assembly.bioproject	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Ftotal-length	ASSEMBLY_ATTRIBUTES/total-length	skos:closeMatch	refmeta:assembly.vitalStats.totalBasePairs	assembly.vitalStats.totalBasePairs	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Counts every sequence including alt loci (GRCh38: 3209286105); NCBI's total excludes them (3099734149).
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fungapped-length	ASSEMBLY_ATTRIBUTES/ungapped-length	skos:exactMatch	refmeta:assembly.vitalStats.ungappedLength	assembly.vitalStats.ungappedLength	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fn50	ASSEMBLY_ATTRIBUTES/n50	skos:closeMatch	refmeta:assembly.vitalStats.scaffoldN50	assembly.vitalStats.scaffoldN50	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: ENA does not say which N50 this is; it equals NCBI's scaffold N50 for GRCh38.
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fscaffold-count	ASSEMBLY_ATTRIBUTES/scaffold-count	skos:exactMatch	refmeta:assembly.vitalStats.numberScaffolds	assembly.vitalStats.numberScaffolds	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcount-contig	ASSEMBLY_ATTRIBUTES/count-contig	skos:exactMatch	refmeta:assembly.vitalStats.numberContigs	assembly.vitalStats.numberContigs	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcontig-n50	ASSEMBLY_ATTRIBUTES/contig-n50	skos:exactMatch	refmeta:assembly.vitalStats.N50	assembly.vitalStats.N50	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcontig-L50	ASSEMBLY_ATTRIBUTES/contig-L50	skos:exactMatch	refmeta:assembly.vitalStats.L50	assembly.vitalStats.L50	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcontig-n90	ASSEMBLY_ATTRIBUTES/contig-n90	skos:exactMatch	refmeta:assembly.vitalStats.N90	assembly.vitalStats.N90	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fscaf-L50	ASSEMBLY_ATTRIBUTES/scaf-L50	skos:exactMatch	refmeta:assembly.vitalStats.scaffoldL50	assembly.vitalStats.scaffoldL50	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fscaf-n90	ASSEMBLY_ATTRIBUTES/scaf-n90	skos:exactMatch	refmeta:assembly.vitalStats.scaffoldN90	assembly.vitalStats.scaffoldN90	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Freplicon-count	ASSEMBLY_ATTRIBUTES/replicon-count	skos:exactMatch	refmeta:assembly.vitalStats.numberChromosomes	assembly.vitalStats.numberChromosomes	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2FENA-LAST-UPDATED	ASSEMBLY_ATTRIBUTES/ENA-LAST-UPDATED	skos:exactMatch	refmeta:provenance.recordDate	provenance[0].recordDate	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_assembly_xml:%40broker_name	@broker_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Submission broker.
+ena_assembly_xml:IDENTIFIERS%2FSECONDARY_ID	IDENTIFIERS/SECONDARY_ID	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Secondary ids; no example.
+ena_assembly_xml:IDENTIFIERS%2FEXTERNAL_ID	IDENTIFIERS/EXTERNAL_ID	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		External ids; no example.
+ena_assembly_xml:IDENTIFIERS%2FUUID	IDENTIFIERS/UUID	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		UUIDs; no example.
+ena_assembly_xml:ASSEMBLY_TYPE	ASSEMBLY_TYPE	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		'clone or isolate', 'primary metagenome': a different vocabulary from NCBI's assembly type (haploid ...).
+ena_assembly_xml:WGS_SET	WGS_SET	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		WGS contig sets; no core field.
+ena_assembly_xml:WGS_SET%2FPREFIX	WGS_SET/PREFIX	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		WGS contig set prefix.
+ena_assembly_xml:WGS_SET%2FVERSION	WGS_SET/VERSION	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		WGS contig set version.
+ena_assembly_xml:CHROMOSOMES%2FCHROMOSOME	CHROMOSOMES/CHROMOSOME	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Chromosome list with unlocalized scaffolds collapsed into accession ranges; use the sequence report for sequences.
+ena_assembly_xml:CHROMOSOMES%2FCHROMOSOME%2F%40accession	CHROMOSOMES/CHROMOSOME/@accession	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Part of the collapsed chromosome list.
+ena_assembly_xml:CHROMOSOMES%2FCHROMOSOME%2FNAME	CHROMOSOMES/CHROMOSOME/NAME	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Part of the collapsed chromosome list.
+ena_assembly_xml:CHROMOSOMES%2FCHROMOSOME%2FTYPE	CHROMOSOMES/CHROMOSOME/TYPE	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Part of the collapsed chromosome list.
+ena_assembly_xml:ASSEMBLY_LINKS%2FASSEMBLY_LINK	ASSEMBLY_LINKS/ASSEMBLY_LINK	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Links to WGS set files.
+ena_assembly_xml:ASSEMBLY_LINKS%2FASSEMBLY_LINK%2FURL_LINK%2FLABEL	ASSEMBLY_LINKS/ASSEMBLY_LINK/URL_LINK/LABEL	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Link label.
+ena_assembly_xml:ASSEMBLY_LINKS%2FASSEMBLY_LINK%2FURL_LINK%2FURL	ASSEMBLY_LINKS/ASSEMBLY_LINK/URL_LINK/URL	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Link URL.
+ena_assembly_xml:ASSEMBLY_LINKS%2FASSEMBLY_LINK%2FXREF_LINK%2FDB	ASSEMBLY_LINKS/ASSEMBLY_LINK/XREF_LINK/DB	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Cross-reference; no example.
+ena_assembly_xml:ASSEMBLY_LINKS%2FASSEMBLY_LINK%2FXREF_LINK%2FID	ASSEMBLY_LINKS/ASSEMBLY_LINK/XREF_LINK/ID	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Cross-reference; no example.
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fspanned-gaps	ASSEMBLY_ATTRIBUTES/spanned-gaps	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Assembly statistic with no FHR or core field (gap counts, N75, alt-loci and region counts).
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Funspanned-gaps	ASSEMBLY_ATTRIBUTES/unspanned-gaps	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Assembly statistic with no FHR or core field (gap counts, N75, alt-loci and region counts).
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcontig-n75	ASSEMBLY_ATTRIBUTES/contig-n75	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Assembly statistic with no FHR or core field (gap counts, N75, alt-loci and region counts).
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fscaf-n75	ASSEMBLY_ATTRIBUTES/scaf-n75	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Assembly statistic with no FHR or core field (gap counts, N75, alt-loci and region counts).
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcount-non-chromosome-replicon	ASSEMBLY_ATTRIBUTES/count-non-chromosome-replicon	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Assembly statistic with no FHR or core field (gap counts, N75, alt-loci and region counts).
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcount-alt-loci-units	ASSEMBLY_ATTRIBUTES/count-alt-loci-units	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Assembly statistic with no FHR or core field (gap counts, N75, alt-loci and region counts).
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcount-regions	ASSEMBLY_ATTRIBUTES/count-regions	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Assembly statistic with no FHR or core field (gap counts, N75, alt-loci and region counts).
+ena_assembly_xml:ASSEMBLY_ATTRIBUTES%2Fcount-patches	ASSEMBLY_ATTRIBUTES/count-patches	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Assembly statistic with no FHR or core field (gap counts, N75, alt-loci and region counts).

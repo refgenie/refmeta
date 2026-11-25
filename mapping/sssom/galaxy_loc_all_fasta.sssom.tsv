@@ -1,0 +1,24 @@
+#curie_map:
+#  galaxy_loc_all_fasta: https://refgenie.github.io/refmeta/sssom/galaxy_loc_all_fasta/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/galaxy_loc_all_fasta.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: galaxy_loc_all_fasta to refmeta core
+#mapping_set_description: 'Galaxy all_fasta.loc: one FASTA file per row (data table all_fasta). TAB-separated, ''#'' comments, no header; column names come from tool_data_table_conf.xml: value, dbkey, name, path.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:galaxy_loc_all_fasta
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/galaxyproject/galaxy/blob/dev/tool-data/all_fasta.loc.sample
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+galaxy_loc_all_fasta:value	value	skos:exactMatch	refmeta:deployments.key	deployments[system=galaxy,table=all_fasta].key	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_loc_all_fasta:dbkey	dbkey	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=galaxy.dbkey].value	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_loc_all_fasta:name	name	skos:exactMatch	refmeta:deployments.displayName	deployments[system=galaxy,table=all_fasta].displayName	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_loc_all_fasta:path	path	skos:exactMatch	refmeta:copies.location	copies[kind=fasta].location	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_loc_all_fasta:path	path	skos:exactMatch	refmeta:deployments.location	deployments[system=galaxy,table=all_fasta].location	semapv:ManualMappingCuration	rdf property	rdf property	

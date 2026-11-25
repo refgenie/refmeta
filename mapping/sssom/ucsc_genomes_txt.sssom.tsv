@@ -1,0 +1,42 @@
+#curie_map:
+#  ucsc_genomes_txt: https://refgenie.github.io/refmeta/sssom/ucsc_genomes_txt/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ucsc_genomes_txt.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ucsc_genomes_txt to refmeta core
+#mapping_set_description: Hub 'genome' stanzas, from genomes.txt or from a useOneFile hub.txt; one record per genome. This is where an assembly hub declares its sequence, sizes, alias files and naming authority.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ucsc_genomes_txt
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://genome.ucsc.edu/goldenPath/help/trackDb/trackDbHub.html#genomes_txt
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ucsc_genomes_txt:genome	genome	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=ucsc].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:genome	genome	skos:exactMatch	refmeta:deployments.key	deployments[system=ucsc,table=hub_genome].key	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:description	description	skos:exactMatch	refmeta:collection.description	collection.description	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:twoBitPath	twoBitPath	skos:exactMatch	refmeta:copies.location	copies[kind=2bit].location	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:twoBitBptUrl	twoBitBptUrl	skos:exactMatch	refmeta:copies.location	copies[kind=2bit_bpt].location	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:chromSizes	chromSizes	skos:exactMatch	refmeta:copies.location	copies[kind=chrom_sizes].location	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:chromAlias	chromAlias	skos:exactMatch	refmeta:copies.location	copies[kind=chrom_alias].location	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:chromAliasBb	chromAliasBb	skos:exactMatch	refmeta:copies.location	copies[kind=chrom_alias_bb].location	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:scientificName	scientificName	skos:closeMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: GenArk includes the strain (Saccharomyces cerevisiae S288C).
+ucsc_genomes_txt:taxId	taxId	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_genomes_txt:trackDb	trackDb	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Track definitions file.
+ucsc_genomes_txt:groups	groups	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Track groups file.
+ucsc_genomes_txt:chromAuthority	chromAuthority	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Which names the browser displays. In GenArk the 2bit uses RefSeq names and chromAuthority ucsc only changes the display, so it is not the collection's naming authority.
+ucsc_genomes_txt:organism	organism	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		GenArk writes '<asmName> <date>' (R64 Dec. 2014) here, not an organism.
+ucsc_genomes_txt:defaultPos	defaultPos	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Browser start position.
+ucsc_genomes_txt:orderKey	orderKey	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Menu order.
+ucsc_genomes_txt:htmlPath	htmlPath	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Description page.
+ucsc_genomes_txt:blat	blat	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		BLAT server.
+ucsc_genomes_txt:transBlat	transBlat	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Translated BLAT server.
+ucsc_genomes_txt:isPcr	isPcr	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		In-silico PCR server.
+ucsc_genomes_txt:codonTable	codonTable	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Genetic code per sequence; no core field.
+ucsc_genomes_txt:liftOver.%2A	liftOver.*	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Per-target liftOver chain files (key pattern liftOver.<target>); relations between assemblies by alignment, not seqcol relations.

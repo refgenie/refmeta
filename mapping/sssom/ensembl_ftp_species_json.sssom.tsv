@@ -1,0 +1,34 @@
+#curie_map:
+#  ensembl_ftp_species_json: https://refgenie.github.io/refmeta/sssom/ensembl_ftp_species_json/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ensembl_ftp_species_json.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ensembl_ftp_species_json to refmeta core
+#mapping_set_description: 'ensemblorganisms FTP root species.json: catalog of every genome on the new FTP, keyed by species name then assembly accession. One record per species x assembly. ''{species}'' and ''{accession}'' in a path stand for those map keys; the field with the placeholder as its last part holds the key itself.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ensembl_ftp_species_json
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://ftp.ebi.ac.uk/pub/ensemblorganisms/README.md
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ensembl_ftp_species_json:species.%7Bspecies%7D.assemblies.%7Baccession%7D	species.{species}.assemblies.{accession}	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+ensembl_ftp_species_json:species.%7Bspecies%7D.assemblies.%7Baccession%7D.name	species.{species}.assemblies.{accession}.name	skos:exactMatch	refmeta:assembly.name	assembly.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_ftp_species_json:species.%7Bspecies%7D.assemblies.%7Baccession%7D.level	species.{species}.assemblies.{accession}.level	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_ftp_species_json:species.%7Bspecies%7D.taxid	species.{species}.taxid	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_ftp_species_json:species.%7Bspecies%7D.species_taxonomy_id	species.{species}.species_taxonomy_id	skos:exactMatch	refmeta:assembly.taxon.speciesId	assembly.taxon.speciesId	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_ftp_species_json:species.%7Bspecies%7D.scientific_name	species.{species}.scientific_name	skos:closeMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Includes the strain for yeast.
+ensembl_ftp_species_json:species.%7Bspecies%7D.common_name	species.{species}.common_name	skos:exactMatch	refmeta:assembly.taxon.commonName	assembly.taxon.commonName	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_ftp_species_json:last_updated	last_updated	skos:exactMatch	refmeta:provenance.recordDate	provenance[0].recordDate	semapv:ManualMappingCuration	rdf property	rdf property	
+ensembl_ftp_species_json:species.%7Bspecies%7D	species.{species}	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Species key of the file (Homo_sapiens).
+ensembl_ftp_species_json:species.%7Bspecies%7D.strain	species.{species}.strain	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Species-level value; for human it is one pangenome sample (HG03540), not GRCh38's.
+ensembl_ftp_species_json:species.%7Bspecies%7D.strain_type	species.{species}.strain_type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Kind of the species-level strain value.
+ensembl_ftp_species_json:species.%7Bspecies%7D.biosample_id	species.{species}.biosample_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Species-level value; for human it belongs to one pangenome sample, not GRCh38.
+ensembl_ftp_species_json:species.%7Bspecies%7D.assemblies.%7Baccession%7D.genebuild_providers	species.{species}.assemblies.{accession}.genebuild_providers	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Gene annotation releases; out of scope.
+ensembl_ftp_species_json:species.%7Bspecies%7D.assemblies.%7Baccession%7D.assembly	species.{species}.assemblies.{accession}.assembly	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Tree of files on the FTP; paths only, no checksums.

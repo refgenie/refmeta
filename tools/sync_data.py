@@ -51,6 +51,7 @@ def build_formats() -> str:
                 "source": src,
                 "companions": companions if fm.get("adapter") else [],
                 "description": fm.get("description", ""),
+                "docs_url": fm.get("docs_url", ""),
                 "maintainer": inv.get("maintainer", ""),
                 "retrieved": inv.get("retrieved", ""),
                 "adapter": bool(fm.get("adapter")),

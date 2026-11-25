@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://refgenie.org/refmeta/core/0.1/core.schema.json",
+  "$id": "https://refgenie.github.io/refmeta/core/0.1/core.schema.json",
   "title": "refmeta core record",
   "description": "One refmeta record: what one source says about a reference genome, split into levels. Each level has its own identifier: assembly (accession), collection (seqcol digest), sequence (refget digest or md5), copy (location plus file checksum), deployment (system plus key). Every block is optional; a record fills only what its source knows. See mapping/PROPOSAL.md.",
   "type": "object",

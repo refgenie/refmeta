@@ -1,0 +1,39 @@
+#curie_map:
+#  refgenie_api_sequences: https://refgenie.github.io/refmeta/sssom/refgenie_api_sequences/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/refgenie_api_sequences.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: refgenie_api_sequences to refmeta core
+#mapping_set_description: refgenie 1.x server sequence table, GET https://api.refgenie.org/v4/genomes/{digest}/sequences (OpenAPI schema GenomeSequencesResponse). The adapter gives one record per element of 'sequences'; row fields use their own names (name, length, ...) and the collection fields (digest, n_sequences, total_length, level1.*, collection_aliases) are repeated on every row.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:refgenie_api_sequences
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://api.refgenie.org/docs#/Version%204/get_genome_sequences_v4_genomes__digest__sequences_get
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+refgenie_api_sequences:digest	digest	skos:exactMatch	refmeta:collection.digest	collection.digest	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:n_sequences	n_sequences	skos:exactMatch	refmeta:collection.nSequences	collection.nSequences	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:total_length	total_length	skos:exactMatch	refmeta:collection.totalLength	collection.totalLength	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:level1.names	level1.names	skos:exactMatch	refmeta:collection.level1.names	collection.level1.names	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:level1.lengths	level1.lengths	skos:exactMatch	refmeta:collection.level1.lengths	collection.level1.lengths	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:level1.sequences	level1.sequences	skos:exactMatch	refmeta:collection.level1.sequences	collection.level1.sequences	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:level1.name_length_pairs	level1.name_length_pairs	skos:exactMatch	refmeta:collection.level1.name_length_pairs	collection.level1.name_length_pairs	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:level1.sorted_name_length_pairs	level1.sorted_name_length_pairs	skos:exactMatch	refmeta:collection.level1.sorted_name_length_pairs	collection.level1.sorted_name_length_pairs	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:level1.sorted_sequences	level1.sorted_sequences	skos:exactMatch	refmeta:collection.level1.sorted_sequences	collection.level1.sorted_sequences	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:collection_aliases%5B%5D.namespace	collection_aliases[].namespace	skos:closeMatch	refmeta:collection.aliases.namespace	collection.aliases[].namespace	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map). Lossy: RefgetStore namespace 'name' becomes refmeta namespace 'refgenie'; other store namespaces pass through.
+refgenie_api_sequences:collection_aliases%5B%5D.alias	collection_aliases[].alias	skos:exactMatch	refmeta:collection.aliases.value	collection.aliases[].value	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:name	name	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:length	length	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:sha512t24u	sha512t24u	skos:exactMatch	refmeta:sequences.digest	sequences[].digest	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (prefix).
+refgenie_api_sequences:md5	md5	skos:exactMatch	refmeta:sequences.md5	sequences[].md5	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:description	description	skos:closeMatch	refmeta:sequences.description	sequences[].description	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: The rest of the FASTA header line; structured tags inside (AC:, rl:) stay as text.
+refgenie_api_sequences:aliases%5B%5D.namespace	aliases[].namespace	skos:exactMatch	refmeta:sequences.aliases.namespace	sequences[].aliases[].namespace	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:aliases%5B%5D.alias	aliases[].alias	skos:exactMatch	refmeta:sequences.aliases.value	sequences[].aliases[].value	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_sequences:alphabet	alphabet	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		RefgetStore storage encoding (dna2bit, dnaio); a deployment detail.

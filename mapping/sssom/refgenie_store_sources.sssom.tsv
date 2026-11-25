@@ -1,0 +1,34 @@
+#curie_map:
+#  refgenie_store_sources: https://refgenie.github.io/refmeta/sssom/refgenie_store_sources/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/refgenie_store_sources.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: refgenie_store_sources to refmeta core
+#mapping_set_description: RefgetStore build table (refgenie-registry stores/<store>/sources.csv), validated by stores/sources_schema.json. One row per FASTA (or space-separated FASTAs concatenated) to load into a store; each row becomes one sequence collection. Columns beyond the schema's are allowed and differ by store.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:refgenie_store_sources
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/refgenie/refgenie-registry/blob/master/stores/sources_schema.json
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+refgenie_store_sources:fasta	fasta	skos:closeMatch	refmeta:copies.location	copies[kind=fasta].location	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: May hold several space-separated URLs that are concatenated into one collection; kept as one string.
+refgenie_store_sources:name	name	skos:exactMatch	refmeta:collection.aliases.value	collection.aliases[namespace=refgenie].value	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_store_sources:organism	organism	skos:closeMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Sometimes includes the strain (Saccharomyces cerevisiae strain S288C).
+refgenie_store_sources:source	source	skos:exactMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_store_sources:version	version	skos:exactMatch	refmeta:collection.providerVersion	collection.providerVersion	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_store_sources:genome_assembly	genome_assembly	skos:closeMatch	refmeta:assembly.labels.value	assembly.labels[namespace=refgenie.genome_assembly].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Mixes assembly names (GRCh38), UCSC names (hg38) and iGenomes labels; kept as a label.
+refgenie_store_sources:accession	accession	skos:closeMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession). Lossy: A claim checked against NCBI by build_aliases, not a verified fact.
+refgenie_store_sources:synonyms	synonyms	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=refgenie.synonym].value	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (split).
+refgenie_store_sources:gtf	gtf	skos:exactMatch	refmeta:copies.location	copies[kind=gtf].location	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_store_sources:assembly_report	assembly_report	skos:exactMatch	refmeta:copies.location	copies[kind=assembly_report].location	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_store_sources:group	group	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Folder-like label for organizing a store.
+refgenie_store_sources:pep_sample_name	pep_sample_name	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample name in the PEP the row came from (some stores only).
+refgenie_store_sources:sha256	sha256	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		A legacy Salmon index hash, not a FASTA checksum.
+refgenie_store_sources:population	population	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Population of the HPRC sample (pangenome store only); no core field.

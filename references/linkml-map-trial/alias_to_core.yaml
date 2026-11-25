@@ -1,0 +1,37 @@
+id: https://w3id.org/refmeta/crosswalk/refgenie_api_alias/to_core
+title: refgenie_api_alias to refmeta core
+license: BSD-2-Clause
+version: "0.1"
+source_schema: {name: alias_src.yaml}
+target_schema: {name: core_tgt.yaml}
+class_derivations:
+  Record:
+    populated_from: AliasResponse
+    slot_derivations:
+      subject: {value: collection}
+      assembly:
+        class_derivations:
+          Assembly:
+            slot_derivations:
+              version: {populated_from: fhr.version}
+              level: {populated_from: fhr.assemblyLevel}
+              taxon:
+                class_derivations:
+                  Taxon:
+                    slot_derivations:
+                      name: {populated_from: fhr.taxon.name}
+                      id: {expr: "taxon_id({fhr.taxon.uri})"}
+              accessions:
+                expr: "[{'namespace': accession_ns({fhr.accessionID.name}), 'value': {fhr.accessionID.name}, 'url': {fhr.accessionID.url}}]"
+      collection:
+        class_derivations:
+          Collection:
+            slot_derivations:
+              digest: {populated_from: digest}
+              provider: {populated_from: fhr.assemblySource}
+              aliases:
+                expr: "[{'namespace': 'refgenie', 'value': {alias}}]"
+              labels:
+                expr: "[{'namespace': 'fhr.genome', 'value': {fhr.genome}}] + [{'namespace': 'fhr.synonym', 'value': s} for s in {fhr.genomeSynonym}]"
+      sequences:
+        expr: "[{'name': n, 'length': l, 'digest': d} for n, l, d in zip3({collection.names}, {collection.lengths}, {collection.sequences})]"

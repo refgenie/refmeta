@@ -1,0 +1,59 @@
+#curie_map:
+#  refgenie_api_alias: https://refgenie.github.io/refmeta/sssom/refgenie_api_alias/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/refgenie_api_alias.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: refgenie_api_alias to refmeta core
+#mapping_set_description: 'refgenie 1.x server alias resolution, GET https://api.refgenie.org/v4/aliases/{name} (OpenAPI schema AliasResponse): the alias, its genome digest, the seqcol level-2 arrays (names, lengths, sequences) and the FHR sidecar.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:refgenie_api_alias
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://api.refgenie.org/docs#/Version%204/get_alias_v4_aliases__name__get
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+refgenie_api_alias:alias	alias	skos:exactMatch	refmeta:collection.aliases.value	collection.aliases[namespace=refgenie].value	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:digest	digest	skos:exactMatch	refmeta:collection.digest	collection.digest	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:collection.names	collection.names	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:collection.lengths	collection.lengths	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:collection.sequences	collection.sequences	skos:exactMatch	refmeta:sequences.digest	sequences[].digest	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:fhr.genome	fhr.genome	skos:closeMatch	refmeta:collection.labels.value	collection.labels[namespace=fhr.genome].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: FHR calls this the name of the genome. refgenie writes its collection name (hg38), the upstream examples an assembly name. Kept as a non-unique label on the collection; on write, falls back to the refgenie alias, then the assembly name.
+refgenie_api_alias:fhr.genomeSynonym	fhr.genomeSynonym	skos:closeMatch	refmeta:collection.labels.value	collection.labels[namespace=fhr.synonym].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Level is unclear: refgenie writes collection aliases here (GRCh38 for hg38). Kept as non-unique labels on the collection.
+refgenie_api_alias:fhr.taxon.name	fhr.taxon.name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:fhr.taxon.uri	fhr.taxon.uri	skos:closeMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (regex). Lossy: Only identifiers.org taxonomy URIs give a number; on write the URI is rebuilt in that form.
+refgenie_api_alias:fhr.version	fhr.version	skos:exactMatch	refmeta:assembly.version	assembly.version	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:fhr.metadataAuthor%5B%5D.name	fhr.metadataAuthor[].name	skos:exactMatch	refmeta:provenance.authors.name	provenance[0].authors[].name	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.metadataAuthor%5B%5D.uri	fhr.metadataAuthor[].uri	skos:exactMatch	refmeta:provenance.authors.uri	provenance[0].authors[].uri	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.assemblyAuthor%5B%5D.name	fhr.assemblyAuthor[].name	skos:exactMatch	refmeta:assembly.assemblyAuthor.name	assembly.assemblyAuthor[].name	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.assemblyAuthor%5B%5D.uri	fhr.assemblyAuthor[].uri	skos:exactMatch	refmeta:assembly.assemblyAuthor.uri	assembly.assemblyAuthor[].uri	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.dateCreated	fhr.dateCreated	skos:exactMatch	refmeta:assembly.dateCreated	assembly.dateCreated	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:fhr.voucherSpecimen	fhr.voucherSpecimen	skos:exactMatch	refmeta:assembly.voucherSpecimen	assembly.voucherSpecimen	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.accessionID.name	fhr.accessionID.name	skos:closeMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession). Lossy: FHR accessionID is any archive's id (the upstream example has PBARC, inherited from the 2022 field 'place'); refmeta treats it as the assembly accession.
+refgenie_api_alias:fhr.accessionID.url	fhr.accessionID.url	skos:exactMatch	refmeta:assembly.accessions.url	assembly.accessions[0].url	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:fhr.instrument	fhr.instrument	skos:exactMatch	refmeta:assembly.instrument	assembly.instrument	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.scholarlyArticle	fhr.scholarlyArticle	skos:exactMatch	refmeta:assembly.scholarlyArticle	assembly.scholarlyArticle	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.documentation	fhr.documentation	skos:exactMatch	refmeta:assembly.documentation	assembly.documentation	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:fhr.identifier	fhr.identifier	skos:exactMatch	refmeta:assembly.identifier	assembly.identifier	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:fhr.relatedLink	fhr.relatedLink	skos:exactMatch	refmeta:assembly.relatedLink	assembly.relatedLink	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:fhr.funding	fhr.funding	skos:exactMatch	refmeta:assembly.funding	assembly.funding	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.license	fhr.license	skos:closeMatch	refmeta:assembly.reuseConditions	assembly.reuseConditions	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: gtars/refgenie field, not FHR. Shares the core field with FHR reuseConditions (an SPDX id there, free text in FHR). No example file sets this field.
+refgenie_api_alias:fhr.masking	fhr.masking	skos:exactMatch	refmeta:copies.masking	copies[kind=fasta].masking	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.vitalStats.totalBasePairs	fhr.vitalStats.totalBasePairs	skos:exactMatch	refmeta:assembly.vitalStats.totalBasePairs	assembly.vitalStats.totalBasePairs	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.vitalStats.N50	fhr.vitalStats.N50	skos:exactMatch	refmeta:assembly.vitalStats.N50	assembly.vitalStats.N50	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.vitalStats.L50	fhr.vitalStats.L50	skos:exactMatch	refmeta:assembly.vitalStats.L50	assembly.vitalStats.L50	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.vitalStats.L90	fhr.vitalStats.L90	skos:exactMatch	refmeta:assembly.vitalStats.L90	assembly.vitalStats.L90	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.vitalStats.numberContigs	fhr.vitalStats.numberContigs	skos:exactMatch	refmeta:assembly.vitalStats.numberContigs	assembly.vitalStats.numberContigs	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.vitalStats.numberScaffolds	fhr.vitalStats.numberScaffolds	skos:exactMatch	refmeta:assembly.vitalStats.numberScaffolds	assembly.vitalStats.numberScaffolds	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.vitalStats.readTechnology	fhr.vitalStats.readTechnology	skos:exactMatch	refmeta:assembly.vitalStats.readTechnology	assembly.vitalStats.readTechnology	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_api_alias:fhr.checksum	fhr.checksum	skos:exactMatch	refmeta:copies.uncompressedChecksums.sha256	copies[kind=fasta].uncompressedChecksums.sha256	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (prefix). refgenie writes 'sha256:<hex>' of the uncompressed FASTA here, not the FHR SHA-512/256 form.
+refgenie_api_alias:fhr.assemblySource	fhr.assemblySource	skos:closeMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Values are not normalized (ncbi, NCBI, Ensembl, UCSC).
+refgenie_api_alias:fhr.assemblyLevel	fhr.assemblyLevel	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_api_alias:source	source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Where the alias was resolved; always 'server'.
+refgenie_api_alias:fhr.schema	fhr.schema	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		FHR schema URL written by the exporter.
+refgenie_api_alias:fhr.schemaVersion	fhr.schemaVersion	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		FHR version written by the exporter (the number 1.0).

@@ -4,6 +4,7 @@
     refmeta detect FILE                       guess a file's format
     refmeta core FILE [--from F] [--json]     print the core record (YAML by default)
     refmeta convert FILE --to F [--from F]    convert a file to another format
+    refmeta sssom [FORMAT ...] [-o DIR]       export crosswalks as SSSOM mapping sets
 
 FILE may be '-' for standard input. --to and --from also accept 'core'.
 """
@@ -90,6 +91,24 @@ def cmd_convert(args) -> int:
     return 0
 
 
+def cmd_sssom(args) -> int:
+    import os
+
+    from . import sssom
+    ids = args.formats or sssom.all_ids()
+    unknown = [f for f in ids if f not in sssom.all_ids()]
+    if unknown:
+        raise C.ConversionError(f"no crosswalk for {', '.join(unknown)}")
+    if not args.output:
+        for f in ids:
+            sys.stdout.write(sssom.to_tsv(f))
+        return 0
+    os.makedirs(args.output, exist_ok=True)
+    for f in ids:
+        _write(sssom.to_tsv(f), os.path.join(args.output, f"{f}.sssom.tsv"))
+    return 0
+
+
 def build_parser() -> argparse.ArgumentParser:
     ap = argparse.ArgumentParser(prog="refmeta", description="Convert reference genome metadata "
                                  "between formats through one shared core record.")
@@ -122,6 +141,11 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("-o", "--output", help="write here instead of standard output")
     p.add_argument("-v", "--verbose", action="store_true", help="list warnings")
     p.set_defaults(func=cmd_convert)
+
+    p = sub.add_parser("sssom", help="export crosswalks as SSSOM mapping sets")
+    p.add_argument("formats", nargs="*", help="format ids (default: all)")
+    p.add_argument("-o", "--output", help="write one <format>.sssom.tsv per format into this folder")
+    p.set_defaults(func=cmd_sssom)
     return ap
 
 

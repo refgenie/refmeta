@@ -1,0 +1,27 @@
+#curie_map:
+#  ga4gh_refget_metadata: https://refgenie.github.io/refmeta/sssom/ga4gh_refget_metadata/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ga4gh_refget_metadata.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ga4gh_refget_metadata to refmeta core
+#mapping_set_description: 'Refget sequences v2 metadata response for one sequence: GET /sequence/<id>/metadata. Digests, length, and aliases tagged with a naming authority.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ga4gh_refget_metadata
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://ga4gh.github.io/refget/sequences/#method-get-known-metadata-for-an-id
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ga4gh_refget_metadata:metadata.md5	metadata.md5	skos:exactMatch	refmeta:sequences.md5	sequences[].md5	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_refget_metadata:metadata.ga4gh	metadata.ga4gh	skos:exactMatch	refmeta:sequences.digest	sequences[].digest	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_refget_metadata:metadata.length	metadata.length	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_refget_metadata:metadata.aliases%5B%5D.alias	metadata.aliases[].alias	skos:exactMatch	refmeta:sequences.aliases.value	sequences[].aliases[].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ga4gh_refget_metadata:metadata.aliases%5B%5D.naming_authority	metadata.aliases[].naming_authority	skos:closeMatch	refmeta:sequences.aliases.namespace	sequences[].aliases[].namespace	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map). Lossy: Upper-case authority labels (ENA sends INSDC) are lower-cased; writing gives the lower-case form the refget spec recommends.
+ga4gh_refget_metadata:metadata.id	metadata.id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Echo of the identifier the client asked for, not a fact about the sequence.
+ga4gh_refget_metadata:metadata.trunc512	metadata.trunc512	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Deprecated hex form of the same SHA-512 digest; equal to digest after hex-to-base64url, which is not one of the fixed transforms.

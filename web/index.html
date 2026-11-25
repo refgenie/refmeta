@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>refmeta terms</title>
-<meta name="description" content="Reference genome metadata terms from Galaxy, refgenie, FHR, NCBI, ENA, Ensembl, UCSC, nf-core, Bioconductor and GA4GH, side by side, with the shared field each one maps to.">
+<title>refmeta</title>
+<meta name="description" content="Reference genome metadata from Galaxy, refgenie, FHR, NCBI, ENA, Ensembl, UCSC, nf-core, Bioconductor and GA4GH, side by side, mapped onto one shared model.">
 <style>
 :root {
   color-scheme: light;
@@ -18,9 +18,7 @@
   --accent: #1d6b86;
   --accent-strong: #165770;
   --accent-soft: #e1eff4;
-  --on-accent: #ffffff;
   --warn: #7f5300;
-  --warn-soft: #fff4da;
   --code-bg: #f3f4f7;
   --focus: #2b7fff;
   --lv-assembly: #6a4fb8;
@@ -30,7 +28,6 @@
   --lv-deployment: #b13a69;
   --lv-provenance: #5c6575;
   --lv-other: #5c6575;
-  --shadow: 0 1px 2px rgba(20, 30, 50, .06), 0 1px 1px rgba(20, 30, 50, .04);
   --radius: 10px;
   --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
 }
@@ -47,9 +44,7 @@
     --accent: #5bb6d4;
     --accent-strong: #84cbe3;
     --accent-soft: #15313b;
-    --on-accent: #08141a;
     --warn: #f1c46a;
-    --warn-soft: #2f2610;
     --code-bg: #12171d;
     --focus: #6aa7ff;
     --lv-assembly: #a891ff;
@@ -59,7 +54,6 @@
     --lv-deployment: #f07ba7;
     --lv-provenance: #9aa4b2;
     --lv-other: #9aa4b2;
-    --shadow: none;
   }
 }
 * { box-sizing: border-box; }
@@ -80,96 +74,111 @@ code, .mono { font-family: var(--mono); font-size: 0.88em; }
 
 /* site nav (shared with convert.html) */
 .site-nav { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 18px; padding: 14px 0 0; font-size: 0.92rem; }
-.site-nav .brand { font-weight: 700; color: var(--text); text-decoration: none; margin-right: 6px; }
+.site-nav .brand { font-weight: 700; margin-right: 6px; }
 .site-nav a { text-decoration: none; }
 .site-nav a:hover { text-decoration: underline; }
 .site-nav a[aria-current="page"] { color: var(--text); font-weight: 600; }
 
-/* header */
-.top { padding: 0 0 8px; }
-.top h1 { margin: 18px 0 6px; font-size: 1.75rem; letter-spacing: -0.01em; }
-.lede { margin: 0 0 4px; color: var(--muted); max-width: 78ch; }
+.top h1 { margin: 14px 0 4px; font-size: 1.6rem; letter-spacing: -0.01em; }
+.lede { margin: 0; color: var(--muted); max-width: 78ch; }
 
-/* tabs and controls */
-.tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0 0; border-bottom: 1px solid var(--border); }
-.tabs button { font: inherit; background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted);
-  padding: 8px 10px; cursor: pointer; margin-bottom: -1px; }
-.tabs button[aria-selected="true"] { color: var(--text); border-bottom-color: var(--accent); font-weight: 600; }
-.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin: 14px 0 6px; }
-.controls input[type="search"] { font: inherit; flex: 1 1 260px; min-width: 0; padding: 8px 12px; border-radius: 8px;
+/* list switch and controls */
+.switch { display: inline-flex; margin: 18px 0 0; border: 1px solid var(--border-strong); border-radius: 8px; overflow: hidden; }
+.switch a { padding: 5px 14px; text-decoration: none; color: var(--muted); background: var(--surface); font-size: 0.92rem; }
+.switch a + a { border-left: 1px solid var(--border-strong); }
+.switch a[aria-current="page"] { background: var(--accent-soft); color: var(--accent-strong); font-weight: 600; }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 12px 0 0; }
+.controls input[type="search"] { font: inherit; flex: 1 1 260px; min-width: 0; padding: 7px 12px; border-radius: 8px;
   border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); }
-.controls select { font: inherit; padding: 7px 10px; border-radius: 8px; border: 1px solid var(--border-strong);
-  background: var(--surface); color: var(--text); }
-.controls label { display: inline-flex; align-items: center; gap: 6px; font-size: 0.92rem; color: var(--muted); }
-.chips { display: flex; flex-wrap: wrap; gap: 6px; }
-.chip { font: inherit; font-size: 0.85rem; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--border-strong);
-  background: var(--surface); color: var(--muted); cursor: pointer; }
-.chip[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-strong); }
-.summary-line { margin: 6px 0 0; font-size: 0.9rem; color: var(--muted); }
+.controls select, .picker > summary { font: inherit; font-size: 0.92rem; padding: 7px 10px; border-radius: 8px;
+  border: 1px solid var(--border-strong); background: var(--surface); color: var(--text); }
+.picker { position: relative; }
+.picker > summary { cursor: pointer; list-style: none; white-space: nowrap; }
+.picker > summary::-webkit-details-marker { display: none; }
+.picker > summary::after { content: " ▾"; color: var(--muted); }
+.picker-panel { position: absolute; z-index: 5; top: calc(100% + 4px); left: 0; min-width: 240px; padding: 8px 10px;
+  background: var(--surface); border: 1px solid var(--border-strong); border-radius: 8px; box-shadow: 0 6px 20px rgba(0,0,0,.12); }
+.picker-panel label { display: flex; gap: 8px; align-items: baseline; padding: 3px 0; font-size: 0.92rem; cursor: pointer; }
+.picker-panel label .muted { font-size: 0.8rem; }
+.picker-acts { display: flex; gap: 12px; border-top: 1px solid var(--border); margin-top: 6px; padding-top: 6px; font-size: 0.88rem; }
+.picker-acts button { font: inherit; background: none; border: 0; padding: 0; color: var(--accent); cursor: pointer; }
+.summary-line { margin: 10px 0 0; font-size: 0.9rem; color: var(--muted); }
 
-/* levels and cards */
+/* tables */
 main { padding-bottom: 48px; }
-.level { margin-top: 22px; }
-.level > h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; margin: 0 0 8px; font-size: 1.1rem; }
-.level > h2::before { content: ""; width: 10px; height: 10px; border-radius: 3px; background: var(--lv); flex: none; align-self: center; }
-.level > h2 .what { font-weight: 400; color: var(--muted); font-size: 0.9rem; }
-details.card { background: var(--surface); border: 1px solid var(--border); border-left: 3px solid var(--lv);
-  border-radius: var(--radius); box-shadow: var(--shadow); margin: 8px 0; min-width: 0; }
-details.card > summary { list-style: none; cursor: pointer; padding: 10px 14px; display: grid;
-  grid-template-columns: minmax(0, 1fr) auto; gap: 2px 16px; align-items: baseline; }
-details.card > summary::-webkit-details-marker { display: none; }
-details.card > summary .name { font-family: var(--mono); font-size: 0.95rem; font-weight: 600; overflow-wrap: anywhere; }
-details.card > summary .name::before { content: "▸ "; color: var(--muted); }
-details.card[open] > summary .name::before { content: "▾ "; }
-details.card > summary .counts { font-size: 0.85rem; color: var(--muted); white-space: nowrap; }
-details.card > summary .def { grid-column: 1 / -1; color: var(--muted); font-size: 0.9rem; }
-details.card[open]:not(.unshared) > summary .def { display: none; }
-details.card > summary .srcs { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
-.src-tag { font-size: 0.75rem; padding: 0 7px; border-radius: 999px; background: var(--surface-2); color: var(--muted);
-  border: 1px solid var(--border); }
-details.card.unshared { border-left-style: dashed; }
-.card-body { padding: 0 14px 12px; }
-.card-body .full-def { margin: 0 0 10px; max-width: 90ch; }
-
-/* term tables */
-.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; }
-table { border-collapse: collapse; width: 100%; font-size: 0.88rem; }
-th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--border); }
-th { background: var(--surface-2); font-weight: 600; white-space: nowrap; }
-tr:last-child td { border-bottom: 0; }
-td.term { font-family: var(--mono); font-size: 0.86rem; overflow-wrap: anywhere; min-width: 18ch; max-width: 30ch; }
-td.defn { min-width: 26ch; max-width: 60ch; }
-td.ex { font-family: var(--mono); font-size: 0.82rem; overflow-wrap: anywhere; min-width: 18ch; max-width: 28ch; color: var(--muted); }
-td.map { max-width: 34ch; }
-td.links { white-space: nowrap; }
-td.links a { margin-right: 8px; }
-.fmt { font-family: var(--mono); font-size: 0.8rem; color: var(--muted); overflow-wrap: anywhere; }
+table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: 0.88rem; margin-top: 10px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+th, td { text-align: left; vertical-align: top; padding: 7px 10px; border-bottom: 1px solid var(--border); overflow-wrap: break-word; }
+thead th { background: var(--surface-2); font-weight: 600; position: sticky; top: 0; z-index: 2; white-space: nowrap; }
+thead th:first-child { border-top-left-radius: 8px; }
+thead th:last-child { border-top-right-radius: 8px; }
+tbody tr:last-child td { border-bottom: 0; }
+tr.group th { background: var(--surface); border-left: 4px solid var(--lv); padding-top: 14px; font-size: 0.98rem; }
+tr.group th .what { font-weight: 400; color: var(--muted); font-size: 0.86rem; margin-left: 8px; }
+tr.unmapped td { color: var(--muted); font-style: italic; }
+td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.code { font-family: var(--mono); font-size: 0.85rem; }
+td.code, td.fmt, td.maps, td.ex, td.cell-src { overflow-wrap: anywhere; }
+td.code { min-width: 20ch; max-width: 32ch; }
+td.fmt { min-width: 25ch; max-width: 30ch; }
+td.maps { min-width: 20ch; max-width: 34ch; }
+td.cell-src { min-width: 14ch; }
+td.notes { min-width: 18ch; max-width: 36ch; }
+td.ex { font-family: var(--mono); font-size: 0.82rem; color: var(--muted); min-width: 17ch; max-width: 24ch; }
+td.defn { min-width: 24ch; }
+td.cell-src { font-family: var(--mono); font-size: 0.82rem; }
+.more { color: var(--muted); font-family: inherit; }
+.none { color: var(--border-strong); }
 .qual { display: inline-block; font-family: var(--mono); font-size: 0.78rem; padding: 0 6px; border-radius: 4px;
-  background: var(--code-bg); border: 1px solid var(--border); margin: 1px 0; }
-.lossy { display: block; margin-top: 4px; font-size: 0.8rem; color: var(--warn); }
-.dir { display: block; font-size: 0.78rem; color: var(--muted); }
-.notes { display: block; margin-top: 4px; font-size: 0.8rem; color: var(--muted); }
-a.concept { font-family: var(--mono); font-size: 0.84rem; overflow-wrap: anywhere; }
-.why { color: var(--muted); font-size: 0.85rem; }
+  background: var(--code-bg); border: 1px solid var(--border); }
+.lossy { display: block; font-size: 0.82rem; color: var(--warn); }
+.note { display: block; font-size: 0.82rem; color: var(--muted); }
 
-/* by source */
-.format-desc { margin: 0 0 8px; max-width: 90ch; font-size: 0.9rem; }
-.format-links { margin: 0 0 10px; font-size: 0.88rem; display: flex; flex-wrap: wrap; gap: 4px 14px; }
-.source-head { margin: 22px 0 4px; }
-.source-head h2 { margin: 0; font-size: 1.15rem; }
-.source-head p { margin: 2px 0 0; }
+/* detail views */
+.back { display: inline-block; margin: 18px 0 0; font-size: 0.92rem; }
+.detail-head h2 { margin: 8px 0 2px; font-family: var(--mono); font-size: 1.3rem; overflow-wrap: anywhere; }
+.detail-head .meta { color: var(--muted); font-size: 0.9rem; }
+.detail-head .meta .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--lv); margin-right: 5px; }
+.detail-head p { max-width: 90ch; margin: 8px 0 0; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 10px 0 0; font-size: 0.92rem; }
+.filter-note { margin: 10px 0 0; font-size: 0.9rem; color: var(--muted); }
 
-/* namespaces */
-.ns-list td:first-child { font-family: var(--mono); font-weight: 600; white-space: nowrap; }
-.ns-list td.pat { font-family: var(--mono); font-size: 0.8rem; overflow-wrap: anywhere; max-width: 30ch; }
+/* model */
+.model h2 { margin: 26px 0 4px; font-size: 1.15rem; }
+.model p { max-width: 80ch; }
+dl.words { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 18px; margin: 10px 0 0; max-width: 90ch; }
+dl.words dt { font-weight: 600; }
+dl.words dd { margin: 0; }
+td .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; background: var(--lv); margin-right: 6px; }
+td.pat { font-family: var(--mono); font-size: 0.8rem; max-width: 30ch; }
 
 .empty { padding: 24px; text-align: center; color: var(--muted); background: var(--surface); border: 1px dashed var(--border-strong);
-  border-radius: var(--radius); margin-top: 16px; }
+  border-radius: var(--radius); margin-top: 14px; }
 footer { color: var(--muted); font-size: 0.85rem; padding-top: 24px; padding-bottom: 40px; }
-@media (max-width: 640px) {
-  .top h1 { font-size: 1.4rem; }
-  details.card > summary { grid-template-columns: minmax(0, 1fr); }
-  details.card > summary .counts { white-space: normal; }
+
+/* phone: each row becomes a block of label: value lines */
+@media (max-width: 720px) {
+  .top h1 { font-size: 1.35rem; }
+  table, thead, tbody, tr, th, td { display: block; }
+  table { border: 0; background: none; }
+  thead { display: none; }
+  tbody tr { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; margin: 8px 0; padding: 6px 0; }
+  tbody tr.group { background: none; border: 0; border-left: 4px solid var(--lv); border-radius: 0; padding: 0; margin: 18px 0 4px; }
+  tr.group th { border: 0; padding: 0 0 0 10px; }
+  tr.group th .what { display: block; margin: 0; }
+  td { border: 0; padding: 2px 12px; min-width: 0 !important; max-width: none !important; }
+  td.num { text-align: left; }
+  td[data-label]::before { content: attr(data-label) ": "; color: var(--muted); font-family: system-ui, sans-serif; font-size: 0.8rem; font-style: normal; }
+  td.lead[data-label]::before { content: none; }
+  td.lead { font-weight: 600; }
+  table.list tbody tr { padding: 4px 0; margin: 4px 0; }
+  table.list td:nth-child(2) { color: var(--muted); font-size: 0.84rem; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+  table.list td:nth-child(2)::before { content: none; }
+  table.list td.num { display: inline-block; padding-right: 0; font-size: 0.82rem; color: var(--muted); }
+  table.list td.cell-src { display: inline-block; padding-right: 0; }
+  .lede { font-size: 0.9rem; }
+  dl.words { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  dl.words dd { margin-bottom: 8px; }
 }
 </style>
 </head>
@@ -177,36 +186,35 @@ footer { color: var(--muted); font-size: 0.85rem; padding-top: 24px; padding-bot
 <header class="top">
   <div class="wrap">
     <nav class="site-nav" aria-label="Site">
-      <a class="brand" href="index.html">refmeta</a>
-      <a href="index.html#fields" aria-current="page">Terms</a>
-      <a href="index.html#namespaces">Namespaces</a>
-      <a href="convert.html">Converter</a>
+      <span class="brand">refmeta</span>
+      <a href="index.html#fields" id="nav-browse">Browse</a>
+      <a href="convert.html">Convert</a>
+      <a href="index.html#model" id="nav-model">Model</a>
       <a href="https://github.com/refgenie/refmeta">GitHub</a>
     </nav>
-    <h1>Reference genome metadata terms</h1>
-    <p class="lede" id="lede">How ten sources describe a reference genome, side by side. Each term shows its own
-      definition, an example, and the shared refmeta field it maps to, with links to the original documentation.</p>
+    <h1>Reference genome metadata</h1>
+    <p class="lede" id="lede">How 10 sources describe a reference genome, mapped onto one shared model.
+      New here? Read <a href="#model">the model</a> first.</p>
   </div>
 </header>
 
 <main class="wrap">
-  <div class="tabs" role="tablist" aria-label="Views">
-    <button type="button" role="tab" id="tab-fields" data-view="fields" aria-selected="true">By shared field</button>
-    <button type="button" role="tab" id="tab-sources" data-view="sources" aria-selected="false">By source</button>
-    <button type="button" role="tab" id="tab-namespaces" data-view="namespaces" aria-selected="false">Namespaces</button>
+  <div id="list-controls" hidden>
+    <nav class="switch" aria-label="List">
+      <a id="sw-fields" href="#fields">Core fields</a>
+      <a id="sw-formats" href="#formats">Formats</a>
+    </nav>
+    <div class="controls">
+      <input type="search" id="q" aria-label="Search">
+      <details class="picker" id="src-picker">
+        <summary id="src-summary">Sources: all</summary>
+        <div class="picker-panel" id="src-panel"></div>
+      </details>
+      <select id="level" aria-label="Level"></select>
+    </div>
+    <p class="summary-line" id="summary" aria-live="polite"></p>
   </div>
-
-  <div class="controls" id="controls">
-    <input type="search" id="q" placeholder="Search terms, definitions, fields (e.g. accession, md5, dbkey)" aria-label="Search">
-    <select id="level" aria-label="Level"></select>
-    <label id="unshared-label"><input type="checkbox" id="unshared" checked> Show terms with no shared field</label>
-  </div>
-  <div class="chips" id="source-chips" role="group" aria-label="Sources"></div>
-  <p class="summary-line" id="summary" aria-live="polite"></p>
-
-  <section id="view-fields" role="tabpanel" aria-labelledby="tab-fields"></section>
-  <section id="view-sources" role="tabpanel" aria-labelledby="tab-sources" hidden></section>
-  <section id="view-namespaces" role="tabpanel" aria-labelledby="tab-namespaces" hidden></section>
+  <div id="view"></div>
 </main>
 
 <footer class="wrap">
@@ -220,14 +228,14 @@ footer { color: var(--muted); font-size: 0.85rem; padding-top: 24px; padding-bot
 <script>
 "use strict";
 const D = window.REFMETA_TERMS;
-const LEVEL_WHAT = {
-  assembly: "what an archive registered, named by an accession",
-  collection: "one exact list of named sequences, named by a seqcol digest",
-  sequence: "one sequence, named by a refget digest or md5",
-  copy: "one file somewhere, named by its location and checksum",
-  deployment: "an entry in a system that uses the files",
-  provenance: "who says so, and when",
-  other: "",
+const LEVELS = {
+  assembly: {title: "Assembly", what: "what an archive registered", example: "GRCh38", id: "accession (GCA_000001405.15)"},
+  collection: {title: "Collection", what: "one exact list of named sequences", example: "hg38, hg38_primary, Ensembl-named GRCh38", id: "seqcol digest"},
+  sequence: {title: "Sequence", what: "one sequence", example: "chr1 of GRCh38", id: "refget digest or md5"},
+  copy: {title: "Copy", what: "one file somewhere", example: "UCSC hg38.fa, an S3 copy", id: "location + file checksum"},
+  deployment: {title: "Deployment", what: "an entry in a system that uses the files", example: "a Galaxy data table row", id: "system + key"},
+  provenance: {title: "Provenance", what: "who says so, and when"},
+  other: {title: "Other", what: "native terms that belong to no level: annotation, sample metadata, tool settings"},
 };
 const $ = (id) => document.getElementById(id);
 
@@ -248,254 +256,354 @@ function h(tag, attrs, ...kids) {
 const safeUrl = (u) => (typeof u === "string" && /^https?:\/\//.test(u) ? u : null);
 const ext = (href, text, title) => safeUrl(href) ? h("a", {href, target: "_blank", rel: "noopener", title}, text) : null;
 const firstSentence = (s) => { const m = /^(.+?[.;])(\s|$)/.exec(s || ""); return m ? m[1] : (s || ""); };
-const levelVar = (lv) => `--lv: var(--lv-${lv || "other"})`;
-const plural = (n, word) => `${n.toLocaleString()} ${word}${n === 1 ? "" : "s"}`;
-const cap = (s) => s[0].toUpperCase() + s.slice(1);
+const lvStyle = (lv) => `--lv: var(--lv-${lv || "other"})`;
+const plural = (n, word, many) => `${n.toLocaleString()} ${n === 1 ? word : (many || word + "s")}`;
+const noEmail = (s) => (s || "").replace(/\s*<[^>]*@[^>]*>/g, "").replace(/\s*\S+@\S+\.\S+/g, "");
 
-// ---- state
+// ---- data indexes
 const ALL_SOURCES = Object.keys(D.sources);
-const S = { view: "fields", q: "", level: "", sources: new Set(ALL_SOURCES), unshared: true };
 const srcOf = (t) => D.formats[t.f].source;
-const conceptLevel = new Map(D.concepts.map((c) => [c.path, c.level]));
+const concepts = new Map(D.concepts.map((c) => [c.path, c]));
 const byConcept = new Map(D.concepts.map((c) => [c.path, []]));
 for (const t of D.terms) for (const m of t.m || []) if (byConcept.has(m.core)) byConcept.get(m.core).push([t, m]);
+const coverage = new Map(D.concepts.map((c) => [c.path, new Set(byConcept.get(c.path).map(([t]) => srcOf(t)))]));
+const termsOf = new Map(Object.keys(D.formats).map((f) => [f, []]));
+for (const t of D.terms) termsOf.get(t.f).push(t);
+const unmappedLevel = (t) => t.l || "other";
 
 function words(q) { return q.toLowerCase().split(/\s+/).filter(Boolean); }
 function hits(text, ws) { const s = text.toLowerCase(); return ws.every((w) => s.includes(w)); }
 function termText(t) {
   return [t.p, t.d, t.n, t.f, t.x, t.u, ...(t.m || []).map((m) => `${m.core} ${m.q || ""}`)].join(" ");
 }
-const visible = (t) => S.sources.has(srcOf(t));
 
-// ---- table cells
-function termLinks(t) {
-  const f = D.formats[t.f];
-  return h("td", {class: "links"},
-    ext(f.docs, "docs ↗", "Upstream documentation for this format"),
-    f.specs.length ? ext(f.specs[0], "spec", "Spec copy saved in this repository") : null,
-    ext(f.crosswalk, "mapping", "The refmeta crosswalk for this format"));
+// ---- state: everything lives in the URL hash, "#view/arg?q=..&src=a,b&level=x"
+const S = {view: "fields", arg: "", q: "", level: "", sources: new Set(ALL_SOURCES)};
+const allSources = () => S.sources.size === ALL_SOURCES.length;
+function query(over) {
+  const o = Object.assign({q: S.q, level: S.level, src: allSources() ? "" : [...S.sources].join(",")}, over || {});
+  const p = new URLSearchParams();
+  for (const k of ["q", "src", "level"]) if (o[k]) p.set(k, o[k]);
+  const s = p.toString();
+  return s ? "?" + s : "";
 }
-function defnCell(t) {
-  return h("td", {class: "defn"}, t.d || h("span", {class: "muted"}, "(no definition)"),
-    t.n ? h("span", {class: "notes"}, t.n) : null);
+const hashFor = (view, arg, over) => "#" + view + (arg ? "/" + encodeURIComponent(arg) : "") + query(over);
+function parse() {
+  const raw = location.hash.slice(1);
+  const [path, qs] = raw.split("?");
+  const slash = path.indexOf("/");
+  const view = slash === -1 ? path : path.slice(0, slash);
+  const arg = slash === -1 ? "" : decodeURIComponent(path.slice(slash + 1));
+  const p = new URLSearchParams(qs || "");
+  const src = (p.get("src") || "").split(",").filter((s) => D.sources[s]);
+  return {view: view || "fields", arg, q: p.get("q") || "", level: p.get("level") || "",
+          sources: new Set(src.length ? src : ALL_SOURCES)};
 }
-function mappingNote(m) {
+// filter changes update the URL without adding a Back step; moving between views adds one
+const replaceHash = (hash) => history.replaceState(null, "", hash);
+
+// ---- table helper: header labels are copied onto cells so phones can show "Label: value"
+function table(headers, rows, numCols, listTable) {
+  const nums = new Set(numCols || []);
+  for (const tr of rows) {
+    if (tr.classList.contains("group")) continue;
+    [...tr.children].forEach((td, i) => {
+      if (headers[i] && i > 0) td.dataset.label = headers[i];
+      if (i === 0) td.classList.add("lead");
+    });
+  }
+  return h("table", {class: listTable ? "list" : null},
+    h("thead", null, h("tr", null, headers.map((x, i) => h("th", {scope: "col", class: nums.has(i) ? "num" : null}, x)))),
+    h("tbody", null, rows));
+}
+const groupRow = (n, lv, title, what) => h("tr", {class: "group", style: lvStyle(lv)},
+  h("th", {colspan: n, scope: "rowgroup"}, title, what ? h("span", {class: "what"}, what) : null));
+const fieldLink = (path) => h("a", {class: "mono", href: hashFor("field", path)}, path);
+const formatLink = (fid) => h("a", {class: "mono", href: hashFor("format", fid, {q: "", level: ""})}, fid);
+function mappingNotes(m) {
   return [m.q ? h("span", {class: "qual", title: "Namespace or condition"}, m.q) : null,
-    m.dir !== "both" ? h("span", {class: "dir"}, m.dir === "to_core" ? "read only" : "write only") : null,
+    m.dir !== "both" ? h("span", {class: "note"}, m.dir === "to_core" ? "Read only" : "Write only") : null,
     m.lossy ? h("span", {class: "lossy"}, "Loses: " + m.lossy) : null];
 }
-function table(headers, rows) {
-  return h("div", {class: "table-wrap"}, h("table", null,
-    h("thead", null, h("tr", null, headers.map((x) => h("th", {scope: "col"}, x)))),
-    h("tbody", null, rows)));
-}
-function lazyCard(cls, lv, id, summaryKids, bodyFn) {
-  const body = h("div", {class: "card-body"});
-  const d = h("details", {class: cls, style: levelVar(lv), id}, h("summary", null, summaryKids), body);
-  let built = false;
-  d.addEventListener("toggle", () => { if (d.open && !built) { built = true; body.append(...[].concat(bodyFn())); } });
-  return d;
-}
+const defnCell = (t) => h("td", {class: "defn"}, t.d || h("span", {class: "muted"}, "(no definition)"),
+  t.n ? h("span", {class: "note"}, t.n) : null);
 
-// ---- view: by shared field
-function renderFields() {
-  const out = $("view-fields");
-  out.replaceChildren();
+// ---- view: core fields (one row per core field, grouped by level)
+function renderFields(out) {
   const ws = words(S.q);
-  let nConcepts = 0;
-  const shownTerms = new Set();  // a term that maps to two fields counts once
+  const picked = allSources() ? [] : [...S.sources].sort();
+  const matrix = picked.length >= 1 && picked.length <= 4;
+  const headers = ["Core field", "What it is", ...(matrix ? picked : []), "Sources", "Native terms"];
+  const nums = [headers.length - 2, headers.length - 1];
+  const rows = [];
+  let nFields = 0;
+  const shown = new Set();
   for (const lv of D.levels) {
     if (S.level && S.level !== lv) continue;
-    const cards = [];
+    const group = [];
     for (const c of D.concepts) {
       if (c.level !== lv) continue;
-      const all = byConcept.get(c.path).filter(([t]) => visible(t));
-      if (!all.length) continue;
-      const conceptHit = ws.length && hits(c.path + " " + c.d, ws);
-      const rows = conceptHit || !ws.length ? all : all.filter(([t]) => hits(termText(t), ws));
-      if (!rows.length) continue;
-      nConcepts++; for (const [t] of rows) shownTerms.add(t);
-      const srcs = [...new Set(rows.map(([t]) => srcOf(t)))].sort();
-      cards.push(lazyCard("card", lv, "f-" + c.path,
-        [h("span", {class: "name"}, c.path),
-         h("span", {class: "counts"}, `${plural(rows.length, "term")} · ${plural(srcs.length, "source")}`),
-         h("span", {class: "def"}, firstSentence(c.d)),
-         h("span", {class: "srcs"}, srcs.map((s) => h("span", {class: "src-tag"}, s)))],
-        () => [h("p", {class: "full-def"}, c.d, c.t ? h("span", {class: "muted small"}, `  Type: ${c.t}.`) : null),
-               table(["Source", "Term", "Definition", "Example", "Mapping", "Links"], rows.map(([t, m]) => h("tr", null,
-                 h("td", null, srcOf(t), h("div", {class: "fmt"}, t.f)),
-                 h("td", {class: "term"}, t.p), defnCell(t), h("td", {class: "ex"}, t.x ?? ""),
-                 h("td", {class: "map"}, mappingNote(m)), termLinks(t))))]));
+      const mine = byConcept.get(c.path).filter(([t]) => S.sources.has(srcOf(t)));
+      if (!mine.length) continue;
+      const fieldHit = !ws.length || hits(c.path + " " + c.d, ws);
+      const terms = fieldHit ? mine : mine.filter(([t]) => hits(termText(t), ws));
+      if (!terms.length) continue;
+      nFields++; for (const [t] of terms) shown.add(t);
+      const cells = matrix ? picked.map((s) => {
+        const names = [...new Set(terms.filter(([t]) => srcOf(t) === s).map(([t]) => t.p))];
+        return h("td", {class: "cell-src"}, names.length
+          ? [names[0], names.length > 1 ? h("span", {class: "more", title: names.slice(1).join("\n")}, ` +${names.length - 1}`) : null]
+          : h("span", {class: "none", title: "No term from this source"}, "—"));
+      }) : [];
+      group.push(h("tr", null,
+        h("td", {class: "code"}, fieldLink(c.path)),
+        h("td", null, firstSentence(c.d)),
+        cells,
+        h("td", {class: "num"}, `${coverage.get(c.path).size}/${ALL_SOURCES.length}`),
+        h("td", {class: "num"}, terms.length.toLocaleString())));
     }
-    if (S.unshared) {
-      const unshared = D.terms.filter((t) => !t.m && visible(t) && (t.l || "other") === lv && (!ws.length || hits(termText(t), ws)));
-      if (unshared.length) {
-        for (const t of unshared) shownTerms.add(t);
-        cards.push(lazyCard("card unshared", lv, "u-" + lv,
-          [h("span", {class: "name"}, "Not in the shared model"),
-           h("span", {class: "counts"}, plural(unshared.length, "term")),
-           h("span", {class: "def"}, "Terms at this level that no shared field holds: annotation, sample metadata, tool settings, and gaps in the model.")],
-          () => table(["Source", "Term", "Definition", "Example", "Why no shared field", "Links"], unshared.map((t) => h("tr", null,
-            h("td", null, srcOf(t), h("div", {class: "fmt"}, t.f)),
-            h("td", {class: "term"}, t.p), defnCell(t), h("td", {class: "ex"}, t.x ?? ""),
-            h("td", {class: "why"}, t.u), termLinks(t))))));
-      }
+    const un = D.terms.filter((t) => !t.m && unmappedLevel(t) === lv && S.sources.has(srcOf(t)) && (!ws.length || hits(termText(t), ws)));
+    if (un.length) {
+      for (const t of un) shown.add(t);
+      group.push(h("tr", {class: "unmapped"},
+        h("td", null, h("a", {href: hashFor("unmapped", lv)}, "Not in the core model")),
+        h("td", null, "Native terms at this level that no core field holds"),
+        matrix ? picked.map(() => h("td", null)) : [], h("td", {class: "num"}, ""),
+        h("td", {class: "num"}, un.length.toLocaleString())));
     }
-    if (!cards.length) continue;
-    out.append(h("section", {class: "level", style: levelVar(lv)},
-      h("h2", null, cap(lv), h("span", {class: "what"}, LEVEL_WHAT[lv] || "")), cards));
+    if (!group.length) continue;
+    rows.push(groupRow(headers.length, lv, LEVELS[lv].title, LEVELS[lv].what), ...group);
   }
-  if (!out.children.length) out.append(h("div", {class: "empty"}, "Nothing matches. Try another word, or turn more sources on."));
-  if (ws.length && nConcepts && nConcepts <= 6) for (const d of out.querySelectorAll("details.card")) d.open = true;
-  $("summary").textContent = `${plural(nConcepts, "shared field")}, ${plural(shownTerms.size, "term")}` +
-    (ws.length ? ` matching “${S.q.trim()}”` : "") + ".";
+  $("summary").textContent = `${plural(nFields, "core field")}, ${plural(shown.size, "native term")}` +
+    (ws.length ? ` matching “${S.q.trim()}”` : "") + "." +
+    (picked.length > 4 ? " Pick up to 4 sources to compare their term names side by side." : "");
+  add(out, rows.length ? table(headers, rows, nums, true) : empty());
 }
 
-// ---- view: by source
-function renderSources() {
-  const out = $("view-sources");
-  out.replaceChildren();
+// ---- view: formats (one row per format, grouped by source)
+function renderFormats(out) {
   const ws = words(S.q);
-  let nTerms = 0, nFormats = 0;
+  const headers = ["Format", "What it is", "Native terms", "Mapped"];
+  const rows = [];
+  let nFormats = 0, nTerms = 0;
   for (const [src, info] of Object.entries(D.sources)) {
     if (!S.sources.has(src)) continue;
-    const blocks = [];
+    const group = [];
     for (const [fid, f] of Object.entries(D.formats)) {
       if (f.source !== src) continue;
-      const fmtHit = ws.length && hits(fid + " " + f.description, ws);
-      const terms = D.terms.filter((t) => t.f === fid && (S.unshared || t.m) &&
-        (!S.level || (t.m ? t.m.some((m) => conceptLevel.get(m.core) === S.level) : t.l === S.level)) &&
-        (!ws.length || fmtHit || hits(termText(t), ws)));
+      const all = termsOf.get(fid);
+      const terms = !ws.length || hits(fid + " " + f.description, ws) ? all : all.filter((t) => hits(termText(t), ws));
       if (!terms.length) continue;
       nFormats++; nTerms += terms.length;
-      const mapped = terms.filter((t) => t.m).length;
-      blocks.push(lazyCard("card", "other", "s-" + fid,
-        [h("span", {class: "name"}, fid),
-         h("span", {class: "counts"}, `${plural(terms.length, "term")} · ${mapped.toLocaleString()} shared`),
-         h("span", {class: "def"}, firstSentence(f.description))],
-        () => [h("p", {class: "format-desc"}, f.description),
-               h("p", {class: "format-links"},
-                 ext(f.docs, "Upstream docs ↗"),
-                 f.specs.map((u) => ext(u, u.split("/").pop(), "Spec copy saved in this repository")),
-                 ext(f.crosswalk, "refmeta mapping")),
-               table(["Term", "Level", "Definition", "Example", "Shared field"], terms.map((t) => h("tr", null,
-                 h("td", {class: "term"}, t.p), h("td", null, t.l || ""), defnCell(t), h("td", {class: "ex"}, t.x ?? ""),
-                 t.m ? h("td", null, t.m.map((m) => h("div", null,
-                         byConcept.has(m.core)
-                           ? h("a", {class: "concept", href: "#field/" + encodeURIComponent(m.core)}, m.core)
-                           : h("span", {class: "mono"}, m.core),
-                         " ", mappingNote(m))))
-                     : h("td", {class: "why"}, "No shared field. ", t.u))))]));
+      const mapped = all.filter((t) => t.m).length;
+      group.push(h("tr", null,
+        h("td", {class: "fmt"}, formatLink(fid)),
+        h("td", null, firstSentence(f.description)),
+        h("td", {class: "num"}, ws.length && terms.length !== all.length ? `${terms.length} of ${all.length}` : all.length.toLocaleString()),
+        h("td", {class: "num"}, f.crosswalk ? `${mapped} (${Math.round(100 * mapped / all.length)}%)` : "no mapping")));
     }
-    if (!blocks.length) continue;
-    out.append(h("div", {class: "source-head", id: "src-" + src},
-      h("h2", null, info.title),
-      h("p", {class: "muted small"}, info.maintainer, info.retrieved ? ` · retrieved ${info.retrieved} · ` : " · ",
-        ext(info.readme, "notes on this source"))), ...blocks);
+    if (group.length) rows.push(groupRow(headers.length, "other", info.title), ...group);
   }
-  if (!out.children.length) out.append(h("div", {class: "empty"}, "Nothing matches. Try another word, or turn more sources on."));
-  if (ws.length && nFormats && nFormats <= 4) for (const d of out.querySelectorAll("details.card")) d.open = true;
-  $("summary").textContent = `${plural(nFormats, "format")}, ${plural(nTerms, "term")}` +
+  $("summary").textContent = `${plural(nFormats, "format")}, ${plural(nTerms, "native term")}` +
     (ws.length ? ` matching “${S.q.trim()}”` : "") + ".";
+  add(out, rows.length ? table(headers, rows, [2, 3], true) : empty());
+}
+const add = (el, ...kids) => el.append(...kids.flat(Infinity).filter((k) => k != null && k !== false));
+const empty = () => h("div", {class: "empty"}, "Nothing matches. Try another word, or pick more sources.");
+
+// ---- detail views
+function backLink() {
+  return h("a", {class: "back", href: lastList}, lastList.startsWith("#formats") ? "← All formats" : "← All core fields");
+}
+function filterNote(total, shownN) {
+  if (allSources() || total === shownN) return null;
+  return h("p", {class: "filter-note"}, `Showing ${shownN} of ${total} rows: only ${[...S.sources].sort().join(", ")}. `,
+    h("a", {href: hashFor(S.view, S.arg, {src: ""})}, "Show all sources"));
 }
 
-// ---- view: namespaces
-function renderNamespaces() {
-  const out = $("view-namespaces");
-  out.replaceChildren();
-  const ws = words(S.q);
-  const rows = D.namespaces.filter((n) => !ws.length || hits(JSON.stringify(n), ws));
-  out.append(
-    h("p", {class: "lede", style: "margin-top:14px"},
-      "Every name and identifier in a refmeta record is a namespace plus a value. These are the official namespaces; ",
+function renderField(out, path) {
+  const c = concepts.get(path);
+  if (!c) {
+    // not a field any source maps to: list its parts, or go to the field that holds it
+    const kids = D.concepts.filter((k) => k.path.startsWith(path + "."));
+    if (!kids.length) {
+      const parent = D.concepts.map((k) => k.path).filter((p) => path.startsWith(p + ".")).sort((a, b) => b.length - a.length)[0];
+      if (parent) { replaceHash(hashFor("field", parent)); route(); return; }
+    }
+    add(out, backLink(), h("div", {class: "detail-head"}, h("h2", null, path),
+      h("p", null, kids.length ? "Sources map to these parts of this core field:" : "No source maps to this core field.")),
+      kids.length ? h("ul", null, kids.map((k) => h("li", null, fieldLink(k.path), " ", h("span", {class: "muted"}, firstSentence(k.d))))) : null);
+    return;
+  }
+  const all = byConcept.get(path);
+  const rows = all.filter(([t]) => S.sources.has(srcOf(t)));
+  const lv = LEVELS[c.level] || LEVELS.other;
+  add(out, backLink(),
+    h("div", {class: "detail-head", style: lvStyle(c.level)},
+      h("h2", null, path),
+      h("div", {class: "meta"}, h("span", {class: "sw"}), lv.title, c.t ? ` · ${c.t}` : "",
+        ` · ${plural(all.length, "native term")} from ${plural(coverage.get(path).size, "source")}`),
+      h("p", null, c.d)),
+    filterNote(all.length, rows.length),
+    rows.length ? table(["Source", "Format", "Native term", "Definition", "Example", "Notes"], rows.map(([t, m]) => h("tr", null,
+      h("td", null, srcOf(t)),
+      h("td", {class: "fmt"}, formatLink(t.f)),
+      h("td", {class: "code"}, t.p),
+      defnCell(t),
+      h("td", {class: "ex"}, t.x ?? ""),
+      h("td", {class: "notes"}, mappingNotes(m))))) : empty());
+}
+
+function renderFormat(out, fid) {
+  const f = D.formats[fid];
+  if (!f) { add(out, backLink(), h("div", {class: "empty"}, `No format called ${fid}.`)); return; }
+  const info = D.sources[f.source];
+  const terms = termsOf.get(fid);
+  const mapped = terms.filter((t) => t.m).length;
+  add(out, backLink(),
+    h("div", {class: "detail-head"},
+      h("h2", null, fid),
+      h("div", {class: "meta"}, info.title, ` · ${plural(terms.length, "native term")}, ${mapped} mapped`,
+        info.retrieved ? ` · retrieved ${info.retrieved}` : ""),
+      h("p", null, f.description),
+      h("div", {class: "links"},
+        ext(f.docs, "Upstream docs ↗"),
+        f.specs.length ? ext(f.specs[0], f.specs.length > 1 ? `Saved spec (${f.specs.length} files)` : "Saved spec",
+          "Spec copies saved in the refmeta repository") : null,
+        f.crosswalk ? ext(f.crosswalk, "Mapping file") : h("span", {class: "muted"}, "No mapping yet"),
+        f.crosswalk ? h("a", {href: "convert.html#to=" + encodeURIComponent(fid)}, "Convert a file to this format") : null,
+        ext(info.readme, `Notes on ${f.source}`))),
+    table(["Native term", "Maps to", "Level", "Definition", "Example"], terms.map((t) => h("tr", null,
+      h("td", {class: "code"}, t.p),
+      t.m ? h("td", {class: "maps"}, t.m.map((m) => h("div", null,
+              concepts.has(m.core) ? fieldLink(m.core) : h("span", {class: "mono"}, m.core), " ", mappingNotes(m))))
+          : h("td", {class: "muted"}, "Not mapped. ", t.u || ""),
+      h("td", null, LEVELS[t.m ? (concepts.get(t.m[0].core) || {}).level || unmappedLevel(t) : unmappedLevel(t)]?.title || ""),
+      defnCell(t),
+      h("td", {class: "ex"}, t.x ?? "")))));
+}
+
+function renderUnmapped(out, lv) {
+  const all = D.terms.filter((t) => !t.m && unmappedLevel(t) === lv);
+  const rows = all.filter((t) => S.sources.has(srcOf(t)));
+  add(out, backLink(),
+    h("div", {class: "detail-head", style: lvStyle(lv)},
+      h("h2", null, "Not in the core model"),
+      h("div", {class: "meta"}, h("span", {class: "sw"}), (LEVELS[lv] || LEVELS.other).title, ` · ${plural(all.length, "native term")}`),
+      h("p", null, "Native terms that no core field holds: annotation, sample metadata, tool settings, and gaps in the model. Each row says why.")),
+    filterNote(all.length, rows.length),
+    rows.length ? table(["Source", "Format", "Native term", "Definition", "Example", "Why not mapped"], rows.map((t) => h("tr", null,
+      h("td", null, srcOf(t)), h("td", {class: "fmt"}, formatLink(t.f)), h("td", {class: "code"}, t.p),
+      defnCell(t), h("td", {class: "ex"}, t.x ?? ""), h("td", {class: "muted notes"}, t.u || "")))) : empty());
+}
+
+// ---- view: the model
+function renderModel(out) {
+  const nFields = (lv) => D.concepts.filter((c) => c.level === lv).length;
+  const mappedFormats = Object.values(D.formats).filter((f) => f.crosswalk).length;
+  add(out, h("div", {class: "model"},
+    h("h2", null, "Five levels"),
+    h("p", null, "“A reference genome” means different things, and each is identified a different way. ",
+      "Every format mixes these levels in its own way. refmeta keeps the formats as they are and maps each one's ",
+      "native terms onto core fields at these levels, so a record can move from one format to another and say what it lost."),
+    table(["Level", "Example", "Identified by", "Core fields"],
+      ["assembly", "collection", "sequence", "copy", "deployment", "provenance"].map((lv) => h("tr", null,
+        h("td", {style: lvStyle(lv)}, h("span", {class: "sw"}), LEVELS[lv].title,
+          h("span", {class: "note"}, LEVELS[lv].what)),
+        h("td", null, LEVELS[lv].example || ""),
+        h("td", null, LEVELS[lv].id || ""),
+        h("td", {class: "num"}, h("a", {href: hashFor("fields", "", {level: lv, q: "", src: ""})}, nFields(lv))))), [3]),
+    h("h2", null, "Words used on this site"),
+    h("dl", {class: "words"},
+      h("dt", null, "Source"), h("dd", null, `An organization or project that publishes genome metadata, such as NCBI or UCSC. refmeta covers ${ALL_SOURCES.length}.`),
+      h("dt", null, "Format"), h("dd", null, `One kind of file or API response from a source, such as UCSC chrom.sizes. refmeta lists ${Object.keys(D.formats).length}.`),
+      h("dt", null, "Native term"), h("dd", null, "A field as a format names it, such as ", h("code", null, "assembly_accession"), "."),
+      h("dt", null, "Core field"), h("dd", null, "A field in refmeta's shared model, such as ", h("code", null, "assembly.accessions"), `. There are ${D.concepts.length} that sources map to.`),
+      h("dt", null, "Mapping"), h("dd", null, `The file that says which native term goes to which core field, and what is lost. ${mappedFormats} formats have one; those are the formats the converter reads and writes.`)),
+    h("h2", null, "Namespaces"),
+    h("p", null, "Every name and identifier in a refmeta record is a namespace plus a value. These are the official namespaces; ",
       "any other lower-case name is allowed as a custom namespace. Source: ",
       ext(`${D.repo}/blob/${D.branch}/mapping/namespaces.yaml`, "namespaces.yaml"), "."),
-    rows.length ? h("div", {class: "ns-list"}, table(
-      ["Namespace", "Used in", "Unique within", "Pattern", "Example", "Bioregistry", "What it is"],
-      rows.map((n) => h("tr", null,
-        h("td", null, n.id),
-        h("td", null, (n.lists || []).map((l) => h("div", {class: "mono small"}, l))),
+    table(["Namespace", "Used in", "Unique within", "Pattern", "Example", "Bioregistry", "What it is"],
+      D.namespaces.map((n) => h("tr", null,
+        h("td", {class: "code"}, n.id),
+        h("td", null, (n.lists || []).map((l) => h("div", null, fieldLink(l)))),
         h("td", null, n.scope || ""),
         h("td", {class: "pat"}, n.pattern || ""),
         h("td", {class: "ex"}, n.example ?? ""),
         h("td", null, n.bioregistry ? ext(`https://bioregistry.io/registry/${encodeURIComponent(n.bioregistry)}`, n.bioregistry + " ↗") : ""),
-        h("td", {class: "defn"}, n.description || "")))))
-      : h("div", {class: "empty"}, "No namespace matches."));
-  $("summary").textContent = plural(rows.length, "namespace") + (ws.length ? ` matching “${S.q.trim()}”` : "") + ".";
+        h("td", {class: "defn"}, n.description || ""))))));
 }
 
-// ---- controls and routing
-function render() {
-  for (const b of document.querySelectorAll(".tabs button")) b.setAttribute("aria-selected", String(b.dataset.view === S.view));
-  for (const v of ["fields", "sources", "namespaces"]) $("view-" + v).hidden = v !== S.view;
-  const ns = S.view === "namespaces";
-  $("level").hidden = ns; $("unshared-label").hidden = ns; $("source-chips").hidden = ns;
-  if (S.view === "fields") renderFields();
-  else if (S.view === "sources") renderSources();
-  else renderNamespaces();
+// ---- controls
+function syncControls() {
+  const list = S.view === "fields" || S.view === "formats";
+  $("list-controls").hidden = !list;
+  $("lede").hidden = S.view === "model";
+  $("sw-fields").href = hashFor("fields"); $("sw-formats").href = hashFor("formats", "", {level: ""});
+  const cur = (id, on) => on ? $(id).setAttribute("aria-current", "page") : $(id).removeAttribute("aria-current");
+  cur("sw-fields", S.view === "fields"); cur("sw-formats", S.view === "formats");
+  cur("nav-browse", S.view !== "model"); cur("nav-model", S.view === "model");
+  $("q").placeholder = S.view === "formats" ? "Search formats and their terms (e.g. chrom.sizes, fasta, md5)"
+    : "Search core fields and native terms (e.g. accession, md5, dbkey)";
+  if (document.activeElement !== $("q")) $("q").value = S.q;
+  $("level").hidden = S.view !== "fields";
+  $("level").value = S.level;
+  for (const box of $("src-panel").querySelectorAll("input")) box.checked = S.sources.has(box.value);
+  $("src-summary").textContent = allSources() ? "Sources: all" : S.sources.size === 0 ? "Sources: none"
+    : S.sources.size <= 2 ? `Sources: ${[...S.sources].sort().join(", ")}` : `Sources: ${S.sources.size} of ${ALL_SOURCES.length}`;
 }
-let chipSync = () => {};
 function buildControls() {
   const sel = $("level");
   sel.append(h("option", {value: ""}, "All levels"),
-    D.levels.filter((l) => D.concepts.some((c) => c.level === l)).map((l) => h("option", {value: l}, cap(l))));
-  sel.addEventListener("change", () => { S.level = sel.value; render(); });
-  const chips = $("source-chips");
-  const all = h("button", {type: "button", class: "chip", "aria-pressed": "true"}, "All sources");
-  const chipFor = {};
-  chipSync = () => {
-    all.setAttribute("aria-pressed", String(S.sources.size === ALL_SOURCES.length));
-    for (const [s, b] of Object.entries(chipFor)) b.setAttribute("aria-pressed", String(S.sources.size < ALL_SOURCES.length && S.sources.has(s)));
-  };
-  all.addEventListener("click", () => { S.sources = new Set(ALL_SOURCES); chipSync(); render(); });
-  chips.append(all);
+    D.levels.map((l) => h("option", {value: l}, LEVELS[l].title)));
+  sel.addEventListener("change", () => { S.level = sel.value; replaceHash(hashFor(S.view)); render(); });
+  const panel = $("src-panel");
   for (const s of ALL_SOURCES) {
-    const b = h("button", {type: "button", class: "chip", "aria-pressed": "false", title: D.sources[s].title}, s);
-    b.addEventListener("click", () => {
-      // with all sources on, a click narrows to that source; after that, clicks add or remove
-      if (S.sources.size === ALL_SOURCES.length) S.sources = new Set([s]);
-      else if (S.sources.has(s)) { S.sources.delete(s); if (!S.sources.size) S.sources = new Set(ALL_SOURCES); }
-      else S.sources.add(s);
-      chipSync(); render();
-    });
-    chipFor[s] = b; chips.append(b);
+    const box = h("input", {type: "checkbox", value: s});
+    box.addEventListener("change", () => { box.checked ? S.sources.add(s) : S.sources.delete(s); filtersChanged(); });
+    panel.append(h("label", null, box, s, h("span", {class: "muted"}, D.sources[s].title.replace(/\s*\(.*$/, ""))));
   }
-  chipSync();
+  const all = h("button", {type: "button"}, "All");
+  const none = h("button", {type: "button"}, "None");
+  all.addEventListener("click", () => { S.sources = new Set(ALL_SOURCES); filtersChanged(); });
+  none.addEventListener("click", () => { S.sources = new Set(); filtersChanged(); });
+  panel.append(h("div", {class: "picker-acts"}, all, none));
+  document.addEventListener("click", (e) => { if (!$("src-picker").contains(e.target)) $("src-picker").open = false; });
   let timer = null;
-  $("q").addEventListener("input", (e) => { clearTimeout(timer); timer = setTimeout(() => { S.q = e.target.value; render(); }, 150); });
-  $("unshared").addEventListener("change", (e) => { S.unshared = e.target.checked; render(); });
-  for (const b of document.querySelectorAll(".tabs button")) b.addEventListener("click", () => {
-    history.replaceState(null, "", "#" + b.dataset.view);
-    S.view = b.dataset.view; render();
-  });
+  $("q").addEventListener("input", (e) => { clearTimeout(timer); timer = setTimeout(() => { S.q = e.target.value.trim() ? e.target.value : ""; filtersChanged(); }, 150); });
+}
+function filtersChanged() { replaceHash(hashFor(S.view, S.arg)); render(); }
+
+// ---- routing
+let lastList = "#fields";
+const scrollAt = new Map();
+let current = null;
+function render() {
+  syncControls();
+  const out = $("view");
+  out.replaceChildren();
+  if (S.view === "formats") renderFormats(out);
+  else if (S.view === "field") renderField(out, S.arg);
+  else if (S.view === "format") renderFormat(out, S.arg);
+  else if (S.view === "unmapped") renderUnmapped(out, S.arg);
+  else if (S.view === "model") renderModel(out);
+  else renderFields(out);
 }
 function route() {
-  const hash = decodeURIComponent(location.hash.slice(1));
-  if (hash.startsWith("field/")) {
-    const path = hash.slice(6);
-    S.view = "fields"; S.q = ""; $("q").value = ""; S.level = ""; $("level").value = "";
-    S.sources = new Set(ALL_SOURCES); chipSync();
-    render();
-    const d = document.getElementById("f-" + path);
-    if (d) { d.open = true; d.scrollIntoView({block: "start"}); }
-    return;
-  }
-  if (hash.startsWith("source/")) {
-    const src = hash.slice(7);
-    if (D.sources[src]) { S.sources = new Set([src]); chipSync(); }
-    S.view = "sources";
-    render();
-    return;
-  }
-  S.view = ["fields", "sources", "namespaces"].includes(hash) ? hash : "fields";
+  if (current !== null) scrollAt.set(current, window.scrollY);
+  Object.assign(S, parse());
+  // links from the old site: #namespaces, #sources, #source/<id>
+  const old = {namespaces: "#model", sources: "#formats"}[S.view] || (S.view === "source" && D.sources[S.arg] ? `#formats?src=${S.arg}` : "");
+  if (old) { replaceHash(old); Object.assign(S, parse()); }
+  if (!["fields", "formats", "field", "format", "unmapped", "model"].includes(S.view)) S.view = "fields";
+  if (S.view === "fields" || S.view === "formats") lastList = hashFor(S.view);
+  current = location.hash.split("?")[0] || "#fields";
+  document.title = S.view === "field" || S.view === "format" ? `${S.arg} · refmeta` : S.view === "model" ? "The model · refmeta" : "refmeta";
   render();
+  window.scrollTo(0, scrollAt.get(current) || 0);
 }
-
-const nShared = D.terms.filter((t) => t.m).length;
-$("lede").textContent = `How ${ALL_SOURCES.length} sources describe a reference genome, side by side: ` +
-  `${D.terms.length.toLocaleString()} terms from ${Object.keys(D.formats).length} formats, ` +
-  `${nShared.toLocaleString()} of them mapped to ${D.concepts.length} shared refmeta fields. Each term shows its own ` +
-  `definition and an example, with links to the original documentation and to the refmeta mapping.`;
+history.scrollRestoration = "manual";
 buildControls();
 window.addEventListener("hashchange", route);
 route();

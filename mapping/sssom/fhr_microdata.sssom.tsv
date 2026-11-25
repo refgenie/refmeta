@@ -1,0 +1,66 @@
+#curie_map:
+#  fhr_microdata: https://refgenie.github.io/refmeta/sssom/fhr_microdata/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/fhr_microdata.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: fhr_microdata to refmeta core
+#mapping_set_description: FHR metadata as HTML microdata (itemtype = raw-main fhr.json URL, data-fhr-type annotations, rules M1-M5); extension fields are not allowed
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:fhr_microdata
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/FAIR-bioHeaders/FAIR-bioHeaders-Specification/blob/v0.6.0/docs/MICRODATA.md
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+fhr_microdata:genome	genome	skos:closeMatch	refmeta:collection.labels.value	collection.labels[namespace=fhr.genome].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: FHR calls this the name of the genome. refgenie writes its collection name (hg38), the upstream examples an assembly name. Kept as a non-unique label on the collection; on write, falls back to the refgenie alias, then the assembly name.
+fhr_microdata:genomeSynonym	genomeSynonym	skos:closeMatch	refmeta:collection.labels.value	collection.labels[namespace=fhr.synonym].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Level is unclear: refgenie writes collection aliases here (GRCh38 for hg38). Kept as non-unique labels on the collection.
+fhr_microdata:taxon.name	taxon.name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:taxon.uri	taxon.uri	skos:closeMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (regex). Lossy: Only identifiers.org taxonomy URIs give a number; on write the URI is rebuilt in that form.
+fhr_microdata:version	version	skos:exactMatch	refmeta:assembly.version	assembly.version	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:metadataAuthor%5B%5D.name	metadataAuthor[].name	skos:exactMatch	refmeta:provenance.authors.name	provenance[0].authors[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:metadataAuthor%5B%5D.uri	metadataAuthor[].uri	skos:exactMatch	refmeta:provenance.authors.uri	provenance[0].authors[].uri	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:metadataAuthor%5B%5D.nameType	metadataAuthor[].nameType	skos:exactMatch	refmeta:provenance.authors.nameType	provenance[0].authors[].nameType	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:assemblyAuthor%5B%5D.name	assemblyAuthor[].name	skos:exactMatch	refmeta:assembly.assemblyAuthor.name	assembly.assemblyAuthor[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:assemblyAuthor%5B%5D.uri	assemblyAuthor[].uri	skos:exactMatch	refmeta:assembly.assemblyAuthor.uri	assembly.assemblyAuthor[].uri	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:assemblyAuthor%5B%5D.nameType	assemblyAuthor[].nameType	skos:exactMatch	refmeta:assembly.assemblyAuthor.nameType	assembly.assemblyAuthor[].nameType	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+fhr_microdata:dateCreated	dateCreated	skos:exactMatch	refmeta:assembly.dateCreated	assembly.dateCreated	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:voucherSpecimen	voucherSpecimen	skos:exactMatch	refmeta:assembly.voucherSpecimen	assembly.voucherSpecimen	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:accessionID.name	accessionID.name	skos:closeMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession). Lossy: FHR accessionID is any archive's id (the upstream example has PBARC, inherited from the 2022 field 'place'); refmeta treats it as the assembly accession.
+fhr_microdata:accessionID.url	accessionID.url	skos:exactMatch	refmeta:assembly.accessions.url	assembly.accessions[0].url	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:instrument	instrument	skos:exactMatch	refmeta:assembly.instrument	assembly.instrument	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:scholarlyArticle	scholarlyArticle	skos:exactMatch	refmeta:assembly.scholarlyArticle	assembly.scholarlyArticle	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:documentation	documentation	skos:exactMatch	refmeta:assembly.documentation	assembly.documentation	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:identifier	identifier	skos:exactMatch	refmeta:assembly.identifier	assembly.identifier	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:relatedLink	relatedLink	skos:exactMatch	refmeta:assembly.relatedLink	assembly.relatedLink	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:funding	funding	skos:exactMatch	refmeta:assembly.funding	assembly.funding	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:reuseConditions	reuseConditions	skos:exactMatch	refmeta:assembly.reuseConditions	assembly.reuseConditions	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:masking	masking	skos:exactMatch	refmeta:copies.masking	copies[kind=fasta].masking	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.totalBasePairs	vitalStats.totalBasePairs	skos:exactMatch	refmeta:assembly.vitalStats.totalBasePairs	assembly.vitalStats.totalBasePairs	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.N50	vitalStats.N50	skos:exactMatch	refmeta:assembly.vitalStats.N50	assembly.vitalStats.N50	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.L50	vitalStats.L50	skos:exactMatch	refmeta:assembly.vitalStats.L50	assembly.vitalStats.L50	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.N90	vitalStats.N90	skos:exactMatch	refmeta:assembly.vitalStats.N90	assembly.vitalStats.N90	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.L90	vitalStats.L90	skos:exactMatch	refmeta:assembly.vitalStats.L90	assembly.vitalStats.L90	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.scaffoldN50	vitalStats.scaffoldN50	skos:exactMatch	refmeta:assembly.vitalStats.scaffoldN50	assembly.vitalStats.scaffoldN50	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+fhr_microdata:vitalStats.scaffoldL50	vitalStats.scaffoldL50	skos:exactMatch	refmeta:assembly.vitalStats.scaffoldL50	assembly.vitalStats.scaffoldL50	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+fhr_microdata:vitalStats.scaffoldN90	vitalStats.scaffoldN90	skos:exactMatch	refmeta:assembly.vitalStats.scaffoldN90	assembly.vitalStats.scaffoldN90	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+fhr_microdata:vitalStats.scaffoldL90	vitalStats.scaffoldL90	skos:exactMatch	refmeta:assembly.vitalStats.scaffoldL90	assembly.vitalStats.scaffoldL90	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+fhr_microdata:vitalStats.numberContigs	vitalStats.numberContigs	skos:exactMatch	refmeta:assembly.vitalStats.numberContigs	assembly.vitalStats.numberContigs	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.numberScaffolds	vitalStats.numberScaffolds	skos:exactMatch	refmeta:assembly.vitalStats.numberScaffolds	assembly.vitalStats.numberScaffolds	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.gcContent	vitalStats.gcContent	skos:exactMatch	refmeta:assembly.vitalStats.gcContent	assembly.vitalStats.gcContent	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:vitalStats.readTechnology	vitalStats.readTechnology	skos:exactMatch	refmeta:assembly.vitalStats.readTechnology	assembly.vitalStats.readTechnology	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:checksum	checksum	skos:closeMatch	refmeta:copies.checksums.fhr	copies[kind=fasta].checksums.fhr	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: FHR checksum: SHA-512/256, base64, over the file without its checksum line. Not a plain file checksum and not a refget digest.
+fhr_microdata:assemblySoftware	assemblySoftware	skos:closeMatch	refmeta:assembly.assemblySoftware.name	assembly.assemblySoftware[0].name	semapv:ManualMappingCuration	rdf property	rdf property	Used only to core. Lossy: Legacy single-string form; any version inside the string stays in the name. Read only; refmeta writes the object form instead because an FHR record cannot hold both forms. No example file sets this field.
+fhr_microdata:assemblySoftware%5B%5D.name	assemblySoftware[].name	skos:exactMatch	refmeta:assembly.assemblySoftware.name	assembly.assemblySoftware[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:assemblySoftware%5B%5D.uri	assemblySoftware[].uri	skos:exactMatch	refmeta:assembly.assemblySoftware.uri	assembly.assemblySoftware[].uri	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:assemblySoftware%5B%5D.version	assemblySoftware[].version	skos:exactMatch	refmeta:assembly.assemblySoftware.version	assembly.assemblySoftware[].version	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:assemblySoftware%5B%5D.commandLineOption	assemblySoftware[].commandLineOption	skos:exactMatch	refmeta:assembly.assemblySoftware.commandLineOption	assembly.assemblySoftware[].commandLineOption	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:assemblyProtocol	assemblyProtocol	skos:exactMatch	refmeta:assembly.assemblyProtocol	assembly.assemblyProtocol	semapv:ManualMappingCuration	rdf property	rdf property	
+fhr_microdata:seqcol_id	seqcol_id	skos:closeMatch	refmeta:collection.digest	collection.digest	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Supplied by the record's author and never verified; a seqcol_digests derivation on sequences may disagree.
+fhr_microdata:schema	schema	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		URL of the FHR schema the record follows: a property of the record format, not of the genome.
+fhr_microdata:schemaVersion	schemaVersion	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		FHR contract version (1, 2.0, 2.1): a property of the record format.

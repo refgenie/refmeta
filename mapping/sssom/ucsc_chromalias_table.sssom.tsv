@@ -1,0 +1,22 @@
+#curie_map:
+#  ucsc_chromalias_table: https://refgenie.github.io/refmeta/sssom/ucsc_chromalias_table/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ucsc_chromalias_table.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ucsc_chromalias_table to refmeta core
+#mapping_set_description: 'chromAlias database table (goldenPath/<db>/database/chromAlias.txt.gz): one row per alias, giving the UCSC sequence name and which authorities use that alias.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ucsc_chromalias_table
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/ucscGenomeBrowser/kent/blob/master/src/hg/lib/chromAlias.as
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ucsc_chromalias_table:chrom	chrom	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_chromalias_table:alias	alias	skos:exactMatch	refmeta:sequences.aliases.value	sequences[].aliases[+].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ucsc_chromalias_table:source	source	skos:exactMatch	refmeta:sequences.aliases.namespace	sequences[].aliases[+].namespace	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).

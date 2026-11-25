@@ -1,0 +1,85 @@
+#curie_map:
+#  ena_portal_sequence: https://refgenie.github.io/refmeta/sssom/ena_portal_sequence/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ena_portal_sequence.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ena_portal_sequence to refmeta core
+#mapping_set_description: ENA Portal API search result=sequence, fields=all, as TSV. One row per INSDC sequence record, including sequence_md5.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ena_portal_sequence
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://www.ebi.ac.uk/ena/portal/api/returnFields?result=sequence
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ena_portal_sequence:assembly_accession	assembly_accession	skos:closeMatch	refmeta:assembly.labels.value	assembly.labels[namespace=ena.chain].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: The unversioned accession chain; it names every version, so it is a label.
+ena_portal_sequence:sequence_accession	sequence_accession	skos:exactMatch	refmeta:sequences.aliases.value	sequences[].aliases[namespace=insdc].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_portal_sequence:description	description	skos:exactMatch	refmeta:sequences.description	sequences[].description	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_portal_sequence:organelle	organelle	skos:closeMatch	refmeta:sequences.molecule	sequences[].molecule	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map). Lossy: Only organelle sequences have a value; nuclear chromosomes stay empty.
+ena_portal_sequence:topology	topology	skos:exactMatch	refmeta:sequences.circular	sequences[].circular	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (map).
+ena_portal_sequence:sequence_md5	sequence_md5	skos:exactMatch	refmeta:sequences.md5	sequences[].md5	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_portal_sequence:base_count	base_count	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_portal_sequence:scientific_name	scientific_name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_portal_sequence:tax_id	tax_id	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_portal_sequence:strain	strain	skos:exactMatch	refmeta:assembly.taxon.strain	assembly.taxon.strain	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_portal_sequence:study_accession	study_accession	skos:exactMatch	refmeta:assembly.bioproject	assembly.bioproject	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_portal_sequence:accession	accession	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Unversioned sequence accession; sequence_accession is versioned.
+ena_portal_sequence:collection_date	collection_date	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:country	country	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:keywords	keywords	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		INSDC keywords (ALTERNATE_LOCUS); role is not stated directly.
+ena_portal_sequence:dataclass	dataclass	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		INSDC data class (CON, STD).
+ena_portal_sequence:sample_accession	sample_accession	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:dev_stage	dev_stage	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:run_accession	run_accession	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:pubmed_id	pubmed_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Citations of the sequence record.
+ena_portal_sequence:identified_by	identified_by	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:cell_line	cell_line	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:host	host	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:tag	tag	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:serotype	serotype	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:bio_material	bio_material	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:last_updated	last_updated	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Record update date.
+ena_portal_sequence:germline	germline	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:agricola_id	agricola_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:collection_date_end	collection_date_end	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:culture_collection	culture_collection	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:cultivar	cultivar	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:doi	doi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Citations of the sequence record.
+ena_portal_sequence:mol_type	mol_type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		genomic DNA for all.
+ena_portal_sequence:status	status	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		public.
+ena_portal_sequence:altitude	altitude	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:metagenome_source	metagenome_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:plasmid	plasmid	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:collected_by	collected_by	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:secondary_sample_accession	secondary_sample_accession	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:host_tax_id	host_tax_id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:isolate	isolate	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:tax_lineage	tax_lineage	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Lineage taxids.
+ena_portal_sequence:variety	variety	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:cell_type	cell_type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:ecotype	ecotype	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:haplotype	haplotype	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:mating_type	mating_type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:tissue_lib	tissue_lib	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:collection_date_start	collection_date_start	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:environmental_sample	environmental_sample	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:first_public	first_public	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Record public date.
+ena_portal_sequence:sub_species	sub_species	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:sex	sex	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:sub_strain	sub_strain	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:specimen_voucher	specimen_voucher	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:patent_number	patent_number	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:tax_division	tax_division	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Taxonomic division.
+ena_portal_sequence:serovar	serovar	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:location	location	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:lab_host	lab_host	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:tissue_type	tissue_type	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:indexed_date	indexed_date	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Portal index date.
+ena_portal_sequence:isolation_source	isolation_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sample or environment field; sample metadata is out of scope.
+ena_portal_sequence:sequence_version	sequence_version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Version part of sequence_accession.

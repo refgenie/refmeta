@@ -1,0 +1,28 @@
+#curie_map:
+#  ena_refget_metadata: https://refgenie.github.io/refmeta/sssom/ena_refget_metadata/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ena_refget_metadata.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ena_refget_metadata to refmeta core
+#mapping_set_description: ENA CRAM Reference Registry (a GA4GH refget 2.0 server, md5 only) sequence metadata, https://www.ebi.ac.uk/ena/cram/sequence/<id>/metadata. Example files hold one served response per line (JSON Lines).
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ena_refget_metadata
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://www.ebi.ac.uk/ena/cram/
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ena_refget_metadata:metadata.md5	metadata.md5	skos:exactMatch	refmeta:sequences.md5	sequences[].md5	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_refget_metadata:metadata.length	metadata.length	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+ena_refget_metadata:metadata.ga4gh	metadata.ga4gh	skos:exactMatch	refmeta:sequences.digest	sequences[].digest	semapv:ManualMappingCuration	rdf property	rdf property	ENA always sends null.
+ena_refget_metadata:metadata.aliases	metadata.aliases	skos:closeMatch	refmeta:sequences.aliases	sequences[].aliases	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (rekey). Lossy: INSDC is lower-cased to the refget-recommended insdc.
+ena_refget_metadata:metadata.id	metadata.id	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Echo of the identifier the client asked for.
+ena_refget_metadata:metadata.trunc512	metadata.trunc512	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Deprecated digest form; ENA always sends null.
+ena_refget_metadata:metadata.aliases.alias	metadata.aliases.alias	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Member of metadata.aliases; mapped through the metadata.aliases rule.
+ena_refget_metadata:metadata.aliases.naming_authority	metadata.aliases.naming_authority	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Member of metadata.aliases; mapped through the metadata.aliases rule.

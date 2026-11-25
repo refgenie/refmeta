@@ -1,0 +1,26 @@
+#curie_map:
+#  nfcore_igenomes_manifest: https://refgenie.github.io/refmeta/sssom/nfcore_igenomes_manifest/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/nfcore_igenomes_manifest.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: nfcore_igenomes_manifest to refmeta core
+#mapping_set_description: 'AWS iGenomes file manifest (ngi-igenomes_file_manifest.txt): one s3:// URI per line, one record per file. The adapter splits each URI along the iGenomes layout igenomes/<species>/<source>/<build>/<section>/<subpath>.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:nfcore_igenomes_manifest
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/ewels/AWS-iGenomes
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+nfcore_igenomes_manifest:uri	uri	skos:exactMatch	refmeta:copies.location	copies[].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_manifest:species	species	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (replace).
+nfcore_igenomes_manifest:source	source	skos:closeMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: The provider in the path does not tell the naming style: iGenomes NCBI/GRCh38 uses UCSC-style names.
+nfcore_igenomes_manifest:build	build	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=igenomes].value	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_manifest:section	section	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Path segment (Sequence, Annotation); part of the location.
+nfcore_igenomes_manifest:subpath	subpath	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Rest of the path; part of the location.

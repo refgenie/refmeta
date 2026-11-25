@@ -24,6 +24,7 @@ jobs:
           uv run python sync_data.py --check
           uv run python build_web.py --check
           uv run python build_terms.py --check
+          uv run python build_sssom.py --check
       - run: uv run pytest -q
 
   pages:
@@ -42,6 +43,11 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      - name: Serve the SSSOM sets and core schema at their ids
+        run: |
+          cp -r mapping/sssom web/sssom
+          mkdir -p web/core/0.1
+          cp mapping/core.schema.json web/core/0.1/core.schema.json
       - uses: actions/upload-pages-artifact@v3
         with:
           path: web

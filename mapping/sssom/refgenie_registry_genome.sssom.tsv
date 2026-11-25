@@ -1,0 +1,63 @@
+#curie_map:
+#  refgenie_registry_genome: https://refgenie.github.io/refmeta/sssom/refgenie_registry_genome/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/refgenie_registry_genome.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: refgenie_registry_genome to refmeta core
+#mapping_set_description: One genome entry of the refgenie-registry (genomes/<organism>/<name>.yaml), validated by schema/genome.schema.yaml. Each entry is one named sequence collection (one exact set of sequences, pinned by seqcol.digest) plus organism, assembly accession, FASTA download URLs, optional FHR provenance, and registry build instructions.
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:refgenie_registry_genome
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/refgenie/refgenie-registry/blob/master/schema/genome.schema.yaml
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+refgenie_registry_genome:name	name	skos:exactMatch	refmeta:collection.aliases.value	collection.aliases[namespace=refgenie].value	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:aliases	aliases	skos:closeMatch	refmeta:collection.aliases.value	collection.aliases[namespace=refgenie].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Registry name and aliases share the refgenie namespace; on write this list also holds the name.
+refgenie_registry_genome:description	description	skos:exactMatch	refmeta:collection.description	collection.description	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:organism.scientific_name	organism.scientific_name	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:organism.taxon_id	organism.taxon_id	skos:exactMatch	refmeta:assembly.taxon.id	assembly.taxon.id	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:assembly.source	assembly.source	skos:closeMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Despite its key, it names who distributed the sequence set (UCSC vs Ensembl for the same assembly), so it maps to the collection, not the assembly.
+refgenie_registry_genome:assembly.accession	assembly.accession	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+refgenie_registry_genome:assembly.level	assembly.level	skos:exactMatch	refmeta:assembly.level	assembly.level	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:masking	masking	skos:exactMatch	refmeta:copies.masking	copies[kind=fasta].masking	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fasta.sources%5B%5D.url	fasta.sources[].url	skos:exactMatch	refmeta:copies.location	copies[kind=fasta].location	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:fasta.sources%5B%5D.provider	fasta.sources[].provider	skos:exactMatch	refmeta:copies.provider	copies[kind=fasta].provider	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:fasta.checksum.md5	fasta.checksum.md5	skos:closeMatch	refmeta:copies.checksums.md5	copies[kind=fasta].checksums.md5	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: One checksum for possibly several source URLs; it is attached to the first one.
+refgenie_registry_genome:fasta.checksum.sha256	fasta.checksum.sha256	skos:exactMatch	refmeta:copies.uncompressedChecksums.sha256	copies[kind=fasta].uncompressedChecksums.sha256	semapv:ManualMappingCuration	rdf property	rdf property	Every collected registry entry has the sentinel 'compute_on_registration', which means absent.
+refgenie_registry_genome:seqcol.digest	seqcol.digest	skos:exactMatch	refmeta:collection.digest	collection.digest	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:seqcol.length	seqcol.length	skos:exactMatch	refmeta:collection.nSequences	collection.nSequences	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:fhr.license	fhr.license	skos:closeMatch	refmeta:assembly.reuseConditions	assembly.reuseConditions	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: SPDX id in the registry; shares the core field with FHR reuseConditions. No example file sets this field.
+refgenie_registry_genome:fhr.funding	fhr.funding	skos:exactMatch	refmeta:assembly.funding	assembly.funding	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.scholarly_article	fhr.scholarly_article	skos:exactMatch	refmeta:assembly.scholarlyArticle	assembly.scholarlyArticle	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.date_created	fhr.date_created	skos:exactMatch	refmeta:assembly.dateCreated	assembly.dateCreated	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:fhr.voucher_specimen	fhr.voucher_specimen	skos:exactMatch	refmeta:assembly.voucherSpecimen	assembly.voucherSpecimen	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.documentation	fhr.documentation	skos:exactMatch	refmeta:assembly.documentation	assembly.documentation	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.instrument	fhr.instrument	skos:exactMatch	refmeta:assembly.instrument	assembly.instrument	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.related_link	fhr.related_link	skos:exactMatch	refmeta:assembly.relatedLink	assembly.relatedLink	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.identifier	fhr.identifier	skos:exactMatch	refmeta:assembly.identifier	assembly.identifier	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:fhr.metadata_author%5B%5D.name	fhr.metadata_author[].name	skos:exactMatch	refmeta:provenance.authors.name	provenance[0].authors[].name	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.metadata_author%5B%5D.uri	fhr.metadata_author[].uri	skos:exactMatch	refmeta:provenance.authors.uri	provenance[0].authors[].uri	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.assembly_author%5B%5D.name	fhr.assembly_author[].name	skos:exactMatch	refmeta:assembly.assemblyAuthor.name	assembly.assemblyAuthor[].name	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.assembly_author%5B%5D.uri	fhr.assembly_author[].uri	skos:exactMatch	refmeta:assembly.assemblyAuthor.uri	assembly.assemblyAuthor[].uri	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.vital_stats.n50	fhr.vital_stats.n50	skos:exactMatch	refmeta:assembly.vitalStats.N50	assembly.vitalStats.N50	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.vital_stats.l50	fhr.vital_stats.l50	skos:exactMatch	refmeta:assembly.vitalStats.L50	assembly.vitalStats.L50	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.vital_stats.l90	fhr.vital_stats.l90	skos:exactMatch	refmeta:assembly.vitalStats.L90	assembly.vitalStats.L90	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.vital_stats.total_base_pairs	fhr.vital_stats.total_base_pairs	skos:exactMatch	refmeta:assembly.vitalStats.totalBasePairs	assembly.vitalStats.totalBasePairs	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.vital_stats.number_contigs	fhr.vital_stats.number_contigs	skos:exactMatch	refmeta:assembly.vitalStats.numberContigs	assembly.vitalStats.numberContigs	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.vital_stats.number_scaffolds	fhr.vital_stats.number_scaffolds	skos:exactMatch	refmeta:assembly.vitalStats.numberScaffolds	assembly.vitalStats.numberScaffolds	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:fhr.vital_stats.read_technology	fhr.vital_stats.read_technology	skos:exactMatch	refmeta:assembly.vitalStats.readTechnology	assembly.vitalStats.readTechnology	semapv:ManualMappingCuration	rdf property	rdf property	No example file sets this field.
+refgenie_registry_genome:build.store	build.store	skos:exactMatch	refmeta:deployments.scope	deployments[system=refget_store].scope	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:metadata.added	metadata.added	skos:exactMatch	refmeta:provenance.recordDate	provenance[0].recordDate	semapv:ManualMappingCuration	rdf property	rdf property	
+refgenie_registry_genome:metadata.added_by	metadata.added_by	skos:closeMatch	refmeta:provenance.authors.name	provenance[0].authors[0].name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: A GitHub user name, written as an author name.
+refgenie_registry_genome:seqcol.compute	seqcol.compute	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Instruction to the registry build (compute the digest), not a fact.
+refgenie_registry_genome:build.tier	build.tier	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Registry build plan (which assets to build).
+refgenie_registry_genome:build.add	build.add	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Registry build plan.
+refgenie_registry_genome:build.drop	build.drop	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Registry build plan.
+refgenie_registry_genome:metadata.last_verified	metadata.last_verified	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		When a curator last checked the URL; no core field.

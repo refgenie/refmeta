@@ -1,0 +1,12 @@
+id: https://example.org/galaxy_len
+name: galaxy_len
+prefixes: {linkml: https://w3id.org/linkml/}
+imports: [linkml:types]
+default_range: string
+classes:
+  LenFile:
+    tree_root: true
+    attributes:
+      rows: {range: LenRow, multivalued: true, inlined_as_list: true}
+  LenRow:
+    attributes: {chrom: {}, len: {range: integer}}

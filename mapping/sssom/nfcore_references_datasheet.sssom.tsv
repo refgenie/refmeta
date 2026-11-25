@@ -1,0 +1,108 @@
+#curie_map:
+#  nfcore_references_datasheet: https://refgenie.github.io/refmeta/sssom/nfcore_references_datasheet/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/nfcore_references_datasheet.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: nfcore_references_datasheet to refmeta core
+#mapping_set_description: 'nf-core/references asset datasheet: a YAML list, one entry per genome, listing the files (and a few tool values) available for it. Published in nf-core/references-datasheets (igenomes/, genomes/, genomes_source/) and validated by schema_references.json in the nf-core/references pipeline.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:nfcore_references_datasheet
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://nf-co.re/references/dev/docs/usage#asset-input
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+nfcore_references_datasheet:genome	genome	skos:exactMatch	refmeta:deployments.key	deployments[system=nfcore_references].key	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:genome	genome	skos:closeMatch	refmeta:collection.labels.value	collection.labels[namespace=nfcore].value	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: A build name, not unique on its own (species + source + genome is).
+nfcore_references_datasheet:species	species	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (replace).
+nfcore_references_datasheet:reference_source	reference_source	skos:exactMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:source	source	skos:exactMatch	refmeta:collection.provider	collection.provider	semapv:ManualMappingCuration	rdf property	rdf property	Older name of reference_source.
+nfcore_references_datasheet:reference_version	reference_version	skos:closeMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession). Lossy: Seen once (GCF_000001635.27 for mm39).
+nfcore_references_datasheet:fasta	fasta	skos:exactMatch	refmeta:copies.location	copies[kind=fasta].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:fasta_fai	fasta_fai	skos:exactMatch	refmeta:copies.location	copies[kind=fai].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:fasta_dict	fasta_dict	skos:exactMatch	refmeta:copies.location	copies[kind=dict].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:fasta_sizes	fasta_sizes	skos:exactMatch	refmeta:copies.location	copies[kind=chrom_sizes].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:chrom_info	chrom_info	skos:exactMatch	refmeta:copies.location	copies[kind=chrom_info].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:genome_size_xml	genome_size_xml	skos:exactMatch	refmeta:copies.location	copies[kind=genome_size_xml].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:chromosomes_fasta	chromosomes_fasta	skos:exactMatch	refmeta:copies.location	copies[kind=chromosome_fasta_dir].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:chr_dir	chr_dir	skos:exactMatch	refmeta:copies.location	copies[kind=chromosome_fasta_dir].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:bowtie1_index	bowtie1_index	skos:exactMatch	refmeta:copies.location	copies[kind=bowtie_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:bowtie2_index	bowtie2_index	skos:exactMatch	refmeta:copies.location	copies[kind=bowtie2_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:bwamem1_index	bwamem1_index	skos:exactMatch	refmeta:copies.location	copies[kind=bwa_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:bwamem2_index	bwamem2_index	skos:exactMatch	refmeta:copies.location	copies[kind=bwamem2_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:bismark_index	bismark_index	skos:exactMatch	refmeta:copies.location	copies[kind=bismark_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:star_index	star_index	skos:exactMatch	refmeta:copies.location	copies[kind=star_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:hisat2_index	hisat2_index	skos:exactMatch	refmeta:copies.location	copies[kind=hisat2_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:salmon_index	salmon_index	skos:exactMatch	refmeta:copies.location	copies[kind=salmon_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:kallisto_index	kallisto_index	skos:exactMatch	refmeta:copies.location	copies[kind=kallisto_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:rsem_index	rsem_index	skos:exactMatch	refmeta:copies.location	copies[kind=rsem_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:dragmap_hashtable	dragmap_hashtable	skos:exactMatch	refmeta:copies.location	copies[kind=dragmap_index].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:gtf	gtf	skos:exactMatch	refmeta:copies.location	copies[kind=gtf].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:gff	gff	skos:exactMatch	refmeta:copies.location	copies[kind=gff].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_references_datasheet:mito_name	mito_name	skos:closeMatch	refmeta:sequences.name	sequences[molecule=Mitochondrion].name	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: Some sheets carry a copy-paste error (MT for a chrM-named FASTA).
+nfcore_references_datasheet:genes_bed	genes_bed	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:abundantsequences_fasta	abundantsequences_fasta	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:genes_refflat	genes_refflat	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:hairpin_fasta	hairpin_fasta	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:mature_fasta	mature_fasta	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:genes_refgene	genes_refgene	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:cf_chrom_len	cf_chrom_len	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:intervals_bed	intervals_bed	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_dbsnp_vcf	vcf_dbsnp_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_dbsnp_vcf_tbi	vcf_dbsnp_vcf_tbi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_dbsnp_vcf_vqsr	vcf_dbsnp_vcf_vqsr	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_dbsnp_vcf_source	vcf_dbsnp_vcf_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_germline_resource_vcf	vcf_germline_resource_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_germline_resource_vcf_tbi	vcf_germline_resource_vcf_tbi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_germline_resource_vcf_source	vcf_germline_resource_vcf_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_known_indels_vcf	vcf_known_indels_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_known_indels_vcf_tbi	vcf_known_indels_vcf_tbi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_known_indels_vcf_vqsr	vcf_known_indels_vcf_vqsr	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_known_indels_vcf_source	vcf_known_indels_vcf_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_known_snps_vcf	vcf_known_snps_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_known_snps_vcf_tbi	vcf_known_snps_vcf_tbi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_known_snps_vcf_vqsr	vcf_known_snps_vcf_vqsr	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_known_snps_vcf_source	vcf_known_snps_vcf_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_pon_vcf	vcf_pon_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_pon_vcf_tbi	vcf_pon_vcf_tbi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_pon_vcf_source	vcf_pon_vcf_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:mappability	mappability	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:msisensor2_models	msisensor2_models	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:msisensorpro_scan	msisensorpro_scan	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:ngscheckmate_bed	ngscheckmate_bed	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:sentieon_dnascope_model	sentieon_dnascope_model	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:ascat_alleles	ascat_alleles	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:ascat_genome	ascat_genome	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Tool parameter.
+nfcore_references_datasheet:ascat_loci	ascat_loci	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:ascat_loci_gc	ascat_loci_gc	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:ascat_loci_rt	ascat_loci_rt	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:snpeff_db	snpeff_db	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Tool parameter.
+nfcore_references_datasheet:vep_cache_version	vep_cache_version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Tool parameter.
+nfcore_references_datasheet:vep_genome	vep_genome	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Tool parameter.
+nfcore_references_datasheet:vep_species	vep_species	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Tool parameter.
+nfcore_references_datasheet:vcf_other_vcf	vcf_other_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_other_vcf_tbi	vcf_other_vcf_tbi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_hapmap_vcf	vcf_hapmap_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf_hapmap_vcf_tbi	vcf_hapmap_vcf_tbi	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:readme	readme	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		README of the build.
+nfcore_references_datasheet:annotation_version	annotation_version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Annotation version, but it holds GCF assembly accessions in practice; ambiguous.
+nfcore_references_datasheet:site	site	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Website of the provider.
+nfcore_references_datasheet:splice_sites	splice_sites	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:transcript_fasta	transcript_fasta	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:contig_ploidy_priors_tsv	contig_ploidy_priors_tsv	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:exclude_bed	exclude_bed	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:star_sjdbOverhang	star_sjdbOverhang	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		STAR build parameter.
+nfcore_references_datasheet:star_genomeSAindexNbases	star_genomeSAindexNbases	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		STAR build parameter.
+nfcore_references_datasheet:vcf_hapmap_vcf_source	vcf_hapmap_vcf_source	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:source_version	source_version	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Older name of annotation_version.
+nfcore_references_datasheet:source_vcf	source_vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:vcf	vcf	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:msisensorpro_list	msisensorpro_list	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:bed12	bed12	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Pipeline resource that is not the genome itself (annotation, variant sets, intervals, model files, tool parameters).
+nfcore_references_datasheet:macs_gsize	macs_gsize	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Tool parameter.

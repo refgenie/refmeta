@@ -1,0 +1,36 @@
+id: https://example.org/refgenie_api_alias
+name: refgenie_api_alias
+prefixes: {linkml: https://w3id.org/linkml/}
+imports: [linkml:types]
+default_range: string
+classes:
+  Any:
+    class_uri: linkml:Any
+  AliasResponse:
+    attributes:
+      alias: {}
+      digest: {}
+      source: {}
+      collection: {range: SeqcolL2, inlined: true}
+      fhr: {range: Fhr, inlined: true}
+  SeqcolL2:
+    attributes:
+      names: {multivalued: true}
+      lengths: {multivalued: true, range: integer}
+      sequences: {multivalued: true}
+  Fhr:
+    attributes:
+      genome: {}
+      genomeSynonym: {multivalued: true}
+      version: {}
+      taxon: {range: FhrTaxon, inlined: true}
+      accessionID: {range: FhrAccession, inlined: true}
+      assemblySource: {}
+      assemblyLevel: {}
+      schema: {range: Any}
+      schemaVersion: {range: Any}
+      documentation: {range: Any}
+  FhrTaxon:
+    attributes: {name: {}, uri: {}}
+  FhrAccession:
+    attributes: {name: {}, url: {}}

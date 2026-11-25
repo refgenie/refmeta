@@ -1,0 +1,31 @@
+#curie_map:
+#  nfcore_igenomes_genomesize: https://refgenie.github.io/refmeta/sssom/nfcore_igenomes_genomesize/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/nfcore_igenomes_genomesize.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: nfcore_igenomes_genomesize to refmeta core
+#mapping_set_description: 'Illumina iGenomes GenomeSize.xml (Sequence/WholeGenomeFasta/GenomeSize.xml): a <sequenceSizes genomeName=...> root with one <chromosome .../> element per sequence. One record per <chromosome>, with the root genomeName repeated on each record.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:nfcore_igenomes_genomesize
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://ngi-igenomes.s3.amazonaws.com/igenomes/Homo_sapiens/UCSC/hg38/Sequence/WholeGenomeFasta/GenomeSize.xml
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+nfcore_igenomes_genomesize:contigName	contigName	skos:exactMatch	refmeta:sequences.name	sequences[].name	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_genomesize:totalBases	totalBases	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_genomesize:md5	md5	skos:exactMatch	refmeta:sequences.md5	sequences[].md5	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_genomesize:knownBases	knownBases	skos:exactMatch	refmeta:sequences.ungappedLength	sequences[].ungappedLength	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_genomesize:type	type	skos:closeMatch	refmeta:sequences.molecule	sequences[].molecule	semapv:ManualMappingCuration	rdf property	rdf property	Used only to core. Value transformed (map). Lossy: Contig and Unknown give no value; autosome and sex-chromosome are not kept apart.
+nfcore_igenomes_genomesize:genomeName	genomeName	skos:exactMatch	refmeta:collection.description	collection.description	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_genomesize:build	build	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=igenomes].value	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_genomesize:species	species	skos:exactMatch	refmeta:assembly.taxon.name	assembly.taxon.name	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (replace).
+nfcore_igenomes_genomesize:fileName	fileName	skos:exactMatch	refmeta:copies.location	copies[kind=fasta].location	semapv:ManualMappingCuration	rdf property	rdf property	
+nfcore_igenomes_genomesize:isCircular	isCircular	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Placeholder: always false, even for chrM.
+nfcore_igenomes_genomesize:ploidy	ploidy	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Placeholder: always 2.

@@ -1,0 +1,32 @@
+#curie_map:
+#  galaxy_api_tool_data: https://refgenie.github.io/refmeta/sssom/galaxy_api_tool_data/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/galaxy_api_tool_data.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: galaxy_api_tool_data to refmeta core
+#mapping_set_description: 'GET /api/tool_data/{table} on a Galaxy server: one data table''s column names and all its rows (merged from every .loc file). One native record per row.'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:galaxy_api_tool_data
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://github.com/galaxyproject/galaxy/blob/dev/lib/galaxy/tool_util/data/_schema.py
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+galaxy_api_tool_data:name	name	skos:closeMatch	refmeta:copies.kind	copies[0].kind	semapv:ManualMappingCuration	rdf property	rdf property	Used only to core. Value transformed (map). Lossy: Tables not in the list pass their own name through as the kind.
+galaxy_api_tool_data:name	name	skos:exactMatch	refmeta:deployments.table	deployments[system=galaxy].table	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_api_tool_data:fields%5B%5D.value	fields[].value	skos:exactMatch	refmeta:deployments.key	deployments[system=galaxy].key	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_api_tool_data:fields%5B%5D.dbkey	fields[].dbkey	skos:exactMatch	refmeta:collection.labels.value	collection.labels[namespace=galaxy.dbkey].value	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_api_tool_data:fields%5B%5D.name	fields[].name	skos:exactMatch	refmeta:deployments.displayName	deployments[system=galaxy].displayName	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_api_tool_data:fields%5B%5D.path	fields[].path	skos:closeMatch	refmeta:copies.location	copies[0].location	semapv:ManualMappingCuration	rdf property	rdf property	Lossy: The public API shows only the file name, not the full path.
+galaxy_api_tool_data:fields%5B%5D.path	fields[].path	skos:exactMatch	refmeta:deployments.location	deployments[system=galaxy].location	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_api_tool_data:fields%5B%5D.len_path	fields[].len_path	skos:exactMatch	refmeta:copies.location	copies[kind=len].location	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_api_tool_data:fields%5B%5D.version	fields[].version	skos:exactMatch	refmeta:copies.toolVersion	copies[0].toolVersion	semapv:ManualMappingCuration	rdf property	rdf property	
+galaxy_api_tool_data:model_class	model_class	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Python class of the table; server internals.
+galaxy_api_tool_data:columns	columns	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Column order of the table; implied by the rule paths.
+galaxy_api_tool_data:fields%5B%5D.with_gene_model	fields[].with_gene_model	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Whether a STAR index was built with a GTF; no core field.

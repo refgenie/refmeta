@@ -1,0 +1,35 @@
+#curie_map:
+#  ncbi_datasets_sequence_report: https://refgenie.github.io/refmeta/sssom/ncbi_datasets_sequence_report/field/
+#  refmeta: https://refgenie.github.io/refmeta/#field/
+#  refmetaformat: https://refgenie.github.io/refmeta/format/
+#  skos: http://www.w3.org/2004/02/skos/core#
+#  semapv: https://w3id.org/semapv/vocab/
+#  sssom: https://w3id.org/sssom/
+#mapping_set_id: https://refgenie.github.io/refmeta/sssom/ncbi_datasets_sequence_report.sssom.tsv
+#mapping_set_version: core-0.1
+#mapping_set_title: ncbi_datasets_sequence_report to refmeta core
+#mapping_set_description: 'NCBI Datasets v2 genome sequence report: one JSON object per top-level sequence of an assembly (chromosomes, organelles, unlocalized/unplaced/alt/patch scaffolds). Served by GET /genome/accession/{accession}/sequence_reports, and in data packages as ncbi_dataset/data/<accession>/sequence_report.jsonl (camelCase).'
+#license: https://opensource.org/licenses/BSD-2-Clause
+#subject_source: refmetaformat:ncbi_datasets_sequence_report
+#object_source: refmetaformat:core
+#object_source_version: '0.1'
+#mapping_tool: refmeta crosswalk (mapping/CROSSWALK_FORMAT.md)
+#see_also:
+#- https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/data-reports/genome-sequence/
+#- https://refgenie.github.io/refmeta/core/0.1/core.schema.json
+subject_id	subject_label	predicate_id	object_id	object_label	mapping_justification	subject_type	object_type	comment
+ncbi_datasets_sequence_report:assembly_accession	assembly_accession	skos:exactMatch	refmeta:assembly.accessions	assembly.accessions	semapv:ManualMappingCuration	rdf property	rdf property	Value transformed (accession).
+ncbi_datasets_sequence_report:sequence_name	sequence_name	skos:exactMatch	refmeta:sequences.aliases.value	sequences[].aliases[namespace=assembly].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:ucsc_style_name	ucsc_style_name	skos:exactMatch	refmeta:sequences.aliases.value	sequences[].aliases[namespace=ucsc].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:refseq_accession	refseq_accession	skos:exactMatch	refmeta:sequences.aliases.value	sequences[].aliases[namespace=refseq].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:genbank_accession	genbank_accession	skos:exactMatch	refmeta:sequences.aliases.value	sequences[].aliases[namespace=insdc].value	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:chr_name	chr_name	skos:exactMatch	refmeta:sequences.assignedMolecule	sequences[].assignedMolecule	semapv:ManualMappingCuration	rdf property	rdf property	Un means the chromosome is unknown (unplaced scaffolds).
+ncbi_datasets_sequence_report:assigned_molecule_location_type	assigned_molecule_location_type	skos:exactMatch	refmeta:sequences.molecule	sequences[].molecule	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:assembly_unit	assembly_unit	skos:exactMatch	refmeta:sequences.assemblyUnit	sequences[].assemblyUnit	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:length	length	skos:exactMatch	refmeta:sequences.length	sequences[].length	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:gc_percent	gc_percent	skos:exactMatch	refmeta:sequences.gcPercent	sequences[].gcPercent	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:role	role	skos:exactMatch	refmeta:sequences.role	sequences[].role	semapv:ManualMappingCuration	rdf property	rdf property	
+ncbi_datasets_sequence_report:sort_order	sort_order	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Sort key; core keeps order as array order.
+ncbi_datasets_sequence_report:gc_count	gc_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Base count; gcPercent holds the percent.
+ncbi_datasets_sequence_report:unlocalized_count	unlocalized_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Count of unlocalized scaffolds on a chromosome; derivable from the rows.
+ncbi_datasets_sequence_report:assembly_unplaced_count	assembly_unplaced_count	skos:exactMatch	sssom:NoTermFound		semapv:ManualMappingCuration	rdf property		Count of unplaced scaffolds; derivable from the rows.
